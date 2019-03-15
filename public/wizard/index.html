@@ -4,90 +4,115 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Wizard</title>
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/reset.min.css">
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/form.min.css">
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/step.min.css">
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/icon.min.css">
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/button.min.css">
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/grid.min.css">
+    <!-- link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/container.min.css" -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <style type="text/css">
         body {
             font-family: 'Montserrat', sans-serif;
         }
+        .hidestep {
+            display: none !important;
+        }
+        .step {
+            cursor: pointer;
+        }
+        .step .active {
+            cursor: default;
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <div class="ui small steps vertical">
-          <div class="active step">
-            <i class="font icon"></i>
-            <div class="content">
-              <div class="title">Name</div>
-              <div class="description">Choose a map name</div>
-            </div>
-          </div>
-          <div class="disabled step">
-            <i class="barcode icon"></i>
-            <div class="content">
-              <div class="title">Data</div>
-              <div class="description">Select source data</div>
-            </div>
-          </div>
-          <div class="disabled step">
-            <i class="map outline icon"></i>
-            <div class="content">
-              <div class="title">Appearance</div>
-              <div class="description">Choose map layers, zoom and more</div>
-            </div>
-          </div>
-          <div class="disabled step">
-            <i class="file linkify icon"></i>
-            <div class="content">
-              <div class="title">Get url</div>
-              <div class="description">Generate map url and snippet</div>
-            </div>
-          </div>
-        </div>
-    </nav>
-    <section id="container">
-        <p>Wizard xxx</p>
-
-        <!-- Form -->
-        <form class="ui form" method="get" action="/generate">
-          <div class="inline field step-1">
-            <label>Title</label>
-            <input type="text" name="map-title" placeholder="Choose a title for the map">
-          </div>
-          <div class="two fields step-1">
-                <div class="inline field">
-                    <label>Path</label>
-                    <input type="text" name="map-path" placeholder="Write or generate a path" size="30">
+    <div class="ui grid">
+        <nav class="three wide column">
+            <!-- Steps -->
+            <div class="ui small steps vertical">
+              <div class="active step">
+                <i class="font icon"></i>
+                <div class="content">
+                  <div class="title">Name</div>
+                  <div class="description">Choose a map name</div>
                 </div>
-                <div class="field">
-                    <input type="button" value="Generate path" class="ui mini button">
-                </div>              
-          </div>
-          <div class="inline field step-1">
-            <input type="button" value="Next" class="ui button">
-          </div>
-          <div class="field step-2">
-            <label>SPARQL query</label>
-            <textarea name="map-query" placeholder="Insert a SPARQL query from Wikidata">#Mappa di ospedali
-#added 2017-08
-#defaultView:Map
-SELECT * WHERE {
-  ?item wdt:P31*/wdt:P279* wd:Q16917;
-        wdt:P625 ?geo .
-  ?item wdt:P17 wd:Q39
-}</textarea>
-          </div>
-          <button class="ui button" type="submit">Submit</button>
-        </form>
-    </section>
-    
-    
+              </div>
+              <div class="step">
+                <i class="barcode icon"></i>
+                <div class="content">
+                  <div class="title">Data</div>
+                  <div class="description">Select source data</div>
+                </div>
+              </div>
+              <div class="step">
+                <i class="map outline icon"></i>
+                <div class="content">
+                  <div class="title">Appearance</div>
+                  <div class="description">Choose map style</div>
+                </div>
+              </div>
+              <div class="step">
+                <i class="file linkify icon"></i>
+                <div class="content">
+                  <div class="title">Get url</div>
+                  <div class="description">Generate map url and snippet</div>
+                </div>
+              </div>
+            </div>
+        </nav>
+        <section id="container" class="thirteen wide column">
+            <!-- Form -->
+            <form class="ui form" method="get" action="/generate">
+              <div class="inline field step-1 step-content">
+                <label>Title</label>
+                <input type="text" name="title" placeholder="Choose a title for the map" autocomplete="off">
+              </div>
+              <div class="two fields step-1 step-content">
+                    <div class="inline field">
+                        <label>Path</label>
+                        <input type="text" name="path" placeholder="Write a title to suggest a path or edit" size="30">
+                    </div>
+                    <div class="field">
+                        <input type="button" value="Generate path" class="ui mini button">
+                    </div>
+              </div>
+              <div class="inline field step-1 step-content">
+                <input type="button" value="Next" class="ui button wizard-prev-next" data-show="step-2">
+              </div>
+              <div class="field step-2 step-content hidestep">
+                <label>SPARQL query</label>
+                <textarea name="map-query" placeholder="Insert a SPARQL query from Wikidata">#Mappa di ospedali
+    #added 2017-08
+    #defaultView:Map
+    SELECT * WHERE {
+      ?item wdt:P31*/wdt:P279* wd:Q16917;
+            wdt:P625 ?geo .
+      ?item wdt:P17 wd:Q39
+    }</textarea>
+              </div>
+              <div class="two fields step-2 step-content hidestep step-content">
+                  <div class="inline field">
+                    <input type="button" value="Previous" class="ui button wizard-prev-next" data-show="step-1">
+                  </div>
+                  <div class="inline field">
+                    <input type="button" value="Next" class="ui button wizard-prev-next" data-show="step-3">
+                  </div>
+              </div>
+              <div class="inline field step-3 step-content hidestep">
+                <input type="button" value="Next" class="ui button wizard-prev-next" data-show="step-4">
+              </div>
+                <p class="step-4 hidestep">Review your map</p>
+              <button class="ui button step-4 step-content hidestep" type="submit">Submit</button>
+            </form>
+        </section>
+    </div>
+
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/form.min.js"></script>
-    <script src="js/app.js"></script>
+    <script src="/wizard/js/app.js"></script>
+    <script src="/wizard/js/urlify.js"></script>
 </body>
 </html>
