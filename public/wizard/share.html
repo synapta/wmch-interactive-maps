@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Share the map</title>
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/form.min.css">
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/step.min.css">
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/icon.min.css">
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/button.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <style type="text/css">
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <p>Share the map using this link</p>
+        <!-- Form -->
+        <form class="ui form">
+          <div class="step-3">
+            <div class="field">
+                <label>Url</label>
+                <input type="text" name="map-url" placeholder="Generated url goes here" readonly="">
+            </div>
+            <div class="field">
+                <label>Snippet</label>
+                <textarea name="map-snippet" readonly="">&lt;div class=&quot;snippet&quot;&gt;SNIPPET HERE&lt;/div&gt;</textarea>
+            </div>
+          </div>
+        </form>
+    </div>
+
+
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/form.min.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
