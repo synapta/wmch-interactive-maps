@@ -7,7 +7,7 @@ var i18next = require('i18next');
 
 function loadTranslationFile (folder, shortlang) {
     // return: a js object containing the JSON contents
-    return require(util.format('./public/%s/i18n/%s.json', folder, shortlang));
+    return require(util.format('./i18n/%s/%s.json', folder, shortlang));
 }
 
 function getShortlang (langcode) {
