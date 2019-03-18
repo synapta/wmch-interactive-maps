@@ -40,6 +40,9 @@
     },
     "prev": {
       "text": "Previous"
+    },
+    "submit": {
+      "text": "Publish"
     }
   }
 }

@@ -1,3 +1,4 @@
 {
-  "appname": "WMCH Interactive maps"
+  "appname": "WMCH Interactive maps",
+  "fallbackLanguage": "en"
 }
