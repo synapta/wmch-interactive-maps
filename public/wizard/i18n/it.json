@@ -1,3 +1,45 @@
 {
-  "Appearance": "Sono qui che ti aspetto"
+  "step": {
+    "name": {
+      "title": "Nome",
+      "description": "Scegli i nomi della mappa"
+    },
+    "data": {
+      "title": "Dati",
+      "description": "Scegli la fonte dati"
+    },
+    "theme": {
+      "title": "Aspetto",
+      "description": "Scegli uno stile per la mappa"
+    },
+    "url": {
+      "title": "URL",
+      "description": "Genera l'url e lo snippet per la mappa"
+    }
+  },
+  "fields": {
+    "title": {
+      "label": "Titolo",
+      "placeholder": "Scegli un titolo per la tua mappa"
+    },
+    "path": {
+      "label": "Percorso",
+      "placeholder": "Scrivi un titolo per suggerire un percorso oppure modificalo"
+    },
+    "sparql": {
+      "label": "Query SPARQL",
+      "placeholder": "Inserisci una query SPARQL da Wikidata"
+    }
+  },
+  "actions": {
+    "generatePath": {
+      "text": "Genera percorso"
+    },
+    "next": {
+      "text": "Successivo"
+    },
+    "prev": {
+      "text": "Precedente"
+    }
+  }
 }

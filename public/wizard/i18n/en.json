@@ -1,1 +1,45 @@
-{}
+{
+  "step": {
+    "name": {
+      "title": "Name",
+      "description": "Select map names"
+    },
+    "data": {
+      "title": "Data",
+      "description": "Select source data"
+    },
+    "theme": {
+      "title": "Appearance",
+      "description": "Choose map style"
+    },
+    "url": {
+      "title": "Get url",
+      "description": "Generate map url and snippet"
+    }
+  },
+  "fields": {
+    "title": {
+      "label": "Title",
+      "placeholder": "Choose a title for the map"
+    },
+    "path": {
+      "label": "Path",
+      "placeholder": "Write a title to suggest a path or edit"
+    },
+    "sparql": {
+      "label": "SPARQL query",
+      "placeholder": "Insert a SPARQL query from Wikidata"
+    }
+  },
+  "actions": {
+    "generatePath": {
+      "text": "Generate path"
+    },
+    "next": {
+      "text": "Next"
+    },
+    "prev": {
+      "text": "Previous"
+    }
+  }
+}

@@ -6,7 +6,16 @@ var Mustache = require('mustache');
 var i18next = require('i18next');
 
 function loadTranslationFile (folder, shortlang) {
+    // return: a js object containing the JSON contents
     return require(util.format('./public/%s/i18n/%s.json', folder, shortlang));
+}
+
+function getShortlang (langcode) {
+    let navigatorLanguage = langcode.toLowerCase();
+    if (navigatorLanguage.length > 2) {
+        navigatorLanguage = navigatorLanguage.split('-')[0];
+    }
+    return navigatorLanguage;
 }
 
 // var request = require('request');
@@ -17,7 +26,7 @@ module.exports = function(app, apicache, passport) {
 
     app.get('/wizard', async function (req, res) {
         // navigator.language: if ?l=asd not defined, fallback to first accepted language
-        let shortlang = req.query.l ? req.query.l : req.acceptsLanguages()[0];
+        let shortlang = getShortlang(req.query.l ? req.query.l : req.acceptsLanguages()[0]);
         // [ 'it', 'it-IT', 'en-US', 'en' ]
         // console.log(req.acceptsLanguages()[0]);
         fs.readFile(util.format('%s/public/wizard/index.html', __dirname), function (err, fileData) {
@@ -32,12 +41,20 @@ module.exports = function(app, apicache, passport) {
               resources: {}
             };
             // load translation file from wizard/i18n/SHORTLANG.js
-            let translationData = loadTranslationFile('wizard', shortlang);
+            // default: English
+            let translationData = null;
+            try {
+                translationData = loadTranslationFile('wizard', shortlang);
+            }
+            catch (e) {
+                // pass
+                translationData = loadTranslationFile('wizard', 'en');
+            }
             i18nOptions.resources[shortlang] = {translation: translationData};
             console.log(i18nOptions);
             // load i18n
             i18next.init(i18nOptions, function(err, t) {
-                // initialized and ready to go!
+                // i18n initialized and ready to go!
                 // document.getElementById('output').innerHTML = i18next.t('key');
                 // variables to pass to Mustache to populate template
                 var view = {
@@ -55,20 +72,5 @@ module.exports = function(app, apicache, passport) {
                 res.send(output);
             });
         });
-    });
-
-    app.get('/wizardtest', function (req, res) {
-        let shortlang = req.query.l;
-        var view = {
-          shortlang: shortlang,
-          title: "Joe",
-          i18n: function () {
-            return function (text, render) {
-                return util.format("le tue frittelle facevano %s", text);
-            }
-          }
-        };
-        var output = Mustache.render("{{title}} spends {{#i18n}}asd{{/i18n}} {{shortlang}}", view);
-        res.send(output);
     });
 }

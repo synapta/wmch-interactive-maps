@@ -36,29 +36,29 @@
               <div class="active step">
                 <i class="font icon"></i>
                 <div class="content">
-                  <div class="title">Name</div>
-                  <div class="description">Choose a map name</div>
+                  <div class="title">{{#i18n}}step.name.title{{/i18n}}</div>
+                  <div class="description">{{#i18n}}step.name.description{{/i18n}}</div>
                 </div>
               </div>
               <div class="step">
                 <i class="barcode icon"></i>
                 <div class="content">
-                  <div class="title">Data</div>
-                  <div class="description">Select source data</div>
+                  <div class="title">{{#i18n}}step.data.title{{/i18n}}</div>
+                  <div class="description">{{#i18n}}step.data.description{{/i18n}}</div>
                 </div>
               </div>
               <div class="step">
                 <i class="map outline icon"></i>
                 <div class="content">
-                  <div class="title">{{#i18n}}Appearance{{/i18n}}</div>
-                  <div class="description">{{#i18n}}Choose map style{{/i18n}}</div>
+                  <div class="title">{{#i18n}}step.theme.title{{/i18n}}</div>
+                  <div class="description">{{#i18n}}step.theme.description{{/i18n}}</div>
                 </div>
               </div>
               <div class="step">
                 <i class="file linkify icon"></i>
                 <div class="content">
-                  <div class="title">Get url</div>
-                  <div class="description">Generate map url and snippet</div>
+                  <div class="title">{{#i18n}}step.url.title{{/i18n}}</div>
+                  <div class="description">{{#i18n}}step.url.description{{/i18n}}</div>
                 </div>
               </div>
             </div>
@@ -67,24 +67,24 @@
             <!-- Form -->
             <form class="ui form" method="get" action="/generate">
               <div class="inline field step-1 step-content">
-                <label>Title</label>
-                <input type="text" name="title" placeholder="Choose a title for the map" autocomplete="off">
+                <label>{{#i18n}}fields.title.label{{/i18n}}</label>
+                <input type="text" name="title" placeholder="{{#i18n}}fields.title.placeholder{{/i18n}}" autocomplete="off" size="50">
               </div>
               <div class="two fields step-1 step-content">
                     <div class="inline field">
-                        <label>Path</label>
-                        <input type="text" name="path" placeholder="Write a title to suggest a path or edit" size="30">
+                        <label>{{#i18n}}fields.path.label{{/i18n}}</label>
+                        <input type="text" name="path" placeholder="{{#i18n}}fields.path.placeholder{{/i18n}}" size="40">
                     </div>
                     <div class="field">
-                        <input type="button" value="Generate path" class="ui mini button">
+                        <input type="button" value="{{#i18n}}actions.generatePath.text{{/i18n}}" class="ui mini button">
                     </div>
               </div>
               <div class="inline field step-1 step-content">
-                <input type="button" value="Next" class="ui button wizard-prev-next" data-show="step-2">
+                <input type="button" value="{{#i18n}}actions.next.text{{/i18n}}" class="ui button wizard-prev-next" data-show="step-2">
               </div>
               <div class="field step-2 step-content hidestep">
-                <label>SPARQL query</label>
-                <textarea name="map-query" placeholder="Insert a SPARQL query from Wikidata">#Mappa di ospedali
+                <label>{{#i18n}}fields.sparql.label{{/i18n}}</label>
+                <textarea name="map-query" placeholder="{{#i18n}}fields.sparql.placeholder{{/i18n}}">#Mappa di ospedali
     #added 2017-08
     #defaultView:Map
     SELECT * WHERE {
@@ -95,17 +95,23 @@
               </div>
               <div class="two fields step-2 step-content hidestep step-content">
                   <div class="inline field">
-                    <input type="button" value="Previous" class="ui button wizard-prev-next" data-show="step-1">
+                    <input type="button" value="{{#i18n}}actions.prev.text{{/i18n}}" class="ui button wizard-prev-next" data-show="step-1">
                   </div>
                   <div class="inline field">
-                    <input type="button" value="Next" class="ui button wizard-prev-next" data-show="step-3">
+                    <input type="button" value="{{#i18n}}actions.next.text{{/i18n}}" class="ui button wizard-prev-next" data-show="step-3">
                   </div>
               </div>
               <div class="inline field step-3 step-content hidestep">
-                <input type="button" value="Next" class="ui button wizard-prev-next" data-show="step-4">
+                <input type="button" value="{{#i18n}}actions.next.text{{/i18n}}" class="ui button wizard-prev-next" data-show="step-4">
               </div>
-                <p class="step-4 hidestep">Review your map</p>
-              <button class="ui button step-4 step-content hidestep" type="submit">Submit</button>
+              <div class="two fields step-4 step-content hidestep step-content">
+                  <div class="inline field">
+                    <input type="button" value="{{#i18n}}actions.prev.text{{/i18n}}" class="ui button wizard-prev-next" data-show="step-1">
+                  </div>
+                  <div class="inline field">
+                    <button class="ui button" type="submit">Submit</button>
+                  </div>
+              </div>
             </form>
         </section>
     </div>
