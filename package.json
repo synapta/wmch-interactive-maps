@@ -5,6 +5,8 @@
     "i18next": "^15.0.7",
     "minimist": "^1.2.0",
     "morgan": "^1.9.1",
+    "mustache": "^3.0.1",
+    "nodemon": "^1.18.10",
     "sequelize": "^5.1.0"
   }
 }
