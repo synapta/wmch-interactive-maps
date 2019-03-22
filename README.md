@@ -1,6 +1,22 @@
 # wmch-interactive-maps
 A configurable backend to generate interactive maps on top of Wikidata.
 
+## Settings
+
+A base configuration file is available on `config.js`.
+
+Local settings like database name and authentication data are available in the git ignored `localconfig.json` in the following formats.
+
+### SQLite
+~~~
+{
+  "database": {
+    "engine": "sqlite",
+    "name": "local/testing.db"
+  }
+}
+~~~
+
 ## Run
 
 `node app.js`

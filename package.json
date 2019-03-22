@@ -3,10 +3,12 @@
     "apicache": "^1.4.0",
     "express": "^4.16.4",
     "i18next": "^15.0.7",
+    "mariadb": "^2.0.3",
     "minimist": "^1.2.0",
     "morgan": "^1.9.1",
     "mustache": "^3.0.1",
     "nodemon": "^1.18.10",
-    "sequelize": "^5.1.0"
+    "sequelize": "^5.1.0",
+    "sqlite3": "^4.0.6"
   }
 }
