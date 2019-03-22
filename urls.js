@@ -61,7 +61,7 @@ module.exports = function(app, apicache, passport) {
     });
 
     /** Save the map to database **/
-    app.get('/generate', async function (req, res) {
+    app.get('/wizard/generate', async function (req, res) {
         // TODO: use POST here?
         console.log(req.query);
         // load database from configuration
@@ -88,7 +88,7 @@ module.exports = function(app, apicache, passport) {
             }
             catch (e) {
                 console.log(e);
-                res.send("Cannot create!");                
+                res.send("Cannot create!");
             }
         }
     });
