@@ -1,10 +1,25 @@
+/**
+ * utils module.
+ * @module i18n/utils
+ */
+
 const util = require('util');
 
+/**
+ *  Load language into a javascript object.
+ *  @param {string} folder: Directory inside i18n where i18n files are hosted
+ *  @param {string} shortlang: ISO 639-1 code
+ *  @return {object}: a js object containing the JSON contents
+ **/
 function loadTranslationFile (folder, shortlang) {
-    // return: a js object containing the JSON contents
     return require(util.format('./%s/%s.json', folder, shortlang));
 }
 
+/**
+ *  Convert navigator language into 2 byte ISO 639-1 code
+ *  @param {string} langcode: Browser navigator language, BCP 47 code
+ *  @return {string}: ISO 639-1 code
+ **/
 function getShortlang (langcode) {
     let navigatorLanguage = langcode.toLowerCase();
     if (navigatorLanguage.length > 2) {
@@ -13,6 +28,13 @@ function getShortlang (langcode) {
     return navigatorLanguage;
 }
 
+/**
+ *  Detect user language
+ *  @param {object} req: request to use to find user language
+ *  @param {string} fallbackLanguage: ISO 639-1 code for
+ *  @return {array}: 1) Detected language ISO 639-1 code;
+ *  2) fallback ISO 639-1 code if doesn't match
+ **/
 function seekLang (req, fallbackLanguage) {
     let shortlang = null;
     let translationData = null;

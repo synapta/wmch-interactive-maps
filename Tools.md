@@ -1,5 +1,10 @@
+# Tools
+
+The following URLs can be used on Wikimedia Projects and available through CDNs.
+
 ## Semantic UI 2.4.1
 
+~~~
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/accordion.css
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/accordion.js
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/accordion.min.css
@@ -170,3 +175,4 @@
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/themes/material/assets/fonts/icons.ttf
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/themes/material/assets/fonts/icons.woff
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/themes/material/assets/fonts/icons.woff2
+~~~
