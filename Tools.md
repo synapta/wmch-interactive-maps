@@ -1,6 +1,6 @@
 # Tools
 
-The following URLs can be used on Wikimedia Projects and available through CDNs.
+The following URLs can be used on Wikimedia Projects and available through CDNs as of March 2019.
 
 Complete list on https://tools.wmflabs.org/admin/tools.
 
