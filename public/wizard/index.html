@@ -4,14 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Wizard</title>
-    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/reset.min.css">
+
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/form.min.css">
-    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/step.min.css">
-    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/icon.min.css">
-    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/button.min.css">
-    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/grid.min.css">
-    <!-- link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/container.min.css" -->
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <style type="text/css">
         body {
@@ -48,6 +43,17 @@
 </head>
 <body>
     <div class="ui grid">
+        <header class="sixteen wide column">
+          <div class="ui floating dropdown labeled search icon button" id="languages">
+            <i class="language large icon"></i>
+            <span class="text">{{#i18n}}actions.languages.text{{/i18n}}</span>
+            <div class="menu">
+              {{#languages}}
+              <div class="item" data-value="{{code}}">{{name}}</div>
+              {{/languages}}
+            </div>
+          </div>
+        </header>
         <nav class="three wide column">
             <!-- Steps -->
             <div class="ui small steps vertical">
@@ -138,9 +144,8 @@
             </form>
         </section>
     </div>
-    <p>Language: {{ shortlang }}</p>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/form.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <script src="/wizard/js/app.js"></script>
     <script src="/wizard/js/urlify.js"></script>
 </body>

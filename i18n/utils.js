@@ -60,6 +60,26 @@ function seekLang (req, fallbackLanguage) {
     return [shortlang, translationData];
 }
 
+/**
+ *  Get languages list.
+ *  @param {string} languages: array of languages (code, name)
+ *  @param {string} shortlang: ISO 639-1 code
+ *  @return {array}: array of languages (code, name, selected)
+ **/
+function getLanguagesList (languages, shortlang) {
+    let ls = [];
+    for (lang of languages) {
+        if (lang.code === shortlang) {
+            lang.selected = 'selected="selected"';
+        }
+        else {
+            lang.selected = "";
+        }
+        ls.push(lang);
+    }
+    return ls;
+}
 exports.loadTranslationFile = loadTranslationFile;
 exports.getShortlang = getShortlang;
 exports.seekLang = seekLang;
+exports.getLanguagesList = getLanguagesList;

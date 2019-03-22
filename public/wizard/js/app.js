@@ -47,4 +47,10 @@ $(function() {
     });
     // on document ready
     // ...
+    // $('.ui.dropdown').dropdown();
+    $('#languages').dropdown({
+        onChange: function (value) {
+            window.location.href = "/wizard/?l=" + value;
+        }
+    });
 });

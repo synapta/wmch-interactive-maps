@@ -1,4 +1,8 @@
 {
   "appname": "WMCH Interactive maps",
-  "fallbackLanguage": "en"
+  "fallbackLanguage": "en",
+  "languages": [
+    {"code": "en", "name": "English"},
+    {"code": "it", "name": "Italiano"}
+  ]
 }

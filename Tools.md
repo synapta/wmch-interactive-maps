@@ -2,6 +2,8 @@
 
 The following URLs can be used on Wikimedia Projects and available through CDNs.
 
+Complete list on https://tools.wmflabs.org/admin/tools.
+
 ## Semantic UI 2.4.1
 
 ~~~

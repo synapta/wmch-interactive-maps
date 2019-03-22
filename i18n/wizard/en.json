@@ -43,6 +43,9 @@
     },
     "submit": {
       "text": "Publish"
+    },
+    "languages": {
+      "text": "Languages"
     }
   }
 }

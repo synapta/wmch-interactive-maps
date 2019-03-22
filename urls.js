@@ -39,6 +39,7 @@ module.exports = function(app, apicache, passport) {
                 // variables to pass to Mustache to populate template
                 var view = {
                   shortlang: shortlang,
+                  languages: i18n_utils.getLanguagesList(config.languages, shortlang),
                   i18n: function () {
                     return function (text, render) {
                         i18next.changeLanguage(shortlang);
