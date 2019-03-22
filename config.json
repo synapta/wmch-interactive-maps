@@ -4,5 +4,11 @@
   "languages": [
     {"code": "en", "name": "English"},
     {"code": "it", "name": "Italiano"}
-  ]
+  ],
+  "map": {
+    "styles": [
+      "test 1",
+      "test 2"
+    ]
+  }
 }

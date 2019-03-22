@@ -2,7 +2,7 @@
 
 The following URLs can be used on Wikimedia Projects and available through CDNs as of March 2019.
 
-Complete list on https://tools.wmflabs.org/admin/tools.
+Complete list on https://tools.wmflabs.org/cdnjs-beta/.
 
 ## Semantic UI 2.4.1
 
@@ -177,4 +177,23 @@ Complete list on https://tools.wmflabs.org/admin/tools.
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/themes/material/assets/fonts/icons.ttf
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/themes/material/assets/fonts/icons.woff
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/themes/material/assets/fonts/icons.woff2
+~~~
+
+## OpenStreetMap
+
+
+
+## Leaflet
+
+~~~
+https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/images/layers-2x.png
+https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/images/layers.png
+https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/images/marker-icon-2x.png
+https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/images/marker-icon.png
+https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/images/marker-shadow.png
+https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet-src.js
+https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet-src.js.map
+https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet.css
+https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet.js
+https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet.js.map
 ~~~

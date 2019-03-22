@@ -49,6 +49,9 @@
     },
     "languages": {
       "text": "Languages"
+    },
+    "style": {
+      "text": "Select a map style to start"
     }
   }
 }

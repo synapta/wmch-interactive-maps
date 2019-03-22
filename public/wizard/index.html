@@ -6,7 +6,9 @@
     <title>{{#i18n}}page.title{{/i18n}}</title>
 
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet.css" />
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <style type="text/css">
         body {
@@ -42,6 +44,13 @@
         #languages * {
             cursor: pointer;
         }
+        #preview {
+            width: 600px;
+            height: 300px;
+        }
+        #mapstyle {
+            z-index: 10000;
+        }
     </style>
 </head>
 <body>
@@ -49,7 +58,7 @@
         <header class="sixteen wide column ui items">
           <div class="ui floating dropdown labeled search icon left floated button" id="languages">
             <i class="language large icon"></i>
-            <span class="text">{{#i18n}}actions.languages.text{{/i18n}}</span>
+            <span class="text">{{langname}}</span>
             <div class="menu">
               {{#languages}}
               <div class="item" data-value="{{code}}">{{name}}</div>
@@ -129,6 +138,20 @@
                   </div>
               </div>
               <div class="two fields step-3 step-content hidestep step-content">
+
+                      <div class="ui floating dropdown labeled search icon button" id="mapstyle">
+                        <i class="language large icon"></i>
+                        <span class="text">{{#i18n}}actions.style.text{{/i18n}}</span>
+                        <div class="menu">
+                          {{#map.styles}}
+                          <div class="item" data-value="{{.}}">{{.}}</div>
+                          {{/map.styles}}
+                        </div>
+                      </div>
+
+              </div>
+              <div class="step-3 step-content hidestep" id="preview"></div>
+              <div class="two fields step-3 step-content hidestep step-content">
                   <div class="inline field">
                     <input type="button" value="{{#i18n}}actions.prev.text{{/i18n}}" class="ui button wizard-prev-next teal" data-show="step-2">
                   </div>
@@ -149,6 +172,8 @@
     </div>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet.js"></script>
+
     <script src="/wizard/js/app.js"></script>
     <script src="/wizard/js/urlify.js"></script>
 </body>
