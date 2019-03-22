@@ -33,7 +33,7 @@ function getShortlang (langcode) {
  *  @param {object} req: request to use to find user language
  *  @param {string} fallbackLanguage: ISO 639-1 code for
  *  @return {array}: 1) Detected language ISO 639-1 code;
- *  2) fallback ISO 639-1 code if doesn't match
+ *  2) fallback ISO 639-1 code if no translation is available for user language
  **/
 function seekLang (req, fallbackLanguage) {
     let shortlang = null;
