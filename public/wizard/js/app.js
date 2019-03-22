@@ -44,6 +44,17 @@ $(function() {
         });
         $(classToShow).removeClass("hidestep");
         $(".steps .step").eq(stepToActive).addClass("active");
+        // ultimo step
+        if ($("button[type='submit']:visible")) {
+            if($('.ui.form').form('is valid')) {
+                // form is valid
+                $("button[type='submit']").removeClass("disabled");
+            }
+            else {
+                // form not valid
+                $("button[type='submit']").addClass("disabled");
+            }
+        }
     });
     // on document ready
     // ...
