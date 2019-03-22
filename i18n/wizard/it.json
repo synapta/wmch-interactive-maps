@@ -1,4 +1,7 @@
 {
+  "page": {
+    "title": "Configuratore mappe basate su query"
+  },
   "step": {
     "name": {
       "title": "Nome",

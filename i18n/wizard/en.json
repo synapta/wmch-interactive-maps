@@ -1,4 +1,7 @@
 {
+  "page": {
+    "title": "Query map wizard"
+  },
   "step": {
     "name": {
       "title": "Name",

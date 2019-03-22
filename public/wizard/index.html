@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Wizard</title>
+    <title>{{#i18n}}page.title{{/i18n}}</title>
 
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
@@ -42,9 +42,9 @@
     </style>
 </head>
 <body>
-    <div class="ui grid">
-        <header class="sixteen wide column">
-          <div class="ui floating dropdown labeled search icon button" id="languages">
+    <div class="ui padded grid">
+        <header class="sixteen wide column ui items">
+          <div class="ui floating dropdown labeled search icon left floated button" id="languages">
             <i class="language large icon"></i>
             <span class="text">{{#i18n}}actions.languages.text{{/i18n}}</span>
             <div class="menu">
