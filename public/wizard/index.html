@@ -15,10 +15,10 @@
         .hidestep {
             display: none !important;
         }
-        .step {
+        .step, .step * {
             cursor: pointer;
         }
-        .step .active {
+        .step.active *, .step.active {
             cursor: default;
         }
         .step:before {
@@ -38,6 +38,9 @@
         }
         .step:nth-child(4):before {
             content: "4";
+        }
+        #languages * {
+            cursor: pointer;
         }
     </style>
 </head>
