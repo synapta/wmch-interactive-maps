@@ -40,13 +40,13 @@
       "label": "Longitude"
     },
     "minZoom": {
-      "text": "Min Zoom"
+      "label": "Min Zoom"
     },
     "maxZoom": {
-      "text": "Max Zoom"
+      "label": "Max Zoom"
     },
     "zoom": {
-      "text": "Zoom"
+      "label": "Zoom"
     }
   },
   "actions": {

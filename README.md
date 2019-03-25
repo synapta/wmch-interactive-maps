@@ -58,3 +58,7 @@ i18n
 ~~~
 
 The reference is the **en.json** file.
+
+## Map styles
+
+Map styles is based on sources listed on [Tile servers](https://wiki.openstreetmap.org/wiki/Tile_servers).

@@ -72,6 +72,10 @@ $(function() {
             window.previewMap.off();
             window.previewMap.remove();
         }
+        if (!window.tile) {
+            // abort, no style selected
+            return;
+        }
         // }
         // options
         var dataUrl = 'data/countries/';
@@ -81,7 +85,6 @@ $(function() {
         var minZoom = parseInt($('#minzoom').val());
         var maxZoom = parseInt($('#maxzoom').val());
         var fieldSeparator = ',';
-        var baseUrl = $('#baseurl').val();
         var baseAttribution = $('#attribution').html();
         var subdomains = '1234';
         var clusterOptions = {
@@ -107,7 +110,7 @@ $(function() {
             autoPan: true
         };
 
-        var basemap = new L.TileLayer(baseUrl, {
+        var basemap = new L.TileLayer(window.tile, {
             maxZoom: maxZoom,
             minZoom: minZoom,
             attribution: baseAttribution,
@@ -122,7 +125,6 @@ $(function() {
             minZoom: minZoom,
             layers: [basemap]
         });
-
     }
     function loadmapifchanged () {
         // TODO: do not reload if values aren't changed
@@ -130,8 +132,12 @@ $(function() {
     }
 
     $('#mapstyle').dropdown({
-        onChange: loadmap
+        onChange: function (value) {
+            window.tile = value;
+            loadmap();
+        }
     });
+
     $('#minzoom').keyup(loadmap);
     $('#maxzoom').keyup(loadmap);
     $('#zoom').keyup(loadmap);

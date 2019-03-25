@@ -144,7 +144,7 @@
                         <span class="text">{{#i18n}}actions.style.text{{/i18n}}</span>
                         <div class="menu">
                           {{#map.styles}}
-                          <div class="item" data-value="{{.}}">{{.}}</div>
+                          <div class="item" data-value="{{tile}}">{{name}}</div>
                           {{/map.styles}}
                         </div>
                       </div>
@@ -162,8 +162,6 @@
                  <div class="inline field">
                     <label>{{#i18n}}fields.maxZoom.label{{/i18n}}</label>
                     <input class="" id="maxzoom" type="number" min="1" value="{{map.maxzoom}}" step="1"/>
-                    {{! BASE URL FOR MAP }}
-                    <input class="" id="baseurl" type="hidden" value="{{map.baseUrl}}" />
                  </div>
               </div>
               <div class="two fields step-3 step-content hidestep step-content">
