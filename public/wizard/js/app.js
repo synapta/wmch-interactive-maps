@@ -65,60 +65,83 @@ $(function() {
         }
     });
 
-    $('#mapstyle').dropdown({
-        onChange: function (value) {
-            // options
-            var dataUrl = 'data/countries/';
-            var zoom = 8;
-            var startLat = 46.798562;
-            var startLng = 8.231973;
-            var minZoom = 2;
-            var maxZoom = 18;
-            var fieldSeparator = ',';
-            var baseUrl = '//maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png';
-            var baseAttribution = 'Kudos to <a href="http://www.openstreetmap.org/" target="_blank">OpenStreetMap</a> and contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/" target="_blank">CC-BY-SA</a> | Powered by <a href="https://wikimedia.ch/">Wikimedia CH</a> and <a href="https://synapta.it/">Synapta</a>';
-            var subdomains = '1234';
-            var clusterOptions = {
-              showCoverageOnHover: false,
-              maxClusterRadius: 0.1,
-              chunkedLoading: true,
-              /**
-                @see https://github.com/Leaflet/Leaflet.markercluster#customising-the-clustered-markers
-                iconCreateFunction: function(cluster) {
-                return L.divIcon({ html: '<b style="font-size: 50px;">' + cluster.getChildCount() + '</b>' });
-              } **/
-            };
-            var labelColumn = "title";
-            var opacity = 1.0;
-            // soglia usata per determinare se dispositivo è mobile (es. x legenda)
-            var confMobileThresold = 641;
-            var confPopupOpts = {
-                closeOnClick: true,
-                autoClose: false,
-                autoPanPadding: new L.Point(5, 50),
-                minWidth : 540,
-                maxWidth : 540,
-                autoPan: true
-            };
-
-            var basemap = new L.TileLayer(baseUrl, {
-                maxZoom: maxZoom,
-                minZoom: minZoom,
-                attribution: baseAttribution,
-                subdomains: subdomains,
-                opacity: opacity
-            });
-
-            var map = new L.Map('preview', {
-                center: new L.LatLng(startLat, startLng),
-                zoom: zoom,
-                maxZoom: maxZoom,
-                minZoom: minZoom,
-                layers: [basemap]
-            });
-
+    function loadmap () {
+        // destroy and regenerate
+        // if (window.previewMap && mapInstance.remove) {
+        if (window.previewMap) {
+            window.previewMap.off();
+            window.previewMap.remove();
         }
-    });
+        // }
+        // options
+        var dataUrl = 'data/countries/';
+        var zoom = parseInt($('#zoom').val());
+        var startLat = parseFloat($('#lat').val());
+        var startLng = parseFloat($('#long').val());
+        var minZoom = parseInt($('#minzoom').val());
+        var maxZoom = parseInt($('#maxzoom').val());
+        var fieldSeparator = ',';
+        var baseUrl = $('#baseurl').val();
+        var baseAttribution = $('#attribution').html();
+        var subdomains = '1234';
+        var clusterOptions = {
+          showCoverageOnHover: false,
+          maxClusterRadius: 0.1,
+          chunkedLoading: true,
+          /**
+            @see https://github.com/Leaflet/Leaflet.markercluster#customising-the-clustered-markers
+            iconCreateFunction: function(cluster) {
+            return L.divIcon({ html: '<b style="font-size: 50px;">' + cluster.getChildCount() + '</b>' });
+          } **/
+        };
+        var labelColumn = "title";
+        var opacity = 1.0;
+        // soglia usata per determinare se dispositivo è mobile (es. x legenda)
+        var confMobileThresold = 641;
+        var confPopupOpts = {
+            closeOnClick: true,
+            autoClose: false,
+            autoPanPadding: new L.Point(5, 50),
+            minWidth : 540,
+            maxWidth : 540,
+            autoPan: true
+        };
 
+        var basemap = new L.TileLayer(baseUrl, {
+            maxZoom: maxZoom,
+            minZoom: minZoom,
+            attribution: baseAttribution,
+            subdomains: subdomains,
+            opacity: opacity
+        });
+        // carica la mappa nel div #preview
+        window.previewMap = new L.Map('preview', {
+            center: new L.LatLng(startLat, startLng),
+            zoom: zoom,
+            maxZoom: maxZoom,
+            minZoom: minZoom,
+            layers: [basemap]
+        });
+
+    }
+    function loadmapifchanged () {
+        // TODO: do not reload if values aren't changed
+        loadmap();
+    }
+
+    $('#mapstyle').dropdown({
+        onChange: loadmap
+    });
+    $('#minzoom').keyup(loadmap);
+    $('#maxzoom').keyup(loadmap);
+    $('#zoom').keyup(loadmap);
+    $('#lat').keyup(loadmap);
+    $('#long').keyup(loadmap);
+    //////////////////////////
+    $('#minzoom').on("click", loadmapifchanged);
+    $('#maxzoom').on("click", loadmapifchanged);
+    $('#zoom').on("click", loadmapifchanged);
+    $('#lat').on("click", loadmapifchanged);
+    $('#long').on("click", loadmapifchanged);
 
 });

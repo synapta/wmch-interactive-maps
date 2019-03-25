@@ -9,6 +9,13 @@
     "styles": [
       "test 1",
       "test 2"
-    ]
+    ],
+    "minzoom": 2,
+    "maxzoom": 18,
+    "zoom": 8,
+    "attribution": "Kudos to <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a> and contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\">CC-BY-SA</a> | Powered by <a href=\"https://wikimedia.ch/\">Wikimedia CH</a> and <a href=\"https://synapta.it/\">Synapta</a>",
+    "baseUrl": "//maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png",
+    "lat": 46.798562,
+    "long": 8.231973
   }
 }

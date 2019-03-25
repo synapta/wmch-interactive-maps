@@ -32,6 +32,21 @@
     "sparql": {
       "label": "Query SPARQL",
       "placeholder": "Inserisci una query SPARQL da Wikidata"
+    },
+    "minZoom": {
+      "label": "Zoom minimo"
+    },
+    "maxZoom": {
+      "label": "Zoom massimo"
+    },
+    "zoom": {
+      "label": "Zoom"
+    },
+    "lat": {
+      "label": "Latitudine"
+    },
+    "long": {
+      "label": "Longitudine"
     }
   },
   "actions": {
