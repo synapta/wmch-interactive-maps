@@ -5,6 +5,7 @@ const express = require('express');
 const Sequelize = require('sequelize');
 const Mustache = require('mustache');
 const i18next = require('i18next');
+const request = require('request');
 // Custom functions for internationalization
 const i18n_utils = require('./i18n/utils');
 const dbinit       = require('./db/init');
@@ -94,6 +95,86 @@ module.exports = function(app, apicache, passport) {
             }
         }
     });
+
+    app.get('/api/data', apicache('30 seconds'), function (req, res) {
+        let query = `
+        SELECT ?museo ?museoLabel ?coord ?commons ?sito ?immagine ?lang
+        WHERE {
+            ?museo wdt:P31/wdt:P279* wd:Q33506 .
+            ?museo wdt:P17 wd:Q39 .
+            ?museo wdt:P625 ?coord
+
+            OPTIONAL { ?museo wdt:P373 ?commons }
+            OPTIONAL { ?museo wdt:P856 ?sito }
+            OPTIONAL { ?museo wdt:P18 ?immagine }
+
+            OPTIONAL {?lang schema:about ?museo .}
+
+            SERVICE wikibase:label { bd:serviceParam wikibase:language "en,de,fr,it". }
+        }
+        ORDER BY ?museo
+        `;
+
+        let options = {
+            url: "https://query.wikidata.org/sparql?query=" + encodeURIComponent(query),
+            headers: {
+              'Accept': 'application/json'
+            }
+        };
+
+        request(options, function (error, response, body) {
+            if (error) {
+                console.log('error:', error); // Print the error if one occurred
+            } else {
+                let arr = JSON.parse(body).results.bindings;
+                let jsonRes = [];
+                var oldQid;
+                var isNewQid = true;
+
+                for (let i = 0; i < arr.length; i++) {
+                    if (oldQid !== arr[i].museo.value && oldQid !== undefined) {
+                        isNewQid = true;
+                        jsonRes.push(obj);
+                    }
+
+                    if (isNewQid) {
+                        oldQid = arr[i].museo.value;
+                        isNewQid = false;
+                        var obj = {};
+
+                        obj.type = "Feature";
+
+                        obj.properties = {};
+                        obj.properties.name = arr[i].museoLabel.value;
+                        obj.properties.wikidata = arr[i].museo.value.replace("http://www.wikidata.org/entity/","");
+                        if (arr[i].commons !== undefined) obj.properties.commons = arr[i].commons.value;
+                        if (arr[i].sito !== undefined) obj.properties.website = arr[i].sito.value;
+                        if (arr[i].immagine !== undefined) obj.properties.image = arr[i].immagine.value;
+                        obj.properties.lang = [];
+                        if (arr[i].lang !== undefined) obj.properties.lang.push(arr[i].lang.value);
+
+                        obj.geometry = {};
+                        obj.geometry.type = "Point";
+
+                        let coordArray = [];
+                        coordArray.push(arr[i].coord.value.split(" ")[0].replace("Point(",""));
+                        coordArray.push(arr[i].coord.value.split(" ")[1].replace(")",""));
+                        obj.geometry.coordinates = coordArray;
+                    } else {
+                        if (arr[i].lang !== undefined) obj.properties.lang.push(arr[i].lang.value);
+                        obj.properties.lang = obj.properties.lang.filter(function(elem, pos) {
+                            return obj.properties.lang.indexOf(elem) == pos;
+                        })
+                    }
+
+                    if (i === arr.length -1) jsonRes.push(obj);
+                }
+                res.send(jsonRes);
+            }
+        });
+    });
+    // serve JS common to frontend and backend
+    app.use('/js/',express.static('./public/js'));
 
     // this must be the last route
     app.use('/',express.static('./public/frontend'));

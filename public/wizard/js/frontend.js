@@ -1,5 +1,43 @@
 // Shorthand for $( document ).ready()
 $(function() {
+    var confMobileThresold = 641;
+    
+    window.isMobile = function () {
+        var viewportWidth = $(window).width();
+        var viewportHeight = $(window).height();
+        if (viewportWidth < confMobileThresold) {
+            return true;
+        }
+        return false;
+    };
+
+    var mobileDesktopLegenda = function () {
+        if (isMobile()) {
+            // mobile
+            $('.leaflet-control-layers').removeClass(
+              'leaflet-control-layers-expanded'
+            );
+        }
+        else {
+            // desktop
+            // Legenda sempre visibile su Desktop
+            $('.leaflet-control-layers').addClass(
+              'leaflet-control-layers-expanded'
+            );
+        }
+    };
+
+    var legendaUpdate = function (data) {
+        var counterArrayByCriteria = countByFilter(data);
+        var newText = '';
+        $('.legenda-label').each(function (index) {
+            // l'ordine di visualizzazione della legenda è il medesimo
+            // dell'ordine dei dati nell'array countByFilter
+            newText = $(this).text().replace(/(0)/g, counterArrayByCriteria[index].toString());
+            $(this).text(newText);
+        });
+    };
+
     // Events
     // Generate a valid path from title on key press
     $("input[name='title']").on("keyup", function () {
@@ -67,10 +105,10 @@ $(function() {
 
     function loadmap () {
         // destroy and regenerate
-        // if (window.previewMap && mapInstance.remove) {
-        if (window.previewMap) {
-            window.previewMap.off();
-            window.previewMap.remove();
+        // if (window.map && mapInstance.remove) {
+        if (window.map) {
+            window.map.off();
+            window.map.remove();
         }
         if (!window.tile) {
             // abort, no style selected
@@ -88,16 +126,87 @@ $(function() {
         // var baseAttribution = $('#attribution').val();
         var baseAttribution = window.attribution;
         var subdomains = '1234';
-        var clusterOptions = {
-          showCoverageOnHover: false,
-          maxClusterRadius: 0.1,
-          chunkedLoading: true,
-          /**
-            @see https://github.com/Leaflet/Leaflet.markercluster#customising-the-clustered-markers
-            iconCreateFunction: function(cluster) {
-            return L.divIcon({ html: '<b style="font-size: 50px;">' + cluster.getChildCount() + '</b>' });
-          } **/
+        /**
+          @see https://github.com/Leaflet/Leaflet.markercluster#customising-the-clustered-markers
+          iconCreateFunction: function(cluster) {
+          return L.divIcon({ html: '<b style="font-size: 50px;">' + cluster.getChildCount() + '</b>' });
+        } **/
+        var options = {
+          cluster: {
+              showCoverageOnHover: false,
+              maxClusterRadius: 0.1,
+              chunkedLoading: true
+          },
+          pins: {}
         };
+        ////////////////////////////////////////////////////////////////////////////////
+        options.pins.museumBlack = L.geoJSON (null, {
+              onEachFeature: function (feature, layer) {
+                  popupGenerator(feature, layer);
+              },
+              pointToLayer: function (feature, latlng) {
+                  var pin = L.AwesomeMarkers.icon({
+                      icon: 'university',
+                      prefix: 'fa',
+                      markerColor: feature.properties.pin.color
+                  });
+                  return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+              },
+              filter: function (feature, layer) {
+                  return feature.properties.pin.color === "black";
+              }
+        });
+        options.pins.museumRed = L.geoJSON (null, {
+              onEachFeature: function (feature, layer) {
+                  popupGenerator(feature, layer);
+              },
+              pointToLayer: function (feature, latlng) {
+                  var pin = L.AwesomeMarkers.icon({
+                      icon: 'university',
+                      prefix: 'fa',
+                      markerColor: feature.properties.pin.color
+                  });
+                  return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+              },
+              filter: function (feature, layer) {
+                  return feature.properties.pin.color === "red";
+              }
+        });
+
+        options.pins.museumOrange = L.geoJSON (null, {
+              onEachFeature: function (feature, layer) {
+                  popupGenerator(feature, layer);
+              },
+              pointToLayer: function (feature, latlng) {
+                  var pin = L.AwesomeMarkers.icon({
+                      icon: 'university',
+                      prefix: 'fa',
+                      markerColor: feature.properties.pin.color
+                  });
+                  return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+              },
+              filter: function (feature, layer) {
+                  return feature.properties.pin.color === "orange";
+              }
+        });
+
+        options.pins.museumGreen = L.geoJSON (null, {
+              onEachFeature: function (feature, layer) {
+                  popupGenerator(feature, layer);
+              },
+              pointToLayer: function (feature, latlng) {
+                  var pin = L.AwesomeMarkers.icon({
+                      icon: 'university',
+                      prefix: 'fa',
+                      markerColor: feature.properties.pin.color
+                  });
+                  return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+              },
+              filter: function (feature, layer) {
+                  return feature.properties.pin.color === "green";
+              }
+        });
+        ////////////////////////////////////////////////////////////////////////////////
         var labelColumn = "title";
         var opacity = 1.0;
         // soglia usata per determinare se dispositivo è mobile (es. x legenda)
@@ -110,7 +219,6 @@ $(function() {
             // maxWidth : 540,
             autoPan: true
         };
-
         var basemap = new L.TileLayer(window.tile, {
             maxZoom: maxZoom,
             minZoom: minZoom,
@@ -119,14 +227,34 @@ $(function() {
             opacity: opacity
         });
         // carica la mappa nel div #preview
-        window.previewMap = new L.Map('preview', {
+        window.map = new L.Map('preview', {
             center: new L.LatLng(startLat, startLng),
             zoom: zoom,
             maxZoom: maxZoom,
             minZoom: minZoom,
             layers: [basemap]
         });
+        // load data
+        loadData(options);
     }
+
+    function loadData(options) {
+        $.ajax ({
+            type:'GET',
+            url: "/api/data",
+            error: function(e) {
+                console.warn('Error retrieving data');
+            },
+            success: function(json) {
+                var newJson = enrichFeatures(json);
+                var markers = new L.MarkerClusterGroup(options.clusterOptions);
+                addMarkers(newJson, window.map, markers, options);
+                // Aggiungi i contatori alla mappa
+                // legendaUpdate(newJson);
+            }
+        });
+    }
+
     function loadmapifchanged () {
         // TODO: do not reload if values aren't changed
         loadmap();
