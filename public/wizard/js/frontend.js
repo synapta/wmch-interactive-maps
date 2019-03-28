@@ -85,7 +85,8 @@ $(function() {
         var minZoom = parseInt($('#minzoom').val());
         var maxZoom = parseInt($('#maxzoom').val());
         var fieldSeparator = ',';
-        var baseAttribution = $('#attribution').html();
+        // var baseAttribution = $('#attribution').val();
+        var baseAttribution = window.attribution;
         var subdomains = '1234';
         var clusterOptions = {
           showCoverageOnHover: false,
@@ -105,8 +106,8 @@ $(function() {
             closeOnClick: true,
             autoClose: false,
             autoPanPadding: new L.Point(5, 50),
-            minWidth : 540,
-            maxWidth : 540,
+            // minWidth : 540,
+            // maxWidth : 540,
             autoPan: true
         };
 
@@ -133,7 +134,9 @@ $(function() {
 
     $('#mapstyle').dropdown({
         onChange: function (value) {
-            window.tile = value;
+            var vals = value.split('|||');
+            window.tile = vals[0];
+            window.attribution = vals[1] + ' | ' + $('#author').html();
             loadmap();
         }
     });

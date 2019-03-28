@@ -9,17 +9,34 @@
     "styles": [
       {
         "name": "Wikimedia Maps",
-        "tile": "//maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+        "tile": "//maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png",
+        "attribution": "<a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\">CC-BY-SA</a>"
       },
       {
         "name": "Humanitarian map style",
-        "tile": "//a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+        "tile": "//a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
+        "attribution": "<a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\">CC-BY-SA</a>"
+      },
+      {
+        "name": "Carto",
+        "tile": "//cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+        "attribution": "Map tiles by Carto, under CC BY 3.0. Data by <a href=\"https://www.openstreetmap.org/copyright\">© OpenStreetMap contributors</a>, under ODbL."
+      },
+      {
+        "name": "OpenRailwayMap",
+        "tile": "//a.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png",
+        "attribution": "Data <a href=\"https://www.openstreetmap.org/copyright\">© OpenStreetMap contributors</a>, Style: <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA 2.0</a> <a href=\"http://www.openrailwaymap.org/\">OpenRailwayMap</a> and OpenStreetMap"
+      },
+      {
+        "name": "OpenStreetMap Black & White",
+        "tile": "//tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png",
+        "attribution": "<a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\">CC-BY-SA</a>"
       }
     ],
     "minzoom": 2,
     "maxzoom": 18,
     "zoom": 8,
-    "attribution": "Kudos to <a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a> and contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\">CC-BY-SA</a> | Powered by <a href=\"https://wikimedia.ch/\">Wikimedia CH</a> and <a href=\"https://synapta.it/\">Synapta</a>",
+    "author": "Powered by <a href=\"https://wikimedia.ch/\">Wikimedia CH</a> and <a href=\"https://synapta.it/\">Synapta</a>",
     "lat": 46.798562,
     "long": 8.231973
   }

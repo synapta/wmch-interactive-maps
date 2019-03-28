@@ -45,7 +45,7 @@
             cursor: pointer;
         }
         #preview {
-            width: 600px;
+            width: auto;
             height: 300px;
         }
         #mapstyle {
@@ -144,7 +144,7 @@
                         <span class="text">{{#i18n}}actions.style.text{{/i18n}}</span>
                         <div class="menu">
                           {{#map.styles}}
-                          <div class="item" data-value="{{tile}}">{{name}}</div>
+                          <div class="item" data-value="{{tile}}|||{{attribution}}">{{name}}</div>
                           {{/map.styles}}
                         </div>
                       </div>
@@ -191,17 +191,18 @@
                     <button class="ui button olive disabled" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
                   </div>
               </div>
+              <!-- input type="hidden" id="attribution" value="" -->
             </form>
         </section>
         <footer class="sixteen wide column ui items">
-          <div id="attribution">{{{map.attribution}}}</div>
+          <div id="author">{{{map.author}}}</div>
         </footer>
     </div>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet.js"></script>
 
-    <script src="/wizard/js/app.js"></script>
+    <script src="/wizard/js/frontend.js"></script>
     <script src="/wizard/js/urlify.js"></script>
 </body>
 </html>
