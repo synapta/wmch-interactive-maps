@@ -34,7 +34,7 @@
       "placeholder": "Insert a SPARQL query from Wikidata"
     },
     "lat": {
-      "label": "Latitute"
+      "label": "Latitude"
     },
     "long": {
       "label": "Longitude"
