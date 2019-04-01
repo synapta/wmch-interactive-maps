@@ -122,6 +122,7 @@ $(function() {
         var startLng = parseFloat($('#long').val());
         var minZoom = parseInt($('#minzoom').val());
         var maxZoom = parseInt($('#maxzoom').val());
+        var autoZoom = $('#autozoom').is(':checked');
         var fieldSeparator = ',';
         // var baseAttribution = $('#attribution').val();
         var baseAttribution = window.attribution;
@@ -136,7 +137,8 @@ $(function() {
           cluster: {
               showCoverageOnHover: false,
               maxClusterRadius: 0.1,
-              chunkedLoading: true
+              chunkedLoading: true,
+              autoPan: false
           },
           sparql: query,
           pins: {}
@@ -237,11 +239,11 @@ $(function() {
             layers: [basemap]
         });
         // load data
-        loadData(options);
+        loadData(options, autoZoom);
     }
 
-    function loadData(options) {
-        console.log(options);
+    function loadData(options, autozoom) {
+        // window.sparqlCache = options.sparql;
         $.ajax ({
             type:'GET',
             url: "/api/data?q=" + encodeURIComponent(options.sparql),
@@ -250,10 +252,11 @@ $(function() {
             },
             success: function(json) {
                 var newJson = enrichFeatures(json);
-                var markers = new L.MarkerClusterGroup(options.clusterOptions);
-                addMarkers(newJson, window.map, markers, options);
+                var markers = new L.MarkerClusterGroup(options.cluster);
+                addMarkers(newJson, window.map, markers, options, autozoom);
                 // Aggiungi i contatori alla mappa
                 // legendaUpdate(newJson);
+                // window.map.setZoom(zoom);
             }
         });
     }
@@ -277,6 +280,7 @@ $(function() {
     $('#zoom').keyup(loadmap);
     $('#lat').keyup(loadmap);
     $('#long').keyup(loadmap);
+    $('#autozoom').on('change', loadmap);
     //////////////////////////
     $('#minzoom').on("click", loadmapifchanged);
     $('#maxzoom').on("click", loadmapifchanged);

@@ -42,6 +42,9 @@
     "zoom": {
       "label": "Zoom"
     },
+    "autoZoom": {
+      "label": "zoom automatico basato sui dati"
+    },
     "lat": {
       "label": "Latitudine"
     },

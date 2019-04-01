@@ -176,7 +176,7 @@ var popupGenerator = function(feature, layer) {
 };
 
 
-function addMarkers(json, map, markers, options) {
+function addMarkers(json, map, markers, options, autozoom) {
     map.removeLayer(markers);
     options.pins.museumBlack.clearLayers();
     options.pins.museumRed.clearLayers();
@@ -199,7 +199,7 @@ function addMarkers(json, map, markers, options) {
     try {
         // Centra sui marker presenti sulla mappa
         var bounds = markers.getBounds();
-        if (bounds) {
+        if (autozoom && bounds) {
             map.fitBounds(bounds);
         }
     } catch(err) {

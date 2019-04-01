@@ -47,6 +47,9 @@
     },
     "zoom": {
       "label": "Zoom"
+    },
+    "autoZoom": {
+      "label": "automatic zoom on data boundaries"
     }
   },
   "actions": {
