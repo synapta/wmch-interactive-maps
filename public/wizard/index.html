@@ -109,17 +109,21 @@
                       </div>
                  </div>
                  <div class="inline field">
-                   <div class="ui toggle checkbox">
-                    <input type="checkbox" id="autozoom">
-                    <label>{{#i18n}}fields.autoZoom.label{{/i18n}}</label>
-                  </div>
-                </div>
+                 </div>
+              </div>
+              <div class="two fields step-3 step-content hidestep step-content">
+                    <div class="inline field">
+                         <label>{{#i18n}}fields.zoom.label{{/i18n}}<label>
+                         <input class="" id="zoom" type="number" min="1" value="{{map.zoom}}" step="1"/>
+                    </div>
+                    <div class="inline field">
+                        <div class="ui toggle checkbox">
+                        <input type="checkbox" id="autozoom">
+                        <label>{{#i18n}}fields.autoZoom.label{{/i18n}}</label>
+                        </div>
+                    </div>
               </div>
               <div class="three fields step-3 step-content hidestep step-content">
-                <div class="inline field">
-                   <label>{{#i18n}}fields.zoom.label{{/i18n}}<label>
-                   <input class="" id="zoom" type="number" min="1" value="{{map.zoom}}" step="1"/>
-                </div>
                  <div class="inline field">
                     <label>{{#i18n}}fields.minZoom.label{{/i18n}}</label>
                     <input class="" id="minzoom" type="number" min="1" value="{{map.minzoom}}" step="1"/>
