@@ -50,6 +50,9 @@
     },
     "long": {
       "label": "Longitudine"
+    },
+    "maxClusterRadius": {
+      "label": "Raggio di aggregazione massimo"
     }
   },
   "actions": {

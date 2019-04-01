@@ -123,6 +123,7 @@ $(function() {
         var minZoom = parseInt($('#minzoom').val());
         var maxZoom = parseInt($('#maxzoom').val());
         var autoZoom = $('#autozoom').is(':checked');
+        var maxClusterRadius = parseFloat($('#maxclusterradius').val());
         var fieldSeparator = ',';
         // var baseAttribution = $('#attribution').val();
         var baseAttribution = window.attribution;
@@ -135,10 +136,16 @@ $(function() {
         } **/
         var options = {
           cluster: {
+              // When you mouse over a cluster it shows the bounds of its markers.
               showCoverageOnHover: false,
-              maxClusterRadius: 0.1,
-              chunkedLoading: true,
-              autoPan: false
+              // The maximum radius that a cluster will cover from the central
+              // marker (in pixels). Default 80. Decreasing will make more,
+              // smaller clusters. You can also use a function that accepts the
+              // current map zoom and returns the maximum cluster radius
+              // in pixels.
+              maxClusterRadius: maxClusterRadius,
+              chunkedLoading: true  //  Boolean to split the addLayers processing in to small intervals so that the page does not freeze.
+              // autoPan: false
           },
           sparql: query,
           pins: {}
@@ -292,6 +299,7 @@ $(function() {
     $('#zoom').keyup(loadmap);
     $('#lat').keyup(loadmap);
     $('#long').keyup(loadmap);
+    $('#maxclusterradius').keyup(loadmap);
     $('#autozoom').on('change', loadmap);
     //////////////////////////
     $('#minzoom').on("click", loadmapifchanged);
@@ -299,5 +307,6 @@ $(function() {
     $('#zoom').on("click", loadmapifchanged);
     $('#lat').on("click", loadmapifchanged);
     $('#long').on("click", loadmapifchanged);
+    $('#maxclusterradius').on("click", loadmap);
 
 });

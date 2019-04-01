@@ -33,12 +33,6 @@
       "label": "SPARQL query",
       "placeholder": "Insert a SPARQL query from Wikidata"
     },
-    "lat": {
-      "label": "Latitude"
-    },
-    "long": {
-      "label": "Longitude"
-    },
     "minZoom": {
       "label": "Min Zoom"
     },
@@ -50,6 +44,15 @@
     },
     "autoZoom": {
       "label": "automatic zoom on data boundaries"
+    },
+    "lat": {
+      "label": "Latitude"
+    },
+    "long": {
+      "label": "Longitude"
+    },
+    "maxClusterRadius": {
+      "label": "Max cluster radius"
     }
   },
   "actions": {
