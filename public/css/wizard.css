@@ -1,0 +1,44 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+.hidestep {
+    display: none !important;
+}
+.step, .step * {
+    cursor: pointer;
+}
+.step.active *, .step.active {
+    cursor: default;
+}
+.step:before {
+  position: absolute;
+  left: 0.3ex;
+  font-size: 18pt;
+  opacity: 0.4;
+}
+.step:nth-child(1):before {
+    content: "1";
+}
+.step:nth-child(2):before {
+    content: "2";
+}
+.step:nth-child(3):before {
+    content: "3";
+}
+.step:nth-child(4):before {
+    content: "4";
+}
+#languages * {
+    cursor: pointer;
+}
+#mapstyle {
+    z-index: 10000;
+}
+/** to be fixed **/
+#container {
+  min-height: 600px;
+}
+#preview {
+    width: auto;
+    height: 500px;
+}

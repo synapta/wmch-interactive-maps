@@ -8,53 +8,15 @@
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet.markercluster/1.3.0/MarkerCluster.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet.markercluster/1.3.0/MarkerCluster.Default.css" />
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat" />
+    <link rel="stylesheet" href="/css/all.css" />
+    <link rel="stylesheet" href="/css/wizard.css" />
+
     <style type="text/css">
-        body {
-            font-family: 'Montserrat', sans-serif;
-        }
-        .hidestep {
-            display: none !important;
-        }
-        .step, .step * {
-            cursor: pointer;
-        }
-        .step.active *, .step.active {
-            cursor: default;
-        }
-        .step:before {
-          position: absolute;
-          left: 0.3ex;
-          font-size: 18pt;
-          opacity: 0.4;
-        }
-        .step:nth-child(1):before {
-            content: "1";
-        }
-        .step:nth-child(2):before {
-            content: "2";
-        }
-        .step:nth-child(3):before {
-            content: "3";
-        }
-        .step:nth-child(4):before {
-            content: "4";
-        }
-        #languages * {
-            cursor: pointer;
-        }
-        #mapstyle {
-            z-index: 10000;
-        }
-        /** to be fixed **/
-        #container {
-          min-height: 600px;
-        }
-        #preview {
-            width: auto;
-            height: 500px;
-        }
     </style>
 </head>
 <body>
@@ -124,14 +86,7 @@
               </div>
               <div class="field step-2 step-content hidestep">
                 <label>{{#i18n}}fields.sparql.label{{/i18n}}</label>
-                <textarea name="map-query" placeholder="{{#i18n}}fields.sparql.placeholder{{/i18n}}">#Mappa di ospedali
-    #added 2017-08
-    #defaultView:Map
-    SELECT * WHERE {
-      ?item wdt:P31*/wdt:P279* wd:Q16917;
-            wdt:P625 ?geo .
-      ?item wdt:P17 wd:Q39
-    }</textarea>
+                <textarea id="map-query" placeholder="{{#i18n}}fields.sparql.placeholder{{/i18n}}">{{{sparql}}}</textarea>
               </div>
               <div class="two fields step-2 step-content hidestep step-content">
                   <div class="inline field">

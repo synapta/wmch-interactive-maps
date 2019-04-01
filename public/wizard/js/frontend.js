@@ -1,7 +1,7 @@
 // Shorthand for $( document ).ready()
 $(function() {
     var confMobileThresold = 641;
-    
+
     window.isMobile = function () {
         var viewportWidth = $(window).width();
         var viewportHeight = $(window).height();
@@ -126,6 +126,7 @@ $(function() {
         // var baseAttribution = $('#attribution').val();
         var baseAttribution = window.attribution;
         var subdomains = '1234';
+        var query = $('#map-query').val();
         /**
           @see https://github.com/Leaflet/Leaflet.markercluster#customising-the-clustered-markers
           iconCreateFunction: function(cluster) {
@@ -137,6 +138,7 @@ $(function() {
               maxClusterRadius: 0.1,
               chunkedLoading: true
           },
+          sparql: query,
           pins: {}
         };
         ////////////////////////////////////////////////////////////////////////////////
@@ -239,9 +241,10 @@ $(function() {
     }
 
     function loadData(options) {
+        console.log(options);
         $.ajax ({
             type:'GET',
-            url: "/api/data",
+            url: "/api/data?q=" + encodeURIComponent(options.sparql),
             error: function(e) {
                 console.warn('Error retrieving data');
             },

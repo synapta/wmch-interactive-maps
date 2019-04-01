@@ -49,6 +49,7 @@ module.exports = function(app, apicache, passport) {
                   shortlang: shortlang,
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   map: config.map,
+                  sparql: config.sparql,
                   languages: config.languages,
                   i18n: function () {
                     return function (text, render) {
@@ -57,6 +58,7 @@ module.exports = function(app, apicache, passport) {
                     }
                   }
                 };
+                console.log(view);
                 var output = Mustache.render(template, view);
                 res.send(output);
             });
@@ -97,26 +99,10 @@ module.exports = function(app, apicache, passport) {
     });
 
     app.get('/api/data', apicache('30 seconds'), function (req, res) {
-        let query = `
-        SELECT ?museo ?museoLabel ?coord ?commons ?sito ?immagine ?lang
-        WHERE {
-            ?museo wdt:P31/wdt:P279* wd:Q33506 .
-            ?museo wdt:P17 wd:Q39 .
-            ?museo wdt:P625 ?coord
-
-            OPTIONAL { ?museo wdt:P373 ?commons }
-            OPTIONAL { ?museo wdt:P856 ?sito }
-            OPTIONAL { ?museo wdt:P18 ?immagine }
-
-            OPTIONAL {?lang schema:about ?museo .}
-
-            SERVICE wikibase:label { bd:serviceParam wikibase:language "en,de,fr,it". }
-        }
-        ORDER BY ?museo
-        `;
-
+        // encodeURIComponent(query) non necessario
+        let encodedQuery = req.query.q;
         let options = {
-            url: "https://query.wikidata.org/sparql?query=" + encodeURIComponent(query),
+            url: "https://query.wikidata.org/sparql?query=" + encodedQuery,
             headers: {
               'Accept': 'application/json'
             }
@@ -175,6 +161,7 @@ module.exports = function(app, apicache, passport) {
     });
     // serve JS common to frontend and backend
     app.use('/js/',express.static('./public/js'));
+    app.use('/css/',express.static('./public/css'));
 
     // this must be the last route
     app.use('/',express.static('./public/frontend'));
