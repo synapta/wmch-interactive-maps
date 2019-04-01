@@ -70,6 +70,12 @@
     },
     "style": {
       "text": "Scegli uno stile della mappa per cominciare"
+    },
+    "center": {
+      "text": "Coordinate sulla posizione attuale"
+    },
+    "icon": {
+      "text": "Scegli l'icona dei pin"
     }
   }
 }

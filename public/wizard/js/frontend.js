@@ -266,6 +266,12 @@ $(function() {
         loadmap();
     }
 
+    function setCenter() {
+        var centerCoords = window.map.getCenter();
+        $("#long").val(centerCoords.lng);
+        $("#lat").val(centerCoords.lat);
+    }
+
     $('#mapstyle').dropdown({
         onChange: function (value) {
             var vals = value.split('|||');
@@ -274,7 +280,13 @@ $(function() {
             loadmap();
         }
     });
+    // set current coords
+    $("#center").on("click", function (e) {
+        e.preventDefault();
+        setCenter();
+    });
 
+    // On map change
     $('#minzoom').keyup(loadmap);
     $('#maxzoom').keyup(loadmap);
     $('#zoom').keyup(loadmap);

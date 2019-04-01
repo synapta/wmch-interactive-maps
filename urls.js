@@ -58,7 +58,7 @@ module.exports = function(app, apicache, passport) {
                     }
                   }
                 };
-                console.log(view);
+                // console.log(view);
                 var output = Mustache.render(template, view);
                 res.send(output);
             });

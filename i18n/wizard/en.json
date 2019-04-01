@@ -70,6 +70,12 @@
     },
     "style": {
       "text": "Select a map style to start"
+    },
+    "center": {
+      "text": "Coordinates on current position"
+    },
+    "icon": {
+      "text": "Select pin icon"
     }
   }
 }
