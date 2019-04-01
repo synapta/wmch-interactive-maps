@@ -42,3 +42,7 @@ body {
     width: auto;
     height: 500px;
 }
+.pinicon-wrapper .results .icon {
+    float: right;
+    font-size: larger;
+}

@@ -309,4 +309,23 @@ $(function() {
     $('#long').on("click", loadmapifchanged);
     $('#maxclusterradius').on("click", loadmap);
 
+    // Load search icons
+    $.ajax ({
+        type:'GET',
+        dataType: 'json',
+        url: "/js/icons.json",
+        error: function(e) {
+            console.warn('Error retrieving icons list');
+        },
+        success: function(json) {
+          // console.log(json[0]);
+          $('.ui.search.pinicon-wrapper').removeClass("disabled");
+          $('.ui.search.pinicon-wrapper')
+            .search({
+              source: json,
+              fullTextSearch: true
+          });
+        }
+    });
+
 });

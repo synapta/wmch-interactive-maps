@@ -62,3 +62,27 @@ The reference is the **en.json** file.
 ## Map styles
 
 Map styles is based on sources listed on [Tile servers](https://wiki.openstreetmap.org/wiki/Tile_servers).
+
+## Icon list
+
+Icon list can be selected between [those available on Semantic UI](https://semantic-ui.com/elements/icon.html) and saved on /public/js/icons.json.
+
+However, list of icons can be generated visiting the Icon section of Semantic UI and using this code on browser console:
+
+~~~
+var src = jQuery(".main").find(".icon");
+var myt = [];
+jQuery.each(src, function (icoindex) {
+    myt.push(jQuery(this).attr("class").replace(' icon', ''));
+});
+var uniquet = Array.from(new Set(myt.sort()));
+var myels = [];
+for (u of uniquet) {
+  myels.push({
+    title: u + '<i class="' + u + ' icon"></i>'
+  });
+}
+JSON.stringify(myels, null, ' ');
+~~~
+
+Then expand and copy object to get a JSON array.

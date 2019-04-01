@@ -114,15 +114,13 @@
                       </div>
                  </div>
                  <div class="inline field">
-                     <div class="ui floating dropdown labeled search icon button" id="pinicon">
-                       <i class="map marker alternate large icon"></i>
-                       <span class="text">{{#i18n}}actions.icon.text{{/i18n}}</span>
-                       <div class="menu">
-                         {{#map.icons}}
-                         <div class="item" data-value="{{tile}}|||{{attribution}}">{{name}}</div>
-                         {{/map.icons}}
+                       <div class="ui search pinicon-wrapper disabled">
+                         <div class="ui icon input">
+                           <input class="prompt" type="text" placeholder="{{#i18n}}actions.icon.text{{/i18n}}" id="pinicon" size="30" style="width: 30ex;">
+                           <i class="search icon"></i>
+                         </div>
+                         <div class="results"></div>
                        </div>
-                     </div>
                  </div>
               </div>
               <div class="two fields step-3 step-content hidestep step-content">
@@ -166,7 +164,7 @@
               <div class="two fields step-3 step-content hidestep step-content">
                   <div class="inline field">
                     <label>{{#i18n}}fields.maxClusterRadius.label{{/i18n}}</label>
-                    <input id="maxclusterradius" type="number" min="0" value="{{map.maxclusterradius}}" step="0.01">
+                    <input id="maxclusterradius" type="number" min="0" value="{{map.maxclusterradius}}" step="0.1">
                   </div>
               </div>
               <div class="step-3 step-content hidestep" id="preview"></div>
