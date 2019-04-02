@@ -114,13 +114,15 @@
                       </div>
                  </div>
                  <div class="inline field">
-                       <div class="ui search pinicon-wrapper disabled">
-                         <div class="ui icon input">
-                           <input class="prompt" type="text" placeholder="{{#i18n}}actions.icon.text{{/i18n}}" id="pinicon" size="30" style="width: 30ex;">
-                           <i class="search icon"></i>
-                         </div>
-                         <div class="results"></div>
-                       </div>
+                     <div class="ui search right labeled left icon input pinicon-wrapper disabled">
+                       <i class="search icon"></i>
+                       <input class="prompt" type="text" placeholder="{{#i18n}}actions.icon.text{{/i18n}}" id="pinicon-select" size="30" style="width: 30ex;">
+                       <span class="ui tag label" id="pinicon-preview">
+                         <i class="large icon"></i>
+                       </span>
+                       <input type="hidden" value="" id="pinicon">
+                       <div class="results"></div>
+                     </div>
                  </div>
               </div>
               <div class="two fields step-3 step-content hidestep step-content">

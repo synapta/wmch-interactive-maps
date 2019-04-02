@@ -70,3 +70,25 @@ var markerLabels = [
     "Good",
     "Excellent"
 ];
+
+/**
+function generatePin (L, icon, color) {
+
+  return L.geoJSON (null, {
+        onEachFeature: function (feature, layer) {
+            popupGenerator(feature, layer);
+        },
+        pointToLayer: function (feature, latlng) {
+            var pin = L.AwesomeMarkers.icon({
+                icon: pinIcon,
+                prefix: 'fa',
+                markerColor: feature.properties.pin.color
+            });
+            return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+        },
+        filter: function (feature, layer) {
+            return feature.properties.pin.color === "black";
+        }
+  });
+}
+ **/

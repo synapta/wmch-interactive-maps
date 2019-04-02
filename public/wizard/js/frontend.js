@@ -124,6 +124,7 @@ $(function() {
         var maxZoom = parseInt($('#maxzoom').val());
         var autoZoom = $('#autozoom').is(':checked');
         var maxClusterRadius = parseFloat($('#maxclusterradius').val());
+        var pinIcon = $('#pinicon').val();
         var fieldSeparator = ',';
         // var baseAttribution = $('#attribution').val();
         var baseAttribution = window.attribution;
@@ -151,21 +152,35 @@ $(function() {
           pins: {}
         };
         ////////////////////////////////////////////////////////////////////////////////
+        /**
+
+                var pins = [
+                  {color: "black", icon: pinIcon},
+                  {color: "red", icon: pinIcon},
+                  {color: "orange", icon: pinIcon},
+                  {color: "green", icon: pinIcon}
+                ];
+                $.each(pins, function (index, value) {
+                  generatePin(L, pinIcon);
+                });
+
+         **/
         options.pins.museumBlack = L.geoJSON (null, {
-              onEachFeature: function (feature, layer) {
-                  popupGenerator(feature, layer);
-              },
-              pointToLayer: function (feature, latlng) {
-                  var pin = L.AwesomeMarkers.icon({
-                      icon: 'university',
-                      prefix: 'fa',
-                      markerColor: feature.properties.pin.color
-                  });
-                  return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
-              },
-              filter: function (feature, layer) {
-                  return feature.properties.pin.color === "black";
-              }
+            onEachFeature: function (feature, layer) {
+                popupGenerator(feature, layer);
+            },
+            pointToLayer: function (feature, latlng) {
+                var pin = L.AwesomeMarkers.icon({
+                    icon: pinIcon,
+                    prefix: 'icon',
+                    markerColor: feature.properties.pin.color,
+                    extraClasses: pinIcon
+                });
+                return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+            },
+            filter: function (feature, layer) {
+                return feature.properties.pin.color === "black";
+            }
         });
         options.pins.museumRed = L.geoJSON (null, {
               onEachFeature: function (feature, layer) {
@@ -173,9 +188,10 @@ $(function() {
               },
               pointToLayer: function (feature, latlng) {
                   var pin = L.AwesomeMarkers.icon({
-                      icon: 'university',
-                      prefix: 'fa',
-                      markerColor: feature.properties.pin.color
+                      icon: pinIcon,
+                      prefix: 'icon',
+                      markerColor: feature.properties.pin.color,
+                      extraClasses: pinIcon
                   });
                   return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
               },
@@ -183,39 +199,40 @@ $(function() {
                   return feature.properties.pin.color === "red";
               }
         });
-
         options.pins.museumOrange = L.geoJSON (null, {
-              onEachFeature: function (feature, layer) {
-                  popupGenerator(feature, layer);
-              },
-              pointToLayer: function (feature, latlng) {
-                  var pin = L.AwesomeMarkers.icon({
-                      icon: 'university',
-                      prefix: 'fa',
-                      markerColor: feature.properties.pin.color
-                  });
-                  return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
-              },
-              filter: function (feature, layer) {
-                  return feature.properties.pin.color === "orange";
-              }
-        });
+            onEachFeature: function (feature, layer) {
+                popupGenerator(feature, layer);
+            },
+            pointToLayer: function (feature, latlng) {
+                var pin = L.AwesomeMarkers.icon({
+                    icon: pinIcon,
+                    prefix: 'icon',
+                    markerColor: feature.properties.pin.color,
+                    extraClasses: pinIcon
+                });
+                return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+            },
+            filter: function (feature, layer) {
+                return feature.properties.pin.color === "orange";
+            }
+          });
 
         options.pins.museumGreen = L.geoJSON (null, {
-              onEachFeature: function (feature, layer) {
-                  popupGenerator(feature, layer);
-              },
-              pointToLayer: function (feature, latlng) {
-                  var pin = L.AwesomeMarkers.icon({
-                      icon: 'university',
-                      prefix: 'fa',
-                      markerColor: feature.properties.pin.color
-                  });
-                  return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
-              },
-              filter: function (feature, layer) {
-                  return feature.properties.pin.color === "green";
-              }
+          onEachFeature: function (feature, layer) {
+              popupGenerator(feature, layer);
+          },
+          pointToLayer: function (feature, latlng) {
+              var pin = L.AwesomeMarkers.icon({
+                  icon: pinIcon,
+                  prefix: 'icon',
+                  markerColor: feature.properties.pin.color,
+                  extraClasses: pinIcon
+              });
+              return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+          },
+          filter: function (feature, layer) {
+              return feature.properties.pin.color === "green";
+          }
         });
         ////////////////////////////////////////////////////////////////////////////////
         var labelColumn = "title";
@@ -323,7 +340,14 @@ $(function() {
           $('.ui.search.pinicon-wrapper')
             .search({
               source: json,
-              fullTextSearch: true
+              fullTextSearch: true,
+              onSelect: function(result, response) {
+                var newClass = result.title.split('<').reverse().pop();
+                $("#pinicon-preview > i").attr('class', 'large icon ' + newClass);
+                // set hidden field value
+                $("#pinicon").val(newClass);
+                loadmapifchanged();
+              }
           });
         }
     });
