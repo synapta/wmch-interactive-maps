@@ -86,3 +86,8 @@ JSON.stringify(myels, null, ' ');
 ~~~
 
 Then expand and copy object to get a JSON array.
+
+## External libraries
+
+External libraries are loaded via Wikimedia CDN where availables:
+- https://tools.wmflabs.org/cdnjs/

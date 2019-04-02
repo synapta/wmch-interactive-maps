@@ -281,6 +281,13 @@ $(function() {
                 // Aggiungi i contatori alla mappa
                 // legendaUpdate(newJson);
                 // window.map.setZoom(zoom);
+
+                // not working for maps (external sources)
+                /** html2canvas(document.querySelector("#preview")).then(canvas => {
+                    document.body.appendChild(canvas)
+                }); **/
+
+
             }
         });
     }
