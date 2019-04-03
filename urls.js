@@ -72,10 +72,8 @@ module.exports = function(app, apicache, passport) {
         var enrichedQuery = req.query;
         enrichedQuery.currentStyle = false;
         for (style of config.map.styles) {
-            console.log(enrichedQuery);
-            console.log(style.tile);
-            console.log('~~~~~~');
             if (style.tile === enrichedQuery.tile) {
+                // util.log("Tile exists and its attibution is: %s", enrichedQuery.currentStyle.attribution);
                 enrichedQuery.currentStyle = style;
             }
         }
@@ -135,7 +133,6 @@ module.exports = function(app, apicache, passport) {
     /** Save the map to database **/
     app.get('/wizard/generate', async function (req, res) {
         // TODO: use POST here?
-        console.log(req.query);
         // load database from configuration
         let dbMeta = new db.Database(localconfig.database);
         // create a connection with Sequelize
