@@ -2,6 +2,7 @@
   "dependencies": {
     "apicache": "^1.4.0",
     "express": "^4.16.4",
+    "hasha": "^4.0.1",
     "i18next": "^15.0.7",
     "mariadb": "^2.0.3",
     "minimist": "^1.2.0",

@@ -45,12 +45,12 @@
     "maxclusterradius": 0.1,
     "pinicon": "wikipedia w"
   },
-  "screenshot": {
-    "port": 9057,
+  "screenshotServer": {
     "GOTO_OPTS": { "waitUntil": ["load","domcontentloaded","networkidle0"], "timeout": 0 },
-    "headless": false,
+    "port": 9057,
+    "headless": true,
     "options": {
-        "path": "./screenshots/shit.png"
+        "path": "./screenshots/%s.png"
     }
   }
 }
