@@ -41,6 +41,7 @@
     "author": "Powered by <a href=\"https://wikimedia.ch/\">Wikimedia CH</a> and <a href=\"https://synapta.it/\">Synapta</a>",
     "lat": 46.798562,
     "long": 8.231973,
-    "maxclusterradius": 0.1
+    "maxclusterradius": 0.1,
+    "pinicon": "wikipedia w"
   }
 }

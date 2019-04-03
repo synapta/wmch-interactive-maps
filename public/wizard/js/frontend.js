@@ -103,6 +103,23 @@ $(function() {
         }
     });
 
+    function parseOptions() {
+        // options
+        var parsedOptions = {};
+        parsedOptions.dataUrl = 'data/countries/';
+        parsedOptions.zoom = parseInt($('#zoom').val());
+        parsedOptions.startLat = parseFloat($('#lat').val());
+        parsedOptions.startLng = parseFloat($('#long').val());
+        parsedOptions.minZoom = parseInt($('#minzoom').val());
+        parsedOptions.maxZoom = parseInt($('#maxzoom').val());
+        parsedOptions.autoZoom = $('#autozoom').is(':checked');
+        parsedOptions.maxClusterRadius = parseFloat($('#maxclusterradius').val());
+        parsedOptions.pinIcon = $('#pinicon').val();
+        // var baseAttribution = $('#attribution').val();
+        parsedOptions.query = $('#map-query').val();
+        return parsedOptions;
+    }
+
     function loadmap () {
         // destroy and regenerate
         // if (window.map && mapInstance.remove) {
@@ -116,20 +133,10 @@ $(function() {
         }
         // }
         // options
-        var dataUrl = 'data/countries/';
-        var zoom = parseInt($('#zoom').val());
-        var startLat = parseFloat($('#lat').val());
-        var startLng = parseFloat($('#long').val());
-        var minZoom = parseInt($('#minzoom').val());
-        var maxZoom = parseInt($('#maxzoom').val());
-        var autoZoom = $('#autozoom').is(':checked');
-        var maxClusterRadius = parseFloat($('#maxclusterradius').val());
-        var pinIcon = $('#pinicon').val();
-        var fieldSeparator = ',';
-        // var baseAttribution = $('#attribution').val();
-        var baseAttribution = window.attribution;
-        var subdomains = '1234';
-        var query = $('#map-query').val();
+        var parsedOptions = parseOptions();
+        var mapOptions = {};
+        mapOptions.baseAttribution = window.attribution;
+        mapOptions.subdomains = '1234';
         /**
           @see https://github.com/Leaflet/Leaflet.markercluster#customising-the-clustered-markers
           iconCreateFunction: function(cluster) {
@@ -144,11 +151,12 @@ $(function() {
               // smaller clusters. You can also use a function that accepts the
               // current map zoom and returns the maximum cluster radius
               // in pixels.
-              maxClusterRadius: maxClusterRadius,
+              maxClusterRadius: parsedOptions.maxClusterRadius,
               chunkedLoading: true  //  Boolean to split the addLayers processing in to small intervals so that the page does not freeze.
               // autoPan: false
           },
-          sparql: query,
+          sparql: parsedOptions.query,
+          map: parsedOptions.map,
           pins: {}
         };
         ////////////////////////////////////////////////////////////////////////////////
@@ -171,10 +179,10 @@ $(function() {
             },
             pointToLayer: function (feature, latlng) {
                 var pin = L.AwesomeMarkers.icon({
-                    icon: pinIcon,
+                    icon: parsedOptions.pinIcon,
                     prefix: 'icon',
                     markerColor: feature.properties.pin.color,
-                    extraClasses: pinIcon
+                    extraClasses: parsedOptions.pinIcon
                 });
                 return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
             },
@@ -188,10 +196,10 @@ $(function() {
               },
               pointToLayer: function (feature, latlng) {
                   var pin = L.AwesomeMarkers.icon({
-                      icon: pinIcon,
+                      icon: parsedOptions.pinIcon,
                       prefix: 'icon',
                       markerColor: feature.properties.pin.color,
-                      extraClasses: pinIcon
+                      extraClasses: parsedOptions.pinIcon
                   });
                   return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
               },
@@ -205,10 +213,10 @@ $(function() {
             },
             pointToLayer: function (feature, latlng) {
                 var pin = L.AwesomeMarkers.icon({
-                    icon: pinIcon,
+                    icon: parsedOptions.pinIcon,
                     prefix: 'icon',
                     markerColor: feature.properties.pin.color,
-                    extraClasses: pinIcon
+                    extraClasses: parsedOptions.pinIcon
                 });
                 return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
             },
@@ -223,10 +231,10 @@ $(function() {
           },
           pointToLayer: function (feature, latlng) {
               var pin = L.AwesomeMarkers.icon({
-                  icon: pinIcon,
+                  icon: parsedOptions.pinIcon,
                   prefix: 'icon',
                   markerColor: feature.properties.pin.color,
-                  extraClasses: pinIcon
+                  extraClasses: parsedOptions.pinIcon
               });
               return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
           },
@@ -248,22 +256,22 @@ $(function() {
             autoPan: true
         };
         var basemap = new L.TileLayer(window.tile, {
-            maxZoom: maxZoom,
-            minZoom: minZoom,
-            attribution: baseAttribution,
-            subdomains: subdomains,
+            maxZoom: parsedOptions.maxZoom,
+            minZoom: parsedOptions.minZoom,
+            attribution: mapOptions.baseAttribution,
+            subdomains: mapOptions.subdomains,
             opacity: opacity
         });
         // carica la mappa nel div #preview
         window.map = new L.Map('preview', {
-            center: new L.LatLng(startLat, startLng),
-            zoom: zoom,
-            maxZoom: maxZoom,
-            minZoom: minZoom,
+            center: new L.LatLng(parsedOptions.startLat, parsedOptions.startLng),
+            zoom: parsedOptions.zoom,
+            maxZoom: parsedOptions.maxZoom,
+            minZoom: parsedOptions.minZoom,
             layers: [basemap]
         });
         // load data
-        loadData(options, autoZoom);
+        loadData(options, parsedOptions.autoZoom);
     }
 
     function loadData(options, autozoom) {
@@ -286,10 +294,16 @@ $(function() {
                 /** html2canvas(document.querySelector("#preview")).then(canvas => {
                     document.body.appendChild(canvas)
                 }); **/
-
-
+                // save compiled url (for preview)
+                console.log(generateUrl());
+                console.log(generateUrl(true));
             }
         });
+    }
+
+    function generateUrl (fullurl=false) {
+        var queryStringPath = '/?apiv=' + 1 + '&' + $.param(parseOptions());
+        return fullurl ? window.location.protocol + '//' + window.location.host + queryStringPath : queryStringPath;
     }
 
     function loadmapifchanged () {
