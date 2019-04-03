@@ -69,7 +69,23 @@ module.exports = function(app, apicache, passport) {
 
     // convert exposed parameters to JSON to be served in /m route
     app.get('/a', async function (req, res) {
-        res.send(JSON.stringify(req.query, null, ''));
+        var enrichedQuery = req.query;
+        enrichedQuery.currentStyle = false;
+        for (style of config.map.styles) {
+            console.log(enrichedQuery);
+            console.log(style.tile);
+            console.log('~~~~~~');
+            if (style.tile === enrichedQuery.tile) {
+                enrichedQuery.currentStyle = style;
+            }
+        }
+        if (enrichedQuery.currentStyle) {
+            res.send(JSON.stringify(enrichedQuery, null, ''));
+        }
+        else {
+            // tile doesn't exists in accepted styles, error
+            res.status(400).send('Bad request');
+        }
     });
 
     // full url map route, with exposed parameters

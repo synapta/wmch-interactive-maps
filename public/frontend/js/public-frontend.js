@@ -236,6 +236,7 @@ $(function() {
         success: function(mapOpts) {
             console.log('Loading map');
             console.log(mapOpts);
+            window.attribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
             // Load map
             loadmap(mapOpts);
         }
