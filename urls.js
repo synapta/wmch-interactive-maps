@@ -12,10 +12,13 @@ const dbinit       = require('./db/init');
 const models       = require('./db/models');
 // Global settings
 const config = require('./config');
+const url = require('url');
 // load local config and check if is ok (testing db)
 const localconfig = dbinit.init();
 // connect to db
 const db = require(util.format('./db/connector/%s', localconfig.database.engine));
+// const puppeteer = require("puppeteer");
+// launch browser on node launch
 
 // var request = require('request');
 module.exports = function(app, apicache, passport) {
@@ -67,25 +70,6 @@ module.exports = function(app, apicache, passport) {
         });
     });
 
-    // convert exposed parameters to JSON to be served in /m route
-    app.get('/a', async function (req, res) {
-        var enrichedQuery = req.query;
-        enrichedQuery.currentStyle = false;
-        for (style of config.map.styles) {
-            if (style.tile === enrichedQuery.tile) {
-                // util.log("Tile exists and its attibution is: %s", enrichedQuery.currentStyle.attribution);
-                enrichedQuery.currentStyle = style;
-            }
-        }
-        if (enrichedQuery.currentStyle) {
-            res.send(JSON.stringify(enrichedQuery, null, ''));
-        }
-        else {
-            // tile doesn't exists in accepted styles, error
-            res.status(400).send('Bad request');
-        }
-    });
-
     // full url map route, with exposed parameters
     app.get('/m', async function (req, res) {
         // [ 'it', 'it-IT', 'en-US', 'en' ]
@@ -128,6 +112,34 @@ module.exports = function(app, apicache, passport) {
                 res.send(output);
             });
         });
+    });
+
+    // convert exposed parameters to JSON to be served in /m route
+    app.get('/a', async function (req, res) {
+        var enrichedQuery = req.query;
+        enrichedQuery.currentStyle = false;
+        for (style of config.map.styles) {
+            if (style.tile === enrichedQuery.tile) {
+                // util.log("Tile exists and its attibution is: %s", enrichedQuery.currentStyle.attribution);
+                enrichedQuery.currentStyle = style;
+            }
+        }
+        if (enrichedQuery.currentStyle) {
+            res.send(JSON.stringify(enrichedQuery, null, ''));
+        }
+        else {
+            // tile doesn't exists in accepted styles, error
+            res.status(400).send('Bad request');
+        }
+    });
+
+    // get preview
+    app.get('/p', async function (req, res) {
+        let fullPath = url.parse(req.url).query;
+        let mapUrl = [req.protocol, req.get('host')].join("://") + '/m?' + fullPath;
+        // + '.png'
+        // spupazza(fullPath);
+        res.send(getScreenshot(mapUrl));
     });
 
     /** Save the map to database **/

@@ -44,5 +44,13 @@
     "long": 8.231973,
     "maxclusterradius": 0.1,
     "pinicon": "wikipedia w"
+  },
+  "screenshot": {
+    "port": 9057,
+    "GOTO_OPTS": { "waitUntil": ["load","domcontentloaded","networkidle0"], "timeout": 0 },
+    "headless": false,
+    "options": {
+        "path": "./screenshots/shit.png"
+    }
   }
 }
