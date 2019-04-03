@@ -14,12 +14,13 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat" />
     <link rel="stylesheet" href="/css/all.css" />
-    <link rel="stylesheet" href="/css/wizard.css" />
+    <link rel="stylesheet" href="/css/frontend.css" />
 
     <style type="text/css">
     </style>
 </head>
 <body>
+    <div id="wmap"></div>
     <div class="ui padded grid">
         <header class="sixteen wide column ui items">
           <div class="ui floating dropdown labeled search icon left floated button" id="languages">
@@ -35,10 +36,10 @@
         <nav class="three wide column">
         </nav>
         <section id="container" class="thirteen wide column">
-            <div id="preview"></div>
+            <div id="wmap"></div>
         </section>
         <footer class="sixteen wide column ui items">
-          <div id="author">{{{map.author}}}</div>
+          <div id="author" style="display: none;">{{{map.author}}}</div>
         </footer>
     </div>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

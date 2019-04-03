@@ -114,8 +114,9 @@ $(function() {
         parsedOptions.autoZoom = $('#autozoom').is(':checked');
         parsedOptions.maxClusterRadius = parseFloat($('#maxclusterradius').val());
         parsedOptions.pinIcon = $('#pinicon').val();
-        // var baseAttribution = $('#attribution').val();
         parsedOptions.query = $('#map-query').val();
+        // derived
+        parsedOptions.tile = window.tile;
         return parsedOptions;
     }
 
@@ -125,10 +126,6 @@ $(function() {
         if (window.map) {
             window.map.off();
             window.map.remove();
-        }
-        if (!window.tile) {
-            // abort, no style selected
-            return;
         }
         // }
         // options
@@ -254,7 +251,7 @@ $(function() {
             // maxWidth : 540,
             autoPan: true
         };
-        var basemap = new L.TileLayer(window.tile, {
+        var basemap = new L.TileLayer(parsedOptions.tile, {
             maxZoom: parsedOptions.maxZoom,
             minZoom: parsedOptions.minZoom,
             attribution: mapOptions.baseAttribution,
