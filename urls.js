@@ -19,8 +19,10 @@ const db = require(util.format('./db/connector/%s', localconfig.database.engine)
 
 // var request = require('request');
 module.exports = function(app, apicache, passport) {
-    // javascript for frontend
+    // javascript for wizard frontend
     app.use('/wizard/js',express.static('./public/wizard/js'));
+    // javascript for frontend
+    app.use('/frontend/js',express.static('./public/frontend/js'));
 
     // translated interface for the map wizard
     app.get('/wizard', async function (req, res) {
@@ -51,6 +53,55 @@ module.exports = function(app, apicache, passport) {
                   map: config.map,
                   sparql: config.sparql,
                   languages: config.languages,
+                  i18n: function () {
+                    return function (text, render) {
+                        i18next.changeLanguage(shortlang);
+                        return i18next.t(text);
+                    }
+                  }
+                };
+                // console.log(view);
+                var output = Mustache.render(template, view);
+                res.send(output);
+            });
+        });
+    });
+
+    // convert exposed parameters to JSON to be served in /m route
+    app.get('/a', async function (req, res) {
+        res.send(JSON.stringify(req.query, null, ''));
+    });
+
+    // full url map route, with exposed parameters
+    app.get('/m', async function (req, res) {
+        // [ 'it', 'it-IT', 'en-US', 'en' ]
+        // console.log(req.acceptsLanguages()[0]);
+        fs.readFile(util.format('%s/public/frontend/map.html', __dirname), function (err, fileData) {
+            if (err) {
+              throw err;
+            }
+            // get template content, server-side
+            let template = fileData.toString();
+            let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage);
+            let i18nOptions = {
+              lng: shortlang,
+              debug: true,
+              resources: {}
+            };
+            i18nOptions.resources[shortlang] = {translation: translationData};
+            // console.log(i18nOptions);
+            // load i18n
+            i18next.init(i18nOptions, function(err, t) {
+                // i18n initialized and ready to go!
+                // document.getElementById('output').innerHTML = i18next.t('key');
+                // variables to pass to Mustache to populate template
+                var view = {
+                  shortlang: shortlang,
+                  langname: i18n_utils.getLangName(config.languages, shortlang),
+                  map: config.map,
+                  sparql: config.sparql,
+                  languages: config.languages,
+                  // queryJsonStr: JSON.stringify(req.query, null, '  '),
                   i18n: function () {
                     return function (text, render) {
                         i18next.changeLanguage(shortlang);

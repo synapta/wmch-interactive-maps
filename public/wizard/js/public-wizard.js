@@ -1,4 +1,4 @@
-// Shorthand for $( document ).ready()
+// Client rendering and functions for Map Wizard
 $(function() {
     var confMobileThresold = 641;
 
@@ -106,7 +106,6 @@ $(function() {
     function parseOptions() {
         // options
         var parsedOptions = {};
-        parsedOptions.dataUrl = 'data/countries/';
         parsedOptions.zoom = parseInt($('#zoom').val());
         parsedOptions.startLat = parseFloat($('#lat').val());
         parsedOptions.startLng = parseFloat($('#long').val());
@@ -302,7 +301,7 @@ $(function() {
     }
 
     function generateUrl (fullurl=false) {
-        var queryStringPath = '/?apiv=' + 1 + '&' + $.param(parseOptions());
+        var queryStringPath = '/m/?apiv=' + 1 + '&' + $.param(parseOptions());
         return fullurl ? window.location.protocol + '//' + window.location.host + queryStringPath : queryStringPath;
     }
 
