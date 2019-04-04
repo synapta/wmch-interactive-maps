@@ -290,9 +290,10 @@ $(function() {
                 /** html2canvas(document.querySelector("#preview")).then(canvas => {
                     document.body.appendChild(canvas)
                 }); **/
-                // save compiled url (for preview)
-                console.log(generateUrl());
-                console.log(generateUrl(true));
+                // save compiled path with all fields (for preview)
+                $("#url").val(generateUrl(true));
+                // save path to submit
+                $("input[name='mapargs']").val(generateUrl(false));
             }
         });
     }

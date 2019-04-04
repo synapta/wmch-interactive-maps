@@ -163,7 +163,7 @@ module.exports = function(app, apicache, passport) {
                 await Map.create({
                   title: req.query.title,
                   path: req.query.path,
-                  sparql: req.query['map-query']
+                  mapargs: req.query.mapargs
                 });
                 res.send("Created!");
             }

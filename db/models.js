@@ -1,9 +1,11 @@
 const Sequelize = require('sequelize');
 
 const Map = {
-  path: { type: Sequelize.STRING, allowNull: false, primaryKey: true },
+  id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+  path: { type: Sequelize.STRING, allowNull: false },
   title: Sequelize.STRING,
-  sparql: Sequelize.TEXT
+  screenshot: Sequelize.STRING,
+  mapargs: Sequelize.TEXT
 };
 
 exports.Map = Map;

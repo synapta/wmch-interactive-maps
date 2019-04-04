@@ -7,6 +7,34 @@ A base configuration file is available on `config.js`.
 
 Local settings like database name and authentication data are available in the git ignored `localconfig.json` in the following formats.
 
+### MariaDB
+
+Create database and grant privileges like this:
+
+~~~
+CREATE DATABASE interactivemaps;
+GRANT ALL PRIVILEGES ON interactivemaps.* TO mapuser@localhost IDENTIFIED BY "PASSWORD_HERE";
+~~~
+
+Add to localconfig.json:
+~~~
+{
+  "database": {
+    "engine": "mariadb",
+    "name": "interactivemap",
+    "username": "mapuser",
+    "password": "****************",
+    "port": 3306,
+    "dialectOptions": {"connectTimeout": 1000}
+  }
+}
+
+~~~
+
+Port and dialectOptions can be omitted, getting the default values above.
+
+[Reference for MariaDB](http://docs.sequelizejs.com/manual/usage.html#mariadb)
+
 ### SQLite
 ~~~
 {
