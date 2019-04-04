@@ -17,7 +17,7 @@ Local settings like database name and authentication data are available in the g
 }
 ~~~
 
-## Run
+## Run the app
 
 `node app.js`
 
@@ -28,11 +28,11 @@ Local settings like database name and authentication data are available in the g
 15 Mar 10:46:31 - WMCH Interactive maps listening at http://:::9089
 
 
-## Urls
+### Urls
 - Backend: http://localhost:8080/wizard/
 - Frontend: http://localhost:8080/
 
-## Language negotiation
+### Language negotiation
 
 The website will auto-detect the user language based on browser settings.
 
@@ -41,7 +41,7 @@ To force a particular language in the format using the url use the `l` parameter
 - http://localhost:8080/wizard/?l=it
 - http://localhost:8080/wizard/?l=it-CH
 
-## Translations
+### Translations
 
 All translations are key-based and hosted in JSON file named after the [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) code under the i18n folder.
 
@@ -59,11 +59,11 @@ i18n
 
 The reference is the **en.json** file.
 
-## Map styles
+### Map styles
 
 Map styles is based on sources listed on [Tile servers](https://wiki.openstreetmap.org/wiki/Tile_servers).
 
-## Icon list
+### Icon list
 
 Icon list can be selected between [those available on Semantic UI](https://semantic-ui.com/elements/icon.html) and saved on /public/js/icons.json.
 
@@ -87,7 +87,19 @@ JSON.stringify(myels, null, ' ');
 
 Then expand and copy object to get a JSON array.
 
-## External libraries
+### External libraries
 
 External libraries are loaded via Wikimedia CDN where availables:
 - https://tools.wmflabs.org/cdnjs/
+
+## Run the screenshot server
+
+The screenshot server is used to take a screenshot of the map just before a map is saved to the database.
+
+`node screenshot.js --port 9057`
+
+## Auto-update and keep running
+
+To auto-update and keep running the node servers in development environment, you can use:
+
+`nodemon MYSERVERSCRIPT.js --port MYPORT`
