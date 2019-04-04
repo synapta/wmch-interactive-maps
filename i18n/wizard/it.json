@@ -17,7 +17,8 @@
     },
     "url": {
       "title": "URL",
-      "description": "Genera l'url e lo snippet per la mappa"
+      "description": "Genera l'url e lo snippet per la mappa",
+      "help": "Puoi rivedere quanto inserito oppure con Pubblica essere rimandato alla tua nuova mappa."
     }
   },
   "fields": {

@@ -135,13 +135,12 @@ module.exports = function(app, apicache, passport) {
     });
 
     // get preview
-    app.get('/p', async function (req, res) {
+    /** app.get('/p', async function (req, res) {
         let fullPath = url.parse(req.url).query;
         let mapUrl = [req.protocol, req.get('host')].join("://") + '/m?' + fullPath;
-        // + '.png'
-        // spupazza(fullPath);
         res.send(getScreenshot(mapUrl));
-    });
+    }); **/
+    app.use('/p/',express.static('./screenshots'));
 
     /** Save the map to database **/
     app.get('/wizard/generate', async function (req, res) {
@@ -172,10 +171,6 @@ module.exports = function(app, apicache, passport) {
                      },
                      json: {mapargs: req.query.mapargs}
                 }, async function (error, response, jsonBody) {
-                    // console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"£!!!!!!!!!!!!!!!!!!"');
-                    // console.log(body);
-                    // let jsonBody = JSON.parse(body);
-                    // console.log(jsonBody);
                     await Map.create({
                       title: req.query.title,
                       path: req.query.path,
@@ -183,12 +178,13 @@ module.exports = function(app, apicache, passport) {
                       screenshot: jsonBody.path
                     });
                     // res.send(JSON.stringify(jsonObj, null, ''));
-                    res.send("Created!");
+                    // res.send("Created!");
+                    res.redirect(util.format("/%s", req.query.path));
                 });
             }
             catch (e) {
                 console.log(e);
-                res.send("Cannot create!");
+                res.send('<h2>Cannot create!</h2><a href="#" onclick="window.history.go(-1); return false;">Go back</a>');
             }
         }
     });
@@ -259,5 +255,5 @@ module.exports = function(app, apicache, passport) {
     app.use('/css/',express.static('./public/css'));
 
     // this must be the last route
-    app.use('/',express.static('./public/frontend'));
+    // app.get('*', );
 }
