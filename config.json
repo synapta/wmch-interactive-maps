@@ -8,7 +8,6 @@
   ],
   "sparql": "SELECT ?museo ?museoLabel ?coord ?commons ?sito ?immagine ?lang\n            WHERE {\n                ?museo wdt:P31/wdt:P279* wd:Q33506 .\n                ?museo wdt:P17 wd:Q39 .\n                ?museo wdt:P625 ?coord\n                OPTIONAL { ?museo wdt:P373 ?commons }\n                OPTIONAL { ?museo wdt:P856 ?sito }\n                OPTIONAL { ?museo wdt:P18 ?immagine }\n                OPTIONAL {?lang schema:about ?museo .}\n                SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,de,fr,it\". }\n            }\n            ORDER BY ?museo",
   "map": {
-    "baseurl": "https://interactivemap.wikimedia.swiss/",
     "styles": [
       {
         "name": "Wikimedia Maps",
@@ -48,6 +47,7 @@
   "screenshotServer": {
     "GOTO_OPTS": { "waitUntil": ["load","domcontentloaded","networkidle0"], "timeout": 0 },
     "port": 9057,
+    "url": "http://localhost:9057",
     "headless": true,
     "options": {
         "path": "./screenshots/%s.png"

@@ -7,6 +7,16 @@ A base configuration file is available on `config.js`.
 
 Local settings like database name and authentication data are available in the git ignored `localconfig.json` in the following formats.
 
+TL;DR: Copy localconfig.example.json to localconfig.json
+
+### url
+
+On localconfig.json, set the url to the production url. It will be used to:
+- Get preview
+- Expose the path to the user
+
+It will be something like https://interactivemap.wikimedia.swiss/.
+
 ### MariaDB
 
 Create database and grant privileges like this:
@@ -124,7 +134,9 @@ External libraries are loaded via Wikimedia CDN where availables:
 
 The screenshot server is used to take a screenshot of the map just before a map is saved to the database.
 
-`node screenshot.js --port 9057`
+Port and url are specified on config.json.
+
+`node screenshot.js`
 
 ## Auto-update and keep running
 

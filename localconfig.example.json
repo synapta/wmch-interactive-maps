@@ -1,0 +1,11 @@
+{
+  "database": {
+    "engine": "mariadb",
+    "name": "interactivemaps",
+    "username": "mapuser",
+    "password": "***PASSWORD***",
+    "port": 3306,
+    "dialectOptions": {"connectTimeout": 1000}
+  },
+  "url": "http://localhost:9089"
+}

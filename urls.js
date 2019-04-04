@@ -54,6 +54,7 @@ module.exports = function(app, apicache, passport) {
                   shortlang: shortlang,
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   map: config.map,
+                  baseurl: localconfig.url + "/",
                   sparql: config.sparql,
                   languages: config.languages,
                   i18n: function () {
@@ -160,12 +161,30 @@ module.exports = function(app, apicache, passport) {
             await Map.sync();
             // add a new record
             try {
-                await Map.create({
-                  title: req.query.title,
-                  path: req.query.path,
-                  mapargs: req.query.mapargs
+                // let url = util.format("%s/%s", config.screenshotServer.url, req.query.mapargs);
+                util.log(url);
+                // make a request to screenshot server. Get the
+                request({
+                     url: config.screenshotServer.url,
+                     method: "PUT",
+                     headers: {
+                       'Accept': 'application/json'
+                     },
+                     json: {mapargs: req.query.mapargs}
+                }, async function (error, response, jsonBody) {
+                    // console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"£!!!!!!!!!!!!!!!!!!"');
+                    // console.log(body);
+                    // let jsonBody = JSON.parse(body);
+                    // console.log(jsonBody);
+                    await Map.create({
+                      title: req.query.title,
+                      path: req.query.path,
+                      mapargs: req.query.mapargs,
+                      screenshot: jsonBody.path
+                    });
+                    // res.send(JSON.stringify(jsonObj, null, ''));
+                    res.send("Created!");
                 });
-                res.send("Created!");
             }
             catch (e) {
                 console.log(e);
