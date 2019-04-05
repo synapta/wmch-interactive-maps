@@ -17,13 +17,29 @@ On localconfig.json, set the url to the production url. It will be used to:
 
 It will be something like https://interactivemap.wikimedia.swiss/.
 
-### MariaDB
+### Database
+
+Data can be saved by two different connectors, SQLite and MariaDB.
+
+For multi-user installation, MariaDB is suggsted. SQLite is used primary for development.
+
+#### SQLite
+~~~
+{
+  "database": {
+    "engine": "sqlite",
+    "name": "local/testing.db"
+  }
+}
+~~~
+
+#### MariaDB
 
 Create database and grant privileges like this:
 
 ~~~
 CREATE DATABASE interactivemaps;
-GRANT ALL PRIVILEGES ON interactivemaps.* TO mapuser@localhost IDENTIFIED BY "PASSWORD_HERE";
+GRANT ALL PRIVILEGES ON interactivemaps.* TO mapuser@localhost IDENTIFIED BY "***PASSWORD_HERE***";
 ~~~
 
 Add to localconfig.json:
@@ -33,7 +49,7 @@ Add to localconfig.json:
     "engine": "mariadb",
     "name": "interactivemap",
     "username": "mapuser",
-    "password": "****************",
+    "password": "***PASSWORD_HERE***",
     "port": 3306,
     "dialectOptions": {"connectTimeout": 1000}
   }
@@ -44,16 +60,6 @@ Add to localconfig.json:
 Port and dialectOptions can be omitted, getting the default values above.
 
 [Reference for MariaDB](http://docs.sequelizejs.com/manual/usage.html#mariadb)
-
-### SQLite
-~~~
-{
-  "database": {
-    "engine": "sqlite",
-    "name": "local/testing.db"
-  }
-}
-~~~
 
 ## Run the app
 
