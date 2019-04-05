@@ -228,7 +228,7 @@ module.exports = function(app, apicache, passport) {
                       mapargs: req.query.mapargs,
                       screenshot: jsonBody.path
                     });
-                    res.redirect(util.format("/%s", req.query.path));
+                    res.redirect(util.format("/v/%s", req.query.path));
                 });
             }
             catch (e) {
@@ -237,6 +237,10 @@ module.exports = function(app, apicache, passport) {
             }
         }
     });
+
+    /** app.get('/api/all', function (req, res) {
+        res.send(jsonRes);
+    }); **/
 
     app.get('/api/data', apicache('5 minutes'), function (req, res) {
         // encodeURIComponent(query) non necessario
@@ -359,14 +363,13 @@ module.exports = function(app, apicache, passport) {
         }
     });
 
-    // CATCHALL: this must be the last route
-    // TODO: add prefix
-    app.get('*', function (req, res) {
+    app.get('/v/:path', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
-        let path = req.url.substring(1);
+        // let path = req.url.substring(1);
+
         Map.findOne({
-          where: {path: path}
+          where: {path: req.params.path}
         }).then(record => {
           if (record) {
               // map.get('title') will contain the name of the map

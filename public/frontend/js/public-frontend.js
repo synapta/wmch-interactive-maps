@@ -246,6 +246,7 @@ $(function() {
             subdomains: mapOptions.subdomains,
             opacity: opacity
         });
+        // console.log(parsedOptions.zoom);
         // carica la mappa nel div #wmap
         window.map = new L.Map('wmap', {
             center: new L.LatLng(parsedOptions.startLat, parsedOptions.startLng),
@@ -286,11 +287,12 @@ $(function() {
         mobileDesktopLegenda();
 
         // load data
+        // console.log('Autozoom', parsedOptions.autoZoom);
         loadData(options, parsedOptions.autoZoom);
     }
 
     // default (aliased url)
-    var varurl = [window.location.protocol, '//', window.location.host, '/s', window.location.pathname].join('');
+    var varurl = [window.location.protocol, '//', window.location.host, '/s', window.location.pathname.substring(2)].join('');
 
     // fallback: full string url
     if (window.location.search.length > 10 && window.location.search.indexOf('apiv=') !== -1) {
