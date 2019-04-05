@@ -4,4 +4,40 @@
 }
 #wmap .legenda-label {
   color: white;
+  padding: 0.4rem 0.3rem;
+  line-height: 2em;
+}
+/* Media queries */
+@media (max-width: 640px) {
+    #wmap .leaflet-bottom.leaflet-left .leaflet-bar {
+        margin-bottom: 43px;
+    }
+}
+@media (min-width: 641px) and (max-width: 130ex) {
+    #wmap .leaflet-bottom.leaflet-left .leaflet-bar {
+        margin-bottom: 26px;
+    }
+}
+@media (max-width: 640px) {
+    #wmap .leaflet-popup-content {
+        max-width: 300px;
+        overflow-x: scroll;
+    }
+    #wmap .popup-title {
+        font-size: 2.2rem;
+    }
+    #wmap .popup-content dt {
+        font-size: 1.3rem;
+    }
+    #wmap .popup-content dl {
+        margin-bottom: 0;
+    }
+}
+@media (min-width: 641px) {
+    #wmap .popup-title {
+        font-size: 36px;
+    }
+    #wmap .leaflet-popup-content dt {
+        font-size: 17px;
+    }
 }

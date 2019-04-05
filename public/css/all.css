@@ -1,0 +1,142 @@
+.marker-cluster {
+    filter: grayscale(1);
+}
+.awesome-marker,
+.marker-cluster {
+    cursor: pointer;
+}
+#wmap,
+#preview {
+    font-family: 'Montserrat', sans-serif;  
+}
+#wmap .popup-content,
+#preview .popup-content {
+    height: auto;
+    margin-right: 0;
+    margin-left: 0;
+}
+.wplang {
+    text-transform: uppercase;
+}
+.stroked,
+.leaflet-popup-close-button,
+#wmap .modal-content .close,
+#preview .modal-content .close {
+    text-shadow:
+    -1px -1px 0 #999,
+    1px -1px 0 #999,
+    -1px 1px 0 #999,
+    1px 1px 0 #999;
+}
+/** Popup on marker **/
+#wmap .leaflet-popup-content,
+#wmap .modal-content,
+#preview .leaflet-popup-content,
+#preview .modal-content {
+    margin: 0;
+    font-size: 100%;
+}
+
+#wmap .leaflet-popup-content .popup-title,
+#wmap .leaflet-modal .popup-title,
+#preview .leaflet-popup-content .popup-title,
+#preview .leaflet-modal .popup-title {
+    font-weight: 700;
+    color: #484848;
+}
+#wmap .leaflet-popup-content dt,
+#wmap .leaflet-modal .modal-content dt,
+#preview .leaflet-popup-content dt,
+#preview .leaflet-modal .modal-content dt {
+    color: #484848;
+    font-weight: 700;
+    line-height: 1.5em;
+    margin-top: 0.8em;
+}
+#wmap .leaflet-popup-content dd,
+#wmap .leaflet-modal .modal-content dd,
+#preview .leaflet-popup-content dd,
+#preview .leaflet-modal .modal-content dd {
+    font-size: 13px;
+}
+.leaflet-container {
+}
+#wmap .leaflet-popup-content-wrapper,
+#preview .leaflet-popup-content-wrapper {
+    border-radius: 0;
+}
+.leaflet-popup-content-wrapper dl,
+.leaflet-modal .modal-content dl,
+.leaflet-popup-content-wrapper dl,
+.leaflet-modal .modal-content dl {
+    margin-bottom: 4px;
+}
+#wmap a.leaflet-popup-close-button,
+#wmap a.leaflet-popup-close-button:link,
+#wmap a.leaflet-popup-close-button:visited,
+#wmap a.leaflet-popup-close-button:hover,
+#wmap a.leaflet-popup-close-button:focus,
+#wmap a.leaflet-popup-close-button:active,
+#preview a.leaflet-popup-close-button,
+#preview a.leaflet-popup-close-button:link,
+#preview a.leaflet-popup-close-button:visited,
+#preview a.leaflet-popup-close-button:hover,
+#preview a.leaflet-popup-close-button:focus,
+#preview a.leaflet-popup-close-button:active {
+    font-size: 36px;
+    color: white;
+    padding-right: 30px;
+    top: 8px;
+    right: 6px;
+}
+.popup-content ul {
+    list-style-type: none;
+    padding: 0;
+}
+.popup-cover-image {
+    background-color: #416574;
+    background-repat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+#wmap .popup-cover-image,
+#preview .popup-cover-image {
+    padding-right: 0;
+    padding-left: 0;
+}
+.withimage {
+    height: 14rem;
+}
+.noimage {
+    height: 6rem;
+}
+#wmap .nopadding,
+#preview .nopadding {
+    padding: 0;
+}
+#wmap .legenda-label {
+    padding: 0.4rem 0.3rem;
+    color: white;
+}
+/* Modal per mobile */
+#wmap .leaflet-modal .modal-content {
+    padding: 0;
+    border-radius: 0;
+}
+#wmap .modal-inner {
+    font-size: 1.3rem;
+}
+#wmap .modal-content {
+    position: relative;
+}
+#wmap .modal-content .close {
+    position: absolute;
+    right: 0;
+    z-index: 10001;
+    font-size: 36px;
+    color: white;
+    opacity: 1;
+}

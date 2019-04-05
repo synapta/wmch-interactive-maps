@@ -11,6 +11,7 @@ const i18n_utils = require('./i18n/utils');
 const dbinit       = require('./db/init');
 const models       = require('./db/models');
 const querystring = require('querystring');
+const sharp = require('sharp');
 // Global settings
 const config = require('./config');
 const url = require('url');
@@ -288,7 +289,59 @@ module.exports = function(app, apicache, passport) {
         res.send("Ciao ciao!");
     });
 
-    // this must be the last route
+    // Proxy per convertire l'url (redirect) fornito da Wikimedia in
+    // una immagine scalata. Cache: 5 minuti.
+    // apicache, espresso in millisecondi max un int 32 bit
+    // max: 2147483647 = 0.81 months
+    app.get(/thumb\/(.+)$/, apicache(2147483647), function(req, res) {
+      try {
+            var popupMaxWidth = 480;
+            // test url: http://commons.wikimedia.org/wiki/Special:FilePath/Kantonales%20naturhistorisches%20Museum%20%28Geb%C3%A4ude%29%202013-09-17%2017-08-17.jpg
+            // test name = Kantonales%20naturhistorisches%20Museum%20%28Geb%C3%A4ude%29%202013-09-17%2017-08-17.jpg
+            // generated path: /thumb/Kantonales%20naturhistorisches%20Museum%20(Geb%C3%A4ude)%202013-09-17%2017-08-17.jpg
+            var commonsRedirectPrefix = 'http://commons.wikimedia.org/wiki/Special:FilePath/';
+            var commonsRedirectUrl = commonsRedirectPrefix + req.params[0];
+            let options = {
+                url: commonsRedirectUrl,
+                method: 'HEAD'
+            };
+            // Seguo il redirect con una richiesta
+            request(options, function (error, response, body) {
+                if (error) {
+                    console.log('/get/thumb/: redirect error');
+                    console.log('error:', error); // Print the error if one occurred
+                    res.status(500).send('/get/thumb/: redirect error');
+                }
+                else {
+                    // Ottengo URL immagine originale
+                    var imageurl = response.request.href;
+                    // Rotazione e riscalamento
+                    console.log(response.request.href);
+                    const transformer = sharp()
+                        .rotate()  // auto-rotate on EXIF
+                        .resize(popupMaxWidth, popupMaxWidth)
+                        // .crop(sharp.strategy.entropy)
+                        .on('error', function(err) {
+                            console.log(err);
+                    });
+                    try {
+                        // @see http://sharp.pixelplumbing.com/en/stable/api-resize/#crop
+                        // Scrivi nello stream l'immagine riscalata
+                        req.pipe(request(imageurl)).pipe(transformer).pipe(res);
+                    }
+                    catch (e) {
+                        res.status(500).send('/get/thumb/: pipe error');
+                    }
+                }
+            });
+        }
+        catch (e) {
+            console.log("Image thumb error");
+            console.log(e);
+        }
+    });
+
+    // CATCHALL: this must be the last route
     app.get('*', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);

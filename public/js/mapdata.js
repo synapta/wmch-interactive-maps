@@ -82,7 +82,7 @@ var enrichFeatures = function (features) {
 var popupGenerator = function(feature, layer) {
     // conta il numero di link del museo corrente
     var counters = feature.properties.counters;
-    var popup = '<div class="popup-content container-fluid">';
+    var popup = '<div class="popup-content ui grid">';
     // I progetti Wikimedia dispongono dell'immagine principale?
     var hasImage = typeof feature.properties.image !== 'undefined';
     if (hasImage) {
@@ -92,15 +92,15 @@ var popupGenerator = function(feature, layer) {
         // Qui eventualmente aggiungere cache lato client
     }
     var withwithout = hasImage ? 'withimage' : 'noimage';
-    popup += '<div class="row"><div class="popup-cover-image {{withwithout}} col-md-12 col-sm-12 col-xs-12" style="{{bgimage}}"></div></div>'
+    popup += '<div class="row"><div class="popup-cover-image {{withwithout}} sixteen wide column" style="{{bgimage}}"></div></div>'
     .replace(/{{withwithout}}/g, withwithout)
     .replace(/{{bgimage}}/g, bgimage);
         // popup += '<div class="row"><div class="popup-cover-image col-md-12 col-sm-12 col-xs-12" style="background-image: url(' + feature.properties.image + ');"></div></div>';
-    popup += '<div class="row"><div class="col-md-12 col-sm-12 col-xs-12"><h4 class="popup-title">' + feature.properties.name + '</h4></></div></div>';
+    popup += '<div class="row"><div class="sixteen wide column"><h4 class="popup-title">' + feature.properties.name + '</h4></></div></div>';
     // riga link
     popup += '<div class="row">';
     // Prima colonna
-    popup += '<div class="col-md-6 col-sm-6 col-xs-12"><dl>';
+    popup += '<div class="eight wide column"><dl>';
     // Sito ufficiale (se presente)
     if (counters['website']) {
         popup += '<dt>Official website</dt>';
@@ -150,7 +150,7 @@ var popupGenerator = function(feature, layer) {
     }
     popup += '</dl></div>';
     // Seconda colonna
-    popup += '<div class="col-md-6 col-sm-6 col-xs-12"><dl>';
+    popup += '<div class="eight wide column"><dl>';
     popup += '<dt>Commons</dt>';
     if (counters['commons']) {
         popup += '<dd><a target="_blank" href="{{prefixurl}}{{commons}}">Category:{{commons}}</a></dd>'
