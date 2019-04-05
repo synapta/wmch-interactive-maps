@@ -32,10 +32,11 @@ function getShortlang (langcode) {
  *  Detect user language
  *  @param {object} req: request to use to find user language
  *  @param {string} fallbackLanguage: ISO 639-1 code for
+ *  @param {string} section: name of the section, e.g. wizard or frontend
  *  @return {array}: 1) Detected language ISO 639-1 code;
  *  2) fallback ISO 639-1 code if no translation is available for user language
  **/
-function seekLang (req, fallbackLanguage) {
+function seekLang (req, fallbackLanguage, section) {
     let shortlang = null;
     let translationData = null;
     // languages, desc by preferences, ready to be popped out
@@ -47,14 +48,14 @@ function seekLang (req, fallbackLanguage) {
         try {
             // navigator.language: if ?l=asd not defined, fallback to first accepted language
             shortlang = getShortlang(req.query.l ? req.query.l : candidateLang);
-            translationData = loadTranslationFile('wizard', shortlang);
+            translationData = loadTranslationFile(section, shortlang);
             // found, do not continue
             found = true;
         }
         catch (e) {
             // none match use fallback language
             shortlang = fallbackLanguage;
-            translationData = loadTranslationFile('wizard', fallbackLanguage);
+            translationData = loadTranslationFile(section, fallbackLanguage);
         }
     }
     return [shortlang, translationData];

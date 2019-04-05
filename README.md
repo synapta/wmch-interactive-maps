@@ -67,8 +67,8 @@ Port and dialectOptions can be omitted, getting the default values above.
 
 
 ### Urls
-- Backend: http://localhost:8080/wizard/
-- Frontend: http://localhost:8080/
+- Backend: http://localhost:9089/wizard/
+- Frontend: http://localhost:9089/
 
 ### Language negotiation
 
@@ -76,8 +76,8 @@ The website will auto-detect the user language based on browser settings.
 
 To force a particular language in the format using the url use the `l` parameter:
 
-- http://localhost:8080/wizard/?l=it
-- http://localhost:8080/wizard/?l=it-CH
+- http://localhost:9089/wizard/?l=it
+- http://localhost:9089/wizard/?l=it-CH
 
 ### Translations
 

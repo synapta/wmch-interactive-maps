@@ -223,9 +223,9 @@ $(function() {
         loadData(options, parsedOptions.autoZoom);
     }
 
-    // function parseOptions() {
-    var varurl = [window.location.protocol, '//', window.location.host, '/a/', window.location.search].join('');
+    var varurl = [window.location.protocol, '//', window.location.host, '/s', window.location.pathname].join('');
     // console.log(varurl);
+    /** From parameters to object, hydrate **/
     $.ajax ({
         type:'GET',
         url: varurl,
