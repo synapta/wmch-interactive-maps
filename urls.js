@@ -209,8 +209,6 @@ module.exports = function(app, apicache, passport) {
         else {
             // models.Map.sync();
             const Map = dbMeta.db.define('map', models.Map);
-            // create table if doesn't exists
-            await Map.sync();
             // add a new record
             try {
                 // let url = util.format("%s/%s", config.screenshotServer.url, req.query.mapargs);
@@ -366,8 +364,6 @@ module.exports = function(app, apicache, passport) {
     app.get('*', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
-        // create table if doesn't exists
-        ///// await Map.sync();
         let path = req.url.substring(1);
         Map.findOne({
           where: {path: path}

@@ -10,6 +10,13 @@ const app = express();
 const config = require('./config');
 // listening on port...
 const port = parseInt(argv.port ? argv.port : "8080");
+// Database connection
+const dbinit       = require('./db/init');
+const localconfig = dbinit.init();
+// connect to db
+const db = require(util.format('./db/connector/%s', localconfig.database.engine));
+const models       = require('./db/models');
+
 //NEXT TWO LINES FOR READ BODY FROM POST
 app.use(morgan('common'));
 
@@ -17,7 +24,16 @@ app.use(morgan('common'));
 require('./urls.js')(app, apicache);
 
 const server = app.listen(port, function() {
-    const host = server.address().address;
-    const port = server.address().port;
-    util.log('%s listening at http://%s:%s', config.appname, host, port);
+    util.log('Loading database');
+    let dbMeta = new db.Database(localconfig.database);
+    const Map = dbMeta.db.define('map', models.Map);
+    // create table(s) if doesn't exists
+    Map.sync().then(() => {
+        util.log('Database "%s" loaded, tables created if needed', localconfig.database.name);
+        util.log('Starting server');
+        // start server
+        const host = server.address().address;
+        const port = server.address().port;
+        util.log('%s listening at http://%s:%s', config.appname, host, port);
+    });
 });
