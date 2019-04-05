@@ -289,7 +289,13 @@ $(function() {
         loadData(options, parsedOptions.autoZoom);
     }
 
+    // default (aliased url)
     var varurl = [window.location.protocol, '//', window.location.host, '/s', window.location.pathname].join('');
+
+    // fallback: full string url
+    if (window.location.search.length > 10 && window.location.search.indexOf('apiv=') !== -1) {
+        varurl = [window.location.protocol, '//', window.location.host, '/a/', window.location.search].join('');
+    }
     // console.log(varurl);
     /** From parameters to object, hydrate **/
     $.ajax ({

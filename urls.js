@@ -25,7 +25,14 @@ const db = require(util.format('./db/connector/%s', localconfig.database.engine)
 // var request = require('request');
 module.exports = function(app, apicache, passport) {
 
-      function generateMap (req, res, additionalOpts) {
+
+      function generateMapPage (req, res, dbMap) {
+        /**
+         *  Detect user language
+         *  @param {object} req: request to use to find user language
+         *  @param {object} res: express response
+         *  @param {object} dbMap: dictionary containing all relevant Map columns, used for template (only on aliased version)
+         **/
         fs.readFile(util.format('%s/public/frontend/map.html', __dirname), function (err, fileData) {
             if (err) {
               throw err;
@@ -51,7 +58,7 @@ module.exports = function(app, apicache, passport) {
                   map: config.map,
                   sparql: config.sparql,
                   languages: config.languages,
-                  dbMap: additionalOpts,
+                  dbMap: dbMap,
                   // queryJsonStr: JSON.stringify(req.query, null, '  '),
                   i18n: function () {
                     return function (text, render) {
@@ -60,13 +67,20 @@ module.exports = function(app, apicache, passport) {
                     }
                   }
                 };
-                // inject additionalOpts into view
-                // Object.assign(view, additionalOpts);
                 // console.log(view);
                 var output = Mustache.render(template, view);
                 res.send(output);
             });
         });
+    }
+
+    function getMapRecordAsDict (record) {
+        return {
+          path: record.get('path'),
+          title: record.get('title'),
+          mapargs: record.get('mapargs'),
+          screenshot: record.get('screenshot')
+        };
     }
 
     function querystring2json (res, enrichedQuery) {
@@ -137,7 +151,23 @@ module.exports = function(app, apicache, passport) {
 
     // full url map route, with exposed parameters
     app.get('/m', function (req, res) {
-        generateMap(req, res, {});
+        // temporary url, do not pass dbMap
+        generateMapPage(req, res, {});
+        /**
+        let dbMeta = new db.Database(localconfig.database);
+        const Map = dbMeta.db.define('map', models.Map);
+        let mapargs = `/m/?apiv=1&zoom=8&startLat=46.798562&startLng=8.231973&minZoom=2&maxZoom=18&autoZoom=false&maxClusterRadius=0.1&pinIcon=wikipedia%20w&query=SELECT%20%3Fmuseo%20%3FmuseoLabel%20%3Fcoord%20%3Fcommons%20%3Fsito%20%3Fimmagine%20%3Flang%0A%20%20%20%20%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Fmuseo%20wdt%3AP31%2Fwdt%3AP279*%20wd%3AQ33506%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Fmuseo%20wdt%3AP17%20wd%3AQ39%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Fmuseo%20wdt%3AP625%20%3Fcoord%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fmuseo%20wdt%3AP373%20%3Fcommons%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fmuseo%20wdt%3AP856%20%3Fsito%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fmuseo%20wdt%3AP18%20%3Fimmagine%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%3Flang%20schema%3Aabout%20%3Fmuseo%20.%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%2Cde%2Cfr%2Cit%22.%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20ORDER%20BY%20%3Fmuseo&tile=%2F%2Fmaps.wikimedia.org%2Fosm-intl%2F%7Bz%7D%2F%7Bx%7D%2F%7By%7D.png`;
+        Map.findOne({
+          where: {mapargs: mapargs}
+        }).then(record => {
+          if (record) {
+              generateMapPage(req, res, getMapRecordAsDict(record));
+          }
+          else {
+              res.status(404).send('<h2>Not found</h2>');
+          }
+        });
+        **/
     });
 
     // convert exposed parameters to JSON to be served in /m route
@@ -167,13 +197,6 @@ module.exports = function(app, apicache, passport) {
         });
     });
 
-    // get preview
-    /** app.get('/p', async function (req, res) {
-        let fullPath = url.parse(req.url).query;
-        let mapUrl = [req.protocol, req.get('host')].join("://") + '/m?' + fullPath;
-        res.send(getScreenshot(mapUrl));
-    }); **/
-
     /** Save the map to database **/
     app.get('/wizard/generate', async function (req, res) {
         // load database from configuration
@@ -185,15 +208,13 @@ module.exports = function(app, apicache, passport) {
         }
         else {
             // models.Map.sync();
-            // console.log(conn);  // per ora non contiene nulla di utile
             const Map = dbMeta.db.define('map', models.Map);
             // create table if doesn't exists
             await Map.sync();
             // add a new record
             try {
                 // let url = util.format("%s/%s", config.screenshotServer.url, req.query.mapargs);
-                util.log(url);
-                // make a request to screenshot server. Get the
+                // make a request to screenshot server. Get the screenshot path.
                 request({
                      url: config.screenshotServer.url,
                      method: "PUT",
@@ -202,14 +223,13 @@ module.exports = function(app, apicache, passport) {
                      },
                      json: {mapargs: req.query.mapargs}
                 }, async function (error, response, jsonBody) {
+                    // add a new record to Map table via ORM
                     await Map.create({
                       title: req.query.title,
                       path: req.query.path,
                       mapargs: req.query.mapargs,
                       screenshot: jsonBody.path
                     });
-                    // res.send(JSON.stringify(jsonObj, null, ''));
-                    // res.send("Created!");
                     res.redirect(util.format("/%s", req.query.path));
                 });
             }
@@ -220,7 +240,7 @@ module.exports = function(app, apicache, passport) {
         }
     });
 
-    app.get('/api/data', apicache('30 seconds'), function (req, res) {
+    app.get('/api/data', apicache('5 minutes'), function (req, res) {
         // encodeURIComponent(query) non necessario
         let encodedQuery = req.query.q;
         let options = {
@@ -342,6 +362,7 @@ module.exports = function(app, apicache, passport) {
     });
 
     // CATCHALL: this must be the last route
+    // TODO: add prefix
     app.get('*', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
@@ -355,13 +376,7 @@ module.exports = function(app, apicache, passport) {
               // map.get('title') will contain the name of the map
               // res.send(record.get('title'));
               //////// res.redirect(record.get('mapargs'));  // redirect
-              let opts = {
-                path: record.get('path'),
-                title: record.get('title'),
-                mapargs: record.get('mapargs'),
-                screenshot: record.get('screenshot')
-              };
-              generateMap(req, res, opts);
+              generateMapPage(req, res, getMapRecordAsDict(record));
           }
           else {
               res.status(404).send('<h2>Not found</h2>');
