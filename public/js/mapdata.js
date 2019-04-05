@@ -207,3 +207,29 @@ function addMarkers(json, map, markers, options, autozoom) {
     }
     return false;
 }
+
+/**
+ *  Count pins in leaflet maps.
+ *  @param {string} data: data from query
+ *  @param {array} leafletPins: array of Leaflet pins already loaded on map
+ *  @return {object}: an array counting number of elements per leafletPins, index matched with leafletPins
+ **/
+var countByFilter = function (data, leafletPins) {
+    var acounters = [];
+    for (i=0; i < leafletPins.length; i++) {
+        acounters[i] = 0;
+    }
+    var fakeLayer = new Object();
+    for (j=0; j < data.length; j++) {
+      for (i=0; i < leafletPins.length; i++) {
+          // feature = data[j]
+          // recupero la funzione di filtro direttamente dai museumsList
+          // in modo che i controlli siano sempre allineati
+          if (leafletPins[i].options.filter(data[j], fakeLayer)) {
+              // incremento il contatore globale per il museumsList[i]
+              acounters[i]++;
+          }
+      }
+    }
+    return acounters;
+};

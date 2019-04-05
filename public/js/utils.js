@@ -87,3 +87,15 @@ var wikidataImageUrl2proxyPath = function (kwargs) {
     // Elabora path locale thumb
     return parser.pathname.replace(prefix2replace, localThumbPrefix);;
 };
+
+var prettify = function(text, color, totcounter) {
+    // input: text
+    // output: html
+    // Label degli pseudolivelli da visualizzare
+    var layersLabelsPattern = '<span class="legenda-label" style="background-color: {{bg}};">{{text}} ({{count}})</span>';
+    var count = 0;
+    return layersLabelsPattern.replace(/{{bg}}/g, color)
+                              .replace(/{{text}}/g, text)
+                              .replace(/{{count}}/g, count.toString())
+                              // totcounter
+};

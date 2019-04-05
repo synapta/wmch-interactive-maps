@@ -1,5 +1,18 @@
 // Client rendering and functions for Map Wizard
 $(function() {
+    // variables available to all functions inside document ready
+    var prettyLabels = [
+        prettify("No article", 'black'),
+        prettify("One article", 'red'),
+        prettify("Up to three articles", 'orange'),
+        prettify("Four articles", 'green')
+    ];
+    var museumsList = [];
+    var markers = null;
+
+    // soglia usata per determinare se dispositivo è mobile (es. x legenda)
+    var confMobileThresold = 641;
+
     window.isMobile = function () {
         var viewportWidth = $(window).width();
         var viewportHeight = $(window).height();
@@ -26,7 +39,8 @@ $(function() {
     };
 
     var legendaUpdate = function (data) {
-        var counterArrayByCriteria = countByFilter(data);
+        // get elements count for each pin
+        var counterArrayByCriteria = countByFilter(data, museumsList);
         var newText = '';
         $('.legenda-label').each(function (index) {
             // l'ordine di visualizzazione della legenda è il medesimo
@@ -54,19 +68,35 @@ $(function() {
             },
             success: function(json) {
                 var newJson = enrichFeatures(json);
-                var markers = new L.MarkerClusterGroup(options.cluster);
+                markers = new L.MarkerClusterGroup(options.cluster);
                 addMarkers(newJson, window.map, markers, options, autozoom);
                 // Aggiungi i contatori alla mappa
-                // legendaUpdate(newJson);
-                // window.map.setZoom(zoom);
-
-                // not working for maps (external sources)
-                /** html2canvas(document.querySelector("#preview")).then(canvas => {
-                    document.body.appendChild(canvas)
-                }); **/
-                console.log("ok");
+                legendaUpdate(newJson);
             }
         });
+        // Su desktop, visualizzo sempre la legenda aperta
+        $('.leaflet-control-layers').mouseout(function () {
+            if (!isMobile()) {
+                $('.leaflet-control-layers').addClass(
+                  'leaflet-control-layers-expanded'
+                );
+            }
+        });
+    }
+
+    function loadLegenda () {
+        var overlayMaps = {};
+        var emptyLayers = {};
+        // load controls (legenda)
+        for (i=0; i < prettyLabels.length; i++) {
+            emptyLayers[prettyLabels[i]] = new L.layerGroup().addTo(map);
+        }
+
+        for (var index in emptyLayers) {
+            overlayMaps[index] = emptyLayers[index];
+        }
+        window.mapControl = L.control.layers(null, overlayMaps);
+        window.mapControl.addTo(window.map);
     }
 
     function loadmap (parsedOptions) {
@@ -122,6 +152,7 @@ $(function() {
                 });
 
          **/
+
         options.pins.museumBlack = L.geoJSON (null, {
             onEachFeature: function (feature, layer) {
                 popupGenerator(feature, layer);
@@ -191,11 +222,15 @@ $(function() {
               return feature.properties.pin.color === "green";
           }
         });
+        museumsList = [
+          options.pins.museumBlack,
+          options.pins.museumRed,
+          options.pins.museumOrange,
+          options.pins.museumGreen
+        ];
         ////////////////////////////////////////////////////////////////////////////////
         var labelColumn = "title";
         var opacity = 1.0;
-        // soglia usata per determinare se dispositivo è mobile (es. x legenda)
-        var confMobileThresold = 641;
         var confPopupOpts = {
             closeOnClick: true,
             autoClose: false,
@@ -219,6 +254,37 @@ $(function() {
             minZoom: parsedOptions.minZoom,
             layers: [basemap]
         });
+
+        // load controls
+        loadLegenda();
+        // console.log(prettyLabels);
+        // Azioni di attivazione / disattivazione degli elementi specifici
+        // filtrati per label
+        window.map.on('overlayadd', function (a) {
+            console.log('overlayadd');
+            for (i=0; i < prettyLabels.length; i++) {
+                if (a.name === prettyLabels[i]) {
+                    markers.addLayer(museumsList[i]);
+                    break;
+                }
+            }
+        });
+        window.map.on('overlayremove', function (a) {
+          console.log('overlayremove');
+          for (i=0; i < prettyLabels.length; i++) {
+              if (a.name === prettyLabels[i]) {
+                  markers.removeLayer(museumsList[i]);
+                  break;
+              }
+          }
+        });
+
+
+        $(window).resize(function() {
+            mobileDesktopLegenda();
+        });
+        mobileDesktopLegenda();
+
         // load data
         loadData(options, parsedOptions.autoZoom);
     }
@@ -235,11 +301,12 @@ $(function() {
         },
         success: function(mapOpts) {
             console.log('Loading map');
-            console.log(mapOpts);
+            //  console.log(mapOpts);
             window.attribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
             // Load map
             loadmap(mapOpts);
         }
     });
+
 
 });
