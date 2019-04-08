@@ -48,12 +48,17 @@ $(function() {
         var step = 3;
         // show loading button
         $("#loadothers").toggleClass('loading');
-        loadMaps(step, globOffset, function () {
+        loadMaps(step, globOffset, function (mapResults) {
             // elements loaded on page
             // prepare offset for next request
             globOffset += step;
             // toggle loading
             $("#loadothers").toggleClass('loading');
+            if (mapResults.length == 0) {
+                // no others
+                $("#loadothers").addClass('disabled');
+                $("#loadothers").text($('#loadothers').data("noresults"));
+            }
         });
     });
 });

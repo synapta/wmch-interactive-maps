@@ -1,5 +1,16 @@
 {
   "page": {
     "title": "Servizio mappe WMCH"
+  },
+  "actions": {
+    "loadothers": {
+      "text": "Carica altri"
+    },
+    "noresults": {
+      "text": "Nessun altro risultato"
+    },
+    "throbbler": {
+      "text": "Caricamento in corso"
+    }
   }
 }

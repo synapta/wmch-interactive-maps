@@ -20,17 +20,9 @@
         <h1 class="ui header">{{#i18n}}page.title{{/i18n}}</h1>
         <div class="ui stackable three column centered grid" id="infinite">
         </div>
-        <a href="#" id="loadothers" class="huge ui button">
-          Carica altri
+        <a href="#" id="loadothers" class="huge ui button" data-noresults="{{#i18n}}actions.noresults.text{{/i18n}}">
+          {{#i18n}}actions.loadothers.text{{/i18n}}
         </a>
-        {{! TODO
-        <div class="ui segment">
-          <div class="ui active inverted dimmer">
-            <div class="ui text loader">Loading</div>
-          </div>
-          <p></p>
-        </div>
-        }}
     </div>
 
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

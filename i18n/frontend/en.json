@@ -1,5 +1,16 @@
 {
   "page": {
     "title": "WMCH map service"
+  },
+  "actions": {
+    "loadothers": {
+      "text": "Load others"
+    },
+    "noresults": {
+      "text": "No more results"
+    },
+    "throbbler": {
+      "text": "Loading"
+    }
   }
 }
