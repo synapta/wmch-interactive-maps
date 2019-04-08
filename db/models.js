@@ -5,6 +5,7 @@ const Map = {
   path: { type: Sequelize.STRING, allowNull: false },
   title: Sequelize.STRING,
   screenshot: Sequelize.STRING,
+  sticky: { type: Sequelize.INTEGER, defaultValue: 0 },
   mapargs: Sequelize.TEXT
 };
 

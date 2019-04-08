@@ -71,3 +71,9 @@
   padding-top: 0.6ex;
   padding-right: 1ex;
 }
+#loadothers {
+  display: block;
+  margin: auto;
+  max-width: 200px;
+  margin-top: 1em;
+}

@@ -149,3 +149,7 @@ Port and url are specified on config.json.
 To auto-update and keep running the node servers in development environment, you can use:
 
 `nodemon MYSERVERSCRIPT.js --port MYPORT`
+
+## Sticky maps
+
+Maps can be set as sticky altering the sticky column. Greater sticky value will put the item on the top of the map list. Default value for sticky column is 0.

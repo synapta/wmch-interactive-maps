@@ -83,7 +83,8 @@ module.exports = function(app, apicache, passport) {
        return {
          href: util.format(config.mapPattern, e.path),
          title: e.title,
-         screenshot: util.format(config.screenshotPattern, e.screenshot.split('/').pop())
+         screenshot: util.format(config.screenshotPattern, e.screenshot.split('/').pop()),
+         sticky: e.sticky
        };
     }
 
@@ -92,7 +93,8 @@ module.exports = function(app, apicache, passport) {
           path: record.get('path'),
           title: record.get('title'),
           mapargs: record.get('mapargs'),
-          screenshot: record.get('screenshot')
+          screenshot: record.get('screenshot'),
+          sticky: record.get('sticky')
         };
     }
 
@@ -255,12 +257,15 @@ module.exports = function(app, apicache, passport) {
         }
     });
 
-    app.get('/api/all', apicache('1 minute'), function (req, res) {
+    app.get('/api/all', function (req, res) {
         // Used for landing page, 3 elements per load, offset passed by url
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
         Map.findAll({
-          order: [['createdAt', 'DESC']],
+          order: [
+            ['sticky', 'DESC'],
+            ['createdAt', 'DESC'],
+          ],
           offset: parseInt(req.query.offset),
           limit: parseInt(req.query.limit)
         }).then(maps => {
