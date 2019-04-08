@@ -59,6 +59,7 @@ $(function() {
 
 
     function loadData(options, autozoom) {
+        console.log(autozoom);
         // window.sparqlCache = options.sparql;
         $.ajax ({
             type:'GET',
@@ -287,8 +288,8 @@ $(function() {
         mobileDesktopLegenda();
 
         // load data
-        // console.log('Autozoom', parsedOptions.autoZoom);
-        loadData(options, parsedOptions.autoZoom);
+        console.log('Autozoom', parsedOptions.autoZoom);
+        loadData(options, false);
     }
 
     // default (aliased url)
