@@ -41,3 +41,24 @@
         font-size: 17px;
     }
 }
+.landingmapimage {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.square {
+  position: relative;
+}
+.square {
+  display: block;
+  content: " ";
+  width: 100%;
+  padding-top: 100%;
+}
+.square > .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

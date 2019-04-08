@@ -74,6 +74,19 @@ module.exports = function(app, apicache, passport) {
         });
     }
 
+    function exposeMap(e) {
+      /**
+       *  Return exposable fields from database.
+      *  @param {object} e: JavaScript object from JSON
+       *  @return {object}: JavaScript object of derived fields.
+       **/
+       return {
+         href: util.format(config.mapPattern, e.path),
+         title: e.title,
+         screenshot: util.format(config.screenshotPattern, e.screenshot.split('/').pop())
+       };
+    }
+
     function getMapRecordAsDict (record) {
         return {
           path: record.get('path'),
@@ -104,8 +117,11 @@ module.exports = function(app, apicache, passport) {
     app.use('/wizard/js',express.static('./public/wizard/js'));
     // javascript for frontend
     app.use('/frontend/js',express.static('./public/frontend/js'));
+    // images for landing page
+    app.use('/p/',express.static('./screenshots'));
 
     // translated interface for the map wizard
+    // do not cache (multilingual)
     app.get('/wizard', async function (req, res) {
         // [ 'it', 'it-IT', 'en-US', 'en' ]
         // console.log(req.acceptsLanguages()[0]);
@@ -176,8 +192,6 @@ module.exports = function(app, apicache, passport) {
       querystring2json(res, enrichedQuery);
     });
 
-    app.use('/p/',express.static('./screenshots'));
-
     // convert short url (path) to JSON to be served in /m route
     app.get('/s/:path', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
@@ -238,9 +252,24 @@ module.exports = function(app, apicache, passport) {
         }
     });
 
-    /** app.get('/api/all', function (req, res) {
-        res.send(jsonRes);
-    }); **/
+    app.get('/api/all', apicache('1 minute'), function (req, res) {
+        let dbMeta = new db.Database(localconfig.database);
+        const Map = dbMeta.db.define('map', models.Map);
+        Map.findAll({
+          order: [['createdAt', 'DESC']]
+        }).then(maps => {
+          let jsonRes = [];
+          if (maps) {
+              for (mapr of maps) {
+                  jsonRes.push(exposeMap(getMapRecordAsDict(mapr)));
+              }
+              res.send(jsonRes);
+          }
+          else {
+              res.status(404).send('<h2>Not found</h2>');
+          }
+        });
+    });
 
     app.get('/api/data', apicache('5 minutes'), function (req, res) {
         // encodeURIComponent(query) non necessario
@@ -307,8 +336,44 @@ module.exports = function(app, apicache, passport) {
     app.use('/js/',express.static('./public/js'));
     app.use('/css/',express.static('./public/css'));
 
+    // landing page
     app.get('/', function (req, res) {
-        res.send("Ciao ciao!");
+        fs.readFile(util.format('%s/public/frontend/index.html', __dirname), function (err, fileData) {
+            if (err) {
+              throw err;
+            }
+            // get template content, server-side
+            let template = fileData.toString();
+            let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'frontend');
+            let i18nOptions = {
+              lng: shortlang,
+              debug: true,
+              resources: {}
+            };
+            i18nOptions.resources[shortlang] = {translation: translationData};
+            // console.log(i18nOptions);
+            // load i18n
+            i18next.init(i18nOptions, function(err, t) {
+                // i18n initialized and ready to go!
+                // document.getElementById('output').innerHTML = i18next.t('key');
+                // variables to pass to Mustache to populate template
+                var view = {
+                  shortlang: shortlang,
+                  langname: i18n_utils.getLangName(config.languages, shortlang),
+                  baseurl: localconfig.url + "/",
+                  languages: config.languages,
+                  i18n: function () {
+                    return function (text, render) {
+                        i18next.changeLanguage(shortlang);
+                        return i18next.t(text);
+                    }
+                  }
+                };
+                // console.log(view);
+                var output = Mustache.render(template, view);
+                res.send(output);
+            });
+        });
     });
 
     // Proxy per convertire l'url (redirect) fornito da Wikimedia in
@@ -363,6 +428,7 @@ module.exports = function(app, apicache, passport) {
         }
     });
 
+    // do not cache (multilingual)
     app.get('/v/:path', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
