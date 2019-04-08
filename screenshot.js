@@ -23,11 +23,15 @@ const localconfigNoDb = require('./localconfig');
           body = Buffer.concat(body).toString();
           // body completed
           let jsonBody = JSON.parse(body);
-          console.log(jsonBody);
+          // console.log(jsonBody);
           // visit map page
           let url = util.format('%s%s', localconfigNoDb.url, jsonBody.mapargs);
           console.log(url);
-          await page.goto(url, config.screenshotServer.GOTO_OPTS);
+          // pass hidecontrols but not save it
+          await page.goto(
+            util.format("%s%s", url, config.screenshotServer.hideControls ? '&noControls=1' : ''),
+            config.screenshotServer.GOTO_OPTS
+          );
           var options = {};
           Object.assign(options, config.screenshotServer.options);
           // TODO: use path instead of full url to become protocol agnostic?

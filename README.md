@@ -153,3 +153,13 @@ To auto-update and keep running the node servers in development environment, you
 ## Sticky maps
 
 Maps can be set as sticky altering the sticky column. Greater sticky value will put the item on the top of the map list. Default value for sticky column is 0.
+
+## Maintenance scripts
+
+Regenerate all preview screenshots:
+
+`node maintenance.js -P`
+
+Help for all available commands:
+
+`node maintenance.js --help`

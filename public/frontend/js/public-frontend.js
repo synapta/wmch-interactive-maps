@@ -22,6 +22,10 @@ $(function() {
         return false;
     };
 
+    var hideLeafletControls = function () {
+        $(".leaflet-control").hide();
+    }
+
     var mobileDesktopLegenda = function () {
         if (isMobile()) {
             // mobile
@@ -280,7 +284,10 @@ $(function() {
               }
           }
         });
-
+        // hide leaflet controls (used for screenshots)
+        if (window.location.search.indexOf('noControls=1') !== -1) {
+            hideLeafletControls();
+        }
 
         $(window).resize(function() {
             mobileDesktopLegenda();

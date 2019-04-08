@@ -52,6 +52,7 @@
     "port": 9057,
     "url": "http://localhost:9057",
     "headless": true,
+    "hideControls": true,
     "options": {
         "path": "./screenshots/%s.png"
     }
