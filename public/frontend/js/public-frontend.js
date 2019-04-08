@@ -286,10 +286,8 @@ $(function() {
             mobileDesktopLegenda();
         });
         mobileDesktopLegenda();
-
         // load data
-        console.log('Autozoom', parsedOptions.autoZoom);
-        loadData(options, false);
+        loadData(options, parsedOptions.autoZoom);
     }
 
     // default (aliased url)

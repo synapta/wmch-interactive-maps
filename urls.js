@@ -99,7 +99,8 @@ module.exports = function(app, apicache, passport) {
     function querystring2json (res, enrichedQuery) {
         enrichedQuery.currentStyle = false;
         // represent always as Boolean
-        enrichedQuery.maxZoom === 'true' ? true : false;
+        enrichedQuery.autoZoom = (enrichedQuery.autoZoom === 'true') ? true : false;
+        console.log(enrichedQuery.autoZoom);
         for (style of config.map.styles) {
             if (style.tile === enrichedQuery.tile) {
                 // util.log("Tile exists and its attibution is: %s", enrichedQuery.currentStyle.attribution);
