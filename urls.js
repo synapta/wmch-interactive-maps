@@ -253,10 +253,13 @@ module.exports = function(app, apicache, passport) {
     });
 
     app.get('/api/all', apicache('1 minute'), function (req, res) {
+        // Used for landing page, 3 elements per load, offset passed by url
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
         Map.findAll({
-          order: [['createdAt', 'DESC']]
+          order: [['createdAt', 'DESC']],
+          offset: parseInt(req.query.offset),
+          limit: parseInt(req.query.limit)
         }).then(maps => {
           let jsonRes = [];
           if (maps) {

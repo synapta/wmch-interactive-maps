@@ -15,29 +15,23 @@
     <style type="text/css">
     </style>
 </head>
-<body>
+<body class="landing">
     <div class="ui container">
         <h1 class="ui header">{{#i18n}}page.title{{/i18n}}</h1>
-        <div class="ui stackable three column centered grid ">
-          <div class="black column">
-            <a class="landingmapimage square" href="#" style="background-image: url(/p/ce76d70ca545342cd49728fe0d1b819ed5a905e171656fe37a5102eb08bc68c8d97333302831c697db1c69349073e6c55b7172bd0f7940f762d744a2022cf0f4.png);">
-              <h2 class="ui header">Second header</h2>
-            </a>
+        <div class="ui stackable three column centered grid" id="infinite">
+        </div>
+        <div class="ui segment">
+          <div class="ui active inverted dimmer">
+            <div class="ui text loader">Loading</div>
           </div>
-          <div class="olive column">
-            <a class="landingmapimage square" href="#" style="background-image: url(/p/ce76d70ca545342cd49728fe0d1b819ed5a905e171656fe37a5102eb08bc68c8d97333302831c697db1c69349073e6c55b7172bd0f7940f762d744a2022cf0f4.png);">
-              <h2 class="ui header">Second header</h2>
-            </a>
-          </div>
-          <div class="red column">c</div>
-          <div class="blue column">d</div>
+          <p></p>
         </div>
     </div>
 
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 
-    <script src="/wizard/js/urlify.js"></script>
+    <script src="/frontend/js/public-landing.js"></script>
     <script src="/js/utils.js"></script>
 </body>
 </html>

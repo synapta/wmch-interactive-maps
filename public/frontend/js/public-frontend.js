@@ -110,7 +110,7 @@ $(function() {
             // abort, no style selected
             return;
         }
-        console.log('ok');
+        // console.log('ok');
         // }
         // options
         var mapOptions = {};
@@ -308,7 +308,7 @@ $(function() {
             console.warn('Error retrieving data from url parameters');
         },
         success: function(mapOpts) {
-            console.log('Loading map');
+            // console.log('Loading map');
             //  console.log(mapOpts);
             window.attribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
             // Load map
