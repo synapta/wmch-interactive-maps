@@ -1,6 +1,9 @@
 {
   "page": {
-    "title": "WMCH map service"
+    "title": "WMCH map service",
+  },
+  "popup": {
+    "website": "Official Website",
   },
   "actions": {
     "loadothers": {

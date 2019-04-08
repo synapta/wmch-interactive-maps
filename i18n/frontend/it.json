@@ -2,6 +2,9 @@
   "page": {
     "title": "Servizio mappe WMCH"
   },
+  "popup": {
+    "website": "Sito ufficiale",
+  },
   "actions": {
     "loadothers": {
       "text": "Carica altri"
