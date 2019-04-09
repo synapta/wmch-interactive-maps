@@ -2,10 +2,10 @@
 $(function() {
     // variables available to all functions inside document ready
     var prettyLabels = [
-        prettify("No article", 'black'),
-        prettify("One article", 'red'),
-        prettify("Up to three articles", 'orange'),
-        prettify("Four articles", 'green')
+        prettify($("#wmap").data('filter-no'), 'black'),
+        prettify($("#wmap").data('filter-one'), 'red'),
+        prettify($("#wmap").data('filter-three'), 'orange'),
+        prettify($("#wmap").data('filter-four'), 'green')
     ];
     var museumsList = [];
     var markers = null;
@@ -322,5 +322,12 @@ $(function() {
         }
     });
 
+    $('#languages').dropdown({
+        onChange: function (value) {
+            if (window.location.pathname.indexOf('/v/') === 0) {
+                window.location.href = window.location.pathname + '?l=' + value;
+            }
+        }
+    });
 
 });

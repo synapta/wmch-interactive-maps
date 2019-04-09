@@ -5,6 +5,12 @@
   "popup": {
     "website": "Sito ufficiale"
   },
+  "filter": {
+    "no": "Nessuna voce",
+    "one": "Una voce",
+    "three": "Fino a tre voci",
+    "four": "Quattro voci"
+  },
   "actions": {
     "loadothers": {
       "text": "Carica altri"

@@ -10,12 +10,21 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat" />
     <link rel="stylesheet" href="/css/all.css" />
-    <link rel="stylesheet" href="/css/frontend.css" />
+    <link rel="stylesheet" href="/css/landing.css" />
 
     <style type="text/css">
     </style>
 </head>
 <body class="landing">
+    <div class="ui floating dropdown labeled search icon right floated button" id="languages">
+      <i class="language large icon"></i>
+      <span class="text">{{langname}}</span>
+      <div class="menu">
+        {{#languages}}
+        <div class="item" data-value="{{code}}">{{name}}</div>
+        {{/languages}}
+      </div>
+    </div>
     <div class="ui container">
         <h1 class="ui header">{{#i18n}}page.title{{/i18n}}</h1>
         <div class="ui stackable three column centered grid" id="infinite">

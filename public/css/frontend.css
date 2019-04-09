@@ -41,39 +41,20 @@
         font-size: 17px;
     }
 }
-.landingmapimage {
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-.square {
-  position: relative;
-}
-.square {
-  display: block;
-  content: " ";
-  width: 100%;
-  padding-top: 56.25%;
-}
-.square > .content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-.landing .container {
-  padding-bottom: 5em;
-}
-.landing .container .header {
-  background-color: white;
-  display: inline;
-  padding-top: 0.6ex;
-  padding-right: 1ex;
-}
 #loadothers {
   display: block;
   margin: auto;
   max-width: 300px;
   margin-top: 1em;
+}
+#languages {
+  position: absolute;
+  right: 0;
+  z-index: 1001;
+}
+#languages .menu {
+  z-index: 1001;
+}
+.leaflet-control-container .leaflet-control-layers {
+  margin-top: 10em;
 }

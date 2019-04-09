@@ -5,6 +5,12 @@
   "popup": {
     "website": "Official Website"
   },
+  "filter": {
+    "no": "No article",
+    "one": "One article",
+    "three": "Up to three articles",
+    "four": "Four articles"
+  },
   "actions": {
     "loadothers": {
       "text": "Load others"

@@ -103,7 +103,7 @@ var popupGenerator = function(feature, layer) {
     popup += '<div class="eight wide column"><dl>';
     // Sito ufficiale (se presente)
     if (counters['website']) {
-        popup += '<dt>Official website</dt>';
+        popup += '<dt id="popup-website">Official website</dt>';
         popup += '<dd><a target="_blank" href="{{website}}">{{website-h}}</a></dd>'
         .replace(/{{website}}/g, feature.properties.website)
         .replace(/{{website-h}}/g, feature.properties.website.split("://")[1]);

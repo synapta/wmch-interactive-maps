@@ -20,29 +20,21 @@
     </style>
 </head>
 <body>
-    <div id="wmap"></div>
-    {{! TODO!!! }}
-    <div class="ui padded grid todo" style="display: none;">
-        <header class="sixteen wide column ui items">
-          <div class="ui floating dropdown labeled search icon left floated button" id="languages">
-            <i class="language large icon"></i>
-            <span class="text">{{langname}}</span>
-            <div class="menu">
-              {{#languages}}
-              <div class="item" data-value="{{code}}">{{name}}</div>
-              {{/languages}}
-            </div>
-          </div>
-        </header>
-        <nav class="three wide column">
-        </nav>
-        <section id="container" class="thirteen wide column">
-            <div id="wmap"></div>
-        </section>
-        <footer class="sixteen wide column ui items">
-          <div id="author" style="display: none;">{{{map.author}}}</div>
-        </footer>
+    <div class="ui floating dropdown labeled search icon left floated button leaflet-control" id="languages">
+      <i class="language large icon"></i>
+      <span class="text">{{langname}}</span>
+      <div class="menu">
+        {{#languages}}
+        <div class="item" data-value="{{code}}">{{name}}</div>
+        {{/languages}}
+      </div>
     </div>
+    <div id="wmap"
+    data-filter-no="{{#i18n}}filter.no{{/i18n}}"
+    data-filter-one="{{#i18n}}filter.one{{/i18n}}"
+    data-filter-three="{{#i18n}}filter.three{{/i18n}}"
+    data-filter-four="{{#i18n}}filter.four{{/i18n}}"
+    ></div>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet.js"></script>
