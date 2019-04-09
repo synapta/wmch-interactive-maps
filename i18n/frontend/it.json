@@ -23,6 +23,9 @@
     },
     "throbbler": {
       "text": "Caricamento in corso"
+    },
+    "website": {
+      "text": "Sito ufficiale"
     }
   }
 }
