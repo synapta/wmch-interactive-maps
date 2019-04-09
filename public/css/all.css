@@ -140,3 +140,13 @@
     color: white;
     opacity: 1;
 }
+#languages {
+  position: absolute;
+  right: 0;
+  z-index: 1001;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+#languages .menu {
+  z-index: 1001;
+}

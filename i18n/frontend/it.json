@@ -12,6 +12,9 @@
     "four": "Quattro voci"
   },
   "actions": {
+    "back": {
+      "text": "Torna indietro"
+    },
     "loadothers": {
       "text": "Carica altri"
     },

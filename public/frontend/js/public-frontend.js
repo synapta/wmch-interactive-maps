@@ -330,4 +330,18 @@ $(function() {
         }
     });
 
+    $('#back').on("click", function (e) {
+        e.preventDefault();
+        // check if l parameter exists (user define a language via dropdown / url)
+        var lang = getUrlParameter('l');
+        if (lang ? true : false) {
+            // user-defined language
+            window.location.href = '/?l=' + lang;
+        }
+        else {
+            // browser-defined language
+            window.location.href = '/';
+        }
+    })
+
 });

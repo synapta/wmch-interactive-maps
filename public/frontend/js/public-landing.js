@@ -21,10 +21,13 @@ $(function() {
             success: function(mapResults) {
                 // console.log(mapResults);
                 // Add map preview
+                // add language when user selected it
+                var userDefinedLang = getUrlParameter('l');
+                userDefinedLangQuery = userDefinedLang ? '?l=' + userDefinedLang : '';
                 $.each(mapResults, function( index, map ) {
                     var thisIsSticky = isSticky(map) ? stickyIcon : '';
                     $('#infinite').append('<div class="column">'
-                    + '<a class="landingmapimage square" href="' + map.href
+                    + '<a class="landingmapimage square" href="' + map.href + userDefinedLangQuery
                     + '" style="background-image: url(' + map.screenshot + ');">'
                     + '<h2 class="ui header">' + map.title + '</h2>'
                     + thisIsSticky

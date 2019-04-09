@@ -12,6 +12,9 @@
     "four": "Four articles"
   },
   "actions": {
+    "back": {
+      "text": "Back to home"
+    },
     "loadothers": {
       "text": "Load others"
     },
