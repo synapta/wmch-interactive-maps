@@ -11,7 +11,7 @@ const nodeurl = require('url');
 
 (async () => {
     // create browser and keep it open
-    const browser = await puppeteer.launch({headless: config.screenshotServer.headless});
+    const browser = await puppeteer.launch({headless: config.screenshotServer.headless, ignoreHTTPSErrors: true});
 
     server.on('request', async (req, res) => {
       // console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
