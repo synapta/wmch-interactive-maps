@@ -47,6 +47,7 @@ function languageWalker(candidateLangsReversed, req, fallbackLanguage, section) 
         // none match use fallback language
         shortlang = fallbackLanguage;
         translationData = loadTranslationFile(section, fallbackLanguage);
+        return [shortlang, translationData];
     }
 }
 
