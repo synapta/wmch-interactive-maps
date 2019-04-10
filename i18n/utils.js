@@ -39,7 +39,7 @@ function languageWalker(candidateLangsReversed, req, fallbackLanguage, section) 
         }
         catch (e) {
             // not found in local translation, continue
-            languageWalker(candidateLangsReversed, fallbackLanguage, section);
+            languageWalker(candidateLangsReversed, req, fallbackLanguage, section);
             return [shortlang, translationData];
         }
     }
