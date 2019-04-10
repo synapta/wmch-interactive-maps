@@ -37,7 +37,7 @@ const nodeurl = require('url');
           Object.assign(options, config.screenshotServer.options);
           // use path instead of full url to be protocol agnostic
           let urlob = nodeurl.parse(url);
-          options.path = util.format(options.path, hasha(urlob.path));
+          options.screenshot = util.format(options.path, hasha(urlob.path));
           // console.log('~~~~~~~~~~');
           // console.log(options.path);
           // console.log('~~~~~~~~~~');
@@ -52,4 +52,5 @@ const nodeurl = require('url');
 
     });
     server.listen(config.screenshotServer.port);
+    util.log('Screenshot server listening on port %d', config.screenshotServer.port);
 })();
