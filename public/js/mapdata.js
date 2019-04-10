@@ -109,7 +109,7 @@ var popupGenerator = function(feature, layer) {
         .replace(/{{website-h}}/g, feature.properties.website.split("://")[1]);
     }
     popup += '<dt>Wikipedia</dt>';
-    wikipediaPlaceholder = '<dd>No Wikipedia articles so far</dd>';
+    wikipediaPlaceholder = '<dd>' + $(".mapdata").data('wikipedia') + '</dd>';
     var hasWikipediaArticles = counters['wikipediaBaseLang'] + counters['wikipediaMoreLang'] ? true : false;
     if (hasWikipediaArticles) {
         // wikipediaArticlesPerLanguage
@@ -137,16 +137,16 @@ var popupGenerator = function(feature, layer) {
         // Ci sono lingue aggiuntive?
         var moreHtml = '';
         if (counters['wikipediaMoreLang']) {
-            moreHtml += '&hellip; and in other {{counter}} language{{plural}}'
-            .replace(/{{counter}}/g, counters['wikipediaMoreLang'])
-            .replace(/{{plural}}/g, counters['wikipediaMoreLang'] > 1 ? 's' : '');
+            moreHtml += $('.mapdata').data('morelanguages')
+            .replace(/!counter/g, counters['wikipediaMoreLang'])
+            .replace(/!languages/g, counters['wikipediaMoreLang'] > 1 ? $('.mapdata').data('morelanguagesmany') : $('.mapdata').data('morelanguagesone'));
         }
         popup += '<dd><ul>{{lista}}</ul>{{more}}</dd>'
         .replace(/{{lista}}/g, wikipediaArticlesPerLanguageHtml)
         .replace(/{{more}}/g, moreHtml);
     }
     else {
-          popup += '<dd>No Wikipedia articles so far</dd>';
+          popup += '<dd>' + $('.mapdata').data('nowikipedia') + '</dd>';
     }
     popup += '</dl></div>';
     // Seconda colonna
@@ -158,7 +158,7 @@ var popupGenerator = function(feature, layer) {
         .replace(/{{commons}}/g, feature.properties.commons);
     }
     else {
-        popup += '<dd>No Commons category so far</dd>';
+        popup += '<dd>' + $(".mapdata").data('nocommonscat') + '</dd>';
     }
     if (typeof feature.properties.wikidata !== 'undefined') {
         popup += '<dt>Wikidata</dt>';

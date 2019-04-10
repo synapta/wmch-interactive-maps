@@ -26,6 +26,17 @@
     },
     "website": {
       "text": "Sito ufficiale"
+    },
+    "nocommonscat": {
+      "text": "Ancora nessuna categoria su Commons"
+    },
+    "morelanguages": {
+      "text": "&hellip; e in altre !counter !languages",
+      "singular": "lingua",
+      "plural": "lingue"
+    },
+    "nowikipedia": {
+      "text": "Ancora nessuna voce su Wikipedia"
     }
   }
 }

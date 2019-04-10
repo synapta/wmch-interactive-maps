@@ -28,7 +28,7 @@ module.exports = function(app, apicache, passport) {
 
       function generateMapPage (req, res, dbMap) {
         /**
-         *  Detect user language
+         *  Detect user language and serve the page accordingly
          *  @param {object} req: request to use to find user language
          *  @param {object} res: express response
          *  @param {object} dbMap: dictionary containing all relevant Map columns, used for template (only on aliased version)

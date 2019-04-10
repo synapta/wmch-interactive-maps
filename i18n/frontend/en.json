@@ -26,6 +26,17 @@
     },
     "website": {
       "text": "Official website"
+    },
+    "nocommonscat": {
+      "text": "No Commons category so far"
+    },
+    "morelanguages": {
+      "text": "&hellip; and in other !counter !languages",
+      "singular": "language",
+      "plural": "languages"
+    },
+    "nowikipedia": {
+      "text": "No Wikipedia articles so far"
     }
   }
 }

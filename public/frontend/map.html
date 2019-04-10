@@ -20,7 +20,7 @@
     </style>
 </head>
 <body>
-    <button class="ui active button blue" id="back">
+    <button class="ui active button blue leaflet-control" id="back">
       <i class="home icon"></i>
       {{#i18n}}actions.back.text{{/i18n}}
     </button>
@@ -33,7 +33,12 @@
         {{/languages}}
       </div>
     </div>
-    <div id="wmap" class="mapdata"
+    <div id="wmap" class="mapdata" 
+    data-nowikipedia="{{#i18n}}actions.nowikipedia.text{{/i18n}}"
+    data-morelanguages="{{#i18n}}actions.morelanguages.text{{/i18n}}"
+    data-morelanguagesone="{{#i18n}}actions.morelanguages.singular{{/i18n}}"
+    data-morelanguagesmany="{{#i18n}}actions.morelanguages.plural{{/i18n}}"
+    data-nocommonscat="{{#i18n}}actions.nocommonscat.text{{/i18n}}"
     data-website="{{#i18n}}actions.website.text{{/i18n}}"
     data-filter-no="{{#i18n}}filter.no{{/i18n}}"
     data-filter-one="{{#i18n}}filter.one{{/i18n}}"
