@@ -30,7 +30,7 @@ function regenerateMaps (maps) {
              json: {mapargs: record.mapargs}
         }, async function (error, response, jsonBody) {
             console.log(jsonBody);
-            record.path = util.format(config.screenshotServer.options.path, hasha(record.mapargs));
+            record.screenshot = util.format(config.screenshotServer.options.path, hasha(record.mapargs));
             // update record with the new screenshot
             record.save().then(() => {
                 regenerateMaps(maps);
