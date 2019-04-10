@@ -25,8 +25,8 @@ const nodeurl = require('url');
           // body completed
           let jsonBody = JSON.parse(body);
           // console.log(jsonBody);
-          // visit map page
-          let url = util.format('%s%s', localconfigNoDb.url, jsonBody.mapargs);
+          // visit map page with internal url
+          let url = util.format('%s%s', localconfigNoDb.internalUrl, jsonBody.mapargs);
           console.log(url);
           // pass hidecontrols but not save it
           await page.goto(
