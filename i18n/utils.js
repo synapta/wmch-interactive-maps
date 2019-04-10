@@ -28,6 +28,28 @@ function getShortlang (langcode) {
     return navigatorLanguage;
 }
 
+function languageWalker(candidateLangsReversed, req, fallbackLanguage, section) {
+    if (candidateLangsReversed.length) {
+        let candidateLang = candidateLangsReversed.pop();
+        let shortlang = getShortlang(req.query.l ? req.query.l : candidateLang);
+        // console.log("shortLang is", shortLang);
+        try {
+            let translationData = loadTranslationFile(section, shortlang);
+            return [shortlang, translationData];
+        }
+        catch (e) {
+            // not found in local translation, continue
+            languageWalker(candidateLangsReversed, fallbackLanguage, section);
+            return [shortlang, translationData];
+        }
+    }
+    else {
+        // none match use fallback language
+        shortlang = fallbackLanguage;
+        translationData = loadTranslationFile(section, fallbackLanguage);
+    }
+}
+
 /**
  *  Detect user language
  *  @param {object} req: request to use to find user language
@@ -40,25 +62,16 @@ function seekLang (req, fallbackLanguage, section) {
     let shortlang = null;
     let translationData = null;
     // languages, desc by preferences, ready to be popped out
+    // console.log('/////////////////////////////////////////////////////');
+    // console.log(req.headers['user-agent']);
+    // console.log(req.acceptsLanguages());
     let candidateLangs = req.acceptsLanguages().reverse();
+    // let candidateLangs = [req.acceptsLanguages().reverse().pop()];
+    // console.log(candidateLangs);
     let found = null;
     let candidateLang = null;
     // Looking for any available language in user browser, ordered by preference
-    for (found  = false, candidateLang = candidateLangs.pop(); candidateLangs.length && !found; candidateLang = candidateLangs.pop()) {
-        try {
-            // navigator.language: if ?l=asd not defined, fallback to first accepted language
-            shortlang = getShortlang(req.query.l ? req.query.l : candidateLang);
-            translationData = loadTranslationFile(section, shortlang);
-            // found, do not continue
-            found = true;
-        }
-        catch (e) {
-            // none match use fallback language
-            shortlang = fallbackLanguage;
-            translationData = loadTranslationFile(section, fallbackLanguage);
-        }
-    }
-    return [shortlang, translationData];
+    return languageWalker(candidateLangs, req, fallbackLanguage, section);
 }
 
 /**

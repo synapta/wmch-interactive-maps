@@ -7,6 +7,6 @@
     "port": 3306,
     "dialectOptions": {"connectTimeout": 1000}
   },
-  "url": "http://localhost:9089",
+  "url": "http://example.org",
   "internalUrl": "http://localhost:9089"
 }
