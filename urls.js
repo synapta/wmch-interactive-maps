@@ -302,24 +302,24 @@ module.exports = function(app, apicache, passport) {
                 var isNewQid = true;
 
                 for (let i = 0; i < arr.length; i++) {
-                    if (oldQid !== arr[i].museo.value && oldQid !== undefined) {
+                    if (oldQid !== arr[i].item.value && oldQid !== undefined) {
                         isNewQid = true;
                         jsonRes.push(obj);
                     }
 
                     if (isNewQid) {
-                        oldQid = arr[i].museo.value;
+                        oldQid = arr[i].item.value;
                         isNewQid = false;
                         var obj = {};
 
                         obj.type = "Feature";
 
                         obj.properties = {};
-                        obj.properties.name = arr[i].museoLabel.value;
-                        obj.properties.wikidata = arr[i].museo.value.replace("http://www.wikidata.org/entity/","");
+                        obj.properties.name = arr[i].itemLabel.value;
+                        obj.properties.wikidata = arr[i].item.value.replace("http://www.wikidata.org/entity/","");
                         if (arr[i].commons !== undefined) obj.properties.commons = arr[i].commons.value;
-                        if (arr[i].sito !== undefined) obj.properties.website = arr[i].sito.value;
-                        if (arr[i].immagine !== undefined) obj.properties.image = arr[i].immagine.value;
+                        if (arr[i].website !== undefined) obj.properties.website = arr[i].website.value;
+                        if (arr[i].img !== undefined) obj.properties.image = arr[i].img.value;
                         obj.properties.lang = [];
                         if (arr[i].lang !== undefined) obj.properties.lang.push(arr[i].lang.value);
 

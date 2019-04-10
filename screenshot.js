@@ -6,6 +6,7 @@ const util = require('util');
 const hasha = require('hasha');
 const request = require('request');
 const localconfigNoDb = require('./localconfig');
+const nodeurl = require('url');
 // const express = require('express');
 
 (async () => {
@@ -34,8 +35,9 @@ const localconfigNoDb = require('./localconfig');
           );
           var options = {};
           Object.assign(options, config.screenshotServer.options);
-          // TODO: use path instead of full url to become protocol agnostic?
-          options.path = util.format(options.path, hasha(url));
+          // use path instead of full url to be protocol agnostic
+          let urlob = nodeurl.parse(url);
+          options.path = util.format(options.path, hasha(urlob.path));
           // console.log('~~~~~~~~~~');
           // console.log(options.path);
           // console.log('~~~~~~~~~~');

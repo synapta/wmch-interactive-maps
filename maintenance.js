@@ -8,6 +8,7 @@ const models       = require('./db/models');
 const dbinit       = require('./db/init');
 // load local config and check if is ok (testing db)
 const localconfig = dbinit.init();
+const hasha = require('hasha');
 // connect to db
 const db = require(util.format('./db/connector/%s', localconfig.database.engine));
 
@@ -29,8 +30,11 @@ function regenerateMaps (maps) {
              json: {mapargs: record.mapargs}
         }, async function (error, response, jsonBody) {
             console.log(jsonBody);
-            // ORM is not used since the file name is dependant to mapargs
-            regenerateMaps(maps);
+            let path = util.format(config.screenshotServer.options.path, hasha(record.mapargs));
+            // update record with the new screenshot
+            record.save().then(() => {
+                regenerateMaps(maps);
+            })
         });
     }
     else {
