@@ -150,3 +150,6 @@
 #languages .menu {
   z-index: 1001;
 }
+.hidden {
+  display: none;
+}
