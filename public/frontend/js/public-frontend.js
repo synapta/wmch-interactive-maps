@@ -342,6 +342,12 @@ $(function() {
             // browser-defined language
             window.location.href = '/';
         }
-    })
+    });
+
+    $('#pagepopclose').on("click", function (e) {
+        // Hide close button
+        $('#pagepop').dimmer('hide');
+        $('#pagepopclose').toggleClass('hidden');
+    });
 
 });

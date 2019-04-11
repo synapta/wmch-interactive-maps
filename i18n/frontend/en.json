@@ -15,6 +15,9 @@
     "back": {
       "text": "Back to home"
     },
+    "close": {
+      "text": "Close"
+    },
     "loadothers": {
       "text": "Load others"
     },
