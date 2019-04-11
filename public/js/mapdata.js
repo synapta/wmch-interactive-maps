@@ -82,7 +82,7 @@ var enrichFeatures = function (features) {
 var popupGenerator = function(feature, layer) {
     // conta il numero di link del museo corrente
     var counters = feature.properties.counters;
-    var popup = '<div class="popup-content ui grid">';
+    var popup = '<div class="popup-content ui stackable grid">';
     // I progetti Wikimedia dispongono dell'immagine principale?
     var hasImage = typeof feature.properties.image !== 'undefined';
     if (hasImage) {

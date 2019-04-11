@@ -55,7 +55,7 @@ var openModalOnMobile = function (ev) {
     ev.sourceTarget.closePopup()
     // Popup per mobile
     // @see https://github.com/w8r/Leaflet.Modal
-    window.map.fire('modal', {
+    /** window.map.fire('modal', {
 
       content: html_content,        // HTML string
 
@@ -76,7 +76,9 @@ var openModalOnMobile = function (ev) {
       // INNER_CONTENT_CLS: 'modal-inner',    // inner content wrapper
       // SHOW_CLS: 'show',                    // `modal open` CSS class, here go your transitions
       // CLOSE_CLS: 'close'                   // `x` button CSS class
-    });
+    }); **/
+    $('#pagepop .content').html(html_content);
+    $('#pagepop').dimmer('show');
 };
 
 var wikidataImageUrl2proxyPath = function (kwargs) {
