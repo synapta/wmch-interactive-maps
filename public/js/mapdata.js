@@ -85,6 +85,7 @@ var popupGenerator = function(feature, layer) {
     var popup = '<div class="popup-content ui stackable grid">';
     // I progetti Wikimedia dispongono dell'immagine principale?
     var hasImage = typeof feature.properties.image !== 'undefined';
+    ////////////////// console.log(feature.properties.image, wikidataImageUrl2licenseUrl({'url': feature.properties.image}));
     if (hasImage) {
         // ottengo immagine scelta riscalata
         var imagepath = wikidataImageUrl2proxyPath({'url': feature.properties.image});
@@ -92,8 +93,10 @@ var popupGenerator = function(feature, layer) {
         // Qui eventualmente aggiungere cache lato client
     }
     var withwithout = hasImage ? 'withimage' : 'noimage';
-    popup += '<div class="row"><div class="popup-cover-image {{withwithout}} sixteen wide column" style="{{bgimage}}"></div></div>'
+    popup += '<div class="row"><div class="popup-cover-image sixteen wide column {{withwithout}}" style="{{bgimage}}"><a href="{{commons}}" target="_blank"><span>{{imglicense}}</span></a></div></div>'
     .replace(/{{withwithout}}/g, withwithout)
+    .replace(/{{commons}}/g, wikidataImageUrl2licenseUrl({'url': feature.properties.image}))
+    .replace(/{{imglicense}}/g, $('.mapdata').data('popup-image-license'))
     .replace(/{{bgimage}}/g, bgimage);
         // popup += '<div class="row"><div class="popup-cover-image col-md-12 col-sm-12 col-xs-12" style="background-image: url(' + feature.properties.image + ');"></div></div>';
     popup += '<div class="row"><div class="sixteen wide column"><h4 class="popup-title">' + feature.properties.name + '</h4></></div></div>';

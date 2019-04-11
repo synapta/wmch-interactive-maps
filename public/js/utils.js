@@ -47,9 +47,14 @@ var openModalOnMobile = function (ev) {
     ev.sourceTarget.closePopup();
     // Popup per mobile
     $('#pagepop .content').html(html_content);
-    $('#pagepop').dimmer('show');
+    $dimmer = $('#pagepop');
+    /** $dimmer.dimmer('setting', {
+        closable: false,
+        debug: false
+    }); **/
+    $dimmer.dimmer('show');
     // Show close button
-    $('#pagepopclose').toggleClass('hidden');
+    $('#pagepopclose').addClass('hidden');
 };
 
 var wikidataImageUrl2proxyPath = function (kwargs) {
@@ -58,7 +63,16 @@ var wikidataImageUrl2proxyPath = function (kwargs) {
     var prefix2replace = '/wiki/Special:FilePath/';
     var localThumbPrefix = '/thumb/';
     // Elabora path locale thumb
-    return parser.pathname.replace(prefix2replace, localThumbPrefix);;
+    return parser.pathname.replace(prefix2replace, localThumbPrefix);
+};
+
+var wikidataImageUrl2licenseUrl = function (kwargs) {
+    parser = document.createElement('a');
+    parser.href = kwargs['url'];
+    var prefix2replace = '/wiki/Special:FilePath/';
+    var replacement = '/wiki/File:';
+    // Elabora path locale thumb
+    return  parser.protocol + "//" + parser.host + parser.pathname.replace(prefix2replace, replacement);
 };
 
 var prettify = function(text, color, totcounter) {

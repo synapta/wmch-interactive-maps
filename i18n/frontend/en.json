@@ -3,7 +3,8 @@
     "title": "WMCH map service"
   },
   "popup": {
-    "website": "Official Website"
+    "website": "Official Website",
+    "imageLicense": "Image license available on Wikimedia Commons"
   },
   "filter": {
     "no": "No article",

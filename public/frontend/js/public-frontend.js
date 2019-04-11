@@ -63,7 +63,7 @@ $(function() {
 
 
     function loadData(options, autozoom) {
-        console.log(autozoom);
+        // console.log('Autozoom', autozoom);
         // window.sparqlCache = options.sparql;
         $.ajax ({
             type:'GET',
@@ -267,7 +267,7 @@ $(function() {
         // Azioni di attivazione / disattivazione degli elementi specifici
         // filtrati per label
         window.map.on('overlayadd', function (a) {
-            console.log('overlayadd');
+            // console.log('overlayadd');
             for (i=0; i < prettyLabels.length; i++) {
                 if (a.name === prettyLabels[i]) {
                     markers.addLayer(museumsList[i]);
@@ -276,7 +276,7 @@ $(function() {
             }
         });
         window.map.on('overlayremove', function (a) {
-          console.log('overlayremove');
+          // console.log('overlayremove');
           for (i=0; i < prettyLabels.length; i++) {
               if (a.name === prettyLabels[i]) {
                   markers.removeLayer(museumsList[i]);
@@ -347,7 +347,7 @@ $(function() {
     $('#pagepopclose').on("click", function (e) {
         // Hide close button
         $('#pagepop').dimmer('hide');
-        $('#pagepopclose').toggleClass('hidden');
+        $('#pagepopclose').addClass('hidden');
     });
 
 });

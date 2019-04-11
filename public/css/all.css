@@ -192,3 +192,22 @@
 .hidden {
   display: none !important;
 }
+.noimage a {
+  visibility: hidden;
+}
+.noimage a {
+  display: block;
+  position: relative;
+}
+.withimage a span {
+  position: absolute;
+  bottom: 1ex;
+  right: 1ex;
+  color: white;
+}
+.withimage a,
+.noimage a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
