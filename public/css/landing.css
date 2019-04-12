@@ -22,7 +22,10 @@
 .landing .container {
   padding-bottom: 5em;
 }
-.landing .container .header {
+h1 {
+  line-height: 3em;
+}
+#infinite .header {
   background-color: white;
   display: inline;
   padding-top: 1ex;

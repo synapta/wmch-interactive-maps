@@ -15,7 +15,7 @@
     <style type="text/css">
     </style>
 </head>
-<body class="landing">
+<body class="landing" id="landing">
     <div class="ui floating dropdown labeled search icon right floated button" id="languages">
       <i class="language large icon"></i>
       <span class="text">{{langname}}</span>
@@ -26,7 +26,10 @@
       </div>
     </div>
     <div class="ui container">
-        <h1 class="ui header">{{#i18n}}page.title{{/i18n}}</h1>
+        <div class="ui grid">
+            <div class="two wide column"><img class="logo" src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" /></div>
+            <div class="fourteen wide column"><h1>{{#i18n}}page.title{{/i18n}}</h1></div>
+        </div>
         <div class="ui stackable three column centered grid" id="infinite">
         </div>
         <a href="#" id="loadothers" class="huge ui button" data-noresults="{{#i18n}}actions.noresults.text{{/i18n}}">

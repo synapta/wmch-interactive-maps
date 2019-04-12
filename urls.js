@@ -246,7 +246,8 @@ module.exports = function(app, apicache, passport) {
                       title: req.query.title,
                       path: req.query.path,
                       mapargs: req.query.mapargs,
-                      screenshot: jsonBody.path
+                      screenshot: jsonBody.path,
+                      published: true
                     });
                     res.redirect(util.format("/v/%s", req.query.path));
                 });
@@ -374,6 +375,7 @@ module.exports = function(app, apicache, passport) {
                 // variables to pass to Mustache to populate template
                 var view = {
                   shortlang: shortlang,
+                  logo: config.logo,
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/",
                   languages: config.languages,
@@ -450,7 +452,10 @@ module.exports = function(app, apicache, passport) {
         // let path = req.url.substring(1);
 
         Map.findOne({
-          where: {path: req.params.path}
+          where: {
+            path: req.params.path,
+            published: true
+          }
         }).then(record => {
           if (record) {
               // map.get('title') will contain the name of the map

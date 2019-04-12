@@ -47,6 +47,11 @@
     "maxclusterradius": 10,
     "pinicon": "wikipedia w"
   },
+  "logo": {
+    "src": "https://www.wikimedia.ch/wp-content/uploads/2014/12/1024px-Wikimedia_CH_RGB_logo_with_text-300x300.png",
+    "alt": "Wikimedia CH",
+    "height": 100
+  },
   "screenshotServer": {
     "GOTO_OPTS": { "waitUntil": ["load","domcontentloaded","networkidle0"], "timeout": 0 },
     "port": 9057,
