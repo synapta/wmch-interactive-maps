@@ -54,7 +54,7 @@ var openModalOnMobile = function (ev) {
     }); **/
     $dimmer.dimmer('show');
     // Show close button
-    $('#pagepopclose').addClass('hidden');
+    $('#pagepopclose').show();
 };
 
 var wikidataImageUrl2proxyPath = function (kwargs) {

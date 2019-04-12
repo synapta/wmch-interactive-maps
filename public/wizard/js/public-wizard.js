@@ -38,6 +38,19 @@ $(function() {
         });
     };
 
+    var checkFinalStep = function () {
+        if ($("button[type='submit']:visible")) {
+            if($('.ui.form').form('is valid') && $('#mapstyle').data('touched')) {
+                // form is valid
+                $("button[type='submit']").removeClass("disabled");
+            }
+            else {
+                // form not valid
+                $("button[type='submit']").addClass("disabled");
+            }
+        }
+    }
+
     // Events
     // Generate a valid path from title on key press
     $("input[name='title']").on("keyup", function () {
@@ -47,7 +60,12 @@ $(function() {
       .form({
         fields: {
           title     : ['empty', 'minLength[3]'],
-          path   : ['empty', 'minLength[3]']
+          path   : ['empty', 'minLength[3]'],
+          zoom   : ['empty'],
+          minzoom   : ['empty'],
+          maxzoom   : ['empty'],
+          lat: ['empty'],
+          long: ['empty']
         }
       });
     $(".wizard-prev-next").on("click", function () {
@@ -62,6 +80,8 @@ $(function() {
         $(classToShow).removeClass("hidestep");
         var stepToActive = parseInt(classToShow.replace(".step-", '')) - 1;
         $(".steps .step").eq(stepToActive).addClass("active");
+        // ultimo step
+        checkFinalStep();
     });
     $(".steps .step").on("click", function () {
         // to be fixed
@@ -83,16 +103,7 @@ $(function() {
         $(classToShow).removeClass("hidestep");
         $(".steps .step").eq(stepToActive).addClass("active");
         // ultimo step
-        if ($("button[type='submit']:visible")) {
-            if($('.ui.form').form('is valid')) {
-                // form is valid
-                $("button[type='submit']").removeClass("disabled");
-            }
-            else {
-                // form not valid
-                $("button[type='submit']").addClass("disabled");
-            }
-        }
+        checkFinalStep();
     });
     // on document ready
     // ...
@@ -316,6 +327,7 @@ $(function() {
 
     $('#mapstyle').dropdown({
         onChange: function (value) {
+            $(this).data('touched', 1);
             var vals = value.split('|||');
             window.tile = vals[0];
             window.attribution = vals[1] + ' | ' + $('#author').html();

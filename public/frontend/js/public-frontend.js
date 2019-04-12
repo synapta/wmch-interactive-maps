@@ -347,7 +347,7 @@ $(function() {
     $('#pagepopclose').on("click", function (e) {
         // Hide close button
         $('#pagepop').dimmer('hide');
-        $('#pagepopclose').addClass('hidden');
+        $('#pagepopclose').hide();
     });
 
 });
