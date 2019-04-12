@@ -5,10 +5,15 @@ $(function() {
     var globLimit = 3;
     var globOffset = 0;
     // icon to display on pinned / favourite maps
-    var stickyIcon = '<span class="ui left corner label yellow"><i class="star icon"></i></span>';
+    var starIcon = '<span class="ui left corner label yellow"><i class="star icon"></i></span>';
 
     function isSticky (map) {
         return map.sticky > 0;
+    }
+
+    function isStarred (map) {
+        console.log(map);
+        return map.star;
     }
 
     function loadMaps(limit, offset, callback) {
@@ -25,12 +30,12 @@ $(function() {
                 var userDefinedLang = getUrlParameter('l');
                 userDefinedLangQuery = userDefinedLang ? '?l=' + userDefinedLang : '';
                 $.each(mapResults, function( index, map ) {
-                    var thisIsSticky = isSticky(map) ? stickyIcon : '';
+                    var thisIsStarred = isStarred(map) ? starIcon : '';
                     $('#infinite').append('<div class="column">'
                     + '<a class="landingmapimage square" href="' + map.href + userDefinedLangQuery
                     + '" style="background-image: url(' + map.screenshot + ');">'
                     + '<h2 class="ui header">' + map.title + '</h2>'
-                    + thisIsSticky
+                    + thisIsStarred
                     + '</a>'
                     + '</div>');
                 });

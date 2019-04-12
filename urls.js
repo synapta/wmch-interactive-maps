@@ -84,7 +84,7 @@ module.exports = function(app, apicache, passport) {
          href: util.format(config.mapPattern, e.path),
          title: e.title,
          screenshot: util.format(config.screenshotPattern, e.screenshot.split('/').pop()),
-         sticky: e.sticky
+         star: e.star
        };
     }
 
@@ -94,7 +94,7 @@ module.exports = function(app, apicache, passport) {
           title: record.get('title'),
           mapargs: record.get('mapargs'),
           screenshot: record.get('screenshot'),
-          sticky: record.get('sticky')
+          star: record.get('star')
         };
     }
 
@@ -362,7 +362,7 @@ module.exports = function(app, apicache, passport) {
             let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'frontend');
             let i18nOptions = {
               lng: shortlang,
-              debug: true,
+              debug: false,
               resources: {}
             };
             i18nOptions.resources[shortlang] = {translation: translationData};
