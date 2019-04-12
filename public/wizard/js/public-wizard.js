@@ -40,7 +40,7 @@ $(function() {
 
     var checkFinalStep = function () {
         if ($("button[type='submit']:visible")) {
-            if($('.ui.form').form('is valid') && $('#mapstyle').data('touched')) {
+            if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid')) {
                 // form is valid
                 $("button[type='submit']").removeClass("disabled");
             }
@@ -55,6 +55,25 @@ $(function() {
     // Generate a valid path from title on key press
     $("input[name='title']").on("keyup", function () {
         $("input[name='path']").val(URLify($(this).val()));
+        // check for duplicates
+        $("input[name='path']").trigger("keyup");
+    });
+    $("input[name='path']").on("keyup", function () {
+        $.ajax ({
+            type:'GET',
+            dataType: 'json',
+            url: "/s/" + $(this).val(),
+            error: function(e) {
+                $("#path-found").hide();
+                $("#path-not-found").show();
+                $("input[name='path']").data('valid', 1);
+            },
+            success: function(json) {
+                $("#path-found").show();
+                $("#path-not-found").hide();
+                $("input[name='path']").data('valid', 0);
+            }
+        });
     });
     $('.ui.form')
       .form({
@@ -328,6 +347,7 @@ $(function() {
     $('#mapstyle').dropdown({
         onChange: function (value) {
             $(this).data('touched', 1);
+            $('#pinicon-mapstyle-error').hide();
             var vals = value.split('|||');
             window.tile = vals[0];
             window.attribution = vals[1] + ' | ' + $('#author').html();
@@ -372,11 +392,17 @@ $(function() {
               source: json,
               fullTextSearch: true,
               onSelect: function(result, response) {
-                var newClass = result.title.split('<').reverse().pop();
-                $("#pinicon-preview > i").attr('class', 'large icon ' + newClass);
-                // set hidden field value
-                $("#pinicon").val(newClass);
-                loadmapifchanged();
+                // force select of a map style if none selected
+                if ($('#mapstyle').data('touched')) {
+                    var newClass = result.title.split('<').reverse().pop();
+                    $("#pinicon-preview > i").attr('class', 'large icon ' + newClass);
+                    // set hidden field value
+                    $("#pinicon").val(newClass);
+                    loadmapifchanged();
+                }
+                else {
+                    $('#pinicon-mapstyle-error').show();
+                }
               }
           });
         }

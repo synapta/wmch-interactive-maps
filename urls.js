@@ -202,8 +202,10 @@ module.exports = function(app, apicache, passport) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
         Map.findOne({
-          where: {path: req.params.path},
-          published: true
+          where: {
+            path: req.params.path,
+            published: true
+          }
         }).then(record => {
           if (record) {
               // get full querystring from database using current path
@@ -450,7 +452,6 @@ module.exports = function(app, apicache, passport) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
         // let path = req.url.substring(1);
-
         Map.findOne({
           where: {
             path: req.params.path,

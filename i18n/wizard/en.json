@@ -73,7 +73,8 @@
       "text": "Languages"
     },
     "style": {
-      "text": "Select a map style to start"
+      "text": "Select a map style to start",
+      "error": "Select a map style first"
     },
     "center": {
       "text": "Coordinates on current position"

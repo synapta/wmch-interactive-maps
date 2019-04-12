@@ -73,7 +73,8 @@
       "text": "In altre lingue"
     },
     "style": {
-      "text": "Scegli uno stile della mappa per cominciare"
+      "text": "Scegli uno stile della mappa per cominciare",
+      "error": "Scegli prima uno stile della mappa"
     },
     "center": {
       "text": "Coordinate sulla posizione attuale"

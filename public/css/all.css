@@ -135,7 +135,7 @@
     height: 14rem;
 }
 .leaflet-popup-content .noimage {
-    height: 6rem;
+    height: 3rem;
 }
 #pagepop .withimage {
     height: 15rem;
@@ -217,4 +217,9 @@
 #wmap .awesome-marker .icon,
 #preview .awesome-marker .icon {
   width: 100%;
+}
+#path-found,
+#path-not-found {
+  font-size: 1.5rem;
+  line-height: 3rem;
 }

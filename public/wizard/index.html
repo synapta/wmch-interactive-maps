@@ -79,7 +79,7 @@
                           <div class="ui label">
                             {{baseurl}}
                           </div>
-                          <input type="text" name="path" placeholder="{{#i18n}}fields.path.placeholder{{/i18n}}" size="50" style="width: 50ex;">
+                          <input type="text" data-valid="0" name="path" placeholder="{{#i18n}}fields.path.placeholder{{/i18n}}" size="50" style="width: 50ex;"><i id="path-not-found" class="check icon green" style="display: none;"></i><i id="path-found" class="close icon red" style="display: none;"></i>
                         </div>
                     </div>
                     <div class="field transition hidden">{{! remove transition hidden to add a random generate path functionality }}
@@ -103,6 +103,9 @@
               </div>
               <div class="two fields step-3 step-content hidestep step-content">
                   <div class="inline field">
+                      <div id="pinicon-mapstyle-error" class="ui error message" style="display: none;">
+                        <div class="header">{{#i18n}}actions.style.error{{/i18n}}</div>
+                      </div>
                       <div class="ui floating dropdown labeled search icon button" id="mapstyle" data-touched="0">
                         <i class="flag checkered large icon"></i>
                         <span class="text">{{#i18n}}actions.style.text{{/i18n}}</span>
