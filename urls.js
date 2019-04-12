@@ -202,7 +202,8 @@ module.exports = function(app, apicache, passport) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
         Map.findOne({
-          where: {path: req.params.path}
+          where: {path: req.params.path},
+          published: true
         }).then(record => {
           if (record) {
               // get full querystring from database using current path
@@ -262,6 +263,9 @@ module.exports = function(app, apicache, passport) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
         Map.findAll({
+          where: {
+            published: true
+          },
           order: [
             ['sticky', 'DESC'],
             ['createdAt', 'DESC'],
