@@ -77,6 +77,8 @@ $(function() {
                 addMarkers(newJson, window.map, markers, options, autozoom);
                 // Aggiungi i contatori alla mappa
                 legendaUpdate(newJson);
+                // disable throbbler
+                $('#pagepop').dimmer('hide');
             }
         });
         // Su desktop, visualizzo sempre la legenda aperta
@@ -349,5 +351,8 @@ $(function() {
         $('#pagepop').dimmer('hide');
         $('#pagepopclose').hide();
     });
+
+    // show loader
+    $('#pagepop').dimmer('show');
 
 });
