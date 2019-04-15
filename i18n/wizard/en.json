@@ -35,25 +35,32 @@
       "placeholder": "Insert a SPARQL query from Wikidata"
     },
     "minZoom": {
-      "label": "Min Zoom"
+      "label": "Min Zoom",
+      "help": "Lock minimum and maximum values for the zoom. Default values are good for typical configuration."
     },
     "maxZoom": {
       "label": "Max Zoom"
     },
     "zoom": {
-      "label": "Zoom"
+      "label": "Zoom",
+      "help": "Select zoom value or auto-adjust zoom accordingly to data."
     },
     "autoZoom": {
-      "label": "automatic zoom on data boundaries"
+      "label": "Automatic zoom on data boundaries",
+      "manual": "Manual",
+      "auto": "Boundaries to data coordinates",
+      "or": "or"
     },
     "lat": {
-      "label": "Latitude"
+      "label": "Latitude",
+      "help": "Specify coordinates in decimal format, or move the map and click on the center button."
     },
     "long": {
       "label": "Longitude"
     },
     "maxClusterRadius": {
-      "label": "Max cluster radius"
+      "label": "Max cluster radius",
+      "help": "The higher the value, the more the nearby coordinates will be grouped into browsable clusters."
     }
   },
   "actions": {
@@ -74,7 +81,8 @@
     },
     "style": {
       "text": "Select a map style to start",
-      "error": "Select a map style first"
+      "error": "Select a map style first",
+      "help": "Select a type of map and an icon to be shown on top of pin"
     },
     "center": {
       "text": "Coordinates on current position"

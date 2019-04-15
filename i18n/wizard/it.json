@@ -35,25 +35,32 @@
       "placeholder": "Inserisci una query SPARQL da Wikidata"
     },
     "minZoom": {
-      "label": "Zoom minimo"
+      "label": "Zoom minimo",
+      "help": "Blocca i valori minimi e massimi dello zoom. In una configurazione tipica puoi lasciare i valori inalterati."
     },
     "maxZoom": {
       "label": "Zoom massimo"
     },
     "zoom": {
-      "label": "Zoom"
+      "label": "Zoom",
+      "help": "Scegli lo zoom oppure lascia sistemare automaticamente lo zoom in base ai dati."
     },
     "autoZoom": {
-      "label": "zoom automatico basato sui dati"
+      "label": "Zoom automatico basato sui dati",
+      "manual": "Manuale",
+      "auto": "Inquadra tutte le coordinate",
+      "or": "o"
     },
     "lat": {
-      "label": "Latitudine"
+      "label": "Latitudine",
+      "help": "Inserisci le coordinate in formato decimale, o muovi la mappa e clicca sul pulsante centra."
     },
     "long": {
       "label": "Longitudine"
     },
     "maxClusterRadius": {
-      "label": "Raggio di aggregazione massimo"
+      "label": "Raggio di aggregazione massimo",
+      "help": "Più alto sarà il valore, più le coordinate vicine verranno rappresentate come un singolo gruppo navigabile."
     }
   },
   "actions": {
@@ -74,7 +81,8 @@
     },
     "style": {
       "text": "Scegli uno stile della mappa per cominciare",
-      "error": "Scegli prima uno stile della mappa"
+      "error": "Scegli prima uno stile della mappa",
+      "help": "Scegli un tipo di mappa e un'icona da visualizzare sopra il pin"
     },
     "center": {
       "text": "Coordinate sulla posizione attuale"

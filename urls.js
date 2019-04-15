@@ -243,6 +243,9 @@ module.exports = function(app, apicache, passport) {
                      },
                      json: {mapargs: req.query.mapargs}
                 }, async function (error, response, jsonBody) {
+                    if (!jsonBody) {
+                        util.log('******** Screenshot server is down ************');
+                    }
                     // add a new record to Map table via ORM
                     await Map.create({
                       title: req.query.title,
