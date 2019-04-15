@@ -32,7 +32,8 @@
     },
     "sparql": {
       "label": "SPARQL query",
-      "placeholder": "Insert a SPARQL query from Wikidata"
+      "placeholder": "Insert a SPARQL query from Wikidata",
+      "help": "Create a SPARQL query on Wikidata Query Service"
     },
     "minZoom": {
       "label": "Min Zoom",

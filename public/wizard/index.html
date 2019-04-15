@@ -95,6 +95,9 @@
               <!-- step 2 *********************************************************************************************************************** -->
               <div class="field step-2 step-content hidestep">
                 <label>{{#i18n}}fields.sparql.label{{/i18n}}</label>
+                <a class="ui compact mini icon button teal" href="https://query.wikidata.org/" target="_blank">
+                  <i class="barcode icon"></i> {{#i18n}}fields.sparql.help{{/i18n}}
+                </a>
                 <textarea id="map-query" placeholder="{{#i18n}}fields.sparql.placeholder{{/i18n}}" rows="30">{{{sparql}}}</textarea>
               </div>
               <div class="two fields step-2 step-content hidestep step-content">
@@ -120,7 +123,7 @@
                           {{/map.styles}}
                         </div>
                       </div>
-                    <button class="ui compact circular mini icon button teal wizard-help" data-help="{{#i18n}}actions.style.help{{/i18n}}">
+                    <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}actions.style.help{{/i18n}}">
                       <i class="help icon"></i>
                     </button>
                  </div>
@@ -150,7 +153,7 @@
                       <div class="inline field">
                         <label for="zoom">{{#i18n}}fields.zoom.label{{/i18n}}</label>
                         <input id="zoom" type="number" min="0" value="{{map.zoom}}" step="1">
-                        <button class="ui compact circular mini icon button teal wizard-help" data-help="{{#i18n}}fields.zoom.help{{/i18n}}">
+                        <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.zoom.help{{/i18n}}">
                           <i class="help icon"></i>
                         </button>
                       </div>
@@ -170,7 +173,7 @@
                  <div class="inline field">
                     <span class="text">{{#i18n}}fields.long.label{{/i18n}}</span>
                     <input class="" id="long" value="{{map.long}}" />
-                    <button class="ui compact circular mini icon button teal wizard-help" data-help="{{#i18n}}fields.lat.help{{/i18n}}">
+                    <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.lat.help{{/i18n}}">
                       <i class="help icon"></i>
                     </button>
                  </div>
@@ -179,7 +182,7 @@
                   <div class="inline field">
                     <label>{{#i18n}}fields.maxClusterRadius.label{{/i18n}}</label>
                     <input id="maxclusterradius" type="number" min="0" value="{{map.maxclusterradius}}" step="0.1">
-                    <button class="ui compact circular mini icon button teal wizard-help" data-help="{{#i18n}}fields.maxClusterRadius.help{{/i18n}}">
+                    <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.maxClusterRadius.help{{/i18n}}">
                       <i class="help icon"></i>
                     </button>
                   </div>
@@ -193,7 +196,7 @@
                  <div class="inline field">
                     <label>{{#i18n}}fields.maxZoom.label{{/i18n}}</label>
                     <input class="" id="maxzoom" type="number" min="1" value="{{map.maxzoom}}" step="1"/>
-                    <button class="ui compact circular mini icon button teal wizard-help" data-help="{{#i18n}}fields.maxClusterRadius.help{{/i18n}}">
+                    <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.maxClusterRadius.help{{/i18n}}">
                       <i class="help icon"></i>
                     </button>
                  </div>

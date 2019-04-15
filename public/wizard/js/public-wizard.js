@@ -369,7 +369,7 @@ $(function() {
         if (!$(this).hasClass("clicked")) {
             $(this).toggleClass("clicked");
             var msg = $(this).data('help');
-            $(this).parent('.field').append('<div class="wizard-help-text ui pointing label teal">' + msg + '</div>');
+            $(this).parent('.field').append('<div class="wizard-help-text ui pointing label">' + msg + '</div>');
         }
         else {
             $(this).toggleClass("clicked");
