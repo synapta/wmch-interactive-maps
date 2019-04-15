@@ -290,6 +290,9 @@ $(function() {
             subdomains: mapOptions.subdomains,
             opacity: opacity
         });
+        // remove placeholder
+        $('#preview').empty();
+        $('#preview').removeClass('ui placeholder segment');
         // carica la mappa nel div #preview
         window.map = new L.Map('preview', {
             center: new L.LatLng(parsedOptions.startLat, parsedOptions.startLng),
