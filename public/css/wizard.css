@@ -50,3 +50,17 @@ input.inverted {
     color: black !important;
     border: 1px solid #ccc !important;
 }
+.final-step .leaflet-control,
+.final-step #center {
+    display: none;
+}
+.final-step #preview,
+.final-step #preview * {
+    pointer-events: none;
+}
+#center {
+	position: relative;
+	top: 54px;
+	z-index: 996;
+	left: 40%;
+}

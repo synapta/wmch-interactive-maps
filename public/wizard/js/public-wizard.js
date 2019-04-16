@@ -11,6 +11,18 @@ $(function() {
         return false;
     };
 
+    /**
+     Disable preview interactions and controls on final step
+     **/
+    var finalStepDisablePreview = function () {
+        // disable navigation via CSS
+        $("body").addClass("final-step");
+        // recenter and reload map to field values (only if valid)
+        if (formIsValid()) {
+            loadmap();
+        }
+    };
+
     var mobileDesktopLegenda = function () {
         if (isMobile()) {
             // mobile
@@ -38,9 +50,22 @@ $(function() {
         });
     };
 
+    var formIsValid = function () {
+        if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid')) {
+            // form is valid
+            return true;
+        }
+        else {
+            // form not valid
+            return false;
+        }
+    };
+
     var checkFinalStep = function () {
-        if ($("button[type='submit']:visible")) {
-            if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid')) {
+        if ($("button[type='submit']").is(":visible")) {
+            finalStepDisablePreview();
+            // form validity check
+            if(formIsValid()) {
                 // form is valid
                 $("button[type='submit']").removeClass("disabled");
             }
@@ -48,6 +73,9 @@ $(function() {
                 // form not valid
                 $("button[type='submit']").addClass("disabled");
             }
+        }
+        else {
+            $("body").removeClass("final-step");
         }
     }
 
@@ -305,6 +333,12 @@ $(function() {
             // set current map zoom to zoom field
             $('#zoom').val(parseInt(window.map.getZoom()));
         });
+
+
+        /** window.map.on('zoomstart', function(e) {
+            console.log(e);
+            // window.map.setZoom(window.map.getZoom());
+        }); **/
         // load data
         loadData(options, parsedOptions.autoZoom);
     }
@@ -387,7 +421,7 @@ $(function() {
 
 
     // Autozoom alternatives
-    var autoZoomActiveClasses = 'active olive';
+    var autoZoomActiveClasses = 'active teal';
     $('#autozoom-manual').on("click", function (e) {
         e.preventDefault();
         if ($('#mapstyle').data('touched')) {
@@ -469,7 +503,7 @@ $(function() {
         }
     });
 
-    // load all accordion
+    // load all Semantic UI accordion
     $('.accordion').accordion();
 
 });

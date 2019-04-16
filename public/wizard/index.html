@@ -116,7 +116,7 @@
               </div>
               <!-- step 3 *********************************************************************************************************************** -->
               <div class="ui segments step-3 step-content hidestep">
-                  <div class="ui segment secondary">
+                  <div class="ui segment">
                       <div class="two fields">
                             <div class="field">
                                 <div id="pinicon-mapstyle-error" class="ui error message" style="display: none;">
@@ -153,14 +153,14 @@
                            </div>
                         </div>
                       </div>
-                    <div class="ui segment">
+                    <div class="ui segment secondary">
                       <div class="three fields">
                             <!-- Zoom manual vs. auto -->
                             <div class="inline field" aria-label="{{#i18n}}fields.autoZoom.label{{/i18n}}">
                               <div class="ui large buttons">
                                 <button id="autozoom-auto" class="ui button">{{#i18n}}fields.autoZoom.auto{{/i18n}}</button>
                                 <div class="or"></div>
-                                <button id="autozoom-manual" class="ui button active olive">{{#i18n}}fields.autoZoom.manual{{/i18n}}</button>
+                                <button id="autozoom-manual" class="ui button active teal">{{#i18n}}fields.autoZoom.manual{{/i18n}}</button>
                               </div>
                             </div>
                             <div class="inline field">
@@ -178,13 +178,8 @@
                         </div>
                       </div>
                       <!-- Lat / Long -->
-                      <div class="ui segment secondary">
+                      <div class="ui segment">
                         <div class="fields">
-                           <div class="inline field">
-                              <div class="ui button" tabindex="0" id="center">
-                                  <i class="crosshairs alternate icon"></i> {{#i18n}}actions.center.text{{/i18n}}
-                              </div>
-                           </div>
                           <div class="inline field">
                              <span class="text">{{#i18n}}fields.lat.label{{/i18n}}</span>
                              <input class="" id="lat" value="{{map.lat}}" />
@@ -205,57 +200,40 @@
                            </div>
                         </div>
                       </div>
-                      {{! quello che segue e' lasciato volutamente senza traduzioni per permettere lettura dei token di traduzione nei popup }}
-                      <div class="ui placeholder segment step-3 step-content hidestep mapdata" id="preview"
-                      data-nowikipedia="{{#i18n}}actions.nowikipedia.text{{/i18n}}"
-                      data-popup-image-license="{{#i18n}}popup.imageLicense{{/i18n}}"
-                      data-morelanguages="{{#i18n}}actions.morelanguages.text{{/i18n}}"
-                      data-morelanguagesone="{{#i18n}}actions.morelanguages.singular{{/i18n}}"
-                      data-morelanguagesmany="{{#i18n}}actions.morelanguages.plural{{/i18n}}"
-                      data-nocommonscat="{{#i18n}}actions.nocommonscat.text{{/i18n}}"
-                      data-website="{{#i18n}}actions.website.text{{/i18n}}"
-                      data-filter-no="{{#i18n}}filter.no{{/i18n}}"
-                      data-filter-one="{{#i18n}}filter.one{{/i18n}}"
-                      data-filter-three="{{#i18n}}filter.three{{/i18n}}"
-                      data-filter-four="{{#i18n}}filter.four{{/i18n}}"
-                      >
-                        <div class="ui icon header">
-                          <i class="map icon"></i>
-                          {{#i18n}}actions.style.text{{/i18n}}
-                        </div>
-                      </div>
-                      <div class="ui segment">
-                        <div class="ui styled fluid accordion">
-                          <div class="title">
-                            <i class="dropdown icon"></i>
-                            {{#i18n}}fields.minZoom.help{{/i18n}}
-                          </div>
-                          <div class="content">
-                            <div class="fields transition hidden">
-                               <!-- Zoom values -->
-                               <div class="inline field">
-                                  <label>{{#i18n}}fields.minZoom.label{{/i18n}}</label>
-                                  <input class="" id="minzoom" type="number" min="1" value="{{map.minzoom}}" step="1"/>
-                               </div>
-                               <div class="inline field">
-                                  <label>{{#i18n}}fields.maxZoom.label{{/i18n}}</label>
-                                  <input class="" id="maxzoom" type="number" min="1" value="{{map.maxzoom}}" step="1"/>
-                                  <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.minZoom.help{{/i18n}}">
-                                    <i class="help icon"></i>
-                                  </button>
-                               </div>
+                      <div class="ui segment secondary">
+                          <div class="ui styled fluid accordion">
+                            <div class="title">
+                              <i class="dropdown icon"></i>
+                              {{#i18n}}fields.minZoom.help{{/i18n}}
+                            </div>
+                            <div class="content">
+                              <div class="fields transition hidden">
+                                 <!-- Zoom values -->
+                                 <div class="inline field">
+                                    <label>{{#i18n}}fields.minZoom.label{{/i18n}}</label>
+                                    <input class="" id="minzoom" type="number" min="1" value="{{map.minzoom}}" step="1"/>
+                                 </div>
+                                 <div class="inline field">
+                                    <label>{{#i18n}}fields.maxZoom.label{{/i18n}}</label>
+                                    <input class="" id="maxzoom" type="number" min="1" value="{{map.maxzoom}}" step="1"/>
+                                    <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.minZoom.help{{/i18n}}">
+                                      <i class="help icon"></i>
+                                    </button>
+                                 </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
                       </div>
-                      <div class="fields">
-                          <div class="inline field">
-                            <input type="button" value="{{#i18n}}actions.prev.text{{/i18n}}" class="ui button wizard-prev-next inverted" data-show="step-2">
+                      <div class="ui segment">
+                          <div class="fields">
+                              <div class="inline field">
+                                <input type="button" value="{{#i18n}}actions.prev.text{{/i18n}}" class="ui button wizard-prev-next inverted" data-show="step-2">
+                              </div>
+                              <div class="inline field">
+                                <input type="button" value="{{#i18n}}actions.next.text{{/i18n}}" class="ui button wizard-prev-next green" data-show="step-4">
+                              </div>
                           </div>
-                          <div class="inline field">
-                            <input type="button" value="{{#i18n}}actions.next.text{{/i18n}}" class="ui button wizard-prev-next green" data-show="step-4">
-                          </div>
-                      </div>
+                    </div>
               </div>
               <!-- step 4 *********************************************************************************************************************** -->
               <div class="ui placeholder segment step-4 step-content hidestep">
@@ -268,6 +246,28 @@
                   <button class="ui button green disabled" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
                   <input type="hidden" value="" id="url">
                   <input type="hidden" value="" name="mapargs">
+                </div>
+              </div>
+              <div class="ui button" tabindex="0" id="center">
+                  <i class="crosshairs alternate icon"></i> {{#i18n}}actions.center.text{{/i18n}}
+              </div>
+              {{! quello che segue e' lasciato volutamente senza traduzioni per permettere lettura dei token di traduzione nei popup }}
+              <div class="ui placeholder segment step-3 step-4 step-content hidestep mapdata" id="preview"
+              data-nowikipedia="{{#i18n}}actions.nowikipedia.text{{/i18n}}"
+              data-popup-image-license="{{#i18n}}popup.imageLicense{{/i18n}}"
+              data-morelanguages="{{#i18n}}actions.morelanguages.text{{/i18n}}"
+              data-morelanguagesone="{{#i18n}}actions.morelanguages.singular{{/i18n}}"
+              data-morelanguagesmany="{{#i18n}}actions.morelanguages.plural{{/i18n}}"
+              data-nocommonscat="{{#i18n}}actions.nocommonscat.text{{/i18n}}"
+              data-website="{{#i18n}}actions.website.text{{/i18n}}"
+              data-filter-no="{{#i18n}}filter.no{{/i18n}}"
+              data-filter-one="{{#i18n}}filter.one{{/i18n}}"
+              data-filter-three="{{#i18n}}filter.three{{/i18n}}"
+              data-filter-four="{{#i18n}}filter.four{{/i18n}}"
+              >
+                <div class="ui icon header">
+                  <i class="map icon"></i>
+                  {{#i18n}}actions.style.text{{/i18n}}
                 </div>
               </div>
               <!-- input type="hidden" id="attribution" value="" -->
