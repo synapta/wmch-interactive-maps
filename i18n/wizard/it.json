@@ -65,6 +65,9 @@
     }
   },
   "actions": {
+    "confirm": {
+      "text": "Vuoi pubblicare la mappa? Annulla per continuare a modificarla."
+    },
     "generatePath": {
       "text": "Genera percorso"
     },

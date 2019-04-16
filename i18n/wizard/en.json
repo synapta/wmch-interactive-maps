@@ -65,6 +65,9 @@
     }
   },
   "actions": {
+    "confirm": {
+      "text": "Do you want to publish map? Hit Cancel to continue to edit."
+    },
     "generatePath": {
       "text": "Generate path"
     },

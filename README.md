@@ -9,6 +9,10 @@ Local settings like database name and authentication data are available in the g
 
 TL;DR: Copy localconfig.example.json to localconfig.json
 
+Create directories:
+
+`mkdir -p screenshots && mkdir -p local`
+
 ### url
 
 On localconfig.json, set the url to the production url. It will be used to:

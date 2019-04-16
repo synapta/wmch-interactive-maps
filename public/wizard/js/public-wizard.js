@@ -133,7 +133,7 @@ $(function() {
         }
     });
 
-    // window.xxx = parseOptions;
+    // window.xxx = generateUrl;
 
     function parseOptions() {
         // options
@@ -444,6 +444,20 @@ $(function() {
                 }
               }
           });
+        }
+    });
+
+    // Prevent accidental submit
+    $('form').on('submit', function (ev) {
+        if ($(this).hasClass('not-confirmed')) {
+            ev.preventDefault();
+            var confirmMessage = $('form').data('confirm');
+            if (window.confirm(confirmMessage)) {
+                // prevent looping message
+                $(this).removeClass('not-confirmed');
+                // re-submit the form
+                $(this).trigger('submit');
+            }
         }
     });
 
