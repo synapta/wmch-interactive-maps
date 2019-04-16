@@ -301,6 +301,10 @@ $(function() {
             minZoom: parsedOptions.minZoom,
             layers: [basemap]
         });
+        window.map.on('zoomend', function() {
+            // set current map zoom to zoom field
+            $('#zoom').val(parseInt(window.map.getZoom()));
+        });
         // load data
         loadData(options, parsedOptions.autoZoom);
     }
@@ -387,6 +391,8 @@ $(function() {
     $('#autozoom-manual').on("click", function (e) {
         e.preventDefault();
         if ($('#mapstyle').data('touched')) {
+            $('#autozoom-icon').toggleClass('right arrow');
+            $('#autozoom-icon').toggleClass('cancel');
             $('#autozoom-auto').removeClass(autoZoomActiveClasses);
             $(this).addClass(autoZoomActiveClasses);
             loadmapifchanged();
@@ -398,6 +404,8 @@ $(function() {
     $('#autozoom-auto').on("click", function (e) {
         e.preventDefault();
         if ($('#mapstyle').data('touched')) {
+            $('#autozoom-icon').toggleClass('right arrow');
+            $('#autozoom-icon').toggleClass('cancel');
             $('#autozoom-manual').removeClass(autoZoomActiveClasses);
             $(this).addClass(autoZoomActiveClasses);
             loadmapifchanged();
@@ -460,5 +468,8 @@ $(function() {
             }
         }
     });
+
+    // load all accordion
+    $('.accordion').accordion();
 
 });

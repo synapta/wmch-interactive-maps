@@ -115,98 +115,95 @@
                   <p></p>
               </div>
               <!-- step 3 *********************************************************************************************************************** -->
-              <div class="ui segment step-3 step-content hidestep">
+              <div class="ui segments step-3 step-content hidestep">
+                  <div class="ui segment secondary">
                       <div class="two fields">
-                          <div class="field">
-                              <div id="pinicon-mapstyle-error" class="ui error message" style="display: none;">
-                                <div class="header">{{#i18n}}actions.style.error{{/i18n}}</div>
-                              </div>
-                              <div class="ui floating dropdown labeled search icon button" id="mapstyle" data-touched="0">
-                                <i class="flag checkered large icon"></i>
-                                <span class="text">{{#i18n}}actions.style.text{{/i18n}}</span>
-                                <div class="menu">
-                                  {{#map.styles}}
-                                  <div class="item" data-value="{{tile}}|||{{attribution}}">{{name}}</div>
-                                  {{/map.styles}}
+                            <div class="field">
+                                <div id="pinicon-mapstyle-error" class="ui error message" style="display: none;">
+                                  <div class="header">{{#i18n}}actions.style.error{{/i18n}}</div>
                                 </div>
-                              </div>
-                            <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}actions.style.help{{/i18n}}">
-                              <i class="help icon"></i>
-                            </button>
-                         </div>
-                         <div class="field">
-                             <div class="ui search right labeled left icon input pinicon-wrapper disabled">
-                               <i class="search icon"></i>
-                               <input class="prompt" type="text" placeholder="{{#i18n}}actions.icon.text{{/i18n}}" id="pinicon-select" size="26">
-                               <span class="ui tag label" id="pinicon-preview">
-                                 <i class="large icon"></i>
-                               </span>
-                               <input type="hidden" value="{{map.pinicon}}" id="pinicon">
-                               <div class="results"></div>
-                             </div>
-                         </div>
+                                <div class="ui floating dropdown labeled search icon button" id="mapstyle" data-touched="0">
+                                  <i class="flag checkered large icon"></i>
+                                  <span class="text">{{#i18n}}actions.style.text{{/i18n}}</span>
+                                  <div class="menu">
+                                    {{#map.styles}}
+                                    <div class="item" data-value="{{tile}}|||{{attribution}}">{{name}}</div>
+                                    {{/map.styles}}
+                                  </div>
+                                </div>
+                              <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}actions.style.help{{/i18n}}">
+                                <i class="help icon"></i>
+                              </button>
+                           </div>
+                           <div class="field">
+                               <div class="ui vertical divider">
+                                 <i class="right arrow icon"></i>
+                               </div>
+                           </div>
+                           <div class="field">
+                               <div class="ui search right labeled left icon input pinicon-wrapper disabled">
+                                 <i class="search icon"></i>
+                                 <input class="prompt" type="text" placeholder="{{#i18n}}actions.icon.text{{/i18n}}" id="pinicon-select" size="26">
+                                 <span class="ui tag label" id="pinicon-preview">
+                                   <i class="large icon"></i>
+                                 </span>
+                                 <input type="hidden" value="{{map.pinicon}}" id="pinicon">
+                                 <div class="results"></div>
+                               </div>
+                           </div>
+                        </div>
                       </div>
-                      <div class="fields">
-                          <!-- Zoom manual vs. auto -->
-                          <div class="fields">
-                              <div class="inline field">
-                                <label>{{#i18n}}fields.autoZoom.label{{/i18n}}</label>
-                                <div class="ui large buttons">
-                                  <button id="autozoom-auto" class="ui button">{{#i18n}}fields.autoZoom.auto{{/i18n}}</button>
-                                  <div class="or"></div>
-                                  <button id="autozoom-manual" class="ui button active olive">{{#i18n}}fields.autoZoom.manual{{/i18n}}</button>
+                    <div class="ui segment">
+                      <div class="three fields">
+                            <!-- Zoom manual vs. auto -->
+                            <div class="inline field" aria-label="{{#i18n}}fields.autoZoom.label{{/i18n}}">
+                              <div class="ui large buttons">
+                                <button id="autozoom-auto" class="ui button">{{#i18n}}fields.autoZoom.auto{{/i18n}}</button>
+                                <div class="or"></div>
+                                <button id="autozoom-manual" class="ui button active olive">{{#i18n}}fields.autoZoom.manual{{/i18n}}</button>
+                              </div>
+                            </div>
+                            <div class="inline field">
+                                <div class="ui vertical divider">
+                                  <i id="autozoom-icon" class="right arrow icon"></i>
                                 </div>
-                              </div>
-                              <div class="inline field">
-                                <label for="zoom">{{#i18n}}fields.zoom.label{{/i18n}}</label>
-                                <input id="zoom" type="number" min="0" value="{{map.zoom}}" step="1">
-                                <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.zoom.help{{/i18n}}">
-                                  <i class="help icon"></i>
-                                </button>
-                              </div>
-                          </div>
+                            </div>
+                            <div class="inline field">
+                              <label for="zoom">{{#i18n}}fields.zoom.label{{/i18n}}</label>
+                              <input id="zoom" type="number" min="0" value="{{map.zoom}}" step="1">
+                              <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.zoom.help{{/i18n}}">
+                                <i class="help icon"></i>
+                              </button>
+                            </div>
+                        </div>
                       </div>
                       <!-- Lat / Long -->
-                      <div class="fields">
-                         <div class="field">
-                            <div class="ui button" tabindex="0" id="center">
-                                <i class="crosshairs alternate icon"></i> {{#i18n}}actions.center.text{{/i18n}}
-                            </div>
-                         </div>
-                        <div class="inline field">
-                           <span class="text">{{#i18n}}fields.lat.label{{/i18n}}</span>
-                           <input class="" id="lat" value="{{map.lat}}" />
-                        </div>
-                         <div class="inline field">
-                            <span class="text">{{#i18n}}fields.long.label{{/i18n}}</span>
-                            <input class="" id="long" value="{{map.long}}" />
-                            <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.lat.help{{/i18n}}">
-                              <i class="help icon"></i>
-                            </button>
-                         </div>
-                      </div>
-                      <div class="two fields">
+                      <div class="ui segment secondary">
+                        <div class="fields">
+                           <div class="inline field">
+                              <div class="ui button" tabindex="0" id="center">
+                                  <i class="crosshairs alternate icon"></i> {{#i18n}}actions.center.text{{/i18n}}
+                              </div>
+                           </div>
                           <div class="inline field">
-                            <label>{{#i18n}}fields.maxClusterRadius.label{{/i18n}}</label>
-                            <input id="maxclusterradius" type="number" min="0" value="{{map.maxclusterradius}}" step="0.1">
-                            <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.maxClusterRadius.help{{/i18n}}">
-                              <i class="help icon"></i>
-                            </button>
+                             <span class="text">{{#i18n}}fields.lat.label{{/i18n}}</span>
+                             <input class="" id="lat" value="{{map.lat}}" />
                           </div>
-                      </div>
-                      <div class="fields">
-                         <!-- Zoom values -->
-                         <div class="inline field">
-                            <label>{{#i18n}}fields.minZoom.label{{/i18n}}</label>
-                            <input class="" id="minzoom" type="number" min="1" value="{{map.minzoom}}" step="1"/>
-                         </div>
-                         <div class="inline field">
-                            <label>{{#i18n}}fields.maxZoom.label{{/i18n}}</label>
-                            <input class="" id="maxzoom" type="number" min="1" value="{{map.maxzoom}}" step="1"/>
-                            <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.maxClusterRadius.help{{/i18n}}">
-                              <i class="help icon"></i>
-                            </button>
-                         </div>
+                           <div class="inline field">
+                              <span class="text">{{#i18n}}fields.long.label{{/i18n}}</span>
+                              <input class="" id="long" value="{{map.long}}" />
+                              <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.lat.help{{/i18n}}">
+                                <i class="help icon"></i>
+                              </button>
+                           </div>
+                           <div class="inline field">
+                             <label>{{#i18n}}fields.maxClusterRadius.label{{/i18n}}</label>
+                             <input id="maxclusterradius" type="number" min="0" value="{{map.maxclusterradius}}" step="0.1">
+                             <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.maxClusterRadius.help{{/i18n}}">
+                               <i class="help icon"></i>
+                             </button>
+                           </div>
+                        </div>
                       </div>
                       {{! quello che segue e' lasciato volutamente senza traduzioni per permettere lettura dei token di traduzione nei popup }}
                       <div class="ui placeholder segment step-3 step-content hidestep mapdata" id="preview"
@@ -225,6 +222,30 @@
                         <div class="ui icon header">
                           <i class="map icon"></i>
                           {{#i18n}}actions.style.text{{/i18n}}
+                        </div>
+                      </div>
+                      <div class="ui segment">
+                        <div class="ui styled fluid accordion">
+                          <div class="title">
+                            <i class="dropdown icon"></i>
+                            {{#i18n}}fields.minZoom.help{{/i18n}}
+                          </div>
+                          <div class="content">
+                            <div class="fields transition hidden">
+                               <!-- Zoom values -->
+                               <div class="inline field">
+                                  <label>{{#i18n}}fields.minZoom.label{{/i18n}}</label>
+                                  <input class="" id="minzoom" type="number" min="1" value="{{map.minzoom}}" step="1"/>
+                               </div>
+                               <div class="inline field">
+                                  <label>{{#i18n}}fields.maxZoom.label{{/i18n}}</label>
+                                  <input class="" id="maxzoom" type="number" min="1" value="{{map.maxzoom}}" step="1"/>
+                                  <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.minZoom.help{{/i18n}}">
+                                    <i class="help icon"></i>
+                                  </button>
+                               </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                       <div class="fields">
