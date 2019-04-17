@@ -3,7 +3,7 @@
   background-repeat: no-repeat;
   background-position: center center;
 }
-.square {
+.squaretodel {
   position: relative;
 }
 .square {
@@ -12,7 +12,7 @@
   width: 100%;
   padding-top: 56.25%;
 }
-.square > .content {
+.squaretodel > .content {
   position: absolute;
   top: 0;
   left: 0;
@@ -25,12 +25,10 @@
 h1 {
   line-height: 3em;
 }
-#infinite .header {
-  background-color: white;
-  display: inline;
-  padding-top: 1ex;
-  padding-right: 1ex;
-  line-height: 1.7em;
-  word-spacing: 0.5ex;
-  font-variant: small-caps;
+#infinite .label {
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+#infinite .landingmapimage {
+  cursor: pointer;
 }

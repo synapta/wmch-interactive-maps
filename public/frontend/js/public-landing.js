@@ -16,6 +16,26 @@ $(function() {
         return map.star;
     }
 
+    var colors = [
+      'red',
+      'orange',
+      'yellow',
+      'olive',
+      'green',
+      'teal',
+      'blue',
+      'violet',
+      'purple',
+      'pink',
+      'brown',
+      'grey'
+    ];
+
+    function colorLottery () {
+        var randColorIndex = getRandomInt(0, colors.length);
+        return colors[randColorIndex];
+    }
+
     function loadMaps(limit, offset, callback) {
         $.ajax ({
             type:'GET',
@@ -30,13 +50,12 @@ $(function() {
                 var userDefinedLang = getUrlParameter('l');
                 userDefinedLangQuery = userDefinedLang ? '?l=' + userDefinedLang : '';
                 $.each(mapResults, function( index, map ) {
+                    // map.href + userDefinedLangQuery
                     var thisIsStarred = isStarred(map) ? starIcon : '';
-                    $('#infinite').append('<div class="column">'
-                    + '<a class="landingmapimage square" href="' + map.href + userDefinedLangQuery
-                    + '" style="background-image: url(' + map.screenshot + ');">'
-                    + '<h2 class="ui header">' + map.title + '</h2>'
-                    + thisIsStarred
-                    + '</a>'
+                    $('#infinite').append('<div class="column"><div class="ui raised segment">'
+                    + '<div class="square landingmapimage" style="background-image: url(' + map.screenshot + ');">'
+                    + '<a href="' + map.href + '" class="ui ' + colorLottery() + ' ribbon label">' + map.title + '</a>'
+                    + '</div>'
                     + '</div>');
                 });
                 // preview added, load
@@ -75,4 +94,12 @@ $(function() {
             window.location.href = window.location.pathname + '?l=' + value;
         }
     });
+
+    // full frame click
+    $(document).on("click", "#infinite .landingmapimage", function (ev) {
+        ev.preventDefault();
+        var loc = $(this).parents('.segment').find('a').attr('href');
+        window.location.href = loc;
+    });
+
 });

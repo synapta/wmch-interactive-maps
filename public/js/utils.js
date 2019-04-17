@@ -100,3 +100,10 @@ var getUrlParameter = function getUrlParameter (sParam) {
         }
     }
 };
+
+// @ßee https://developer.mozilla.org/it/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //Il max è escluso e il min è incluso
+}
