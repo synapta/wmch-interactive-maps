@@ -6,6 +6,7 @@
     "hasha": "^4.0.1",
     "i18next": "^15.0.7",
     "mariadb": "^2.0.3",
+    "markdown-it": "^8.4.2",
     "minimist": "^1.2.0",
     "morgan": "^1.9.1",
     "mustache": "^3.0.1",
