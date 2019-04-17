@@ -1,0 +1,21 @@
+{
+  "page": {
+    "title": "Admin interface for WMCH map service"
+  },
+  "headers": {
+    "title": "Title",
+    "path": "Path",
+    "order": "Order",
+    "star": "Starred",
+    "delete": "Delete?"
+  },
+  "actions": {
+    "delete": {
+      "text": "Delete"
+    },
+    "submit": {
+      "text": "Save",
+      "confirm": "!changes changes and !deletes deletion will be applied. Apply the changes?"
+    }
+  }
+}

@@ -189,7 +189,7 @@
 #languages .menu {
   z-index: 997;
 }
-.hidden {
+.donotdisplay {
   display: none !important;
 }
 .noimage a {

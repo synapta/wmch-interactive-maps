@@ -19,7 +19,6 @@ $(function() {
     var colors = [
       'red',
       'orange',
-      'yellow',
       'olive',
       'green',
       'teal',

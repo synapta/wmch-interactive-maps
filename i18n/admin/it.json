@@ -1,0 +1,21 @@
+{
+  "page": {
+    "title": "Interfaccia di amministrazione del servizio mappe WMCH"
+  },
+  "headers": {
+    "title": "Titolo",
+    "path": "Percorso",
+    "order": "Ordine",
+    "star": "Preferito",
+    "delete": "Eliminare?"
+  },
+  "actions": {
+    "delete": {
+      "text": "Elimina"
+    },
+    "submit": {
+      "text": "Salva",
+      "confirm": "!changes modifiche e !deletes cancellazioni saranno definitive. Confermi?"
+    }
+  }
+}

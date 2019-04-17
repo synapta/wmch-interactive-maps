@@ -521,4 +521,117 @@ module.exports = function(app, apicache, passport) {
           }
         });
     });
+
+    function admin_api_action_update (req, res) {
+        let dbMeta = new db.Database(localconfig.database);
+        const Map = dbMeta.db.define('map', models.Map);
+        // soft delete (unpublish)
+        // console.log(req.body);
+        // TODO XXX req.body.sticky da verificare!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+        Map.update(
+            { sticky: req.body.sticky }, /* set attributes' value */
+            { where: { id: req.body.id }} /* where criteria */
+        ).then(([affectedCount, affectedRows]) => {
+          // Notice that affectedRows will only be defined in dialects which support returning: true
+          // affectedCount will be n
+          res.send({error: false, updateNumber: affectedCount});
+        });
+    }
+
+    function admin_api_action_undelete (req, res, published=true) {
+        admin_api_action_delete(req, res, published);
+    }
+
+    function admin_api_action_delete (req, res, published=false) {
+        let dbMeta = new db.Database(localconfig.database);
+        const Map = dbMeta.db.define('map', models.Map);
+        // soft delete (unpublish)
+        console.log(req.body);
+        Map.update(
+            { published: published }, /* set attributes' value */
+            { where: { id: req.body.id }} /* where criteria */
+          ).then(([affectedCount, affectedRows]) => {
+            // Notice that affectedRows will only be defined in dialects which support returning: true
+            // affectedCount will be n
+            res.send({error: false, updateNumber: affectedCount});
+          });
+    }
+    // Enable json for express (to get req.body to work)
+    app.use(express.json());
+
+    app.put('/admin/api/:action', function (req, res) {
+        let fun = eval('admin_api_action_' + req.params.action);
+        try {
+            fun(req, res);
+        }
+        catch (e) {
+            // Function not found, pass
+            res.send("Error")
+        }
+    });
+
+    app.get('/admin', async function (req, res) {
+        // [ 'it', 'it-IT', 'en-US', 'en' ]
+        // console.log(req.acceptsLanguages()[0]);
+        fs.readFile(util.format('%s/public/wizard/admin.html', __dirname), function (err, fileData) {
+            // cannot read template?
+            if (err) {
+              throw err;
+            }
+            // load all maps data
+            let dbMeta = new db.Database(localconfig.database);
+            const Map = dbMeta.db.define('map', models.Map);
+            Map.findAll({
+              where:  {
+                published: true  // nascondi gli elementi cancellati
+              },
+              order: [
+                ['sticky', 'DESC'],
+                ['createdAt', 'DESC'],
+              ]
+            }).then(maps => {
+              let jsonRes = [];
+              if (maps) {
+                  // maps found, continue
+                  // get template content, server-side
+                  let template = fileData.toString();
+                  let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'admin');
+                  let i18nOptions = {
+                    lng: shortlang,
+                    debug: true,
+                    resources: {}
+                  };
+                  i18nOptions.resources[shortlang] = {translation: translationData};
+                  // console.log(i18nOptions);
+                  // load i18n
+                  i18next.init(i18nOptions, function(err, t) {
+                      // i18n initialized and ready to go!
+                      // document.getElementById('output').innerHTML = i18next.t('key');
+                      // variables to pass to Mustache to populate template
+                      var view = {
+                        shortlang: shortlang,
+                        langname: i18n_utils.getLangName(config.languages, shortlang),
+                        languages: config.languages,
+                        maps: maps,
+                        i18n: function () {
+                          return function (text, render) {
+                              i18next.changeLanguage(shortlang);
+                              return i18next.t(text);
+                          }
+                        }
+                      };
+                      // console.log(view);
+                      var output = Mustache.render(template, view);
+                      res.send(output);
+                  });
+              }
+              else {
+                  res.status(404).send('<h2>Cannot edit an empty Map table, add at least one map to continue</h2>');
+              }
+            });
+        });
+    });
+
+
+
 }
