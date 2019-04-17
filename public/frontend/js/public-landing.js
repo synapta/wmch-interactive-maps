@@ -12,7 +12,7 @@ $(function() {
     }
 
     function isStarred (map) {
-        console.log(map);
+        // console.log(map);
         return map.star;
     }
 
@@ -53,8 +53,9 @@ $(function() {
                     // map.href + userDefinedLangQuery
                     var thisIsStarred = isStarred(map) ? starIcon : '';
                     $('#infinite').append('<div class="column"><div class="ui raised segment">'
+                    + thisIsStarred
                     + '<div class="square landingmapimage" style="background-image: url(' + map.screenshot + ');">'
-                    + '<a href="' + map.href + '" class="ui ' + colorLottery() + ' ribbon label">' + map.title + '</a>'
+                    + '<a href="' + map.href + userDefinedLangQuery + '" class="ui ' + colorLottery() + ' ribbon label">' + map.title + '</a>'
                     + '</div>'
                     + '</div>');
                 });
