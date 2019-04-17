@@ -64,13 +64,13 @@ $(function() {
         });
     }
 
+    // prepare to load other images
+    globOffset = 9;
     // loadMaps(0);
     // load first 9 elements, no offset
-    loadMaps(6, 0, function (results) {
+    loadMaps(globOffset, 0, function (results) {
         // pass
     });
-    // prepare to load other images
-    globOffset = 6;
     $("#loadothers").on("click", function () {
         var step = 3;
         // show loading button
