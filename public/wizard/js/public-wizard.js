@@ -333,7 +333,8 @@ $(function() {
             // set current map zoom to zoom field
             $('#zoom').val(parseInt(window.map.getZoom()));
         });
-
+        // disable zoom wheel to allow scroll #22
+        window.map.scrollWheelZoom.disable();
 
         /** window.map.on('zoomstart', function(e) {
             console.log(e);
