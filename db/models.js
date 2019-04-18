@@ -11,4 +11,16 @@ const Map = {
   published: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false }
 };
 
+
+function getMapRecordAsDict (record) {
+    return {
+      path: record.get('path'),
+      title: record.get('title'),
+      mapargs: record.get('mapargs'),
+      screenshot: record.get('screenshot'),
+      star: record.get('star')
+    };
+}
+
 exports.Map = Map;
+exports.getMapRecordAsDict = getMapRecordAsDict;

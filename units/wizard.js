@@ -7,9 +7,11 @@ const i18next = require('i18next');
 const i18n_utils = require('../i18n/utils');
 // Global settings
 const dbinit       = require('../db/init');
+const models       = require('../db/models');
 const config = require('../config');
 const localconfig = dbinit.init();
 const Mustache = require('mustache');
+const db = require(util.format('../db/connector/%s', localconfig.database.engine));
 const DEBUG = localconfig.debug ? localconfig.debug : false;
 
 function getWizardActionPermissionAllowed(action, id) {
@@ -54,6 +56,64 @@ function getWizardPath(req, res, action=null, id=null) {
    }
 }
 
+function getMapConfigFromDb (id) {
+  /**
+   *  Get values for map, edit or add.
+   *  @param {integer} id Map primary key on database, numeric integer.
+   *  @return {Promise} Promise of a database record of Map. Empty object on error.
+   **/
+    console.log(id);
+    return new Promise((resolve, reject) => {
+        let dbMeta = new db.Database(localconfig.database);
+        const Map = dbMeta.db.define('map', models.Map);
+        Map.findOne({
+          where: {
+            id: id
+            //, published: true
+          }
+        }).then(mapRecord => {
+          if (mapRecord) {
+              let mapDict = models.getMapRecordAsDict(mapRecord);
+              console.log(mapDict);
+              console.log('resolved <<<<<<<<<');
+              resolve(mapDict);
+          }
+          else {
+              console.log('resolved emp');
+              resolve({});
+          }
+        });
+    });
+}
+
+function getMapValues(action, id) {
+  /**
+   *  Get values for map, edit or add.
+   *  @param {string} action to perform (optional).
+   *  @param {integer} id Map primary key on database, numeric integer.
+   *  @return {Promise} with data already saved to db.
+   **/
+    return new Promise((resolve, reject) => {
+        if (action === 'edit') {
+          getMapConfigFromDb(id).then(configFromDb => {
+            let configMap = {};
+            // clone, doesn't alter, config.map
+            Object.assign(configMap, config.map);
+            // overwrite with Database values
+            Object.assign(configMap, configFromDb);
+            // console.log(configMap);
+            // Object.assign(configMap, {title: "ciao mondo"});
+            // console.log(configMap);
+            resolve(configMap);
+          });
+        }
+        else {
+          // action == 'add' & co.
+          resolve(config.map);
+        }
+    });
+}
+
 
 function getWizard(req, res, action, id) {
    const formActions = {
@@ -77,24 +137,27 @@ function getWizard(req, res, action, id) {
            // i18n initialized and ready to go!
            // document.getElementById('output').innerHTML = i18next.t('key');
            // variables to pass to Mustache to populate template
-           var view = {
-             shortlang: shortlang,
-             langname: i18n_utils.getLangName(config.languages, shortlang),
-             map: config.map,
-             baseurl: localconfig.url + "/",
-             sparql: config.sparql,
-             languages: config.languages,
-             formAction: formActions[action],
-             i18n: function () {
-               return function (text, render) {
-                   i18next.changeLanguage(shortlang);
-                   return i18next.t(text);
+           getMapValues(action, id).then(values => {
+             console.log("THE WINNER IS*****************************************************************", values);
+             var view = {
+               shortlang: shortlang,
+               langname: i18n_utils.getLangName(config.languages, shortlang),
+               map: values,
+               baseurl: localconfig.url + "/",
+               sparql: config.sparql,
+               languages: config.languages,
+               formAction: formActions[action],
+               i18n: function () {
+                 return function (text, render) {
+                     i18next.changeLanguage(shortlang);
+                     return i18next.t(text);
+                 }
                }
-             }
-           };
-           // console.log(view);
-           var output = Mustache.render(template, view);
-           res.send(output);
+             };
+             // console.log(view);
+             var output = Mustache.render(template, view);
+             res.send(output);
+           });
        });
    });
 }

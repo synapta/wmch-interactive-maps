@@ -87,16 +87,6 @@ module.exports = function(app, apicache, passport) {
        };
     }
 
-    function getMapRecordAsDict (record) {
-        return {
-          path: record.get('path'),
-          title: record.get('title'),
-          mapargs: record.get('mapargs'),
-          screenshot: record.get('screenshot'),
-          star: record.get('star')
-        };
-    }
-
     function querystring2json (res, enrichedQuery) {
         enrichedQuery.currentStyle = false;
         // represent always as Boolean
@@ -237,7 +227,7 @@ module.exports = function(app, apicache, passport) {
           let jsonRes = [];
           if (maps) {
               for (mapr of maps) {
-                  jsonRes.push(exposeMap(getMapRecordAsDict(mapr)));
+                  jsonRes.push(exposeMap(models.getMapRecordAsDict(mapr)));
               }
               res.send(jsonRes);
           }
@@ -458,7 +448,7 @@ module.exports = function(app, apicache, passport) {
               // map.get('title') will contain the name of the map
               // res.send(record.get('title'));
               //////// res.redirect(record.get('mapargs'));  // redirect
-              generateMapPage(req, res, getMapRecordAsDict(record));
+              generateMapPage(req, res, models.getMapRecordAsDict(record));
           }
           else {
               res.status(404).send('<h2>Not found</h2>');
