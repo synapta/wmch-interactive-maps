@@ -26,6 +26,13 @@ const db = require(util.format('./db/connector/%s', localconfig.database.engine)
 // var request = require('request');
 module.exports = function(app, apicache, passport) {
 
+      function geti18nOptions(shortlang) {
+          return {
+            lng: shortlang,
+            debug: localconfig.debug ? localconfig.debug : false,
+            resources: {}
+          };
+      }
 
       function generateMapPage (req, res, dbMap) {
         /**
@@ -41,11 +48,7 @@ module.exports = function(app, apicache, passport) {
             // get template content, server-side
             let template = fileData.toString();
             let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'frontend');
-            let i18nOptions = {
-              lng: shortlang,
-              debug: true,
-              resources: {}
-            };
+            let i18nOptions = geti18nOptions(shortlang);
             i18nOptions.resources[shortlang] = {translation: translationData};
             // console.log(i18nOptions);
             // load i18n
@@ -119,18 +122,16 @@ module.exports = function(app, apicache, passport) {
         }
     }
 
-    // javascript for wizard frontend
-    app.use('/wizard/js',express.static('./public/wizard/js'));
-    // javascript for frontend
-    app.use('/frontend/js',express.static('./public/frontend/js'));
-    // js for manual
-    app.use('/manual/js',express.static('./public/manual/js'));
-    // images for landing page
-    app.use('/p/',express.static('./screenshots'));
 
-    // translated interface for the map wizard
-    // do not cache (multilingual)
-    app.get('/wizard', async function (req, res) {
+    function getWizard(req, res, action=null, id=null) {
+        /**
+         *  Get CRUx interface for maps.
+         *  @param {req} request Express object. req.params.action
+         *  @param {res} response Express object.
+         *  @return None. A res.send() must be set to close.
+         **/
+        // let action = req.params.action ? req.params.action : 'add';
+        console.log('Action: ', action, "Id", id)
         // [ 'it', 'it-IT', 'en-US', 'en' ]
         // console.log(req.acceptsLanguages()[0]);
         fs.readFile(util.format('%s/public/wizard/index.html', __dirname), function (err, fileData) {
@@ -140,11 +141,7 @@ module.exports = function(app, apicache, passport) {
             // get template content, server-side
             let template = fileData.toString();
             let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'wizard');
-            let i18nOptions = {
-              lng: shortlang,
-              debug: true,
-              resources: {}
-            };
+            let i18nOptions = geti18nOptions(shortlang);
             i18nOptions.resources[shortlang] = {translation: translationData};
             // console.log(i18nOptions);
             // load i18n
@@ -171,6 +168,29 @@ module.exports = function(app, apicache, passport) {
                 res.send(output);
             });
         });
+    }
+
+    // javascript for wizard frontend
+    app.use('/wizard/js',express.static('./public/wizard/js'));
+    // javascript for frontend
+    app.use('/frontend/js',express.static('./public/frontend/js'));
+    // js for manual
+    app.use('/manual/js',express.static('./public/manual/js'));
+    // images for landing page
+    app.use('/p/',express.static('./screenshots'));
+
+    // translated interfaces for the map wizard
+    // do not cache (multilingual)
+    app.get('/wizard/:action/:id', async function (req, res) {
+        getWizard(req, res, req.params.action, id)
+    });
+    app.get('/wizard/:action', async function (req, res) {
+        getWizard(req, res, req.params.action)
+    });
+    // plain wizard must be the last WIZARD route
+    app.get('/wizard', async function (req, res) {
+        // wizard without action (e.g. wizard/edit) is equivalent to wizard/add
+        getWizard(req, res, 'add');
     });
 
     // full url map route, with exposed parameters
@@ -369,11 +389,7 @@ module.exports = function(app, apicache, passport) {
             // get template content, server-side
             let template = fileData.toString();
             let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'frontend');
-            let i18nOptions = {
-              lng: shortlang,
-              debug: false,
-              resources: {}
-            };
+            let i18nOptions = geti18nOptions(shortlang);
             i18nOptions.resources[shortlang] = {translation: translationData};
             // console.log(i18nOptions);
             // load i18n
@@ -411,11 +427,7 @@ module.exports = function(app, apicache, passport) {
             // get template content, server-side
             let template = fileData.toString();
             let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'manual');
-            let i18nOptions = {
-              lng: shortlang,
-              debug: false,
-              resources: {}
-            };
+            let i18nOptions = geti18nOptions(shortlang);
             i18nOptions.resources[shortlang] = {translation: translationData};
             // console.log(i18nOptions);
             // load i18n
@@ -596,11 +608,7 @@ module.exports = function(app, apicache, passport) {
                   // get template content, server-side
                   let template = fileData.toString();
                   let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'admin');
-                  let i18nOptions = {
-                    lng: shortlang,
-                    debug: true,
-                    resources: {}
-                  };
+                  let i18nOptions = geti18nOptions(shortlang);
                   i18nOptions.resources[shortlang] = {translation: translationData};
                   // console.log(i18nOptions);
                   // load i18n
