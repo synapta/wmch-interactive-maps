@@ -87,6 +87,7 @@ $(function() {
         $("input[name='path']").trigger("keyup");
     });
     $("input[name='path']").on("keyup", function () {
+        // if ($('form').data('action-name') === "add") {
         $.ajax ({
             type:'GET',
             dataType: 'json',
@@ -97,11 +98,34 @@ $(function() {
                 $("input[name='path']").data('valid', 1);
             },
             success: function(json) {
-                $("#path-found").show();
-                $("#path-not-found").hide();
-                $("input[name='path']").data('valid', 0);
+                var action = $('form').data('action-name');
+                if (action === "add") {
+                    $("input[name='path']").data('valid', 0);
+                }
+                else if (action === "edit") {
+                    // console.log(json.id);
+                    if (json.id == $('form').data('map-id')) {
+                        // can overwrite path on the same record
+                        $("#path-found").hide();
+                        $("#path-not-found").show();
+                        $("input[name='path']").data('valid', 1);
+                    }
+                    else {
+                        // already used
+                        $("#path-found").show();
+                        $("#path-not-found").hide();
+                        $("input[name='path']").data('valid', 0);
+                    }
+                }
+                else {
+                    // invalid by default
+                    $("#path-found").show();
+                    $("#path-not-found").hide();
+                    $("input[name='path']").data('valid', 0);
+                }
             }
         });
+        // }
     });
     $('.ui.form')
       .form({

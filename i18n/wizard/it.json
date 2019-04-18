@@ -91,6 +91,9 @@
     "center": {
       "text": "Coordinate sulla posizione attuale"
     },
+    "edit": {
+      "text": "Modifica"
+    },
     "icon": {
       "text": "Scegli l'icona dei pin"
     }

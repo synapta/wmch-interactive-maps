@@ -37,12 +37,12 @@ function getWizardActionPermissionAllowed(action, id) {
 
 function getWizardPath(req, res, action=null, id=null) {
  /**
-  *  Get CRUx interface for maps.
+  *  Get CRUx interface for maps, but before check if action is allowed.
   *  @param {object} req Express object. req.params.action
   *  @param {object} res Express object.
   *  @param {string} action to perform (optional).
   *  @param {integer} id Map primary key on database, numeric integer.
-  *  @return None. A res.send() must be set to expose output.
+  *  @return None. A res.send() must be set to expose output. An HTTP error 400 bad request instead.
   **/
    // let action = req.params.action ? req.params.action : 'add';
    if (DEBUG) {
@@ -68,18 +68,15 @@ function getMapConfigFromDb (id) {
         const Map = dbMeta.db.define('map', models.Map);
         Map.findOne({
           where: {
-            id: id
-            //, published: true
+            id: id,
+            published: true  // disallow edit for unpublished
           }
         }).then(mapRecord => {
           if (mapRecord) {
-              let mapDict = models.getMapRecordAsDict(mapRecord);
-              console.log(mapDict);
-              console.log('resolved <<<<<<<<<');
-              resolve(mapDict);
+              resolve(models.getAllFieldsAsDict(mapRecord));
           }
           else {
-              console.log('resolved emp');
+              // console.log('resolved emp');
               resolve({});
           }
         });
@@ -101,6 +98,10 @@ function getMapValues(action, id) {
             Object.assign(configMap, config.map);
             // overwrite with Database values
             Object.assign(configMap, configFromDb);
+            // add derived values
+            currentStyle = configMap.styles.filter(styleRow => { return styleRow.tile === configMap.tile }).pop();
+            if (DEBUG) console.log('§§§§§§§§§§§§§§§§§§§§§§§§§§', configMap.style);
+            configMap.style = currentStyle ? currentStyle.name : '';
             // console.log(configMap);
             // Object.assign(configMap, {title: "ciao mondo"});
             // console.log(configMap);
@@ -114,7 +115,14 @@ function getMapValues(action, id) {
     });
 }
 
-
+/**
+ *  Get CRUx interface for maps for allowed actions..
+ *  @param {object} req Express object. req.params.action
+ *  @param {object} res Express object.
+ *  @param {string} action to perform (optional).
+ *  @param {integer} id Map primary key on database, numeric integer.
+ *  @return None. A res.send() must be set to expose output.
+ **/
 function getWizard(req, res, action, id) {
    const formActions = {
      'add': '/wizard/generate',
@@ -138,7 +146,11 @@ function getWizard(req, res, action, id) {
            // document.getElementById('output').innerHTML = i18next.t('key');
            // variables to pass to Mustache to populate template
            getMapValues(action, id).then(values => {
-             console.log("THE WINNER IS*****************************************************************", values);
+             if (!values.id && action !== 'add') {
+                // unpublished or removed item
+                res.status(404).send('<h1>Not found</h1>')
+             }
+             if (DEBUG) console.log("THE WINNER IS*****************************************************************", values);
              var view = {
                shortlang: shortlang,
                langname: i18n_utils.getLangName(config.languages, shortlang),
@@ -147,6 +159,7 @@ function getWizard(req, res, action, id) {
                sparql: config.sparql,
                languages: config.languages,
                formAction: formActions[action],
+               formActionName: action,
                i18n: function () {
                  return function (text, render) {
                      i18next.changeLanguage(shortlang);

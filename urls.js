@@ -11,7 +11,6 @@ var md = require('markdown-it')();
 const i18n_utils = require('./i18n/utils');
 const dbinit       = require('./db/init');
 const models       = require('./db/models');
-const querystring = require('querystring');
 const sharp = require('sharp');
 // Local units
 const wizard = require('./units/wizard');
@@ -153,8 +152,9 @@ module.exports = function(app, apicache, passport) {
           }
         }).then(record => {
           if (record) {
-              // get full querystring from database using current path
-              let enrichedQuery = querystring.parse(record.get('mapargs'));
+              let enrichedQuery = models.mapargsParse(record);
+              // add id from database, for check on Edit on public-wizard.js
+              enrichedQuery.id = record.id;
               // serve json, enriched with config
               querystring2json(res, enrichedQuery);
           }

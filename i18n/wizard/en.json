@@ -91,6 +91,9 @@
     "center": {
       "text": "Coordinates on current position"
     },
+    "edit": {
+      "text": "Edit"
+    },
     "icon": {
       "text": "Select pin icon"
     }

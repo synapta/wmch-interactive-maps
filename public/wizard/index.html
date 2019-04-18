@@ -34,6 +34,7 @@
               {{/languages}}
             </div>
           </div>
+          <h1 class="ui header">{{#map.title}}{{#i18n}}actions.edit.text{{/i18n}} <em>{{map.title}}</em>{{/map.title}}{{^map.title}}{{#i18n}}page.title{{/i18n}}{{/map.title}}</h1>
         </header>
         <nav class="three wide column">
             <!-- Steps -->
@@ -70,7 +71,7 @@
         </nav>
         <section id="container" class="thirteen wide column">
             <!-- Form -->
-            <form class="ui form not-confirmed" method="get" action="{{{formAction}}}" data-confirm="{{#i18n}}actions.confirm.text{{/i18n}}">
+            <form class="ui form not-confirmed" method="get" action="{{{formAction}}}" data-action-name="{{{formActionName}}}" data-confirm="{{#i18n}}actions.confirm.text{{/i18n}}" data-map-id="{{#map.id}}{{map.id}}{{/map.id}}">
               <!-- step 1 *********************************************************************************************************************** -->
               <div class="ui segment step-1 step-content">
                       <div class="inline field">
@@ -84,7 +85,7 @@
                                   <div class="ui label">
                                     {{baseurl}}
                                   </div>
-                                  <input type="text" data-valid="0" name="path" placeholder="{{#i18n}}fields.path.placeholder{{/i18n}}" size="50" style="width: 50ex;"><i id="path-not-found" class="check icon green" style="display: none;"></i><i id="path-found" class="close icon red" style="display: none;"></i>
+                                  <input type="text" value="{{#map.path}}{{{map.path}}}{{/map.path}}" data-valid="0" name="path" placeholder="{{#i18n}}fields.path.placeholder{{/i18n}}" size="50" style="width: 50ex;"><i id="path-not-found" class="check icon green" style="display: none;"></i><i id="path-found" class="close icon red" style="display: none;"></i>
                                 </div>
                             </div>
                             <div class="field transition hidden">{{! remove transition hidden to add a random generate path functionality }}
@@ -102,7 +103,7 @@
                     <a class="ui compact mini icon button teal" href="https://query.wikidata.org/" target="_blank">
                       <i class="barcode icon"></i> {{#i18n}}fields.sparql.help{{/i18n}}
                     </a>
-                    <textarea id="map-query" placeholder="{{#i18n}}fields.sparql.placeholder{{/i18n}}" rows="30">{{{sparql}}}</textarea>
+                    <textarea id="map-query" placeholder="{{#i18n}}fields.sparql.placeholder{{/i18n}}" rows="30">{{#map.query}}{{{map.query}}}{{/map.query}}{{^map.query}}{{{sparql}}}{{/map.query}}</textarea>
                   </div>
                   <div class="fields">
                       <div class="inline field">
@@ -122,7 +123,7 @@
                                 <div id="pinicon-mapstyle-error" class="ui error message" style="display: none;">
                                   <div class="header">{{#i18n}}actions.style.error{{/i18n}}</div>
                                 </div>
-                                <div class="ui floating dropdown labeled search icon button" id="mapstyle" data-touched="0">
+                                <div class="ui floating dropdown labeled search icon button" id="mapstyle" data-touched="0" data-value="{{#map.style}}{{{map.style}}}{{/map.style}}">
                                   <i class="flag checkered large icon"></i>
                                   <span class="text">{{#i18n}}actions.style.text{{/i18n}}</span>
                                   <div class="menu">
@@ -143,7 +144,7 @@
                            <div class="field">
                                <div class="ui search right labeled left icon input pinicon-wrapper disabled">
                                  <i class="search icon"></i>
-                                 <input class="prompt" type="text" placeholder="{{#i18n}}actions.icon.text{{/i18n}}" id="pinicon-select" size="26">
+                                 <input class="prompt" type="text" placeholder="{{#i18n}}actions.icon.text{{/i18n}}" id="pinicon-select" size="26" value="{{#map.pinicon}}{{{map.pinicon}}}{{/map.pinicon}}">
                                  <span class="ui tag label" id="pinicon-preview">
                                    <i class="large icon"></i>
                                  </span>
@@ -193,7 +194,7 @@
                            </div>
                            <div class="inline field">
                              <label>{{#i18n}}fields.maxClusterRadius.label{{/i18n}}</label>
-                             <input id="maxclusterradius" type="number" min="0" value="{{map.maxclusterradius}}" step="0.1">
+                             <input id="maxclusterradius" type="number" min="0" value="{{map.maxClusterRadius}}" step="0.1">
                              <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.maxClusterRadius.help{{/i18n}}">
                                <i class="help icon"></i>
                              </button>
@@ -211,11 +212,11 @@
                                  <!-- Zoom values -->
                                  <div class="inline field">
                                     <label>{{#i18n}}fields.minZoom.label{{/i18n}}</label>
-                                    <input class="" id="minzoom" type="number" min="1" value="{{map.minzoom}}" step="1"/>
+                                    <input class="" id="minzoom" type="number" min="1" value="{{map.minZoom}}" step="1"/>
                                  </div>
                                  <div class="inline field">
                                     <label>{{#i18n}}fields.maxZoom.label{{/i18n}}</label>
-                                    <input class="" id="maxzoom" type="number" min="1" value="{{map.maxzoom}}" step="1"/>
+                                    <input class="" id="maxzoom" type="number" min="1" value="{{map.maxZoom}}" step="1"/>
                                     <button class="ui compact circular mini icon button wizard-help" data-help="{{#i18n}}fields.minZoom.help{{/i18n}}">
                                       <i class="help icon"></i>
                                     </button>

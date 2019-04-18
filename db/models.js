@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const querystring = require('querystring');
 
 const Map = {
   id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
@@ -14,6 +15,7 @@ const Map = {
 
 function getMapRecordAsDict (record) {
     return {
+      id: record.get('id'),
       path: record.get('path'),
       title: record.get('title'),
       mapargs: record.get('mapargs'),
@@ -22,5 +24,21 @@ function getMapRecordAsDict (record) {
     };
 }
 
+function mapargsParse(record) {
+    return querystring.parse(record.get('mapargs').split('/?').slice(1).join());
+}
+
+function getAllFieldsAsDict(record) {
+    let obj = getMapRecordAsDict(record);
+    Object.assign(obj, mapargsParse(record));
+    // console.log('#@@@@@@@@@@@@@@@@@@@@@@@@@@', obj);
+    // used only on edit
+    obj.lat = obj.startLat;
+    obj.long = obj.startLng;
+    return obj;
+}
+
 exports.Map = Map;
 exports.getMapRecordAsDict = getMapRecordAsDict;
+exports.mapargsParse = mapargsParse;
+exports.getAllFieldsAsDict = getAllFieldsAsDict;
