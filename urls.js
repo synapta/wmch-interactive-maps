@@ -18,6 +18,7 @@ const config = require('./config');
 const url = require('url');
 // load local config and check if is ok (testing db)
 const localconfig = dbinit.init();
+const DEBUG = localconfig.debug ? localconfig.debug : false;
 // connect to db
 const db = require(util.format('./db/connector/%s', localconfig.database.engine));
 // const puppeteer = require("puppeteer");
@@ -29,7 +30,7 @@ module.exports = function(app, apicache, passport) {
       function geti18nOptions(shortlang) {
           return {
             lng: shortlang,
-            debug: localconfig.debug ? localconfig.debug : false,
+            debug: DEBUG,
             resources: {}
           };
       }
@@ -122,16 +123,28 @@ module.exports = function(app, apicache, passport) {
         }
     }
 
+    function getWizardActionPermissionAllowed(action, id) {
+      /**
+       *  @param {string} action to perform (optional).
+       *  @param {integer} id Map primary key on database, numeric integer.
+       *  @return {Boolean}. True if can perorm action
+       **/
+       let permission = config.actionPermissions[action];
+       if (typeof(permission) === 'undefined') {
+          // undeclared permission
+          return false;
+       }
+       else {
+          // Se l'id è dichiarato, verifica se può essere usato
+          // Se non è dichiarato, inverti il controllo perché
+          // NON DEVE essere usato un id in un'azione sbagliata (es. add)
+          // se id è dichiarato, deve essere ammessa l'azione per gli id in config.actionPermissions
+          return id !== null ? permission['id'] : !permission['id'];
+       }
+    }
 
-    function getWizard(req, res, action=null, id=null) {
-        /**
-         *  Get CRUx interface for maps.
-         *  @param {req} request Express object. req.params.action
-         *  @param {res} response Express object.
-         *  @return None. A res.send() must be set to close.
-         **/
-        // let action = req.params.action ? req.params.action : 'add';
-        console.log('Action: ', action, "Id", id)
+
+    function getWizard(req, res) {
         // [ 'it', 'it-IT', 'en-US', 'en' ]
         // console.log(req.acceptsLanguages()[0]);
         fs.readFile(util.format('%s/public/wizard/index.html', __dirname), function (err, fileData) {
@@ -170,6 +183,28 @@ module.exports = function(app, apicache, passport) {
         });
     }
 
+
+    function getWizardPath(req, res, action=null, id=null) {
+      /**
+       *  Get CRUx interface for maps.
+       *  @param {object} req Express object. req.params.action
+       *  @param {object} res Express object.
+       *  @param {string} action to perform (optional).
+       *  @param {integer} id Map primary key on database, numeric integer.
+       *  @return None. A res.send() must be set to expose output.
+       **/
+        // let action = req.params.action ? req.params.action : 'add';
+        if (DEBUG) {
+            console.log('Path', req.originalUrl, 'Action: ', action, "Id:", id);
+        }
+        if (getWizardActionPermissionAllowed(action, id)) {
+            getWizard(req, res);
+        }
+        else {
+            res.status(400).send('Bad request');
+        }
+    }
+
     // javascript for wizard frontend
     app.use('/wizard/js',express.static('./public/wizard/js'));
     // javascript for frontend
@@ -182,10 +217,10 @@ module.exports = function(app, apicache, passport) {
     // translated interfaces for the map wizard
     // do not cache (multilingual)
     app.get('/wizard/:action/:id', async function (req, res) {
-        getWizard(req, res, req.params.action, id)
+        getWizardPath(req, res, req.params.action, parseInt(req.params.id))
     });
     app.get('/wizard/:action', async function (req, res) {
-        getWizard(req, res, req.params.action)
+        getWizardPath(req, res, req.params.action)
     });
     // plain wizard must be the last WIZARD route
     app.get('/wizard', async function (req, res) {

@@ -2,6 +2,10 @@
   "appname": "WMCH Interactive maps",
   "fallbackLanguage": "en",
   "apiv": 1,
+  "actionPermissions": {
+      "edit": {"id": true},
+      "add": {"id": false}
+  },
   "languages": [
     {"code": "en", "name": "English"},
     {"code": "it", "name": "Italiano"}
