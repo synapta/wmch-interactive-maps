@@ -157,7 +157,7 @@ $(function() {
     // $('.ui.dropdown').dropdown();
     $('#languages').dropdown({
         onChange: function (value) {
-            window.location.href = "/wizard/?l=" + value;
+            window.location.href = window.location.pathname + "?l=" + value;
         }
     });
 

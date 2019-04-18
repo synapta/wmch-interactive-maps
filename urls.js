@@ -216,10 +216,10 @@ module.exports = function(app, apicache, passport) {
 
     // translated interfaces for the map wizard
     // do not cache (multilingual)
-    app.get('/wizard/:action/:id', async function (req, res) {
+    app.get('/admin/:action/:id', async function (req, res) {
         getWizardPath(req, res, req.params.action, parseInt(req.params.id))
     });
-    app.get('/wizard/:action', async function (req, res) {
+    app.get('/admin/:action', async function (req, res) {
         getWizardPath(req, res, req.params.action)
     });
     // plain wizard must be the last WIZARD route
