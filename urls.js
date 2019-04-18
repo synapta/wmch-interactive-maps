@@ -144,7 +144,12 @@ module.exports = function(app, apicache, passport) {
     }
 
 
-    function getWizard(req, res) {
+
+    function getWizard(req, res, action, id) {
+        const formActions = {
+          'add': '/wizard/generate',
+          'edit': util.format('/admin/edit/%d', id)
+        };
         // [ 'it', 'it-IT', 'en-US', 'en' ]
         // console.log(req.acceptsLanguages()[0]);
         fs.readFile(util.format('%s/public/wizard/index.html', __dirname), function (err, fileData) {
@@ -169,6 +174,7 @@ module.exports = function(app, apicache, passport) {
                   baseurl: localconfig.url + "/",
                   sparql: config.sparql,
                   languages: config.languages,
+                  formAction: formActions[action],
                   i18n: function () {
                     return function (text, render) {
                         i18next.changeLanguage(shortlang);
@@ -198,7 +204,7 @@ module.exports = function(app, apicache, passport) {
             console.log('Path', req.originalUrl, 'Action: ', action, "Id:", id);
         }
         if (getWizardActionPermissionAllowed(action, id)) {
-            getWizard(req, res);
+            getWizard(req, res, action, id);
         }
         else {
             res.status(400).send('Bad request');
@@ -232,21 +238,6 @@ module.exports = function(app, apicache, passport) {
     app.get('/m', function (req, res) {
         // temporary url, do not pass dbMap
         generateMapPage(req, res, {});
-        /**
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        let mapargs = `/m/?apiv=1&zoom=8&startLat=46.798562&startLng=8.231973&minZoom=2&maxZoom=18&autoZoom=false&maxClusterRadius=0.1&pinIcon=wikipedia%20w&query=SELECT%20%3Fmuseo%20%3FmuseoLabel%20%3Fcoord%20%3Fcommons%20%3Fsito%20%3Fimmagine%20%3Flang%0A%20%20%20%20%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Fmuseo%20wdt%3AP31%2Fwdt%3AP279*%20wd%3AQ33506%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Fmuseo%20wdt%3AP17%20wd%3AQ39%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Fmuseo%20wdt%3AP625%20%3Fcoord%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fmuseo%20wdt%3AP373%20%3Fcommons%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fmuseo%20wdt%3AP856%20%3Fsito%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fmuseo%20wdt%3AP18%20%3Fimmagine%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%3Flang%20schema%3Aabout%20%3Fmuseo%20.%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20SERVICE%20wikibase%3Alabel%20%7B%20bd%3AserviceParam%20wikibase%3Alanguage%20%22en%2Cde%2Cfr%2Cit%22.%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20ORDER%20BY%20%3Fmuseo&tile=%2F%2Fmaps.wikimedia.org%2Fosm-intl%2F%7Bz%7D%2F%7Bx%7D%2F%7By%7D.png`;
-        Map.findOne({
-          where: {mapargs: mapargs}
-        }).then(record => {
-          if (record) {
-              generateMapPage(req, res, getMapRecordAsDict(record));
-          }
-          else {
-              res.status(404).send('<h2>Not found</h2>');
-          }
-        });
-        **/
     });
 
     // convert exposed parameters to JSON to be served in /m route
