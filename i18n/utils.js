@@ -4,6 +4,8 @@
  */
 
 const util = require('util');
+const dbinit       = require('../db/init');
+const localconfig = dbinit.init();
 
 /**
  *  Load language into a javascript object.
@@ -91,7 +93,21 @@ function getLangName (languages, shortlang) {
     return langname;
 }
 
+/**
+ *  Get options to pass to i18next
+ *  @param {string} shortlang: ISO 639-1 code
+ *  @return {object} options object
+ **/
+function geti18nOptions(shortlang) {
+    return {
+      lng: shortlang,
+      debug: localconfig.debug ? localconfig.debug : false,
+      resources: {}
+    };
+}
+
 exports.loadTranslationFile = loadTranslationFile;
 exports.getShortlang = getShortlang;
 exports.seekLang = seekLang;
 exports.getLangName = getLangName;
+exports.geti18nOptions = geti18nOptions;

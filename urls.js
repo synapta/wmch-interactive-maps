@@ -13,6 +13,8 @@ const dbinit       = require('./db/init');
 const models       = require('./db/models');
 const querystring = require('querystring');
 const sharp = require('sharp');
+// Local units
+const wizard = require('./units/wizard');
 // Global settings
 const config = require('./config');
 const url = require('url');
@@ -26,14 +28,6 @@ const db = require(util.format('./db/connector/%s', localconfig.database.engine)
 
 // var request = require('request');
 module.exports = function(app, apicache, passport) {
-
-      function geti18nOptions(shortlang) {
-          return {
-            lng: shortlang,
-            debug: DEBUG,
-            resources: {}
-          };
-      }
 
       function generateMapPage (req, res, dbMap) {
         /**
@@ -49,7 +43,7 @@ module.exports = function(app, apicache, passport) {
             // get template content, server-side
             let template = fileData.toString();
             let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'frontend');
-            let i18nOptions = geti18nOptions(shortlang);
+            let i18nOptions = i18n_utils.geti18nOptions(shortlang);
             i18nOptions.resources[shortlang] = {translation: translationData};
             // console.log(i18nOptions);
             // load i18n
@@ -123,94 +117,6 @@ module.exports = function(app, apicache, passport) {
         }
     }
 
-    function getWizardActionPermissionAllowed(action, id) {
-      /**
-       *  @param {string} action to perform (optional).
-       *  @param {integer} id Map primary key on database, numeric integer.
-       *  @return {Boolean}. True if can perorm action
-       **/
-       let permission = config.actionPermissions[action];
-       if (typeof(permission) === 'undefined') {
-          // undeclared permission
-          return false;
-       }
-       else {
-          // Se l'id è dichiarato, verifica se può essere usato
-          // Se non è dichiarato, inverti il controllo perché
-          // NON DEVE essere usato un id in un'azione sbagliata (es. add)
-          // se id è dichiarato, deve essere ammessa l'azione per gli id in config.actionPermissions
-          return id !== null ? permission['id'] : !permission['id'];
-       }
-    }
-
-
-
-    function getWizard(req, res, action, id) {
-        const formActions = {
-          'add': '/wizard/generate',
-          'edit': util.format('/admin/edit/%d', id)
-        };
-        // [ 'it', 'it-IT', 'en-US', 'en' ]
-        // console.log(req.acceptsLanguages()[0]);
-        fs.readFile(util.format('%s/public/wizard/index.html', __dirname), function (err, fileData) {
-            if (err) {
-              throw err;
-            }
-            // get template content, server-side
-            let template = fileData.toString();
-            let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'wizard');
-            let i18nOptions = geti18nOptions(shortlang);
-            i18nOptions.resources[shortlang] = {translation: translationData};
-            // console.log(i18nOptions);
-            // load i18n
-            i18next.init(i18nOptions, function(err, t) {
-                // i18n initialized and ready to go!
-                // document.getElementById('output').innerHTML = i18next.t('key');
-                // variables to pass to Mustache to populate template
-                var view = {
-                  shortlang: shortlang,
-                  langname: i18n_utils.getLangName(config.languages, shortlang),
-                  map: config.map,
-                  baseurl: localconfig.url + "/",
-                  sparql: config.sparql,
-                  languages: config.languages,
-                  formAction: formActions[action],
-                  i18n: function () {
-                    return function (text, render) {
-                        i18next.changeLanguage(shortlang);
-                        return i18next.t(text);
-                    }
-                  }
-                };
-                // console.log(view);
-                var output = Mustache.render(template, view);
-                res.send(output);
-            });
-        });
-    }
-
-
-    function getWizardPath(req, res, action=null, id=null) {
-      /**
-       *  Get CRUx interface for maps.
-       *  @param {object} req Express object. req.params.action
-       *  @param {object} res Express object.
-       *  @param {string} action to perform (optional).
-       *  @param {integer} id Map primary key on database, numeric integer.
-       *  @return None. A res.send() must be set to expose output.
-       **/
-        // let action = req.params.action ? req.params.action : 'add';
-        if (DEBUG) {
-            console.log('Path', req.originalUrl, 'Action: ', action, "Id:", id);
-        }
-        if (getWizardActionPermissionAllowed(action, id)) {
-            getWizard(req, res, action, id);
-        }
-        else {
-            res.status(400).send('Bad request');
-        }
-    }
-
     // javascript for wizard frontend
     app.use('/wizard/js',express.static('./public/wizard/js'));
     // javascript for frontend
@@ -223,15 +129,15 @@ module.exports = function(app, apicache, passport) {
     // translated interfaces for the map wizard
     // do not cache (multilingual)
     app.get('/admin/:action/:id', async function (req, res) {
-        getWizardPath(req, res, req.params.action, parseInt(req.params.id))
+        wizard.getWizardPath(req, res, req.params.action, parseInt(req.params.id))
     });
     app.get('/admin/:action', async function (req, res) {
-        getWizardPath(req, res, req.params.action)
+        wizard.getWizardPath(req, res, req.params.action)
     });
     // plain wizard must be the last WIZARD route
     app.get('/wizard', async function (req, res) {
         // wizard without action (e.g. wizard/edit) is equivalent to wizard/add
-        getWizard(req, res, 'add');
+        wizard.getWizard(req, res, 'add');
     });
 
     // full url map route, with exposed parameters
@@ -415,7 +321,7 @@ module.exports = function(app, apicache, passport) {
             // get template content, server-side
             let template = fileData.toString();
             let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'frontend');
-            let i18nOptions = geti18nOptions(shortlang);
+            let i18nOptions = i18n_utils.geti18nOptions(shortlang);
             i18nOptions.resources[shortlang] = {translation: translationData};
             // console.log(i18nOptions);
             // load i18n
@@ -453,7 +359,7 @@ module.exports = function(app, apicache, passport) {
             // get template content, server-side
             let template = fileData.toString();
             let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'manual');
-            let i18nOptions = geti18nOptions(shortlang);
+            let i18nOptions = i18n_utils.geti18nOptions(shortlang);
             i18nOptions.resources[shortlang] = {translation: translationData};
             // console.log(i18nOptions);
             // load i18n
@@ -634,7 +540,7 @@ module.exports = function(app, apicache, passport) {
                   // get template content, server-side
                   let template = fileData.toString();
                   let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'admin');
-                  let i18nOptions = geti18nOptions(shortlang);
+                  let i18nOptions = i18n_utils.geti18nOptions(shortlang);
                   i18nOptions.resources[shortlang] = {translation: translationData};
                   // console.log(i18nOptions);
                   // load i18n
