@@ -49,7 +49,7 @@
     "autoZoom": {
       "label": "Zoom automatico basato sui dati",
       "manual": "Manuale",
-      "auto": "Inquadra tutte le coordinate",
+      "auto": "Auto",
       "or": "o"
     },
     "lat": {
