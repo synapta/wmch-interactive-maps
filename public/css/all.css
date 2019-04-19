@@ -5,8 +5,7 @@
 .marker-cluster {
     cursor: pointer;
 }
-#wmap,
-#preview {
+body {
     font-family: 'Montserrat', sans-serif;
 }
 #wmap .popup-content,

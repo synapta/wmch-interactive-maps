@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat" />
     <link rel="stylesheet" href="/css/all.css" />
-    <link rel="stylesheet" href="/css/wizard.css" />
+    <link rel="stylesheet" href="/css/manual.css" />
 
     <style type="text/css">
     .ui.buttons .or::before {
@@ -23,7 +23,7 @@
     </style>
 </head>
 <body>
-    <div class="ui padded grid">
+    <div class="ui center container aligned grid">
         <header class="sixteen wide column ui items">
           <div class="ui floating dropdown labeled search icon left floated button" id="languages">
             <i class="language large icon"></i>
@@ -35,12 +35,22 @@
             </div>
           </div>
         </header>
-        <section>
+        <section id="content">
           {{{manual}}}
         </section>
         <footer class="sixteen wide column ui items">
-          <div id="author">{{{map.author}}}</div>
+          <div id="author">{{{credits}}}</div>
         </footer>
+    </div>
+    <!-- Display large image -->
+    <div id="man-modal" class="ui modal">
+      <div class="header">Header</div>
+      <div class="image content">
+        <img class="image" src="">
+        <div class="description">
+          <p></p>
+        </div>
+      </div>
     </div>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>

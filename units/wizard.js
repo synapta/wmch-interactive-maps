@@ -12,6 +12,7 @@ const config = require('../config');
 const localconfig = dbinit.init();
 const Mustache = require('mustache');
 const request = require('request');
+var md = require('markdown-it')();
 const db = require(util.format('../db/connector/%s', localconfig.database.engine));
 const DEBUG = localconfig.debug ? localconfig.debug : false;
 
@@ -244,8 +245,15 @@ function getWizard(req, res, action, id) {
    });
 }
 
+function manRender(data) {
+    let content = md.render(data.toString());
+    // adding a touch of style to images
+    content = content.replace(/<img /g, '<img class="man-image ui centered large image" ');
+    return content;
+}
 
 exports.getWizardActionPermissionAllowed = getWizardActionPermissionAllowed;
 exports.getWizardPath = getWizardPath;
 exports.getWizard = getWizard;
 exports.cuMap = cuMap;
+exports.manRender = manRender;

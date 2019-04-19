@@ -1,0 +1,17 @@
+#content {
+  font-family: sans-serif;
+}
+body {
+  font-size: 12pt;
+}
+h2 {
+  border-bottom: 1px solid #a2a9b1 !important;
+}
+/**
+h2 {
+	padding-top: 0.5em;
+	padding-bottom: 0.17em;
+	border-bottom: 1px solid #a2a9b1;
+  font-family: 'Linux Libertine','Georgia','Times',serif;
+}
+ **/

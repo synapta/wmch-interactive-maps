@@ -6,7 +6,6 @@ const Sequelize = require('sequelize');
 const Mustache = require('mustache');
 const i18next = require('i18next');
 const request = require('request');
-var md = require('markdown-it')();
 // Custom functions for internationalization
 const i18n_utils = require('./i18n/utils');
 const dbinit       = require('./db/init');
@@ -329,7 +328,8 @@ module.exports = function(app, apicache, passport) {
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         baseurl: localconfig.url + "/",
                         languages: config.languages,
-                        manual: manerror ? i18next.t('page.notFound') : md.render(fileData.toString()),
+                        credits: config.map.author,
+                        manual: manerror ? i18next.t('page.notFound') : wizard.manRender(fileData),
                         i18n: function () {
                           return function (text, render) {
                               i18next.changeLanguage(shortlang);
@@ -506,6 +506,7 @@ module.exports = function(app, apicache, passport) {
                         shortlang: shortlang,
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         languages: config.languages,
+                        credits: config.map.author,
                         maps: maps,
                         i18n: function () {
                           return function (text, render) {
