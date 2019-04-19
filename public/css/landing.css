@@ -25,9 +25,18 @@
 h1 {
   line-height: 3em;
 }
+#infinite {
+  margin-bottom: 2rem;
+}
 #infinite .label {
   text-transform: uppercase;
 }
 #infinite .landingmapimage {
   cursor: pointer;
+}
+#loadothers {
+  display: block;
+  margin: auto;
+  max-width: 300px;
+  margin-top: 1em;
 }
