@@ -1,4 +1,4 @@
-// Manage screen
+// Admin UI on /admin
 $(function() {
     function change(element) {
       // element is changed

@@ -61,6 +61,16 @@ $(function() {
         }
     };
 
+    var refreshWhenEdit = function () {
+        if ($('#mapstyle').is(':visible')) {
+          // emulate click on selected item (with data-value) to refresh
+            if ($('#mapstyle').data('value').length) {
+                $('#mapstyle').dropdown('show');
+                $('#mapstyle .menu .active').click();
+            }
+        }
+    };
+
     var checkFinalStep = function () {
         if ($("button[type='submit']").is(":visible")) {
             finalStepDisablePreview();
@@ -153,6 +163,7 @@ $(function() {
         $(".steps .step").eq(stepToActive).addClass("active");
         // ultimo step
         checkFinalStep();
+        refreshWhenEdit();
     });
     $(".steps .step").on("click", function () {
         // to be fixed
@@ -175,6 +186,7 @@ $(function() {
         $(".steps .step").eq(stepToActive).addClass("active");
         // ultimo step
         checkFinalStep();
+        refreshWhenEdit();
     });
     // on document ready
     // ...
