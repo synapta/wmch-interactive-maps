@@ -40,6 +40,11 @@
         "name": "OpenStreetMap Black & White",
         "tile": "//tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png",
         "attribution": "<a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\">CC-BY-SA</a>"
+      },
+      {
+        "name": "OpenTopoMap",
+        "tile": "//c.tile.opentopomap.org/{z}/{x}/{y}.png",
+        "attribution": "<a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a> contributors Style: <a href=\"https://opentopomap.org/\" target=\"_blank\">opentopomap.org</a> <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\">CC-BY-SA</a>"
       }
     ],
     "minZoom": 2,
