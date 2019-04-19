@@ -455,16 +455,16 @@ $(function() {
         }
     });
 
-
-
     // Autozoom alternatives
     var autoZoomActiveClasses = 'active teal';
     $('#autozoom-manual').on("click", function (e) {
+        /** Enable manual zoom (default) **/
         e.preventDefault();
         if ($('#mapstyle').data('touched')) {
             $('#autozoom-icon').toggleClass('right arrow');
             $('#autozoom-icon').toggleClass('cancel');
             $('#autozoom-auto').removeClass(autoZoomActiveClasses);
+            $('#zoom').removeClass('disabled');
             $(this).addClass(autoZoomActiveClasses);
             loadmapifchanged();
         }
@@ -473,11 +473,13 @@ $(function() {
         }
     });
     $('#autozoom-auto').on("click", function (e) {
+        /** Enable auto-zoom, disable zoom specification **/
         e.preventDefault();
         if ($('#mapstyle').data('touched')) {
             $('#autozoom-icon').toggleClass('right arrow');
             $('#autozoom-icon').toggleClass('cancel');
             $('#autozoom-manual').removeClass(autoZoomActiveClasses);
+            $('#zoom').addClass('disabled');
             $(this).addClass(autoZoomActiveClasses);
             loadmapifchanged();
         }
