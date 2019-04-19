@@ -65,8 +65,13 @@ $(function() {
         if ($('#mapstyle').is(':visible')) {
           // emulate click on selected item (with data-value) to refresh
             if ($('#mapstyle').data('value').length) {
+                // select map style first
                 $('#mapstyle').dropdown('show');
                 $('#mapstyle .menu .active').click();
+                // autozoom is enabled?
+                if ($('#autozoom-auto').data('select')) {
+                    $('#autozoom-auto').click();
+                }
             }
         }
     };
@@ -544,5 +549,8 @@ $(function() {
 
     // load all Semantic UI accordion
     $('.accordion').accordion();
+
+    // First step: trigger keyUp to force path check
+    $("input[name='path']").trigger("keyup");
 
 });

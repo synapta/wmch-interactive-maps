@@ -86,11 +86,10 @@ module.exports = function(app, apicache, passport) {
        };
     }
 
+    // TODO: reuse wizard.getMapValues ??
     function querystring2json (res, enrichedQuery) {
+        models.booleanize(enrichedQuery);
         enrichedQuery.currentStyle = false;
-        // represent always as Boolean
-        enrichedQuery.autoZoom = (enrichedQuery.autoZoom === 'true') ? true : false;
-        console.log(enrichedQuery.autoZoom);
         for (style of config.map.styles) {
             if (style.tile === enrichedQuery.tile) {
                 // util.log("Tile exists and its attibution is: %s", enrichedQuery.currentStyle.attribution);
@@ -117,6 +116,10 @@ module.exports = function(app, apicache, passport) {
 
     // translated interfaces for the map wizard
     // do not cache (multilingual)
+    app.get('/admin/:action/:id/save', async function (req, res) {
+      /** Save changes of existing table to database (edit / update) **/
+      wizard.cuMap(req, res, 'edit');
+    });
     app.get('/admin/:action/:id', async function (req, res) {
         wizard.getWizardPath(req, res, req.params.action, parseInt(req.params.id))
     });
@@ -164,49 +167,10 @@ module.exports = function(app, apicache, passport) {
         });
     });
 
-    /** Save the map to database **/
+
     app.get('/wizard/generate', async function (req, res) {
-        // load database from configuration
-        let dbMeta = new db.Database(localconfig.database);
-        // create a connection with Sequelize
-        let [conn, err] = await dbMeta.connect();
-        if (err) {
-            res.send('Cannot connect to db');
-        }
-        else {
-            // models.Map.sync();
-            const Map = dbMeta.db.define('map', models.Map);
-            // add a new record
-            try {
-                // let url = util.format("%s/%s", config.screenshotServer.url, req.query.mapargs);
-                // make a request to screenshot server. Get the screenshot path.
-                request({
-                     url: config.screenshotServer.url,
-                     method: "PUT",
-                     headers: {
-                       'Accept': 'application/json'
-                     },
-                     json: {mapargs: req.query.mapargs}
-                }, async function (error, response, jsonBody) {
-                    if (!jsonBody) {
-                        util.log('******** Screenshot server is down ************');
-                    }
-                    // add a new record to Map table via ORM
-                    await Map.create({
-                      title: req.query.title,
-                      path: req.query.path,
-                      mapargs: req.query.mapargs,
-                      screenshot: jsonBody.path,
-                      published: true
-                    });
-                    res.redirect(util.format("/v/%s", req.query.path));
-                });
-            }
-            catch (e) {
-                console.log(e);
-                res.send('<h2>Cannot create!</h2><a href="#" onclick="window.history.go(-1); return false;">Go back</a>');
-            }
-        }
+        /** Save the map to database (add) **/
+        wizard.cuMap(req, res, 'add');
     });
 
     app.get('/api/all', function (req, res) {

@@ -159,7 +159,7 @@
                             <!-- Zoom manual vs. auto -->
                             <div class="inline field" aria-label="{{#i18n}}fields.autoZoom.label{{/i18n}}">
                               <div class="ui large buttons">
-                                <button id="autozoom-auto" class="ui button">{{#i18n}}fields.autoZoom.auto{{/i18n}}</button>
+                                <button id="autozoom-auto" data-select="{{#map.autoZoom}}1{{/map.autoZoom}}{{^map.autoZoom}}0{{/map.autoZoom}}" class="ui button">{{#i18n}}fields.autoZoom.auto{{/i18n}}</button>
                                 <div class="or"></div>
                                 <button id="autozoom-manual" class="ui button active teal">{{#i18n}}fields.autoZoom.manual{{/i18n}}</button>
                               </div>

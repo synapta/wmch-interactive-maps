@@ -11,6 +11,7 @@ const models       = require('../db/models');
 const config = require('../config');
 const localconfig = dbinit.init();
 const Mustache = require('mustache');
+const request = require('request');
 const db = require(util.format('../db/connector/%s', localconfig.database.engine));
 const DEBUG = localconfig.debug ? localconfig.debug : false;
 
@@ -83,6 +84,74 @@ function getMapConfigFromDb (id) {
     });
 }
 
+async function cuMap (req, res, action) {
+  /**
+   *  Do CxUx actions (create or update).
+   *  @param {object} req Express object. req.params.action
+   *  @param {object} res Express object.
+   *  @param {string} action to perform
+   *  @return None. A res.send() must be set to expose output, redirect to map on success.
+   **/
+    // load database from configuration
+    let dbMeta = new db.Database(localconfig.database);
+    // create a connection with Sequelize
+    let [conn, err] = await dbMeta.connect();
+    if (err) {
+        res.send('Cannot connect to db');
+    }
+    else {
+        // models.Map.sync();
+        const Map = dbMeta.db.define('map', models.Map);
+        // add a new record
+        try {
+            // let url = util.format("%s/%s", config.screenshotServer.url, req.query.mapargs);
+            // make a request to screenshot server. Get the screenshot path.
+            request({
+                 url: config.screenshotServer.url,
+                 method: "PUT",
+                 headers: {
+                   'Accept': 'application/json'
+                 },
+                 json: {mapargs: req.query.mapargs}
+            }, async function (error, response, jsonBody) {
+                if (!jsonBody) {
+                    util.log('******** Screenshot server is down ************');
+                }
+                switch (action) {
+                    case 'add':
+                        // add a new record to Map table via ORM
+                        await Map.create({
+                          title: req.query.title,
+                          path: req.query.path,
+                          mapargs: req.query.mapargs,
+                          screenshot: jsonBody.path,
+                          published: true
+                        });
+                    break;
+                    case 'edit':
+                        let currentId = parseInt(req.params.id);
+                        await Map.findByPk(currentId).then(async (editedMap) => {
+                            await editedMap.update({
+                              title: req.query.title,
+                              path: req.query.path,
+                              mapargs: req.query.mapargs,
+                              screenshot: jsonBody.path,
+                              published: true
+                            });
+                        });
+                        // add a new record to Map table via ORM
+                    break;
+                }
+                res.redirect(util.format("/v/%s", req.query.path));
+            });
+        }
+        catch (e) {
+            console.log(e);
+            res.send('<h2>Cannot create!</h2><a href="#" onclick="window.history.go(-1); return false;">Go back</a>');
+        }
+    }
+}
+
 function getMapValues(action, id) {
   /**
    *  Get values for map, edit or add.
@@ -126,7 +195,7 @@ function getMapValues(action, id) {
 function getWizard(req, res, action, id) {
    const formActions = {
      'add': '/wizard/generate',
-     'edit': util.format('/admin/edit/%d', id)
+     'edit': util.format('/admin/edit/%d/save', id)
    };
    // [ 'it', 'it-IT', 'en-US', 'en' ]
    // console.log(req.acceptsLanguages()[0]);
@@ -179,3 +248,4 @@ function getWizard(req, res, action, id) {
 exports.getWizardActionPermissionAllowed = getWizardActionPermissionAllowed;
 exports.getWizardPath = getWizardPath;
 exports.getWizard = getWizard;
+exports.cuMap = cuMap;
