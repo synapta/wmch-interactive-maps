@@ -2,5 +2,10 @@
   "page": {
     "title": "Manuale",
     "notFound": "Manuale non trovato"
+  },
+  "actions": {
+    "back": {
+      "text": "Torna al cruscotto"
+    }
   }
 }
