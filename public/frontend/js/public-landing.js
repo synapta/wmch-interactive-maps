@@ -54,7 +54,7 @@ $(function() {
                     $('#infinite').append('<div class="column"><div class="ui raised segment">'
                     + thisIsStarred
                     + '<div class="square landingmapimage" style="background-image: url(' + map.screenshot + ');">'
-                    + '<a href="' + map.href + userDefinedLangQuery + '" class="ui ' + colorLottery() + ' ribbon label">' + map.title + '</a>'
+                    + '<a title="' + (map.title.length > 24 ? map.title : '') + '" href="' + map.href + userDefinedLangQuery + '" class="ui ' + colorLottery() + ' ribbon label">' + map.title.substring(0, 24) + (map.title.length > 24 ? '&hellip;' : '') + '</a>'
                     + '</div>'
                     + '</div>');
                 });
