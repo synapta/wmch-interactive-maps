@@ -420,20 +420,45 @@ module.exports = function(app, apicache, passport) {
         });
     });
 
+    function updateRecordList(sequelizeModel, records, count, res) {
+      /**
+       *  Update a list of records an pop one after another until it's consumed.
+       *  Then send a response.
+       *
+       *  @param {object} sequelizeModel: sequelize model
+       *  @param {array} records: list of records
+       *  @param {integer} count: updated record count
+       *  @param {object} res: response object from Express
+       **/
+        let record = records.pop();
+        if (record) {
+            sequelizeModel.update(
+                { sticky: record.sticky }, /* set attributes' value */
+                { where: { id: record.id }} /* where criteria */
+            ).then(([affectedCount, affectedRows]) => {
+              // Notice that affectedRows will only be defined in dialects which support returning: true
+              // affectedCount will be n
+              // update changed records count
+              count += affectedCount;
+              if (records.length) {
+                  // next element if any
+                  updateRecordList(sequelizeModel, records, count, res);
+              }
+              else {
+                  // last element
+                  res.send({error: false, updateNumber: count});
+              }
+            });
+        }
+    }
+
     function admin_api_action_update (req, res) {
+        /** Update multiple records **/
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
-        // soft delete (unpublish)
-        // console.log(req.body);
-        // TODO XXX req.body.sticky da verificare!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        Map.update(
-            { sticky: req.body.sticky }, /* set attributes' value */
-            { where: { id: req.body.id }} /* where criteria */
-        ).then(([affectedCount, affectedRows]) => {
-          // Notice that affectedRows will only be defined in dialects which support returning: true
-          // affectedCount will be n
-          res.send({error: false, updateNumber: affectedCount});
-        });
+        let updateCount = 0;
+        // Save all records
+        updateRecordList(Map, req.body.records, updateCount, res);
     }
 
     function admin_api_action_undelete (req, res, published=true) {
@@ -459,13 +484,13 @@ module.exports = function(app, apicache, passport) {
 
     app.put('/admin/api/:action', function (req, res) {
         let fun = eval('admin_api_action_' + req.params.action);
-        try {
+        //try {
             fun(req, res);
-        }
-        catch (e) {
+        //}
+        //catch (e) {
             // Function not found, pass
-            res.send("Error")
-        }
+        //    res.send("Error")
+        //}
     });
 
     app.get('/admin', async function (req, res) {
