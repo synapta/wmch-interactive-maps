@@ -57,7 +57,7 @@ $(function() {
         else {
             el.addClass('starred');
         }
-        // show icon graphically changed
+        // show ico)n graphically changed
         $(this).find('i').toggleClass('outline grey yellow');
         // show row is changed graphically
         /** if (el.is('.starred') == el.data('star')) {
@@ -92,7 +92,7 @@ $(function() {
               // console.log("Not changed");
             }
         });
-        console.log(toChange);
+        // console.log(toChange);
         // Confirmation message
         var confirmMessage = $('section').data('confirm');
         confirmMessage = confirmMessage
@@ -145,6 +145,63 @@ $(function() {
               }
         }
     });
+
+    function tableSortUpdated () {
+        var els = [];
+        $('.map-record').each(function () {
+              // console.log((parseInt($(this).find('.order').val()), $(this).data('order'));
+              // var value = parseInt($(this).find('.order').val());
+              var newdata = getRecordData(this);
+              // console.log(newdata);
+              els.push(newdata.sticky);
+        });
+        els[0] = els.length;
+        for (var j=1; j < els.length; j++) {
+            els[j] = els[j-1] - 1;
+        }
+        // console.log(els);
+        var j = 0;
+        $('.map-record').each(function () {
+            $(this).find('.order').val(els[j]);
+            j++;
+        });
+    }
+
+    // Add sortable capabilities to rendered table
+    // No jquery here
+    sortable('table.sortable-admin tbody', {
+      items: "tr",
+      forcePlaceholderSize: true,
+      placeholderClass: 'placeholder sort-placeholder',
+    });
+
+    // @see https://github.com/lukasoppermann/html5sortable#sortupdate
+    sortable('table.sortable-admin tbody')[0].addEventListener('sortupdate', function(e) {
+
+        //// console.log(e.detail);
+        tableSortUpdated();
+
+        /*
+        This event is triggered when the user stopped sorting and the DOM position has changed.
+
+        e.detail.item - {HTMLElement} dragged element
+
+        Origin Container Data
+        e.detail.origin.index - {Integer} Index of the element within Sortable Items Only
+        e.detail.origin.elementIndex - {Integer} Index of the element in all elements in the Sortable Container
+        e.detail.origin.container - {HTMLElement} Sortable Container that element was moved out of (or copied from)
+        e.detail.origin.itemsBeforeUpdate - {Array} Sortable Items before the move
+        e.detail.origin.items - {Array} Sortable Items after the move
+
+        Destination Container Data
+        e.detail.destination.index - {Integer} Index of the element within Sortable Items Only
+        e.detail.destination.elementIndex - {Integer} Index of the element in all elements in the Sortable Container
+        e.detail.destination.container - {HTMLElement} Sortable Container that element was moved out of (or copied from)
+        e.detail.destination.itemsBeforeUpdate - {Array} Sortable Items before the move
+        e.detail.destination.items - {Array} Sortable Items after the move
+        */
+    });
+
 
 
 });

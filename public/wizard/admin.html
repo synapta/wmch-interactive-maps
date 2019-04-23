@@ -37,7 +37,7 @@
         </header>
         <section data-confirm="{{#i18n}}actions.submit.confirm{{/i18n}}">
           <button class="ui button savechanged blue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
-          <table class="ui table compact celled">
+          <table class="ui table compact celled sortable-admin">
             <thead class="full-width">
               <tr>
                 <th>{{#i18n}}headers.title{{/i18n}}</th>
@@ -46,6 +46,8 @@
                 <th>{{#i18n}}headers.star{{/i18n}}</th>
                 <th>{{#i18n}}headers.delete{{/i18n}}</th>
               </tr>
+            </thead>
+                <tbody>
                 {{#maps}}
                   <tr class="map-record {{#star}}starred{{/star}}"
                     data-id="{{id}}"
@@ -55,7 +57,7 @@
                     data-path="{{path}}"
                     data-sticky="{{sticky}}"
                     data-star="{{#star}}1{{/star}}{{^star}}0{{/star}}">
-                    <td><a href="/admin/edit/{{id}}">{{title}}</a></td>
+                    <td><i class="sort icon grey"></i><a href="/admin/edit/{{id}}">{{title}}</a></td>
                     <td>{{path}}</td>
                     <th><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
                     <th><a class="change-star" href="#"><i class="star {{#star}}yellow{{/star}} {{^star}}outline grey{{/star}} icon"></i></a></th>
@@ -69,6 +71,7 @@
                     </th>
                   </tr>
                 {{/maps}}
+              </tbody>
             </table>
             <button class="ui button savechanged blue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
         </section>
@@ -82,6 +85,7 @@
 
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/html5sortable/0.9.11/html5sortable.js"></script>
 
     <script src="/wizard/js/urlify.js"></script>
     <script src="/js/utils.js"></script>
