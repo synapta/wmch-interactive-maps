@@ -114,29 +114,29 @@ $(function() {
             },
             success: function(json) {
                 var action = $('form').data('action-name');
-                if (action === "add") {
-                    $("input[name='path']").data('valid', 0);
-                }
-                else if (action === "edit") {
-                    // console.log(json.id);
-                    if (json.id == $('form').data('map-id')) {
-                        // can overwrite path on the same record
-                        $("#path-found").hide();
-                        $("#path-not-found").show();
-                        $("input[name='path']").data('valid', 1);
-                    }
-                    else {
-                        // already used
+                switch (action) {
+                    case 'edit':
+                        // console.log(json.id);
+                        if (json.id == $('form').data('map-id')) {
+                            // can overwrite path on the same record
+                            $("#path-found").hide();
+                            $("#path-not-found").show();
+                            $("input[name='path']").data('valid', 1);
+                        }
+                        else {
+                            // already used
+                            $("#path-found").show();
+                            $("#path-not-found").hide();
+                            $("input[name='path']").data('valid', 0);
+                        }
+                    break;
+                    case 'add':
+                    default:
+                        // invalid by default
                         $("#path-found").show();
                         $("#path-not-found").hide();
                         $("input[name='path']").data('valid', 0);
-                    }
-                }
-                else {
-                    // invalid by default
-                    $("#path-found").show();
-                    $("#path-not-found").hide();
-                    $("input[name='path']").data('valid', 0);
+                    break;
                 }
             }
         });
