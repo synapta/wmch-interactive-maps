@@ -47,7 +47,7 @@
                 <th>{{#i18n}}headers.delete{{/i18n}}</th>
               </tr>
                 {{#maps}}
-                  <tr class="map-record"
+                  <tr class="map-record {{#star}}starred{{/star}}"
                     data-id="{{id}}"
                     data-changed="0"
                     data-purge="0"
@@ -58,7 +58,7 @@
                     <td><a href="/admin/edit/{{id}}">{{title}}</a></td>
                     <td>{{path}}</td>
                     <th><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
-                    <th><i class="star {{#star}}yellow{{/star}} {{^star}}outline grey{{/star}} icon"></i></th>
+                    <th><a class="change-star" href="#"><i class="star {{#star}}yellow{{/star}} {{^star}}outline grey{{/star}} icon"></i></a></th>
                     <th>
                       <div class="ui vertical animated button red map-record-purge">
                         <div class="hidden content">{{#i18n}}actions.delete.text{{/i18n}}</div>
@@ -76,6 +76,10 @@
           <div id="author">{{{credits}}}</div>
         </footer>
     </div>
+    <div id="updating" class="ui inverted dimmer">
+      <div class="ui massive loader"></div>
+    </div>
+
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
 

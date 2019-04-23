@@ -433,7 +433,10 @@ module.exports = function(app, apicache, passport) {
         let record = records.pop();
         if (record) {
             sequelizeModel.update(
-                { sticky: record.sticky }, /* set attributes' value */
+                {
+                  sticky: record.sticky,
+                  star: record.star
+                }, /* set attributes' value */
                 { where: { id: record.id }} /* where criteria */
             ).then(([affectedCount, affectedRows]) => {
               // Notice that affectedRows will only be defined in dialects which support returning: true
