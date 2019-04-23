@@ -178,16 +178,6 @@ body {
     color: white;
     opacity: 1;
 }
-#languages {
-  position: absolute;
-  right: 0;
-  z-index: 997;
-  margin-right: 10px;
-  margin-top: 10px;
-}
-#languages .menu {
-  z-index: 997;
-}
 .donotdisplay {
   display: none !important;
 }
@@ -221,4 +211,8 @@ body {
 #path-not-found {
   font-size: 1.5rem;
   line-height: 3rem;
+}
+#logoonmenu img {
+  width: 90px;
+  height: 90px;
 }

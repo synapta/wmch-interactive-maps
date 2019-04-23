@@ -40,3 +40,13 @@ h1 {
   max-width: 300px;
   margin-top: 1em;
 }
+#languages {
+  position: absolute;
+  right: 0;
+  z-index: 997;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+#languages .menu {
+  z-index: 997;
+}

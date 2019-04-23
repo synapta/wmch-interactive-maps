@@ -47,3 +47,13 @@
         font-size: 17px;
     }
 }
+#languages {
+  position: absolute;
+  right: 0;
+  z-index: 997;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+#languages .menu {
+  z-index: 997;
+}

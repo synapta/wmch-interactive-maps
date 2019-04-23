@@ -20,21 +20,36 @@
     </style>
 </head>
 <body>
-    <div class="ui padded grid">
-        <header class="sixteen wide column ui items">
-          <a class="ui button yellow circular left floated" href="/wizard/man/index" target="_blank">
-            <i class="help icon"></i>
-          </a>
-          <div class="ui floating dropdown labeled search icon left floated button" id="languages">
-            <i class="language large icon"></i>
-            <span class="text">{{langname}}</span>
-            <div class="menu">
-              {{#languages}}
-              <div class="item" data-value="{{code}}">{{name}}</div>
-              {{/languages}}
-            </div>
+  <!-- *** begin menu **************************************** -->
+  <div class="ui menu borderless">
+    <div class="header item" id="logoonmenu">
+      <a href="/"><img class="logo" src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" /></a>
+    </div>
+    <div class="item">
+      <h1>{{#i18n}}page.title{{/i18n}}</h1>
+    </div>
+    <div class="right menu">
+          <div class="item">
+            <a class="ui button icon help small yellow circular" href="/wizard/man/index" target="_blank"><i class="help icon"></i></a>
           </div>
-        </header>
+          <div class="item">
+            <a class="ui button icon help small gray" href="/"><i class="home icon"></i></a>
+          </div>
+          <div class="item">
+              <div class="ui dropdown labeled search icon button" id="languages">
+                <i class="language large icon"></i>
+                <span class="text">{{langname}}</span>
+                <div class="menu">
+                  {{#languages}}
+                  <div class="item" data-value="{{code}}">{{name}}</div>
+                  {{/languages}}
+                </div>
+              </div>
+          </div>
+    </div>
+  </div>
+  <!-- *** end menu **************************************** -->
+    <div class="ui padded grid">
         <section data-confirm="{{#i18n}}actions.submit.confirm{{/i18n}}">
           <button class="ui button savechanged blue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
           <table class="ui table compact celled sortable-admin">

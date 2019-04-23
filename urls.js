@@ -535,6 +535,7 @@ module.exports = function(app, apicache, passport) {
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         languages: config.languages,
                         credits: config.map.author,
+                        logo: config.logo,
                         maps: maps,
                         i18n: function () {
                           return function (text, render) {
