@@ -484,13 +484,13 @@ module.exports = function(app, apicache, passport) {
 
     app.put('/admin/api/:action', function (req, res) {
         let fun = eval('admin_api_action_' + req.params.action);
-        //try {
+        try {
             fun(req, res);
-        //}
-        //catch (e) {
+        }
+        catch (e) {
             // Function not found, pass
-        //    res.send("Error")
-        //}
+            res.send("Error")
+        }
     });
 
     app.get('/admin', async function (req, res) {
