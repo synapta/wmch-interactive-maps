@@ -109,12 +109,3 @@ Nella schermata di modifica della singola mappa è possibile cambiare quanto gi�
 
 Verrà riproposto il modulo wizard già spiegato in *Creare una mappa*. Si potranno cambiare sia la query che i parametri di visualizzazione della mappa.
 
-## EN/IT
-
-- cruscotto di amministrazione: admin dashboard
-- pagina principale: landing page
-- percorsi di amministrazione: admin paths
-- percorso: path
-- modulo: form
-- Coordinate sulla posizione attuale: Coordinates on current position
-- raggio di aggregazione massimo: max cluster radius

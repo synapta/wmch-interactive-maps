@@ -1,120 +1,111 @@
-# User manual for WMCH interactive maps (TO TRANSLATE)
+# Interactive WMCH maps user manual
 
-Questo manuale esplora l'uso dell'interfaccia di amministrazione delle mappe interattive.
+This user manual explores the use of the interactive maps admin backend.
 
-## Accessi
+## Accesses
 
-I percorsi amministrativi sono protetti da una coppia nome utente / password.
+Admin paths are protected by user name and password.
 
-Il frontend è invece esposto e visibile a chiunque.
+The frontend is visible and everyone can see it.
 
-## Creare una mappa
+## How to create a map
 
-È possibile creare una mappa visitando il path:
+You can create a map by visiting the path:
 
 - [map.wikimedia.swiss/wizard](https://map.wikimedia.swiss/wizard)
 
-Verrà visualizzato un modulo diviso in vari passaggi in cui è possibile:
+You will see a form divided into different steps in which you can:
 
-### 1. Scegliere un titolo ed un percorso nel quale verrà visualizzata la mappa, es. /v/nome-percorso
+### 1. Choose a title and a path where the map will be visible, egs. /v/name-path
 
-![Passo 1](/wizard/man/_media/wizard-01.png)
+![1st step](/wizard/man/_media/wizard-01.png)
 
-### 2. Inserire la query SPARQL che popolerà la mappa
+### 2. Write the SPARQL query that will populate the map
 
-![Passo 2](/wizard/man/_media/wizard-02.png)
+![2nd step](/wizard/man/_media/wizard-02.png)
 
-### 3. Scegliere l'aspetto della mappa
+### 3. Choose the map frontend
 
-![Passo 3](/wizard/man/_media/wizard-03.png)
+![3rd step](/wizard/man/_media/wizard-03.png)
 
-I dati della query SPARQL sono visualizzati in anteprima. Da qui è possibile scegliere:
+SPARQL data are displayed in preview. From the dashboard you can choose:
 
-- Lo stile della mappa
-- L'icona del segnaposto
-- Le coordinate
-- Le modalità di raggruppamento
-- I livelli di zoom
+- The map style;
+- Pin icon;
+- Coordinates;
+- Clustering;
+- Zoom levels.
 
-#### Icona segnaposto
+#### Pin icon
 
-È possibile scegliere l'icona da visualizzare in cima al segnaposto che comparirà sulla mappa digitando il nome in inglese dell'icona da visualizzare. Digitando ad esempio *university* verrà visualizzata la relativa icona, digitando *arrow* verranno visualizzate diverse icone freccia fra cui scegliere.
+You can choose the icon that you want to see on the pin in the map by typing the icon English name you want to see. For example: if you type the word university you will see the related icon, or if you type the word arrow you will see different arrow icons you to choose from. 
 
-#### Zoom e coordinate
+#### Zoom and coordinates
 
-Usando il campo zoom o i pulsanti `+` e `-` sulla mappa si potrà visualizzare una porzione specifica di territorio.
+By using the zoom feature or the + or – buttons you will see a specific part of the territory. 
 
-Premendo il pulsante *Coordinate sulla posizione attuale* in cima alla mappa la latitudine e longitudine verrà calcolata sul centro della mappa attualmente visibile nell'anteprima.
+By clicking on the *Coordinates on current position* button on the top of the map, latitude and longitude will be calculated on the center of the map currently visible on the map preview. 
 
-Considerare che l'anteprima ha una cornice ristretta rispetto alla mappa che verrà pubblicata a tutto schermo per cui è consigliabile mantenere un livello di zoom un po' più alto tenendo gli elementi a margine anche lievemente fuori dalla cornice dell'anteprima.
+The preview has a limited framework compared to the map that will be published full screen mode, so it is recommended to use a zoom level a little bit higher so as to take the elements on the sidelines slightly off the preview framework.
 
 #### Auto vs. Manual
 
-Si può evitare di specificare un livello di zoom selezionando la modalità *Auto*.
+By selecting the *Auto* mode, you can avoid to specify a zoom level.
 
-In questa modalità la mappa verrà zoomata e centrata in base a tutti i dati ricevuti.
+In this mode the map will be zoomed and centered on the basis of the received data.
 
-Tuttavia, la modalità Auto può anche essere usata per prendere una sola porzione di mappa dopo averla vista tutta o per centrare la mappa sui dati per scegliere poi un livello di zoom differente seguendo questi passaggi:
+However, the Auto mode could be used also to take a portion of the map after you’ve seen it, or to center it on data and then choose a different zoom level by following this steps: 
 
-1. Selezionare la modalità *Auto*
-2. Premere *Coordinate sulla posizione attuale*
-3. Selezionare nuovamente la modalità *Manuale*
+1. Select the *Auto* mode
+2. Click on the *Coordinates on current position* button
+3. Select again *Manual* mode
 
-A questo punto si potrà usare lo zoom e trascinare la mappa usando sempre *Coordinate sulla posizione attuale* quando si vedrà la porzione desiderata.
-
-
-#### Raggruppamento
-
-Il campo *raggio di aggregazione massimo* può essere usato per raggruppare insieme elementi geograficamente adiacenti. Maggiore è il valore inserito, maggiori saranno il numero di elementi raggruppati insieme.
-
-In visualizzazione, selezionando un gruppo la mappa si porterà al livello di zoom tale da comprendere tutti gli elementi del gruppo.
+After that you will be able to use the zoom and drag the map using always the *Coordinates on current position* button until you see the wished portion of map. 
 
 
-#### Zoom minimo e massimo
+#### Clustering
 
-Questi parametri solitamente si possono lasciare inalterati e stabiliscono quanto l'utente può zoomare indietro (zoom minimo) e quanto avanti (zoom massimo).
+The *clustering* feature could be used to cluster elements geographically adjacent. The higher is the embedded value, the higher will be the number of clustered elements.
 
-I valori devono essere interi ed è preferibile non superare i valori che compaiono come predefiniti (massimo 18 e almeno 1).
+In framing, if you select a clustered group, the map will be zoomed to see all the clustered elements.
 
 
-### 4. Rivedere quanto fatto e modificare la mappa prima di pubblicare
+#### Minimum and maximum zoom
 
-![Passo 4](/wizard/man/_media/wizard-04.png)
+These parameters can be unaltered. They establish how much the user can zoom back (minimum zoom) or zoom forward (maximum zoom).
 
-Non possono esserci due mappe con lo stesso percorso e ne verrà suggerito uno, modificabile, basato sul titolo.
+The embedded values must be integer and it is better not to overcome the default values (maximum 18 and at least 1).
 
-## Cruscotto di amministrazione
 
-Il cruscotto di amministrazione è raggiungibile all'indirizzo:
+### 4. Review and edit the map before publishing
+
+![4th step](/wizard/man/_media/wizard-04.png)
+
+There can’t be two maps with the same path, there will be suggested an editable one based on the title.
+
+## Admin dashboard
+
+You can find the admin dashboard at:
 
 - [map.wikimedia.swiss/admin](https://map.wikimedia.swiss/admin)
 
-![Il cruscotto di amministrazione](/wizard/man/_media/admin-01.png)
+![Admin dashboard](/wizard/man/_media/admin-01.png)
 
-Tramite il cruscotto di amministrazione è possibile:
+In the admin dashboard you can:
 
-1. elencare le mappe pubblicate sul sito
-2. modificare le singole mappe
-3. riordinare l'ordine di apparizione delle mappe nella pagina principale
-4. aggiungere l'icona "preferito" (stella) ad una mappa
-5. cancellare le mappe
+1. List the published maps on the site;
+2. Edit the single map;
+3. Choose the order of the map appearance in the landing page; 
+4. Add the “favorite” icon (star) to a map;
+5. Delete maps
 
-Al click sul titolo della mappa si verrà rimandati alla pagina di modifica.
+Once you click on a map title you will be sent back to the edit page.
 
-Selezionando le operazioni di cancellazione o l'assegnazione preferito / non preferito bisognerà premere uno dei pulsanti Salva.
+Whether you choose to delete or add an element to the favorites, you always need to click on the save button. 
 
-## Modificare una mappa
+## Edit a map
 
-Nella schermata di modifica della singola mappa è possibile cambiare quanto già inserito nella mappa.
+On the edit page of the single map you can change what you’ve already added in.
 
-Verrà riproposto il modulo wizard già spiegato in *Creare una mappa*. Si potranno cambiare sia la query che i parametri di visualizzazione della mappa.
+You will see again the wizard form already explained in *How to create a map*. You could edit the query as well as the profile of display the map. 
 
-## EN/IT
-
-- cruscotto di amministrazione: admin dashboard
-- pagina principale: landing page
-- percorsi di amministrazione: admin paths
-- percorso: path
-- modulo: form
-- Coordinate sulla posizione attuale: Coordinates on current position
-- raggio di aggregazione massimo: max cluster radius
