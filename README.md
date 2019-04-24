@@ -8,6 +8,10 @@ User manual in multiple languages is loaded on [i18n_man/index](https://github.c
 
 The user manual is available inside the app along the screenshots at the `/wizard/man/index` path.
 
+## Node version
+
+- Supported node version are 10 and 11 by now (for sharp dependency)
+
 ## Installation
 
 Create `screenshots` and `local` directories:
