@@ -10,6 +10,9 @@
     "delete": "Delete?"
   },
   "actions": {
+    "create": {
+      "text": "Add a new map"
+    },
     "back": {
       "text": "Back to home"
     },

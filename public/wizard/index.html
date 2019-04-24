@@ -25,18 +25,18 @@
 <body>
   <!-- *** begin menu **************************************** -->
   <div class="ui menu borderless">
-    <div class="header item" id="logoonmenu">
+    <div class="item" id="logoonmenu">
       <a href="/"><img class="logo" src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" /></a>
     </div>
     <div class="item">
-      <h1 class="ui header">{{#map.title}}{{#i18n}}actions.edit.text{{/i18n}} <em>{{map.title}}</em>{{/map.title}}{{^map.title}}{{#i18n}}page.title{{/i18n}}{{/map.title}}</h1>
+      <h1 class="ui header medium">{{#map.title}}{{#i18n}}actions.edit.text{{/i18n}} <em>{{map.title}}</em>{{/map.title}}{{^map.title}}{{#i18n}}page.title{{/i18n}}{{/map.title}}</h1>
     </div>
     <div class="item">
       <i class="ui icon large {{#map.id}}blue edit{{/map.id}} {{^map.id}}green magic{{/map.id}}"></i>
     </div>
     <div class="right menu">
           <div class="item">
-            <a class="ui button icon help small green" href="/wizard/man/index?l={{shortlang}}" target="_blank"><i class="help icon"></i> {{#i18n}}actions.help.text{{/i18n}}</a>
+            <a class="ui button icon help small red" href="/wizard/man/index?l={{shortlang}}" target="_blank"><i class="help icon"></i> {{#i18n}}actions.help.text{{/i18n}}</a>
           </div>
           <div class="item">
               <div class="ui dropdown labeled search icon button" id="languages">

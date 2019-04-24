@@ -22,15 +22,18 @@
 <body>
   <!-- *** begin menu **************************************** -->
   <div class="ui menu borderless">
-    <div class="header item" id="logoonmenu">
+    <div class="item" id="logoonmenu">
       <a href="/"><img class="logo" src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" /></a>
     </div>
     <div class="item">
-      <h1 class="ui header">{{#i18n}}page.title{{/i18n}}</h1>
+      <h1 class="ui header medium">{{#i18n}}page.title{{/i18n}}</h1>
     </div>
     <div class="right menu">
           <div class="item">
-            <a class="ui button icon help small green" href="/wizard/man/index" target="_blank"><i class="help icon"></i> {{#i18n}}actions.help.text{{/i18n}}</a>
+            <a class="ui button small green" href="/wizard?l={{shortlang}}"><i class="plus icon"></i> {{#i18n}}actions.create.text{{/i18n}}</a>
+          </div>
+          <div class="item">
+            <a class="ui button small red" href="/wizard/man/index?l={{shortlang}}" target="_blank"><i class="help icon"></i> {{#i18n}}actions.help.text{{/i18n}}</a>
           </div>
           <div class="item">
               <div class="ui dropdown labeled search icon button" id="languages">

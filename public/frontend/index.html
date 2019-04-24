@@ -16,20 +16,30 @@
     </style>
 </head>
 <body class="landing" id="landing">
-    <div class="ui floating dropdown labeled search icon right floated button" id="languages">
-      <i class="language large icon"></i>
-      <span class="text">{{langname}}</span>
-      <div class="menu">
-        {{#languages}}
-        <div class="item" data-value="{{code}}">{{name}}</div>
-        {{/languages}}
-      </div>
+  <!-- *** begin menu **************************************** -->
+  <div class="ui menu borderless">
+    <div class="item" id="logoonmenu">
+      <a href="/"><img class="logo" src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" /></a>
     </div>
+    <div class="item">
+      <h1 class="ui header">{{#i18n}}page.title{{/i18n}}</h1>
+    </div>
+    <div class="right menu">
+          <div class="item">
+              <div class="ui dropdown labeled search icon button" id="languages">
+                <i class="language large icon"></i>
+                <span class="text">{{langname}}</span>
+                <div class="menu">
+                  {{#languages}}
+                  <div class="item" data-value="{{code}}">{{name}}</div>
+                  {{/languages}}
+                </div>
+              </div>
+          </div>
+    </div>
+  </div>
+  <!-- *** end menu **************************************** -->
     <div class="ui container">
-        <div class="ui grid">
-            <div class="two wide column"><img class="logo" src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" /></div>
-            <div class="fourteen wide column"><h1>{{#i18n}}page.title{{/i18n}}</h1></div>
-        </div>
         <div class="ui stackable doubling three column centered grid" id="infinite">
         </div>
         <a href="#" id="loadothers" class="huge ui fluid button" data-noresults="{{#i18n}}actions.noresults.text{{/i18n}}">
