@@ -24,7 +24,8 @@
     },
     "submit": {
       "text": "Salva",
-      "confirm": "!changes modifiche e !deletes cancellazioni saranno definitive. Confermi?"
+      "confirm": "Vuoi pubblicare le modifiche?",
+      "confirmDetail": "!changes modifiche e !deletes cancellazioni saranno definitive. Confermi?"
     }
   }
 }

@@ -24,6 +24,7 @@
     },
     "submit": {
       "text": "Save",
+      "confirm": "Are you sure to apply the changes?",
       "confirm": "!changes changes and !deletes deletion will be applied. Apply the changes?"
     }
   }
