@@ -65,6 +65,12 @@
     }
   },
   "actions": {
+    "back": {
+      "text": "Back to dashboard"
+    },
+    "help": {
+      "text": "Aiuto"
+    },
     "confirm": {
       "text": "Do you want to publish map? Hit Cancel to continue to edit."
     },

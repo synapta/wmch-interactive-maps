@@ -25,19 +25,6 @@
 <body>
     <div class="ui center container aligned grid">
         <header class="sixteen wide column ui items">
-          <a class="ui active button blue leaflet-control" href="/admin/">
-            <i class="home icon"></i>
-            {{#i18n}}actions.back.text{{/i18n}}
-          </a>
-          <div class="ui floating dropdown labeled search icon left floated button" id="languages">
-            <i class="language large icon"></i>
-            <span class="text">{{langname}}</span>
-            <div class="menu">
-              {{#languages}}
-              <div class="item" data-value="{{code}}">{{name}}</div>
-              {{/languages}}
-            </div>
-          </div>
         </header>
         <section id="content">
           {{{manual}}}

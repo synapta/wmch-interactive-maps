@@ -10,6 +10,12 @@
     "delete": "Delete?"
   },
   "actions": {
+    "back": {
+      "text": "Back to home"
+    },
+    "help": {
+      "text": "Aiuto"
+    },
     "delete": {
       "text": "Delete"
     },

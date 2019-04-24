@@ -10,6 +10,12 @@
     "delete": "Eliminare?"
   },
   "actions": {
+    "back": {
+      "text": "Torna indietro"
+    },
+    "help": {
+      "text": "Aiuto"
+    },
     "delete": {
       "text": "Elimina"
     },

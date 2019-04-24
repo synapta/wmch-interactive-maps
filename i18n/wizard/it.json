@@ -65,6 +65,12 @@
     }
   },
   "actions": {
+    "back": {
+      "text": "Torna al cruscotto"
+    },
+    "help": {
+      "text": "Aiuto"
+    },
     "confirm": {
       "text": "Vuoi pubblicare la mappa? Annulla per continuare a modificarla."
     },

@@ -225,6 +225,7 @@ function getWizard(req, res, action, id) {
                shortlang: shortlang,
                langname: i18n_utils.getLangName(config.languages, shortlang),
                map: values,
+               logo: config.logo,
                baseurl: localconfig.url + "/",
                sparql: config.sparql,
                languages: config.languages,
