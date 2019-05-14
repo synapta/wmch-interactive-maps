@@ -51,7 +51,7 @@ $(function() {
     };
 
     var formIsValid = function () {
-        if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid')) {
+        if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid') && $('#map-query').data('valid')) {
             // form is valid
             return true;
         }
@@ -391,9 +391,11 @@ $(function() {
             type:'GET',
             url: "/api/data?q=" + encodeURIComponent(options.sparql),
             error: function(e) {
-                console.warn('Error retrieving data');
+                $("#map-query").data('valid', 0);
+                console.warn('Error retrieving data, SPARQL query broken or timeout');
             },
             success: function(json) {
+                $("#map-query").data('valid', 1);
                 var newJson = enrichFeatures(json);
                 var markers = new L.MarkerClusterGroup(options.cluster);
                 addMarkers(newJson, window.map, markers, options, autozoom);
