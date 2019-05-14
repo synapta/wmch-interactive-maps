@@ -194,6 +194,7 @@ function getMapValues(action, id) {
  *  @return None. A res.send() must be set to expose output.
  **/
 function getWizard(req, res, action, id) {
+   // throw Error('should broke here');  // error reporting test
    const formActions = {
      'add': '/wizard/generate',
      'edit': util.format('/admin/edit/%d/save', id)

@@ -201,8 +201,15 @@ module.exports = function(app, apicache, passport) {
     });
 
     app.get('/api/data', apicache('5 minutes'), function (req, res) {
+
         // encodeURIComponent(query) non necessario
         let encodedQuery = req.query.q;
+        let jsonRes = [];
+        let arr = [];
+        let errorObj = {
+          code: 400,
+          arr: []
+        };
         let options = {
             url: "https://query.wikidata.org/sparql?query=" + encodedQuery,
             headers: {
@@ -210,54 +217,70 @@ module.exports = function(app, apicache, passport) {
             }
         };
 
-        request(options, function (error, response, body) {
-            if (error) {
-                console.log('error:', error); // Print the error if one occurred
-            } else {
-                let arr = JSON.parse(body).results.bindings;
-                let jsonRes = [];
-                var oldQid;
-                var isNewQid = true;
+        function apiDataProcess() {
+            /**
+             *  Return array .
+             *  @return {Array}: Array of objects with parsed and enriched results from Wikidata.
+             **/
+            var oldQid;
+            var isNewQid = true;
 
-                for (let i = 0; i < arr.length; i++) {
-                    if (oldQid !== arr[i].item.value && oldQid !== undefined) {
-                        isNewQid = true;
-                        jsonRes.push(obj);
-                    }
-
-                    if (isNewQid) {
-                        oldQid = arr[i].item.value;
-                        isNewQid = false;
-                        var obj = {};
-
-                        obj.type = "Feature";
-
-                        obj.properties = {};
-                        obj.properties.name = arr[i].itemLabel.value;
-                        obj.properties.wikidata = arr[i].item.value.replace("http://www.wikidata.org/entity/","");
-                        if (arr[i].commons !== undefined) obj.properties.commons = arr[i].commons.value;
-                        if (arr[i].website !== undefined) obj.properties.website = arr[i].website.value;
-                        if (arr[i].img !== undefined) obj.properties.image = arr[i].img.value;
-                        obj.properties.lang = [];
-                        if (arr[i].lang !== undefined) obj.properties.lang.push(arr[i].lang.value);
-
-                        obj.geometry = {};
-                        obj.geometry.type = "Point";
-
-                        let coordArray = [];
-                        coordArray.push(arr[i].coord.value.split(" ")[0].replace("Point(",""));
-                        coordArray.push(arr[i].coord.value.split(" ")[1].replace(")",""));
-                        obj.geometry.coordinates = coordArray;
-                    } else {
-                        if (arr[i].lang !== undefined) obj.properties.lang.push(arr[i].lang.value);
-                        obj.properties.lang = obj.properties.lang.filter(function(elem, pos) {
-                            return obj.properties.lang.indexOf(elem) == pos;
-                        })
-                    }
-
-                    if (i === arr.length -1) jsonRes.push(obj);
+            for (let i = 0; i < arr.length; i++) {
+                if (oldQid !== arr[i].item.value && oldQid !== undefined) {
+                    isNewQid = true;
+                    jsonRes.push(obj);
                 }
-                res.send(jsonRes);
+
+                if (isNewQid) {
+                    oldQid = arr[i].item.value;
+                    isNewQid = false;
+                    var obj = {};
+
+                    obj.type = "Feature";
+
+                    obj.properties = {};
+                    obj.properties.name = arr[i].itemLabel.value;
+                    obj.properties.wikidata = arr[i].item.value.replace("http://www.wikidata.org/entity/","");
+                    if (arr[i].commons !== undefined) obj.properties.commons = arr[i].commons.value;
+                    if (arr[i].website !== undefined) obj.properties.website = arr[i].website.value;
+                    if (arr[i].img !== undefined) obj.properties.image = arr[i].img.value;
+                    obj.properties.lang = [];
+                    if (arr[i].lang !== undefined) obj.properties.lang.push(arr[i].lang.value);
+
+                    obj.geometry = {};
+                    obj.geometry.type = "Point";
+
+                    let coordArray = [];
+                    coordArray.push(arr[i].coord.value.split(" ")[0].replace("Point(",""));
+                    coordArray.push(arr[i].coord.value.split(" ")[1].replace(")",""));
+                    obj.geometry.coordinates = coordArray;
+                } else {
+                    if (arr[i].lang !== undefined) obj.properties.lang.push(arr[i].lang.value);
+                    obj.properties.lang = obj.properties.lang.filter(function(elem, pos) {
+                        return obj.properties.lang.indexOf(elem) == pos;
+                    })
+                }
+
+                if (i === arr.length -1) jsonRes.push(obj);
+            }
+            return jsonRes;
+        }
+
+        request(options, function (error, response, body) {
+            try {
+                let res = JSON.parse(body);
+                arr = res.results.bindings;
+            }
+            catch (e) {
+                error = true;
+            }
+            if (error) {
+                // error response
+                console.log('error:', error); // Print the error if one occurred
+                res.status(errorObj.code).send(errorObj.arr);
+            }
+            else {
+                res.send(apiDataProcess());
             }
         });
     });

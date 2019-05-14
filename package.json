@@ -12,6 +12,7 @@
     "mustache": "^3.0.1",
     "nodemon": "^1.18.10",
     "puppeteer": "^1.14.0",
+    "raven": "^2.6.4",
     "sequelize": "^5.1.0",
     "sharp": "^0.22.0",
     "sqlite3": "^4.0.6"

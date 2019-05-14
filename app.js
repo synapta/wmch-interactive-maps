@@ -1,7 +1,13 @@
-const util       = require('util');
-// external dependencies ///////////////////////////////////////////////////////
+// Database connection
+const dbinit       = require('./db/init');
+const localconfig = dbinit.init();
 var parseArgs = require('minimist');
 var argv = parseArgs(process.argv, opts={boolean: []});
+// error reporting
+var Raven = require('raven');
+if (!argv['no-sentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
+const util       = require('util');
+// external dependencies ///////////////////////////////////////////////////////
 const express      = require('express');
 const apicache     = require('apicache').options({ debug: false }).middleware;
 const morgan       = require('morgan');
@@ -10,9 +16,6 @@ const app = express();
 const config = require('./config');
 // listening on port...
 const port = parseInt(argv.port ? argv.port : "8080");
-// Database connection
-const dbinit       = require('./db/init');
-const localconfig = dbinit.init();
 // connect to db
 const db = require(util.format('./db/connector/%s', localconfig.database.engine));
 const models       = require('./db/models');
