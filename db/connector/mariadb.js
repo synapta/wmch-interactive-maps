@@ -17,7 +17,7 @@ class Database {
     this.username = dbconfig.username;
     this.password = dbconfig.password;
     // values with default
-    this.port = dbconfig.port ? dbconfig.port : "3306";
+    this.port = dbconfig.port ? dbconfig.port : 3306;
     this.dialectOptions = dbconfig.dialectOptions ? dbconfig.dialectOptions : {"connectTimeout": 1000};
   }
 
@@ -28,6 +28,7 @@ class Database {
   get db() {
       return new Sequelize(this.name, this.username, this.password, {
         dialect: 'mariadb',
+        port: this.port,
         dialectOptions: this.dialectOptions // mariadb connector option
       });
   }
