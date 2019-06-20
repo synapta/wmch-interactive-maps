@@ -213,7 +213,8 @@ module.exports = function(app, apicache, passport) {
         let options = {
             url: "https://query.wikidata.org/sparql?query=" + encodedQuery,
             headers: {
-              'Accept': 'application/json'
+              'Accept': 'application/json',
+              'User-Agent': 'wmch-interactive-maps'              
             }
         };
 
