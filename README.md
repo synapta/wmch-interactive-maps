@@ -107,6 +107,10 @@ Port and url are specified on config.json.
 
 Both the app.js and screenshot.js must be running at the same time.
 
+### Schedule history update
+
+`TODO`
+
 ### Auto-update and keep running
 
 To auto-update and keep running the node servers in development environment on changes, you can use:
@@ -219,4 +223,3 @@ Then expand and copy object to get a JSON array.
 Semantic UI Icons are available on wizard searching by class name.
 
 These steps are useful when the Semantic UI version is changed.
-
