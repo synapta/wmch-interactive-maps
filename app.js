@@ -30,13 +30,17 @@ const server = app.listen(port, function() {
     util.log('Loading database');
     let dbMeta = new db.Database(localconfig.database);
     const Map = dbMeta.db.define('map', models.Map);
+    const History = dbMeta.db.define('history', models.History);
+    Map.hasMany(History); // 1 : N
     // create table(s) if doesn't exists
     Map.sync().then(() => {
-        util.log('Database "%s" loaded, tables created if needed', localconfig.database.name);
-        util.log('Starting server');
-        // start server
-        const host = server.address().address;
-        const port = server.address().port;
-        util.log('%s listening at http://%s:%s', config.appname, host, port);
+        History.sync().then(() => {
+            util.log('Database "%s" loaded, tables created if needed', localconfig.database.name);
+            util.log('Starting server');
+            // start server
+            const host = server.address().address;
+            const port = server.address().port;
+            util.log('%s listening at http://%s:%s', config.appname, host, port);
+        });
     });
 });

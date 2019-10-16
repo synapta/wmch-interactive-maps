@@ -12,6 +12,11 @@ const Map = {
   published: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false }
 };
 
+const History = {
+  id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+  json: { type: Sequelize.TEXT('long'), allowNull: false, defaultValue: '' }
+  // createdAt and updatedAt automatically added (default, timestamps: true)
+};
 
 function getMapRecordAsDict (record) {
     return {
@@ -55,6 +60,7 @@ function getAllFieldsAsDict(record) {
 }
 
 exports.Map = Map;
+exports.History = History;
 exports.getMapRecordAsDict = getMapRecordAsDict;
 exports.mapargsParse = mapargsParse;
 exports.getAllFieldsAsDict = getAllFieldsAsDict;

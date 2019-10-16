@@ -147,6 +147,8 @@ module.exports = function(app, apicache, passport) {
     app.get('/s/:path', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         Map.findOne({
           where: {
             path: req.params.path,
@@ -176,6 +178,8 @@ module.exports = function(app, apicache, passport) {
         // Used for landing page, 3 elements per load, offset passed by url
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         Map.findAll({
           where: {
             published: true
@@ -214,7 +218,7 @@ module.exports = function(app, apicache, passport) {
             url: "https://query.wikidata.org/sparql?query=" + encodedQuery,
             headers: {
               'Accept': 'application/json',
-              'User-Agent': 'wmch-interactive-maps'              
+              'User-Agent': 'wmch-interactive-maps'
             }
         };
 
@@ -425,6 +429,8 @@ module.exports = function(app, apicache, passport) {
     app.get('/v/:path', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         // let path = req.url.substring(1);
         Map.findOne({
           where: {
@@ -483,6 +489,8 @@ module.exports = function(app, apicache, passport) {
         /** Update multiple records **/
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         let updateCount = 0;
         // Save all records
         updateRecordList(Map, req.body.records, updateCount, res);
@@ -495,6 +503,8 @@ module.exports = function(app, apicache, passport) {
     function admin_api_action_delete (req, res, published=false) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         // soft delete (unpublish)
         console.log(req.body);
         Map.update(
@@ -531,6 +541,8 @@ module.exports = function(app, apicache, passport) {
             // load all maps data
             let dbMeta = new db.Database(localconfig.database);
             const Map = dbMeta.db.define('map', models.Map);
+            const History = dbMeta.db.define('history', models.History);
+            Map.hasMany(History); // 1 : N
             Map.findAll({
               where:  {
                 published: true  // nascondi gli elementi cancellati

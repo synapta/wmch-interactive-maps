@@ -48,6 +48,8 @@ if (program.regeneratepreviews)  {
     // Used for landing page, 3 elements per load, offset passed by url
     let dbMeta = new db.Database(localconfig.database);
     const Map = dbMeta.db.define('map', models.Map);
+    const History = dbMeta.db.define('history', models.History);
+    Map.hasMany(History); // 1 : N
     Map.findAll({}).then(maps => {
       let jsonRes = [];
       if (maps) {

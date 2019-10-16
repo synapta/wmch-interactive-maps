@@ -68,6 +68,8 @@ function getMapConfigFromDb (id) {
     return new Promise((resolve, reject) => {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         Map.findOne({
           where: {
             id: id,
@@ -103,6 +105,8 @@ async function cuMap (req, res, action) {
     else {
         // models.Map.sync();
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         // add a new record
         try {
             // let url = util.format("%s/%s", config.screenshotServer.url, req.query.mapargs);
