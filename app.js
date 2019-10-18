@@ -2,10 +2,14 @@
 const dbinit       = require('./db/init');
 const localconfig = dbinit.init();
 var parseArgs = require('minimist');
-var argv = parseArgs(process.argv, opts={boolean: []});
+var argv = parseArgs(process.argv, opts={boolean: ['nosentry']});
 // error reporting
 var Raven = require('raven');
-if (!argv['no-sentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
+if (!argv['nosentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
+console.log(argv);
+if (argv['nosentry']) {
+  console.log("*** Sentry disabled ***");
+}
 const util       = require('util');
 // external dependencies ///////////////////////////////////////////////////////
 const express      = require('express');
