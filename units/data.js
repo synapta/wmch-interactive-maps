@@ -1,6 +1,16 @@
 const request = require('request');
 
 function getJSONfromQuery(encodedQuery) {
+  /**
+   *  Get values for map, edit or add.
+   *  @param {integer} id Map primary key on database, numeric integer.
+   *  @return {Promise} Promise of an object containing:
+          object['error'] true | false
+          object['errormsg'] error message
+          object['errorcode'] HTTP error code from Wikidata
+          object['errorarr'] HTTP error code from Wikidata
+          object['data'] The result object from Wikidata if any
+   **/
     return new Promise((resolve, reject) => {
         // encodeURIComponent(query) non necessario
         let jsonRes = [];
