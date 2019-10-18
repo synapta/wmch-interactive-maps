@@ -2,6 +2,7 @@
   "dependencies": {
     "apicache": "^1.4.0",
     "commander": "^2.20.0",
+    "cron": "^1.7.2",
     "express": "^4.16.4",
     "hasha": "^4.0.1",
     "i18next": "^15.0.7",

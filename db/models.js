@@ -16,6 +16,7 @@ const History = {
   id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
   json: { type: Sequelize.TEXT('long'), allowNull: false, defaultValue: '' }
   // createdAt and updatedAt automatically added (default, timestamps: true)
+  // mapId assigned automatically
 };
 
 function getMapRecordAsDict (record) {
