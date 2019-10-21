@@ -14,7 +14,7 @@ const db = require(util.format('./db/connector/%s', localconfig.database.engine)
 
 console.log('Before job instantiation');
 // @see https://github.com/kelektiv/node-cron/blob/master/examples/every_10_minutes.js
-const job = new CronJob(config.cronTime, async function() {
+const job = new CronJob(localconfig.cronTime, async function() {
 	const d = new Date();
 	// console.log('Every 10 Minutes:', d);
 	// initialize db abstraction via sequelize
@@ -46,7 +46,7 @@ const job = new CronJob(config.cronTime, async function() {
 					});
 					//
 					// regenerate another after msCronWaitWikidata milliseconds
-					setTimeout(timeshotDo, config.msCronWaitWikidata);
+					setTimeout(timeshotDo, localconfig.msCronWaitWikidata);
 			}
 	}
 
