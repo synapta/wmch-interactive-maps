@@ -206,7 +206,7 @@ module.exports = function(app, apicache, passport) {
     });
 
     app.get('/api/data', apicache('5 minutes'), async function (req, res) {
-        let sparqlJsonResult = await data.getJSONfromQuery(req.query.q);
+        let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
         if (sparqlJsonResult.error) {
             // error
             console.log('error:', sparqlJsonResult.errormsg); // Print the error if one occurred

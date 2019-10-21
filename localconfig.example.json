@@ -7,6 +7,8 @@
     "port": 3306,
     "dialectOptions": {"connectTimeout": 1000}
   },
+  "cronTime": "0 8,19,27,38,48,58 * * * *",
+  "msCronWaitWikidata": 10000,
   "debug": false,
   "url": "http://example.org",
   "internalUrl": "http://localhost:9089"

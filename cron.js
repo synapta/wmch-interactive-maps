@@ -1,3 +1,5 @@
+// Global settings
+const config = require('./config');
 // dependencies
 const CronJob = require('cron').CronJob;
 // local imports
@@ -12,10 +14,9 @@ const db = require(util.format('./db/connector/%s', localconfig.database.engine)
 
 console.log('Before job instantiation');
 // @see https://github.com/kelektiv/node-cron/blob/master/examples/every_10_minutes.js
-// const job = new CronJob('0 8,18,28,38,48,58 * * * *', async function() {
-const job = new CronJob('0 * * * * *', async function() {
+const job = new CronJob(config.cronTime, async function() {
 	const d = new Date();
-	console.log('Every 10 Minutes:', d);
+	// console.log('Every 10 Minutes:', d);
 	// initialize db abstraction via sequelize
 	let dbMeta = new db.Database(localconfig.database);
 	const Map = dbMeta.db.define('map', models.Map);
@@ -30,6 +31,10 @@ const job = new CronJob('0 * * * * *', async function() {
 		 *
 		 *  @param {object} maps: array of sequelize result Map objects
 		 **/
+		  function timeshotDo() {
+					timeshot(maps);
+			}
+
 			let record = maps.pop();
       if (record) {
 					// add a new history to an existing Map
@@ -37,15 +42,15 @@ const job = new CronJob('0 * * * * *', async function() {
 					console.log(ob.query);
 					await History.create({
 						mapId: record.id,
-						json: JSON.stringify(await data.getJSONfromQuery(ob.query.q))
+						json: JSON.stringify(await data.getJSONfromQuery(ob.query, "cron.js"))
 					});
 					//
-					// regenerate another
-					timeshot(maps);
+					// regenerate another after msCronWaitWikidata milliseconds
+					setTimeout(timeshotDo, config.msCronWaitWikidata);
 			}
 	}
 
-
+	// save history only of published maps
 	Map.findAll({ where: {published: true} }).then(maps => {
 		let jsonRes = [];
 		if (maps) {
