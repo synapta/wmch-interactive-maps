@@ -304,14 +304,15 @@ module.exports = function(app, apicache, passport) {
     // una immagine scalata. Cache: 5 minuti.
     // apicache, espresso in millisecondi max un int 32 bit
     // max: 2147483647 = 0.81 months
-    app.get(/thumb\/(.+)$/, apicache(2147483647), function(req, res) {
+    // app.get(/thumb\/(.+)$/, apicache(2147483647), function(req, res) {
+    app.get(/thumb\/(.+)$/, function(req, res) {
       try {
             var popupMaxWidth = 480;
             // test url: http://commons.wikimedia.org/wiki/Special:FilePath/Kantonales%20naturhistorisches%20Museum%20%28Geb%C3%A4ude%29%202013-09-17%2017-08-17.jpg
             // test name = Kantonales%20naturhistorisches%20Museum%20%28Geb%C3%A4ude%29%202013-09-17%2017-08-17.jpg
             // generated path: /thumb/Kantonales%20naturhistorisches%20Museum%20(Geb%C3%A4ude)%202013-09-17%2017-08-17.jpg
             var commonsRedirectPrefix = 'http://commons.wikimedia.org/wiki/Special:FilePath/';
-            var commonsRedirectUrl = commonsRedirectPrefix + req.params[0];
+            var commonsRedirectUrl = commonsRedirectPrefix + encodeURIComponent(req.params[0]);
             let options = {
                 url: commonsRedirectUrl,
                 method: 'HEAD'
@@ -331,6 +332,7 @@ module.exports = function(app, apicache, passport) {
                     const transformer = sharp()
                         .rotate()  // auto-rotate on EXIF
                         .resize(popupMaxWidth, popupMaxWidth)
+                        // .png({ interlaced: true })
                         // .crop(sharp.strategy.entropy)
                         .on('error', function(err) {
                             console.log(err);
