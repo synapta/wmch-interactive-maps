@@ -51,7 +51,15 @@ const job = new CronJob(localconfig.cronTime, async function() {
 	}
 
 	// save history only of published maps
-	Map.findAll({ where: {published: true} }).then(maps => {
+	Map.findAll({
+		where: {
+			published: true
+		},
+		order: [
+			// prepare results array for pop(), so order of execution will be from id 1 to N
+			['id', 'DESC'],
+		],
+	}).then(maps => {
 		let jsonRes = [];
 		if (maps) {
 				timeshot(maps);

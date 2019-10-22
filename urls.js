@@ -474,7 +474,7 @@ module.exports = function(app, apicache, passport) {
             Map.hasMany(History); // 1 : N
             Map.findAll({
               where:  {
-                published: true  // nascondi gli elementi cancellati
+                published: true  // hide "deleted" elements
               },
               order: [
                 ['sticky', 'DESC'],
