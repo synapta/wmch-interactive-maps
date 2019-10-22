@@ -365,6 +365,7 @@ $(function() {
         // carica la mappa nel div #preview
         window.map = new L.Map('preview', {
             center: new L.LatLng(parsedOptions.startLat, parsedOptions.startLng),
+            fullscreenControl: true,
             zoom: parsedOptions.zoom,
             maxZoom: parsedOptions.maxZoom,
             minZoom: parsedOptions.minZoom,
