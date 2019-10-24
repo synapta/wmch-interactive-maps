@@ -214,7 +214,7 @@ module.exports = function(app, apicache, passport) {
             url: "https://query.wikidata.org/sparql?query=" + encodedQuery,
             headers: {
               'Accept': 'application/json',
-              'User-Agent': 'wmch-interactive-maps'              
+              'User-Agent': 'wmch-interactive-maps'
             }
         };
 
@@ -380,7 +380,7 @@ module.exports = function(app, apicache, passport) {
             // test name = Kantonales%20naturhistorisches%20Museum%20%28Geb%C3%A4ude%29%202013-09-17%2017-08-17.jpg
             // generated path: /thumb/Kantonales%20naturhistorisches%20Museum%20(Geb%C3%A4ude)%202013-09-17%2017-08-17.jpg
             var commonsRedirectPrefix = 'http://commons.wikimedia.org/wiki/Special:FilePath/';
-            var commonsRedirectUrl = commonsRedirectPrefix + req.params[0];
+            var commonsRedirectUrl = commonsRedirectPrefix + encodeURIComponent(req.params[0]);
             let options = {
                 url: commonsRedirectUrl,
                 method: 'HEAD'
