@@ -60,11 +60,31 @@ var featureLinkCounter = function(feature) {
     return counters;
 };
 
+var randInt = function (max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 var enrichFeatures = function (features) {
     var feature = new Object();
     var richFeatures = [];
     for (j=0; j < features.length; j++) {
         feature = features[j];
+        /**
+        21/10/2019
+        1571616000
+
+        22/10/2019
+        1571702400
+         **/
+        // feature.time = new Date(1571616000 + randInt(86400)).toISOString();
+        // feature.time = new Date(1571616000 + randInt(86400));
+        /////////// feature.properties.time = 1571616000 + randInt(86400);   // DEBUG: working example
+
+        // if not declared, apply now (current Query from Wikidata)
+        if (typeof feature.properties.time == 'undefined') {
+            feature.properties.time = Math.round((new Date()).getTime() / 1000);
+        }
+        // feature.time = 1571616022;
         // ottengo i contatori separati per ogni tipo di link al museo
         feature.properties.counters = featureLinkCounter(feature);
         // in base ai contatori, scelgo colore, label e layer filter adeguato
@@ -236,3 +256,13 @@ var countByFilter = function (data, leafletPins) {
     }
     return acounters;
 };
+
+var getVarUrl = function () {
+  var varurl = [window.location.protocol, '//', window.location.host, '/s', window.location.pathname.substring(2)].join('');
+
+  // fallback: full string url
+  if (window.location.search.length > 10 && window.location.search.indexOf('apiv=') !== -1) {
+      varurl = [window.location.protocol, '//', window.location.host, '/a/', window.location.search].join('');
+  }
+  return varurl;
+}

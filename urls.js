@@ -205,6 +205,50 @@ module.exports = function(app, apicache, passport) {
         });
     });
 
+    app.get('/api/timedata', apicache('5 minutes'), async function (req, res) {
+        let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
+        if (sparqlJsonResult.error) {
+            // error
+            console.log('error:', sparqlJsonResult.errormsg); // Print the error if one occurred
+            res.status(sparqlJsonResult.errorcode).send(sparqlJsonResult.errormsg);
+        }
+        else {
+            let dbMeta = new db.Database(localconfig.database);
+            const Map = dbMeta.db.define('map', models.Map);
+            const History = dbMeta.db.define('history', models.History);
+            /**
+            Map.hasMany(History); // 1 : N
+            History.findAll({
+              where: {
+                mapId: req.query.id,
+                published: true
+              },
+              order: [
+                ['createdAt', 'DESC']
+              ],
+              offset: parseInt(req.query.offset),
+              limit: parseInt(req.query.limit)
+            }).then(hists => {
+                let jsonRes = [];
+                if (hists) {
+                    for (hist of hists) {
+                        jsonRes.push(hist.json);
+                    }
+                }
+                else {
+                    // failed
+                }
+                // finally
+                console.log(jsonRes.pop());
+                // sparqlJsonResult.data.concat(jsonRes);
+                res.send(sparqlJsonResult.data);
+            });
+            **/
+            res.send(sparqlJsonResult.data);  // solo test
+        }
+    });
+
+    // for wizard & co.
     app.get('/api/data', apicache('5 minutes'), async function (req, res) {
         let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
         if (sparqlJsonResult.error) {
