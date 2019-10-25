@@ -54,13 +54,6 @@ $(function() {
         });
     };
 
-    // On language selection:
-    $('#languages').dropdown({
-        onChange: function (value) {
-            window.location.href = "/wizard/?l=" + value;
-        }
-    });
-
 
     function loadData(options, autozoom) {
         // console.log('Autozoom', autozoom);
