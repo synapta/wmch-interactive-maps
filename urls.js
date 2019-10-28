@@ -205,7 +205,17 @@ module.exports = function(app, apicache, passport) {
         });
     });
 
-    app.get('/api/timedata', apicache('5 minutes'), async function (req, res) {
+    // apicache('5 minutes')
+    app.get('/api/timedata', async function (req, res) {
+        /**
+         *  GeoJSON Features from Wikidata, with properties.time to be consumed
+         *  by Leaflet TimeDimension to display a timeline.
+         *
+         *  @return {GeoJSON string}: send JSON of past results merged with direct
+         *  Wikidata query results, inverse order (direct query before, past
+         *  after)
+         **/
+        let emptyResponse = '{"data": []}';
         let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
         if (sparqlJsonResult.error) {
             // error
@@ -213,38 +223,64 @@ module.exports = function(app, apicache, passport) {
             res.status(sparqlJsonResult.errorcode).send(sparqlJsonResult.errormsg);
         }
         else {
+            // apply now for current Query from Wikidata
+            let nowUnixtime = Math.round((new Date()).getTime() / 1000);
+            for (el of sparqlJsonResult.data) {
+                el.properties.time = nowUnixtime;
+            }
+            // Extract past results from History
             let dbMeta = new db.Database(localconfig.database);
             const Map = dbMeta.db.define('map', models.Map);
             const History = dbMeta.db.define('history', models.History);
-            /**
             Map.hasMany(History); // 1 : N
+            History.belongsTo(Map);  // new property named "map" for each record
+
             History.findAll({
               where: {
-                mapId: req.query.id,
-                published: true
+                mapId: req.query.id
               },
+              include: [
+                Map
+              ],
               order: [
+                // inverse order
                 ['createdAt', 'DESC']
               ],
-              offset: parseInt(req.query.offset),
-              limit: parseInt(req.query.limit)
+              // offset: ???,
+              limit: localconfig.historyTimelineLimit
             }).then(hists => {
-                let jsonRes = [];
                 if (hists) {
+                    let err = false;
                     for (hist of hists) {
-                        jsonRes.push(hist.json);
+                        if (DEBUG) {
+                            console.log('mapId', hist.mapId, 'published', hist.map.published);  // DEBUG
+                        }
+                        if (!hist.map.published) {
+                            // 404 Not found if Map is not published
+                            err = true;
+                            break;
+                        }
+                        // TODO: try / catch?
+                        let localRes = JSON.parse(hist.json);
+                        let localResData = localRes.data;
+                        for (elk of localResData) {
+                            elk.properties.time = Math.round(new Date(hist.createdAt).getTime() / 1000);
+                            sparqlJsonResult.data.push(elk);
+                        }
+                    }
+                    if (err) {
+                        res.status(404).send(emptyResponse);
+                    }
+                    else {
+                        // send past results merged with only direct Wikidata query results, inverse order
+                        res.send(sparqlJsonResult.data);
                     }
                 }
                 else {
-                    // failed
+                    // send only direct Wikidata query results
+                    res.send(sparqlJsonResult.data);
                 }
-                // finally
-                console.log(jsonRes.pop());
-                // sparqlJsonResult.data.concat(jsonRes);
-                res.send(sparqlJsonResult.data);
             });
-            **/
-            res.send(sparqlJsonResult.data);  // solo test
         }
     });
 
@@ -411,9 +447,6 @@ module.exports = function(app, apicache, passport) {
           }
         }).then(record => {
           if (record) {
-              // map.get('title') will contain the name of the map
-              // res.send(record.get('title'));
-              //////// res.redirect(record.get('mapargs'));  // redirect
               generateMapPage(req, res, models.getMapRecordAsDict(record));
           }
           else {

@@ -69,22 +69,11 @@ var enrichFeatures = function (features) {
     var richFeatures = [];
     for (j=0; j < features.length; j++) {
         feature = features[j];
-        /**
-        21/10/2019
-        1571616000
-
-        22/10/2019
-        1571702400
-         **/
-        // feature.time = new Date(1571616000 + randInt(86400)).toISOString();
-        // feature.time = new Date(1571616000 + randInt(86400));
         /////////// feature.properties.time = 1571616000 + randInt(86400);   // DEBUG: working example
-
-        // if not declared, apply now (current Query from Wikidata)
-        if (typeof feature.properties.time == 'undefined') {
+        // now provided server side, reapply if time data is missing sometimes
+        /** if (!feature.properties.hasOwnProperty('time')) {
             feature.properties.time = Math.round((new Date()).getTime() / 1000);
-        }
-        // feature.time = 1571616022;
+        } **/
         // ottengo i contatori separati per ogni tipo di link al museo
         feature.properties.counters = featureLinkCounter(feature);
         // in base ai contatori, scelgo colore, label e layer filter adeguato
