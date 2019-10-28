@@ -96,7 +96,8 @@ $(function() {
                         subdomains: mapOpts.subdomains,
                         opacity: 1.0
                     });
-                    // console.log(parsedOptions.zoom);
+                    var currentTime = new Date();
+                    currentTime.setUTCDate(1, 0, 0, 0, 0);
                     // carica la mappa nel div #wmap
                     window.map = new L.Map('wmap', {
                         center: new L.LatLng(mapOpts.startLat, mapOpts.startLng),
@@ -120,13 +121,16 @@ $(function() {
                         },
                         timeDimension: true,
                         timeDimensionOptions: {
+                            // currentTime: new Date().getTime(),
+                            // currentTime: 1572262123 * 1000,
+                            ///// currentTime: currentTime,
+                            ///// timeInterval: "2019-10-21/" + currentTime.toISOString(),
                             // timeInterval: "2019-10-21/2019-10-22",
                             // same of geoJsonTimeLayer > duration
-                            period: "PT1S",
+                            period: "PT1S"
 
                         }
                     });
-
                     console.log('*** mapOpts ***', mapOpts);
                     console.log('*** geoJsonData for L.Map ***', geoJsonData);
 
@@ -141,6 +145,10 @@ $(function() {
                                 extraClasses: mapOpts.pinIcon
                             });
                             return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+                        },
+                        // attach popup on each feature
+                        onEachFeature: function (feature, layer) {
+                            popupGenerator(feature, layer);
                         }
                     });
                     // Add time capability to the geojson layer
