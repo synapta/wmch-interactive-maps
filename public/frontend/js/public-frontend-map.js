@@ -1,4 +1,7 @@
-// Client rendering and functions for Map Wizard
+// Client rendering and functions for Public Map Frontend
+
+// shortest duration possibile (get all data, do not aggregate)
+var historyTimelineDuration = "PT1S";
 
 L.TimeDimension.Layer.timedGeoJSON = L.TimeDimension.Layer.GeoJson.extend({
 
@@ -127,7 +130,7 @@ $(function() {
                             ///// timeInterval: "2019-10-21/" + currentTime.toISOString(),
                             // timeInterval: "2019-10-21/2019-10-22",
                             // same of geoJsonTimeLayer > duration
-                            period: "PT1S"
+                            period: historyTimelineDuration
 
                         }
                     });
@@ -157,7 +160,7 @@ $(function() {
                         updateTimeDimension: true,
                         updateTimeDimensionMode: 'replace',
                         // same of Map > timeDimensionOptions > period
-                        duration: 'PT1S'
+                        duration: historyTimelineDuration
                     });
                     // add the timed layer to the map
                     geoJsonTimeLayer.addTo(window.map);

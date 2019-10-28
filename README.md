@@ -109,7 +109,13 @@ Both the app.js and screenshot.js must be running at the same time.
 
 ### Schedule history update
 
-`TODO`
+Change localconfig.json as you need adding these parameters:
+
+- cronTime: when to execute in `seconds minutes hours ...` format
+- msCronWaitWikidata: milliseconds to wait between each save to History
+- historyTimelineLimit: how many History records will be displayed on the timeline? 0 = disable History
+
+Examples how to set these values are on `localconfig.example.json`.
 
 ### Auto-update and keep running
 
