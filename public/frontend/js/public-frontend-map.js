@@ -2,6 +2,10 @@
 
 // shortest duration possibile (get all data, do not aggregate)
 var historyTimelineDuration = "PT1S";
+// current time, as unix time
+// var currentTime = new Date();
+// var now = new Date().getTime();
+// currentTime.setUTCDate(1, 0, 0, 0, 0);
 
 L.TimeDimension.Layer.timedGeoJSON = L.TimeDimension.Layer.GeoJson.extend({
 
@@ -99,8 +103,6 @@ $(function() {
                         subdomains: mapOpts.subdomains,
                         opacity: 1.0
                     });
-                    var currentTime = new Date();
-                    currentTime.setUTCDate(1, 0, 0, 0, 0);
                     // carica la mappa nel div #wmap
                     window.map = new L.Map('wmap', {
                         center: new L.LatLng(mapOpts.startLat, mapOpts.startLng),
@@ -115,7 +117,13 @@ $(function() {
                         timeDimensionControlOptions: {
                             position: 'bottomleft',
                             autoPlay: false,
+                            // Show time slider control
                             timeSlider: true,
+                            // hide speed slider control
+                            speedSlider: false,
+                            // Number of time steps applied to the TimeDimension
+                            // (forwards or backwards) in a time change
+                            timeSteps: 1,
                             loopButton: true,
                             playerOptions: {
                                 transitionTime: 125,
@@ -155,7 +163,7 @@ $(function() {
                         }
                     });
                     // Add time capability to the geojson layer
-                    var geoJsonTimeLayer = L.timeDimension.layer.timedGeojson(geojsonLayer , {
+                    geoJsonTimeLayer = L.timeDimension.layer.timedGeojson(geojsonLayer , {
                         addlastPoint: false,
                         updateTimeDimension: true,
                         updateTimeDimensionMode: 'replace',
@@ -164,6 +172,9 @@ $(function() {
                     });
                     // add the timed layer to the map
                     geoJsonTimeLayer.addTo(window.map);
+                    // go to current time (after rendering with addTo)
+                    var lastAvailableTime = window.map.timeDimension.getAvailableTimes().pop();
+                    window.map.timeDimension.setCurrentTime(lastAvailableTime);
 
                 }
             });
