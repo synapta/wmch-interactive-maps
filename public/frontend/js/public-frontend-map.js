@@ -56,11 +56,49 @@ L.timeDimension.layer.timedGeojson = function(layer, options) {
     return new L.TimeDimension.Layer.timedGeoJSON(layer, options);
 };
 
+
+
 $(function() {
+
+    var mobileDesktopLegenda = function () {
+        if (isMobile()) {
+            // mobile
+            $('.leaflet-control-layers').removeClass(
+              'leaflet-control-layers-expanded'
+            );
+        }
+        else {
+            // desktop
+            // Legenda sempre visibile su Desktop
+            $('.leaflet-control-layers').addClass(
+              'leaflet-control-layers-expanded'
+            );
+        }
+    };
+
+    $(window).resize(function() {
+        mobileDesktopLegenda();
+    });
+
+    var prettyLabels = [
+        prettify($("#wmap").data('filter-no'), 'black'),
+        prettify($("#wmap").data('filter-one'), 'red'),
+        prettify($("#wmap").data('filter-three'), 'orange'),
+        prettify($("#wmap").data('filter-four'), 'green')
+    ];
+
     // display throbble while loading
     $('#pagepop').dimmer('show');
 
-
+    function colorLayerParse (arr, color) {
+        var els = [];
+        for (i=0; i < arr.length; i++) {
+            if (arr[i].properties.pin.color === color) {
+                els.push(arr[i]);
+            }
+        }
+        return els;
+    }
 
     // get options for current map
     $.ajax ({
@@ -147,34 +185,47 @@ $(function() {
 
                     // @see https://github.com/socib/Leaflet.TimeDimension/issues/14#issuecomment-158116366
                     //declare a normal GeoJson layer
-                    var geojsonLayer = L.geoJson(geoJsonData , {
-                        pointToLayer: function (feature, latlng) {
-                            var pin = L.AwesomeMarkers.icon({
-                                icon: mapOpts.pinIcon,
-                                prefix: 'icon',
-                                markerColor: feature.properties.pin.color,
-                                extraClasses: mapOpts.pinIcon
-                            });
-                            return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
-                        },
-                        // attach popup on each feature
-                        onEachFeature: function (feature, layer) {
-                            popupGenerator(feature, layer);
-                        }
-                    });
-                    // Add time capability to the geojson layer
-                    geoJsonTimeLayer = L.timeDimension.layer.timedGeojson(geojsonLayer , {
-                        addlastPoint: false,
-                        updateTimeDimension: true,
-                        updateTimeDimensionMode: 'replace',
-                        // same of Map > timeDimensionOptions > period
-                        duration: historyTimelineDuration
-                    });
-                    // add the timed layer to the map
-                    geoJsonTimeLayer.addTo(window.map);
-                    // go to current time (after rendering with addTo)
 
-                    console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());
+                    var overlayMaps = {};
+                    $.each(markerAvailableColors, function( mciIndex, color ) {
+                        var visibleName = prettyLabels[mciIndex];
+                        var geoJsonLayer = L.geoJson(colorLayerParse(geoJsonData, color) , {
+                            pointToLayer: function (feature, latlng) {
+                                var pin = L.AwesomeMarkers.icon({
+                                    icon: mapOpts.pinIcon,
+                                    prefix: 'icon',
+                                    markerColor: feature.properties.pin.color,
+                                    extraClasses: mapOpts.pinIcon
+                                });
+                                return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+                            },
+                            // attach popup on each feature
+                            onEachFeature: function (feature, layer) {
+                                popupGenerator(feature, layer);
+                            }
+                        });
+                        // Add time capability to the geojson layer
+                        // and add to overlay by color
+                        // generate overlay by pin color
+                        overlayMaps[visibleName] = L.timeDimension.layer.timedGeojson(geoJsonLayer , {
+                            addlastPoint: false,
+                            updateTimeDimension: true,
+                            updateTimeDimensionMode: 'replace',
+                            // same of Map > timeDimensionOptions > period
+                            duration: historyTimelineDuration
+                        });
+                        // show the timed layer to the map
+                        // comment to do not show (unchecked box)
+                        overlayMaps[visibleName].addTo(window.map);
+                    });
+
+                    //       baseLayer (radio)     overlay (checkbox)
+                    L.control.layers(null, overlayMaps).addTo(window.map);
+                    // show expanded legenda on Desktop
+                    mobileDesktopLegenda();
+
+                    // console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());  // DEBUG
+
                     // avoid to broke date clicking on date slider
                     if (window.map.timeDimension.getAvailableTimes().length === 1) {
                         $(".timecontrol-dateslider").hide();
