@@ -9,7 +9,7 @@
   },
   "cronTime": "0 8,19,27,38,48,58 * * * *",
   "msCronWaitWikidata": 10000,
-  "historyTimelineLimit": 10,
+  "historyTimelineLimit": 52,
   "debug": false,
   "url": "http://example.org",
   "internalUrl": "http://localhost:9089"

@@ -171,12 +171,20 @@ $(function() {
                         duration: historyTimelineDuration
                     });
                     // add the timed layer to the map
-                    geoJsonTimeLayer.addTo(window.map).then(function () {
-                        // go to current time (after rendering with addTo)
-                        var lastAvailableTime = window.map.timeDimension.getAvailableTimes().pop();
-                        console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());
-                        window.map.timeDimension.setCurrentTime(lastAvailableTime);
-                    });
+                    geoJsonTimeLayer.addTo(window.map);
+                    // go to current time (after rendering with addTo)
+
+                    console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());
+                    // avoid to broke date clicking on date slider
+                    if (window.map.timeDimension.getAvailableTimes().length === 1) {
+                        $(".timecontrol-dateslider").hide();
+                    }
+                    else {
+                      // BUG: not working
+                      // var lastAvailableTime = window.map.timeDimension.getAvailableTimes().pop();
+                      // window.map.timeDimension.setCurrentTime(lastAvailableTime);
+                      window.map.timeDimension.setCurrentTime(new Date().getTime())
+                    }
 
                 }
             });

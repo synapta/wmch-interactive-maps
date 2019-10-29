@@ -223,12 +223,17 @@ module.exports = function(app, apicache, passport) {
             res.status(sparqlJsonResult.errorcode).send(sparqlJsonResult.errormsg);
         }
         else {
+            let now = parseInt(Math.round(new Date().getTime() / 1000));
+            console.log(now);
             // apply now for current Query from Wikidata
             // flag real time results to be populated with the very current time
             // using client-side javascript (see enrichFeatures on mapdata.js)
             for (el of sparqlJsonResult.data) {
-                el.properties.isNow = true;
+                // el.properties.isNow = false;
+                el.properties.time = now;
+                el.properties.current = true;
             }
+            // sparqlJsonResult.data = [sparqlJsonResult.data.pop()];  // DEBUG
             // Extract past results from History
             let dbMeta = new db.Database(localconfig.database);
             const Map = dbMeta.db.define('map', models.Map);
@@ -265,7 +270,9 @@ module.exports = function(app, apicache, passport) {
                         for (elk of localResData) {
                             elk.properties.time = Math.round(new Date(hist.createdAt).getTime() / 1000);
                             sparqlJsonResult.data.push(elk);
+                            // break;  // DEBUG
                         }
+                        // break;  // DEBUG
                     }
                 }
                 // A) if hist > 0, send past results merged with direct Wikidata query results, inverse order

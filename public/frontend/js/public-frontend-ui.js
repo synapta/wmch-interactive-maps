@@ -1,6 +1,9 @@
 // User Interface
 $(function() {
 
+  // soglia usata per determinare se dispositivo è mobile (es. x legenda)
+  var confMobileThresold = 641;
+
   // shared functions
   window.isMobile = function () {
       var viewportWidth = $(window).width();
