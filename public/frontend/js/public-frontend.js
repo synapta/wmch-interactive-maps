@@ -1,4 +1,4 @@
-// Client rendering and functions for Map Wizard
+// OBSOLETE Client rendering and functions for frontend
 $(function() {
     // variables available to all functions inside document ready
     var prettyLabels = [

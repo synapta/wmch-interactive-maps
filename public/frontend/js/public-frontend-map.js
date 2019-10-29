@@ -180,10 +180,8 @@ $(function() {
                         $(".timecontrol-dateslider").hide();
                     }
                     else {
-                      // BUG: not working
-                      // var lastAvailableTime = window.map.timeDimension.getAvailableTimes().pop();
-                      // window.map.timeDimension.setCurrentTime(lastAvailableTime);
-                      window.map.timeDimension.setCurrentTime(new Date().getTime())
+                      // nearest date available (last)
+                      window.map.timeDimension.setCurrentTime(new Date().getTime());
                     }
 
                 }
