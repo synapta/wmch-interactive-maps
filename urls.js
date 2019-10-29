@@ -224,9 +224,10 @@ module.exports = function(app, apicache, passport) {
         }
         else {
             // apply now for current Query from Wikidata
-            let nowUnixtime = Math.round((new Date()).getTime() / 1000);
+            // flag real time results to be populated with the very current time
+            // using client-side javascript (see enrichFeatures on mapdata.js)
             for (el of sparqlJsonResult.data) {
-                el.properties.time = nowUnixtime;
+                el.properties.isNow = true;
             }
             // Extract past results from History
             let dbMeta = new db.Database(localconfig.database);
@@ -239,8 +240,12 @@ module.exports = function(app, apicache, passport) {
               where: {
                 mapId: req.query.id
               },
-              include: [
-                Map
+              include: [{
+                  model: Map,
+                  where: {
+                    published: true
+                  }
+                }
               ],
               order: [
                 // inverse order
@@ -250,15 +255,9 @@ module.exports = function(app, apicache, passport) {
               limit: localconfig.historyTimelineLimit
             }).then(hists => {
                 if (hists) {
-                    let err = false;
                     for (hist of hists) {
                         if (DEBUG) {
                             console.log('mapId', hist.mapId, 'published', hist.map.published);  // DEBUG
-                        }
-                        if (!hist.map.published) {
-                            // 404 Not found if Map is not published
-                            err = true;
-                            break;
                         }
                         // TODO: try / catch?
                         let localRes = JSON.parse(hist.json);
@@ -268,18 +267,10 @@ module.exports = function(app, apicache, passport) {
                             sparqlJsonResult.data.push(elk);
                         }
                     }
-                    if (err) {
-                        res.status(404).send(emptyResponse);
-                    }
-                    else {
-                        // send past results merged with only direct Wikidata query results, inverse order
-                        res.send(sparqlJsonResult.data);
-                    }
                 }
-                else {
-                    // send only direct Wikidata query results
-                    res.send(sparqlJsonResult.data);
-                }
+                // A) if hist > 0, send past results merged with direct Wikidata query results, inverse order
+                // B) else send only direct Wikidata query results, inverse order
+                res.send(sparqlJsonResult.data);
             });
         }
     });

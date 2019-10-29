@@ -70,10 +70,10 @@ var enrichFeatures = function (features) {
     for (j=0; j < features.length; j++) {
         feature = features[j];
         /////////// feature.properties.time = 1571616000 + randInt(86400);   // DEBUG: working example
-        // now provided server side, reapply if time data is missing sometimes
-        /** if (!feature.properties.hasOwnProperty('time')) {
+        // set really current time to record with feature.properties.isNow: true!
+        if (feature.properties.hasOwnProperty('isNow') && feature.properties.isNow) {
             feature.properties.time = Math.round((new Date()).getTime() / 1000);
-        } **/
+        }
         // ottengo i contatori separati per ogni tipo di link al museo
         feature.properties.counters = featureLinkCounter(feature);
         // in base ai contatori, scelgo colore, label e layer filter adeguato
