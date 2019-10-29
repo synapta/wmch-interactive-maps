@@ -87,6 +87,12 @@ var popupGenerator = function(feature, layer) {
     // conta il numero di link del museo corrente
     var counters = feature.properties.counters;
     var popup = '<div class="popup-content ui stackable grid">';
+    if (feature.properties.current) {
+        popup += '<span class="ui left corner label green"><i class="fire icon"></i></span>';
+    }
+    else {
+        popup += '<span class="ui left corner label grey"><i class="archive icon"></i></span>';
+    }
     // I progetti Wikimedia dispongono dell'immagine principale?
     var hasImage = typeof feature.properties.image !== 'undefined';
     ////////////////// console.log(feature.properties.image, wikidataImageUrl2licenseUrl({'url': feature.properties.image}));
