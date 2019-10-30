@@ -2,6 +2,7 @@
 
 // shortest duration possibile (get all data, do not aggregate)
 var historyTimelineDuration = "PT1S";
+var isTimeline = true;
 // current time, as unix time
 // var currentTime = new Date();
 // var now = new Date().getTime();
@@ -59,6 +60,22 @@ L.timeDimension.layer.timedGeojson = function(layer, options) {
 
 
 $(function() {
+
+    var legendaTimeUpdate = function (forceIndex) {
+        // get elements count for each pin
+        $('.legenda-label').each(function (index) {
+            var currentTimeInSeconds = window.map.timeDimension.getCurrentTime() / 1000;
+            // l'ordine di visualizzazione della legenda è il medesimo
+            // dell'ordine dei dati nell'array countByFilter
+            var components = $(this).text().split('(');
+            // seconds to milliseconds
+            var countersIndex = ((typeof forceIndex === 'undefined') ? currentTimeInSeconds.toString() : forceIndex);
+            var newText = components[0] + '(' + countersByTime[
+              countersIndex
+            ][index] + ')';
+            $(this).text(newText);
+        });
+    };
 
     var mobileDesktopLegenda = function () {
         if (isMobile()) {
@@ -214,6 +231,9 @@ $(function() {
                             // same of Map > timeDimensionOptions > period
                             duration: historyTimelineDuration
                         });
+                        overlayMaps[visibleName].on("timeload", function () {
+                            legendaTimeUpdate();
+                        })
                         // show the timed layer to the map
                         // comment to do not show (unchecked box)
                         overlayMaps[visibleName].addTo(window.map);
@@ -233,6 +253,7 @@ $(function() {
                     else {
                       // nearest date available (last)
                       window.map.timeDimension.setCurrentTime(new Date().getTime());
+                      legendaTimeUpdate(Object.keys(countersByTime).pop());
                     }
 
                 }

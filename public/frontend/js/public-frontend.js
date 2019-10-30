@@ -1,4 +1,6 @@
-// OBSOLETE Client rendering and functions for frontend
+// Client rendering and functions for frontend
+var isTimeline = false;
+
 $(function() {
     // variables available to all functions inside document ready
     var prettyLabels = [

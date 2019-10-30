@@ -11,6 +11,8 @@ var confPopupOpts = {
 };
 
 
+var countersByTime = {};
+
 var featureLinkCounter = function(feature) {
     // conta il numero di link del museo corrente
     var counters = {
@@ -66,7 +68,7 @@ var randInt = function (max) {
 
 var enrichFeatures = function (features) {
     var feature = new Object();
-    var richFeatures = [];
+    var currentTimeKey = "";
     for (j=0; j < features.length; j++) {
         feature = features[j];
         // ottengo i contatori separati per ogni tipo di link al museo
@@ -75,10 +77,19 @@ var enrichFeatures = function (features) {
         feature.properties.pin = markerCounter2PinDataObj(
             feature.properties.counters
         );
-        richFeatures[j] = features[j];
-        if (j % 3 == 0) {  // debug
-            // console.log(feature);
+        if (isTimeline) {
+            currentTimeKey = feature.properties.time.toString();
+            if (!countersByTime.hasOwnProperty(currentTimeKey)) {
+                countersByTime[currentTimeKey] = [];
+                for (i=0; i < markerAvailableColors.length; i++) {
+                    countersByTime[currentTimeKey].push(0);
+                }
+            }
+            countersByTime[currentTimeKey][markerAvailableColors.indexOf(feature.properties.pin.color)] += 1;
         }
+        // if (j % 3 == 0) {  // debug
+            // console.log(feature);
+        // }
     }
     return features;
 };
@@ -87,11 +98,13 @@ var popupGenerator = function(feature, layer) {
     // conta il numero di link del museo corrente
     var counters = feature.properties.counters;
     var popup = '<div class="popup-content ui stackable grid">';
-    if (feature.properties.current) {
-        popup += '<span class="ui left corner label green"><i class="fire icon"></i></span>';
-    }
-    else {
-        popup += '<span class="ui left corner label grey"><i class="archive icon"></i></span>';
+    if (isTimeline) {
+        if (feature.properties.current) {
+            popup += '<span class="ui left corner label green"><i class="fire icon"></i></span>';
+        }
+        else {
+            popup += '<span class="ui left corner label grey"><i class="archive icon"></i></span>';
+        }
     }
     // I progetti Wikimedia dispongono dell'immagine principale?
     var hasImage = typeof feature.properties.image !== 'undefined';
@@ -222,7 +235,7 @@ function addMarkers(json, map, markers, options, autozoom) {
 }
 
 /**
- *  Count pins in leaflet maps.
+ *  Count pins in leaflet maps (public-frontend.js, clustered).
  *  @param {string} data: data from query
  *  @param {array} leafletPins: array of Leaflet pins already loaded on map
  *  @return {object}: an array counting number of elements per leafletPins, index matched with leafletPins
