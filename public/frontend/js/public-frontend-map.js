@@ -220,9 +220,9 @@ $(function() {
                     });
 
                     //       baseLayer (radio)     overlay (checkbox)
-                    L.control.layers(null, overlayMaps).addTo(window.map);
+                    L.control.layers(null, overlayMaps, { collapsed: window.isMobile() ? true : false } ).addTo(window.map);
                     // show expanded legenda on Desktop
-                    mobileDesktopLegenda();
+                    // mobileDesktopLegenda();
 
                     // console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());  // DEBUG
 
