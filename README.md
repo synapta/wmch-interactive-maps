@@ -86,7 +86,9 @@ Port and dialectOptions can be omitted, getting the default values above.
 
 [Reference for MariaDB](http://docs.sequelizejs.com/manual/usage.html#mariadb)
 
-## Run
+## Run the webservice
+
+The webservice app exposes the website locally on the specified port using [Express](https://expressjs.com/).
 
 `node app.js`
 
@@ -107,13 +109,21 @@ Port and url are specified on config.json.
 
 Both the app.js and screenshot.js must be running at the same time.
 
-### Schedule history update
+### Run the cron service
+
+The cron service will periodically save the results from Wikidata queries of available maps.
+
+`node cron.js`
+
+ These snapshots will be displayed on a [timeline](http://apps.socib.es/Leaflet.TimeDimension/examples/).
+
+#### Change schedule
 
 Change localconfig.json as you need adding these parameters:
 
-- cronTime: when to execute in `seconds minutes hours ...` format
-- msCronWaitWikidata: milliseconds to wait between each save to History
-- historyTimelineLimit: how many History records will be displayed on the timeline? 0 = disable History
+- cronTime: when to execute in `seconds minutes hours ...` cron format.
+- msCronWaitWikidata: milliseconds to wait between each save to History. Used to avoid ban from Wikidata servers.
+- historyTimelineLimit: how many History records will be displayed on the timeline? 0 = disable History and show only current result, without time slider.
 
 Examples how to set these values are on `localconfig.example.json`.
 
