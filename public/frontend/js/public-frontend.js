@@ -349,4 +349,12 @@ $(function() {
     // show loader
     $('#pagepop').dimmer('show');
 
+    // go to History page
+    $('#history').on("click", function (e) {
+        e.preventDefault();
+        // check if l parameter exists (user define a language via dropdown / url)
+        // from [V]iew to [H]istory
+        window.location.href = window.location.href.replace(/\/v\//g, "/h/");
+    });
+
 });

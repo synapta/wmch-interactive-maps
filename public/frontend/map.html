@@ -22,10 +22,24 @@
     </style>
 </head>
 <body>
-    <button class="ui active button blue leaflet-control" id="back">
+  <div class="top-buttons-wrapper">
+    <button class="ui active button blue l" id="back">
       <i class="home icon"></i>
       {{#i18n}}actions.back.text{{/i18n}}
     </button>
+        {{#isHistory}}
+        <button class="ui active button green " id="realtime">
+          <i class="fire icon"></i>
+          {{#i18n}}actions.realtime.text{{/i18n}}
+        </button>
+        {{/isHistory}}
+        {{^isHistory}}
+        <button class="ui active button grey " id="history">
+          <i class="archive icon"></i>
+          {{#i18n}}actions.history.text{{/i18n}}
+        </button>
+        {{/isHistory}}
+    </div>
     <div class="ui floating dropdown labeled search icon left floated button leaflet-control" id="languages">
       <i class="language large icon"></i>
       <span class="text">{{langname}}</span>
@@ -71,7 +85,13 @@
     <script src="/js/utils.js"></script>
     <script src="/js/icons.js"></script>
     <script src="/js/mapdata.js"></script>
+    {{#isHistory}}
     <script src="/frontend/js/public-frontend-ui.js"></script>
     <script src="/frontend/js/public-frontend-map.js"></script>
+    {{/isHistory}}
+    {{^isHistory}}
+    <script src="/frontend/js/public-frontend.js"></script>
+    {{/isHistory}}
+
 </body>
 </html>

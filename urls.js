@@ -28,7 +28,7 @@ const db = require(util.format('./db/connector/%s', localconfig.database.engine)
 // var request = require('request');
 module.exports = function(app, apicache, passport) {
 
-      function generateMapPage (req, res, dbMap) {
+      function generateMapPage (req, res, dbMap, isHistory) {
         /**
          *  Detect user language and serve the page accordingly
          *  @param {object} req: request to use to find user language
@@ -56,6 +56,7 @@ module.exports = function(app, apicache, passport) {
                   map: config.map,
                   sparql: config.sparql,
                   languages: config.languages,
+                  isHistory: isHistory, // serve history or current page?
                   dbMap: dbMap,
                   // queryJsonStr: JSON.stringify(req.query, null, '  '),
                   i18n: function () {
@@ -135,7 +136,7 @@ module.exports = function(app, apicache, passport) {
     // full url map route, with exposed parameters
     app.get('/m', function (req, res) {
         // temporary url, do not pass dbMap
-        generateMapPage(req, res, {});
+        generateMapPage(req, res, {}, false);
     });
 
     // convert exposed parameters to JSON to be served in /m route
@@ -435,6 +436,28 @@ module.exports = function(app, apicache, passport) {
     app.get('/v/:path', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        // no history needed here
+        Map.findOne({
+          where: {
+            path: req.params.path,
+            published: true
+          }
+        }).then(record => {
+          if (record) {
+              generateMapPage(req, res, models.getMapRecordAsDict(record), false);
+          }
+          else {
+              res.status(404).send('<h2>Not found</h2>');
+          }
+        });
+    });
+
+    app.get('/h/:path', function (req, res) {
+        /**
+          Display current results with past results on a timeline.
+         **/
+        let dbMeta = new db.Database(localconfig.database);
+        const Map = dbMeta.db.define('map', models.Map);
         const History = dbMeta.db.define('history', models.History);
         Map.hasMany(History); // 1 : N
         // let path = req.url.substring(1);
@@ -445,7 +468,7 @@ module.exports = function(app, apicache, passport) {
           }
         }).then(record => {
           if (record) {
-              generateMapPage(req, res, models.getMapRecordAsDict(record));
+              generateMapPage(req, res, models.getMapRecordAsDict(record), true);
           }
           else {
               res.status(404).send('<h2>Not found</h2>');

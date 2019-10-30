@@ -16,6 +16,12 @@
     "back": {
       "text": "Torna indietro"
     },
+    "history": {
+      "text": "Cronologia"
+    },
+    "realtime": {
+      "text": "Tempo reale"
+    },
     "close": {
       "text": "Chiudi"
     },

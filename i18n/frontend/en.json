@@ -16,6 +16,12 @@
     "back": {
       "text": "Back to home"
     },
+    "history": {
+      "text": "History"
+    },
+    "realtime": {
+      "text": "Real time"
+    },
     "close": {
       "text": "Close"
     },

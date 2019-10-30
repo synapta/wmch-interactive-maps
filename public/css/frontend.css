@@ -7,11 +7,15 @@
   padding: 0.4rem 0.3rem;
   line-height: 2em;
 }
-#back {
+.top-buttons-wrapper {
   position: absolute;
   margin-top: 10px;
   margin-left: 10px;
   z-index: 998;
+  width: 90%;
+}
+.top-buttons-wrapper button {
+  display: inline-block;
 }
 .leaflet-control-container .leaflet-control-layers {
   margin-top: 12em;
