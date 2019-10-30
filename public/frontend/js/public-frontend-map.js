@@ -233,7 +233,7 @@ $(function() {
                         });
                         overlayMaps[visibleName].on("timeload", function () {
                             legendaTimeUpdate();
-                        })
+                        });
                         // show the timed layer to the map
                         // comment to do not show (unchecked box)
                         overlayMaps[visibleName].addTo(window.map);
