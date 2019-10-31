@@ -14,7 +14,8 @@ const Map = {
 
 const History = {
   id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
-  json: { type: Sequelize.TEXT('long'), allowNull: false, defaultValue: '' }
+  json: { type: Sequelize.TEXT('long'), allowNull: false, defaultValue: '' },
+  diff: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false }
   // createdAt and updatedAt automatically added (default, timestamps: true)
   // mapId assigned automatically
 };

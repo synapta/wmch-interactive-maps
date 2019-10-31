@@ -8,9 +8,10 @@
     "dialectOptions": {"connectTimeout": 1000}
   },
   "renameToLogo": "rename this key to logo to override config.logo",
-  "cronTime": "0 8,19,27,38,48,58 * * * *",
+  "cronTime": "0 */10 * * * *",
   "msCronWaitWikidata": 10000,
   "historyTimelineLimit": 52,
+  "historyOnlyDiff": true,
   "debug": false,
   "url": "http://example.org",
   "internalUrl": "http://localhost:9089"

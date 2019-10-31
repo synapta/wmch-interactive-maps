@@ -15,59 +15,90 @@ const db = require(util.format('./db/connector/%s', localconfig.database.engine)
 console.log('Before job instantiation');
 // @see https://github.com/kelektiv/node-cron/blob/master/examples/every_10_minutes.js
 const job = new CronJob(localconfig.cronTime, async function() {
-	const d = new Date();
-	// console.log('Every 10 Minutes:', d);
-	// initialize db abstraction via sequelize
-	let dbMeta = new db.Database(localconfig.database);
-	const Map = dbMeta.db.define('map', models.Map);
-	const History = dbMeta.db.define('history', models.History);
-	Map.hasMany(History); // 1 : N
-	//////////////////////////////////////////
+		const d = new Date();
+		// console.log('Every 10 Minutes:', d);
+		// initialize db abstraction via sequelize
+		let dbMeta = new db.Database(localconfig.database);
+		const Map = dbMeta.db.define('map', models.Map);
+		const History = dbMeta.db.define('history', models.History);
+		Map.hasMany(History); // 1 : N
+    History.belongsTo(Map);  // new property named "map" for each record
+		//////////////////////////////////////////
 
-	async function timeshot(maps) {
-		/**
-		 *  Add a new timeshot to History table
-		 *  popping one Map record after another until it's consumed.
-		 *
-		 *  @param {object} maps: array of sequelize result Map objects
-		 **/
-		  function timeshotDo() {
+		async function timeshot(maps) {
+			/**
+			 *  Add a new timeshot to History table
+			 *  popping one Map record after another until it's consumed.
+			 *
+			 *  @param {object} maps: array of sequelize result Map objects
+			 **/
+			  function timeshotDo() {
+						timeshot(maps);
+				}
+
+				let record = maps.pop();
+
+	      if (record) {
+						History.findAll({
+							where: {
+								mapId: record.id
+							},
+							include: [{
+									model: Map,
+									where: {
+										published: true
+									}
+								}
+							],
+							order: [
+								// inverse order
+								['createdAt', 'DESC']
+							],
+							limit: 1
+						}).then(async hists => {
+								let hist = hists.pop();
+								// console.log("mapId", record.id);
+								//console.log(hist);
+								//console.log(hist.json);
+								let ob = models.mapargsParse(record);
+								// prepare JSON to be written on database
+								let currentJson = JSON.stringify(await data.getJSONfromQuery(ob.query, "cron.js"));
+								// console.log("currentJson", currentJson.length);  // DEBUG
+								// console.log("last hist", hist.json.length);  // DEBUG
+								let isDifferent = (typeof hist == 'undefined') ? true : currentJson.localeCompare(hist.json);
+								// console.log("non bool", isDifferent);
+								// console.log("bool", isDifferent ? true : false);
+								await History.create({
+									mapId: record.id,
+									json: currentJson,
+									// str2.localeCompare(str1) == 0 -> exact match (diff: false)
+									diff: isDifferent ? true : false
+								});
+								// regenerate another after msCronWaitWikidata milliseconds
+								setTimeout(timeshotDo, localconfig.msCronWaitWikidata);
+								// }
+						});
+				}
+		}
+
+		// save history only of published maps
+		Map.findAll({
+			where: {
+				published: true
+			},
+			order: [
+				// prepare results array for pop(), so order of execution will be from id 1 to N
+				['id', 'DESC'],
+			],
+		}).then(maps => {
+			let jsonRes = [];
+			if (maps) {
 					timeshot(maps);
 			}
-
-			let record = maps.pop();
-      if (record) {
-					// add a new history to an existing Map
-					let ob = models.mapargsParse(record);
-					console.log(ob.query);
-					await History.create({
-						mapId: record.id,
-						json: JSON.stringify(await data.getJSONfromQuery(ob.query, "cron.js"))
-					});
-					//
-					// regenerate another after msCronWaitWikidata milliseconds
-					setTimeout(timeshotDo, localconfig.msCronWaitWikidata);
+			else {
+					console.log("No maps found on database, cannot take timeshot");
 			}
-	}
-
-	// save history only of published maps
-	Map.findAll({
-		where: {
-			published: true
-		},
-		order: [
-			// prepare results array for pop(), so order of execution will be from id 1 to N
-			['id', 'DESC'],
-		],
-	}).then(maps => {
-		let jsonRes = [];
-		if (maps) {
-				timeshot(maps);
-		}
-		else {
-				console.log("No maps found on database, cannot take timeshot");
-		}
-	});
+		});
 });
 console.log('After job instantiation');
 job.start();

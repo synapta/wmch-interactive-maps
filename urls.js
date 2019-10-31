@@ -242,10 +242,12 @@ module.exports = function(app, apicache, passport) {
             Map.hasMany(History); // 1 : N
             History.belongsTo(Map);  // new property named "map" for each record
 
+            var historyWhere = { mapId: req.query.id };
+            if (localconfig.historyOnlyDiff) {
+                historyWhere['diff'] = true;
+            }
             History.findAll({
-              where: {
-                mapId: req.query.id
-              },
+              where: historyWhere,
               include: [{
                   model: Map,
                   where: {
