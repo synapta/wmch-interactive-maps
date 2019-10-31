@@ -121,9 +121,10 @@ The cron service will periodically save the results from Wikidata queries of ava
 
 Change localconfig.json as you need adding these parameters:
 
-- cronTime: when to execute in `seconds minutes hours ...` cron format.
+- cronTime: when to execute in `seconds minutes hours ...` cron format. E.g. use `*/30` as second cron parameter to run scheduled snapshot every 30 minutes.
 - msCronWaitWikidata: milliseconds to wait between each save to History. Used to avoid ban from Wikidata servers.
 - historyTimelineLimit: how many History records will be displayed on the timeline? 0 = disable History and show only current result, without time slider.
+- historyOnlyDiff: save on database all snapshots, but display snapshots on timeline only if data are changed from the previous snapshot
 
 Examples how to set these values are on `localconfig.example.json`.
 
