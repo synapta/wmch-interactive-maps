@@ -247,7 +247,7 @@ $(function() {
                     // console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());  // DEBUG
 
                     // avoid to broke date clicking on date slider
-                    if (window.map.timeDimension.getAvailableTimes().length === 1) {
+                    if (window.map.timeDimension.getAvailableTimes().length <= 1) {
                         $(".timecontrol-dateslider").hide();
                     }
                     else {
