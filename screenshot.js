@@ -14,7 +14,7 @@ const nodeurl = require('url');
 
 // error reporting
 var Raven = require('raven');
-if (!argv['nosentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
+if (!argv['nosentry'] && typeof localconfigNoDb.raven !== 'undefined') Raven.config(localconfigNoDb.raven.maps.DSN).install();
 console.log(argv);
 if (argv['nosentry']) {
   console.log("*** Sentry disabled ***");
