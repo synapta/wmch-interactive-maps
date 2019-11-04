@@ -197,8 +197,8 @@ $(function() {
 
                         }
                     });
-                    console.log('*** mapOpts ***', mapOpts);
-                    console.log('*** geoJsonData for L.Map ***', geoJsonData);
+                    // console.log('*** mapOpts ***', mapOpts);  // DEBUG
+                    // console.log('*** geoJsonData for L.Map ***', geoJsonData);  // DEBUG
 
                     // @see https://github.com/socib/Leaflet.TimeDimension/issues/14#issuecomment-158116366
                     //declare a normal GeoJson layer
