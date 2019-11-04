@@ -67,6 +67,7 @@ function getJSONfromQuery(encodedQuery, caller) {
                     obj.geometry.coordinates = coordArray;
                 } else {
                     if (arr[i].lang !== undefined) obj.properties.lang.push(arr[i].lang.value);
+                    // check existing values to avoid duplicates
                     obj.properties.lang = obj.properties.lang.filter(function(elem, pos) {
                         return obj.properties.lang.indexOf(elem) == pos;
                     })
@@ -75,6 +76,31 @@ function getJSONfromQuery(encodedQuery, caller) {
                 if (i === arr.length -1) jsonRes.push(obj);
             }
             return jsonRes;
+        }
+
+        function orderLangs(jsonResults) {
+            /**
+             *  Order langs array to allow successful comparison as JSON string.
+             *  @param {Array} jsonResults: Array of objects with parsed and enriched results from Wikidata.
+             *  @return {Array}: the source array, with ordered properties.langs
+             **/
+             for (feature of jsonResults) {
+                 // see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+                 feature.properties.lang.sort(function(a, b) {
+                   var nameA = a.toUpperCase(); // ignore upper and lowercase
+                   var nameB = b.toUpperCase(); // ignore upper and lowercase
+                   if (nameA < nameB) {
+                     return -1;
+                   }
+                   if (nameA > nameB) {
+                     return 1;
+                   }
+
+                   // names must be equal
+                   return 0;
+                 });
+             }
+             return jsonResults;
         }
 
         request(options, function (error, response, body) {
@@ -96,7 +122,7 @@ function getJSONfromQuery(encodedQuery, caller) {
             }
             else {
                 result['error'] = false;
-                result['data'] = apiDataProcess();
+                result['data'] = orderLangs(apiDataProcess());
                 resolve(result);
             }
         });
