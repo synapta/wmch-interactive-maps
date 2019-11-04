@@ -1,4 +1,6 @@
 // Client rendering and functions for Map Wizard
+var isTimeline = false;
+
 $(function() {
     var confMobileThresold = 641;
 
