@@ -1,5 +1,8 @@
 const http = require('http');
 const puppeteer = require('puppeteer');
+// parse command line arguments
+var parseArgs = require('minimist');
+var argv = parseArgs(process.argv, opts={boolean: ['nosentry']});
 const server = http.createServer();
 const config = require('./config');
 const util = require('util');
@@ -8,6 +11,14 @@ const request = require('request');
 const localconfigNoDb = require('./localconfig');
 const nodeurl = require('url');
 // const express = require('express');
+
+// error reporting
+var Raven = require('raven');
+if (!argv['nosentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
+console.log(argv);
+if (argv['nosentry']) {
+  console.log("*** Sentry disabled ***");
+}
 
 (async () => {
     // create browser and keep it open
