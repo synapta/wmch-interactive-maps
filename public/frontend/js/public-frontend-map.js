@@ -180,6 +180,7 @@ $(function() {
                             // (forwards or backwards) in a time change
                             timeSteps: 1,
                             loopButton: true,
+                            timeZones: ["Local", "UTC"],
                             playerOptions: {
                                 transitionTime: 125,
                                 loop: false,
@@ -232,6 +233,7 @@ $(function() {
                             duration: historyTimelineDuration
                         });
                         overlayMaps[visibleName].on("timeload", function () {
+                            mobileDesktopLegenda();
                             legendaTimeUpdate();
                         });
                         // show the timed layer to the map
@@ -244,22 +246,34 @@ $(function() {
                     // show expanded legenda on Desktop
                     // mobileDesktopLegenda();
 
-                    // console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());  // DEBUG
-
-                    // avoid to broke date clicking on date slider
+                    // xxx
                     if (window.map.timeDimension.getAvailableTimes().length <= 1) {
                         $(".timecontrol-dateslider").hide();
                     }
                     else {
-                      // nearest date available (last)
-                      window.map.timeDimension.setCurrentTime(new Date().getTime());
-                      legendaTimeUpdate(Object.keys(countersByTime).pop());
+                        // nearest date available (last)
+                        window.map.timeDimension.setCurrentTime(
+                          new Date().getTime()
+                        );
                     }
-
-                }
-            });
-        }
-    });
+                    var lastDate = Object.keys(countersByTime).pop();
+                    // if is undefined, automatically get current time
+                    legendaTimeUpdate(lastDate);
 
 
-});
+                    // console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());  // DEBUG
+                }  // END success 2
+            });  // END ajax 2
+        }  // END success 1
+    });  // end ajax 1
+
+
+    // map events requiring jQuery /////////////////////////////////////////////
+
+
+
+
+
+
+
+});  // END jQuery document Ready
