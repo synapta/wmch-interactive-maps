@@ -8,6 +8,14 @@ var isTimeline = true;
 // var now = new Date().getTime();
 // currentTime.setUTCDate(1, 0, 0, 0, 0);
 
+L.Control.TimeDimensionCustom = L.Control.TimeDimension.extend({
+    _getDisplayDateFormat: function(date){
+        // return date.format("dS mmmm yyyy");
+        var localeLang = typeof navigator.language !== 'undefined' ? navigator.language : "de-CH";
+        return date.toLocaleDateString(localeLang) + " " +  date.toLocaleTimeString(localeLang);
+    }
+});
+
 L.TimeDimension.Layer.timedGeoJSON = L.TimeDimension.Layer.GeoJson.extend({
 
     // data has property time in seconds, not in millis.
@@ -168,24 +176,7 @@ $(function() {
                         layers: [basemap],
                         // timeDimension options
                         fullscreenControl: true,
-                        timeDimensionControl: true,
-                        timeDimensionControlOptions: {
-                            position: 'bottomleft',
-                            autoPlay: false,
-                            // Show time slider control
-                            timeSlider: true,
-                            // hide speed slider control
-                            speedSlider: false,
-                            // Number of time steps applied to the TimeDimension
-                            // (forwards or backwards) in a time change
-                            timeSteps: 1,
-                            loopButton: true,
-                            timeZones: ["Local", "UTC"],
-                            playerOptions: {
-                                transitionTime: 125,
-                                loop: false,
-                            }
-                        },
+                        // timeDimensionControl: true,
                         timeDimension: true,
                         timeDimensionOptions: {
                             // currentTime: new Date().getTime(),
@@ -240,6 +231,30 @@ $(function() {
                         // comment to do not show (unchecked box)
                         overlayMaps[visibleName].addTo(window.map);
                     });
+
+
+                    // Add timedimension control
+                    var timeDimensionControl = new L.Control.TimeDimensionCustom({
+                          position: 'bottomleft',
+                          autoPlay: false,
+                          // Show time slider control
+                          timeSlider: true,
+                          // hide speed slider control
+                          speedSlider: false,
+                          // Number of time steps applied to the TimeDimension
+                          // (forwards or backwards) in a time change
+                          timeSteps: 1,
+                          loopButton: true,
+                          // timeZones: ["Local", "UTC"],  // not working
+                          playerOptions: {
+                              transitionTime: 125,
+                              loop: false
+                              // buffer: 1,
+                              // minBufferReady: -1
+                          }
+                    });
+                    window.map.addControl(timeDimensionControl);
+
 
                     //       baseLayer (radio)     overlay (checkbox)
                     L.control.layers(null, overlayMaps, { collapsed: window.isMobile() ? true : false } ).addTo(window.map);
