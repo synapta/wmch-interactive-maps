@@ -298,8 +298,9 @@ module.exports = function(app, apicache, passport) {
         }
     });
     // serve JS common to frontend and backend
-    app.use('/js/',express.static('./public/js'));
     app.use('/css/',express.static('./public/css'));
+    app.use('/images/',express.static('./public/images'));
+    app.use('/js/',express.static('./public/js'));
 
     // landing page
     app.get('/', function (req, res) {

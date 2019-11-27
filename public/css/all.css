@@ -219,3 +219,93 @@ body {
 #logoonmenu {
   padding: 0 0 0 1ex !important;
 }
+/** Override marker colors v. 2.0.2
+ ** @see https://github.com/lvoogdt/Leaflet.awesome-markers/blob/v2.0.2/dist/leaflet.awesome-markers.css
+ **/
+/* Marker setup */
+#wmap .awesome-marker-icon-red,
+#wmap .awesome-marker-icon-darkred,
+#wmap .awesome-marker-icon-lightred,
+#wmap .awesome-marker-icon-orange,
+#wmap .awesome-marker-icon-beige,
+#wmap .awesome-marker-icon-green,
+#wmap .awesome-marker-icon-darkgreen,
+#wmap .awesome-marker-icon-lightgreen,
+#wmap .awesome-marker-icon-blue,
+#wmap .awesome-marker-icon-darkblue,
+#wmap .awesome-marker-icon-lightblue,
+#wmap .awesome-marker-icon-purple,
+#wmap .awesome-marker-icon-darkpurple,
+#wmap .awesome-marker-icon-pink,
+#wmap .awesome-marker-icon-cadetblue,
+#wmap .awesome-marker-icon-white,
+#wmap .awesome-marker-icon-gray,
+#wmap .awesome-marker-icon-lightgray,
+#wmap .awesome-marker-icon-black,
+#preview .awesome-marker-icon-red,
+#preview .awesome-marker-icon-darkred,
+#preview .awesome-marker-icon-lightred,
+#preview .awesome-marker-icon-orange,
+#preview .awesome-marker-icon-beige,
+#preview .awesome-marker-icon-green,
+#preview .awesome-marker-icon-darkgreen,
+#preview .awesome-marker-icon-lightgreen,
+#preview .awesome-marker-icon-blue,
+#preview .awesome-marker-icon-darkblue,
+#preview .awesome-marker-icon-lightblue,
+#preview .awesome-marker-icon-purple,
+#preview .awesome-marker-icon-darkpurple,
+#preview .awesome-marker-icon-pink,
+#preview .awesome-marker-icon-cadetblue,
+#preview .awesome-marker-icon-white,
+#preview .awesome-marker-icon-gray,
+#preview .awesome-marker-icon-lightgray,
+#preview .awesome-marker-icon-black {
+  background-image: url('/images/awesome-markers/markers-soft.png');
+}
+
+/* Retina displays */
+@media (min--moz-device-pixel-ratio: 1 .5),(-o-min-device-pixel-ratio: 3/2),
+(-webkit-min-device-pixel-ratio: 1 .5),(min-device-pixel-ratio: 1 .5),(min-resolution: 1 .5dppx) {
+  #wmap .awesome-marker-icon-red,
+  #wmap .awesome-marker-icon-darkred,
+  #wmap .awesome-marker-icon-lightred,
+  #wmap .awesome-marker-icon-orange,
+  #wmap .awesome-marker-icon-beige,
+  #wmap .awesome-marker-icon-green,
+  #wmap .awesome-marker-icon-darkgreen,
+  #wmap .awesome-marker-icon-lightgreen,
+  #wmap .awesome-marker-icon-blue,
+  #wmap .awesome-marker-icon-darkblue,
+  #wmap .awesome-marker-icon-lightblue,
+  #wmap .awesome-marker-icon-purple,
+  #wmap .awesome-marker-icon-darkpurple,
+  #wmap .awesome-marker-icon-pink,
+  #wmap .awesome-marker-icon-cadetblue,
+  #wmap .awesome-marker-icon-white,
+  #wmap .awesome-marker-icon-gray,
+  #wmap .awesome-marker-icon-lightgray,
+  #wmap .awesome-marker-icon-black,
+  #preview .awesome-marker-icon-red,
+  #preview .awesome-marker-icon-darkred,
+  #preview .awesome-marker-icon-lightred,
+  #preview .awesome-marker-icon-orange,
+  #preview .awesome-marker-icon-beige,
+  #preview .awesome-marker-icon-green,
+  #preview .awesome-marker-icon-darkgreen,
+  #preview .awesome-marker-icon-lightgreen,
+  #preview .awesome-marker-icon-blue,
+  #preview .awesome-marker-icon-darkblue,
+  #preview .awesome-marker-icon-lightblue,
+  #preview .awesome-marker-icon-purple,
+  #preview .awesome-marker-icon-darkpurple,
+  #preview .awesome-marker-icon-pink,
+  #preview .awesome-marker-icon-cadetblue,
+  #preview .awesome-marker-icon-white,
+  #preview .awesome-marker-icon-gray,
+  #preview .awesome-marker-icon-lightgray,
+  #preview .awesome-marker-icon-black {
+    background-image: url('/images/awesome-markers/markers-soft@2x.png');
+  }
+}
+/** END Override marker colors **/
