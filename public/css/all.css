@@ -6,7 +6,13 @@
     cursor: pointer;
 }
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+}
+.wikisemibold {
+    font-weight: 600 !important;
+}
+.wikibold {
+    font-weight: 700 !important;
 }
 #wmap .popup-content,
 #preview .popup-content {
@@ -219,6 +225,9 @@ body {
 #logoonmenu {
   padding: 0 0 0 1ex !important;
 }
+#languages {
+  border-radius: 24px;
+}
 /** Override marker colors v. 2.0.2
  ** @see https://github.com/lvoogdt/Leaflet.awesome-markers/blob/v2.0.2/dist/leaflet.awesome-markers.css
  **/
@@ -309,3 +318,438 @@ body {
   }
 }
 /** END Override marker colors **/
+/** Begin Override Semantic UI 2.4.1 **/
+/*--- Blue ---*/
+
+.ui.wikiblue.labels .label,
+.ui.wikiblue.label {
+  background-color: #0065A4 !important;
+  border-color: #0065A4 !important;
+  color: #FFFFFF !important;
+}
+
+/* Link */
+
+.ui.wikiblue.labels .label:hover,
+a.ui.wikiblue.label:hover {
+  background-color: #1678c2 !important;
+  border-color: #1678c2 !important;
+  color: #FFFFFF !important;
+}
+
+/* Corner */
+
+.ui.wikiblue.corner.label,
+.ui.wikiblue.corner.label:hover {
+  background-color: transparent !important;
+}
+
+/* Ribbon */
+
+.ui.wikiblue.ribbon.label {
+  border-color: #1a69a4 !important;
+}
+
+/* Basic */
+
+.ui.basic.wikiblue.label {
+  background: none #FFFFFF !important;
+  color: #0065A4 !important;
+  border-color: #0065A4 !important;
+}
+
+.ui.basic.wikiblue.labels a.label:hover,
+a.ui.basic.wikiblue.label:hover {
+  background-color: #FFFFFF !important;
+  color: #1678c2 !important;
+  border-color: #1678c2 !important;
+}
+/* ************************** */
+
+/*--- Blue ---*/
+
+.ui.wikiblue.buttons .button,
+.ui.wikiblue.button {
+  background-color: #0065A4;
+  color: #FFFFFF;
+  text-shadow: none;
+  background-image: none;
+}
+
+.ui.wikiblue.button {
+  -webkit-box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+  box-shadow: 0px 0em 0px 0px rgba(34, 36, 38, 0.15) inset;
+}
+
+.ui.wikiblue.buttons .button:hover,
+.ui.wikiblue.button:hover {
+  background-color: #1678c2;
+  color: #FFFFFF;
+  text-shadow: none;
+}
+
+.ui.wikiblue.buttons .button:focus,
+.ui.wikiblue.button:focus {
+  background-color: #0d71bb;
+  color: #FFFFFF;
+  text-shadow: none;
+}
+
+.ui.wikiblue.buttons .button:active,
+.ui.wikiblue.button:active {
+  background-color: #1a69a4;
+  color: #FFFFFF;
+  text-shadow: none;
+}
+
+.ui.wikiblue.buttons .active.button,
+.ui.wikiblue.buttons .active.button:active,
+.ui.wikiblue.active.button,
+.ui.wikiblue.button .active.button:active {
+  background-color: #1279c6;
+  color: #FFFFFF;
+  text-shadow: none;
+}
+
+/* Basic */
+
+.ui.basic.wikiblue.buttons .button,
+.ui.basic.wikiblue.button {
+  -webkit-box-shadow: 0px 0px 0px 1px #0065A4 inset !important;
+  box-shadow: 0px 0px 0px 1px #0065A4 inset !important;
+  color: #0065A4 !important;
+}
+
+.ui.basic.wikiblue.buttons .button:hover,
+.ui.basic.wikiblue.button:hover {
+  background: transparent !important;
+  -webkit-box-shadow: 0px 0px 0px 1px #1678c2 inset !important;
+  box-shadow: 0px 0px 0px 1px #1678c2 inset !important;
+  color: #1678c2 !important;
+}
+
+.ui.basic.wikiblue.buttons .button:focus,
+.ui.basic.wikiblue.button:focus {
+  background: transparent !important;
+  -webkit-box-shadow: 0px 0px 0px 1px #0d71bb inset !important;
+  box-shadow: 0px 0px 0px 1px #0d71bb inset !important;
+  color: #1678c2 !important;
+}
+
+.ui.basic.wikiblue.buttons .active.button,
+.ui.basic.wikiblue.active.button {
+  background: transparent !important;
+  -webkit-box-shadow: 0px 0px 0px 1px #1279c6 inset !important;
+  box-shadow: 0px 0px 0px 1px #1279c6 inset !important;
+  color: #1a69a4 !important;
+}
+
+.ui.basic.wikiblue.buttons .button:active,
+.ui.basic.wikiblue.button:active {
+  -webkit-box-shadow: 0px 0px 0px 1px #1a69a4 inset !important;
+  box-shadow: 0px 0px 0px 1px #1a69a4 inset !important;
+  color: #1a69a4 !important;
+}
+
+.ui.buttons:not(.vertical) > .basic.wikiblue.button:not(:first-child) {
+  margin-left: -1px;
+}
+
+/* Inverted */
+
+.ui.inverted.wikiblue.buttons .button,
+.ui.inverted.wikiblue.button {
+  background-color: transparent;
+  -webkit-box-shadow: 0px 0px 0px 2px #54C8FF inset !important;
+  box-shadow: 0px 0px 0px 2px #54C8FF inset !important;
+  color: #54C8FF;
+}
+
+.ui.inverted.wikiblue.buttons .button:hover,
+.ui.inverted.wikiblue.button:hover,
+.ui.inverted.wikiblue.buttons .button:focus,
+.ui.inverted.wikiblue.button:focus,
+.ui.inverted.wikiblue.buttons .button.active,
+.ui.inverted.wikiblue.button.active,
+.ui.inverted.wikiblue.buttons .button:active,
+.ui.inverted.wikiblue.button:active {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  color: #FFFFFF;
+}
+
+.ui.inverted.wikiblue.buttons .button:hover,
+.ui.inverted.wikiblue.button:hover {
+  background-color: #3ac0ff;
+}
+
+.ui.inverted.wikiblue.buttons .button:focus,
+.ui.inverted.wikiblue.button:focus {
+  background-color: #2bbbff;
+}
+
+.ui.inverted.wikiblue.buttons .active.button,
+.ui.inverted.wikiblue.active.button {
+  background-color: #3ac0ff;
+}
+
+.ui.inverted.wikiblue.buttons .button:active,
+.ui.inverted.wikiblue.button:active {
+  background-color: #21b8ff;
+}
+
+/* Inverted Basic */
+
+.ui.inverted.wikiblue.basic.buttons .button,
+.ui.inverted.wikiblue.buttons .basic.button,
+.ui.inverted.wikiblue.basic.button {
+  background-color: transparent;
+  -webkit-box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.5) inset !important;
+  box-shadow: 0px 0px 0px 2px rgba(255, 255, 255, 0.5) inset !important;
+  color: #FFFFFF !important;
+}
+
+.ui.inverted.wikiblue.basic.buttons .button:hover,
+.ui.inverted.wikiblue.buttons .basic.button:hover,
+.ui.inverted.wikiblue.basic.button:hover {
+  -webkit-box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
+  box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
+  color: #54C8FF !important;
+}
+
+.ui.inverted.wikiblue.basic.buttons .button:focus,
+.ui.inverted.wikiblue.basic.buttons .button:focus,
+.ui.inverted.wikiblue.basic.button:focus {
+  -webkit-box-shadow: 0px 0px 0px 2px #2bbbff inset !important;
+  box-shadow: 0px 0px 0px 2px #2bbbff inset !important;
+  color: #54C8FF !important;
+}
+
+.ui.inverted.wikiblue.basic.buttons .active.button,
+.ui.inverted.wikiblue.buttons .basic.active.button,
+.ui.inverted.wikiblue.basic.active.button {
+  -webkit-box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
+  box-shadow: 0px 0px 0px 2px #3ac0ff inset !important;
+  color: #54C8FF !important;
+}
+
+.ui.inverted.wikiblue.basic.buttons .button:active,
+.ui.inverted.wikiblue.buttons .basic.button:active,
+.ui.inverted.wikiblue.basic.button:active {
+  -webkit-box-shadow: 0px 0px 0px 2px #21b8ff inset !important;
+  box-shadow: 0px 0px 0px 2px #21b8ff inset !important;
+  color: #54C8FF !important;
+}
+/* ***************************** */
+/*--- Blue ---*/
+
+.ui.wikiblue.header {
+  color: #0065A4 !important;
+}
+
+a.ui.wikiblue.header:hover {
+  color: #1678c2 !important;
+}
+
+.ui.wikiblue.dividing.header {
+  border-bottom: 2px solid #0065A4;
+}
+
+/* Inverted */
+
+.ui.inverted.wikiblue.header {
+  color: #54C8FF !important;
+}
+
+a.ui.inverted.wikiblue.header:hover {
+  color: #3ac0ff !important;
+}
+/* Override Lato Font on Semantic UI */
+#wmap h1,
+#wmap h2,
+#wmap h3,
+#wmap h4,
+#wmap h5 {
+  font-family: 'Open Sans', sans-serif;
+}
+
+#wmap.ui.button {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.text.container {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.header {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.input > input {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.list .list > .item .header,
+#wmap.ui.list > .item .header {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.steps .step .title {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.form input:not([type]),
+#wmap.ui.form input[type="date"],
+#wmap.ui.form input[type="datetime-local"],
+#wmap.ui.form input[type="email"],
+#wmap.ui.form input[type="number"],
+#wmap.ui.form input[type="password"],
+#wmap.ui.form input[type="search"],
+#wmap.ui.form input[type="tel"],
+#wmap.ui.form input[type="time"],
+#wmap.ui.form input[type="text"],
+#wmap.ui.form input[type="file"],
+#wmap.ui.form input[type="url"] {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.menu {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.message .header {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.cards > .card > .content > .header,
+#wmap.ui.card > .content > .header {
+  display: block;
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.items > .item > .content > .header {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.statistics .statistic > .value,
+#wmap.ui.statistic > .value {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.statistics .statistic > .label,
+#wmap.ui.statistic > .label {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.accordion .title:not(.ui) {
+  padding: 0.5em 0em;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1em;
+  color: rgba(0, 0, 0, 0.87);
+}
+#wmap.ui.modal > .header {
+  display: block;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#wmap.ui.modal > .header:not(.ui) {
+  font-size: 1.42857143rem;
+  line-height: 1.28571429em;
+  font-weight: bold;
+}
+#wmap.ui.popup > .header {
+  padding: 0em;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#wmap.ui.search > .results .result .title {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.search > .results > .message .header {
+  font-family: 'Open Sans', sans-serif;
+}
+#wmap.ui.category.search > .results .category > .name {
+  font-family: 'Open Sans', sans-serif;
+}
+/* ************************************************************************** */
+#landing h1,
+#landing h2,
+#landing h3,
+#landing h4,
+#landing h5 {
+  font-family: 'Open Sans', sans-serif;
+}
+
+#landing .ui.button {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.text.container {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.header {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.input > input {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.list .list > .item .header,
+#landing .ui.list > .item .header {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.steps .step .title {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.form input:not([type]),
+#landing .ui.form input[type="date"],
+#landing .ui.form input[type="datetime-local"],
+#landing .ui.form input[type="email"],
+#landing .ui.form input[type="number"],
+#landing .ui.form input[type="password"],
+#landing .ui.form input[type="search"],
+#landing .ui.form input[type="tel"],
+#landing .ui.form input[type="time"],
+#landing .ui.form input[type="text"],
+#landing .ui.form input[type="file"],
+#landing .ui.form input[type="url"] {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.menu {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.message .header {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.cards > .card > .content > .header,
+#landing .ui.card > .content > .header {
+  display: block;
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.items > .item > .content > .header {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.statistics .statistic > .value,
+#landing .ui.statistic > .value {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.statistics .statistic > .label,
+#landing .ui.statistic > .label {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.accordion .title:not(.ui) {
+  padding: 0.5em 0em;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1em;
+  color: rgba(0, 0, 0, 0.87);
+}
+#landing .ui.modal > .header {
+  display: block;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#landing .ui.modal > .header:not(.ui) {
+  font-size: 1.42857143rem;
+  line-height: 1.28571429em;
+  font-weight: bold;
+}
+#landing .ui.popup > .header {
+  padding: 0em;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#landing .ui.search > .results .result .title {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.search > .results > .message .header {
+  font-family: 'Open Sans', sans-serif;
+}
+#landing .ui.category.search > .results .category > .name {
+  font-family: 'Open Sans', sans-serif;
+}
+/** END Override Semantic UI **/

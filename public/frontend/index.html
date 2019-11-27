@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
 
-    <link href="//tools-static.wmflabs.org/fontcdn/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link href="//tools-static.wmflabs.org/fontcdn/css?family=Open+Sans:400,600,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="/css/all.css" />
     <link rel="stylesheet" href="/css/landing.css" />
 
@@ -30,8 +30,7 @@
             <a title="wmch-interactive-maps@github" href="https://github.com/synapta/wmch-interactive-maps" target="_blank"><i class="ui grey icon large github"></i></a>
           </div>
           <div class="item">
-              <div class="ui dropdown labeled search icon button" id="languages">
-                <i class="language large icon"></i>
+              <div class="ui wikiblue dropdown search icon button" id="languages">
                 <span class="text">{{langname}}</span>
                 <div class="menu">
                   {{#languages}}
@@ -44,9 +43,9 @@
   </div>
   <!-- *** end menu **************************************** -->
     <div class="ui container">
-        <div class="ui stackable doubling three column centered grid" id="infinite">
+        <div class="ui stackable doubling two column centered grid" id="infinite">
         </div>
-        <a href="#" id="loadothers" class="huge ui fluid button" data-noresults="{{#i18n}}actions.noresults.text{{/i18n}}">
+        <a href="#" id="loadothers" class="huge ui fluid button donotdisplay" data-noresults="{{#i18n}}actions.noresults.text{{/i18n}}">
           {{#i18n}}actions.loadothers.text{{/i18n}}
         </a>
     </div>
