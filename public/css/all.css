@@ -564,6 +564,10 @@ a.ui.wikiblue.header:hover {
 a.ui.inverted.wikiblue.header:hover {
   color: #3ac0ff !important;
 }
+/* Other colors */
+.wikigold {
+  color: #cca613;
+}
 /* Override Lato Font on Semantic UI */
 #wmap h1,
 #wmap h2,
@@ -753,3 +757,12 @@ a.ui.inverted.wikiblue.header:hover {
   font-family: 'Open Sans', sans-serif;
 }
 /** END Override Semantic UI **/
+/** Override font Leaflet **/
+/* general typography */
+.leaflet-container,
+.leaflet-container a.leaflet-popup-close-button
+ {
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+/** END Override font Leaflet **/

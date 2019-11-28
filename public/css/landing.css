@@ -3,21 +3,12 @@
   background-repeat: no-repeat;
   background-position: center center;
 }
-.squaretodel {
-  position: relative;
-}
-.square {
+.landing-square {
   display: block;
   content: " ";
   width: 100%;
-  padding-top: 56.25%;
-}
-.squaretodel > .content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  /* 388 : 750 ratio */
+  padding-top: 51.73%;
 }
 .landing .container {
   padding-bottom: 5em;
@@ -39,4 +30,26 @@ h1 {
   margin: auto;
   max-width: 300px;
   margin-top: 1em;
+}
+#infinite .segment {
+  padding: 0;
+}
+#infinite .attached {
+  border-radius: 0px;
+  text-transform: none;
+  font-size: 20px;
+  line-height: 24px;
+  min-width: 44%;
+  max-width: 44%;
+  min-height: 54%;
+  display: flex;
+  align-items: flex-end;
+
+}
+#infinite .attached i.icon {
+  font-weight: 400 !important;
+  margin-bottom: 1rem;
+  display: block;
+  position: absolute;
+  top: 36px;
 }
