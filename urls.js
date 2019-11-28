@@ -79,9 +79,11 @@ module.exports = function(app, apicache, passport) {
       *  @param {object} e: JavaScript object from JSON
        *  @return {object}: JavaScript object of derived fields.
        **/
+       let tmpUrl = new URL(e.mapargs, 'http://localhost');
        return {
          href: util.format(config.mapPattern, e.path),
          title: e.title,
+         icon: tmpUrl.searchParams.get("pinIcon"),  // get pin icon classes
          screenshot: util.format(config.screenshotPattern, e.screenshot.split('/').pop()),
          star: e.star
        };

@@ -5,14 +5,14 @@ $(function() {
     var globLimit = 20;  // 2 elements x 10 rows
     var globOffset = globLimit;
     // icon to display on pinned / favourite maps
-    var starIcon = '<span class="ui left corner label yellow"><i class="star icon"></i></span>';
+    var starIcon = '<span class="ui right corner label wikiblue"><i class="star icon wikigold"></i></span>';
+    var mapIconTemplate = '<i class="icon @ icon-white"></i>';
 
     function isSticky (map) {
         return map.sticky > 0;
     }
 
     function isStarred (map) {
-        // console.log(map);
         return map.star;
     }
 
@@ -46,23 +46,27 @@ $(function() {
                 console.warn('Error retrieving data');
             },
             success: function(mapResults) {
-                // console.log(mapResults);
+                console.log(mapResults);
                 // Add map preview
                 // add language when user selected it
                 var userDefinedLang = getUrlParameter('l');
                 var noMoreResults = !(mapResults.length > limit);
-                console.log("mapresults.length", mapResults.length);
-                console.log("limit", limit);
                 userDefinedLangQuery = userDefinedLang ? '?l=' + userDefinedLang : '';
                 $.each(mapResults, function( index, map ) {
                     if (index < limit) {
                         // skip last element
                         // map.href + userDefinedLangQuery
+                        var mapIcon = mapIconTemplate.replace(/@/g, map.icon);
                         var thisIsStarred = isStarred(map) ? starIcon : '';
                         $('#infinite').append('<div class="column"><div class="ui raised segment">'
                         + thisIsStarred
-                        + '<div class="square landingmapimage" style="background-image: url(' + map.screenshot + ');">'
-                        + '<a title="' + (map.title.length > 30 ? map.title : '') + '" href="' + map.href + userDefinedLangQuery + '" class="ui ' + colorLottery() + ' ribbon label">' + map.title.substring(0, 30) + (map.title.length > 30 ? '&hellip;' : '') + '</a>'
+                        + '<div class="landing-square landingmapimage" style="background-image: url(' + map.screenshot + ');">'
+                        + '<a title="' + (map.title.length > 30 ? map.title : '') + '" href="' + map.href + userDefinedLangQuery + '" class="ui bottom left attached label wikiblue wikisemibold">'
+                            // icon
+                            + mapIcon
+                            // title
+                            + '<span class="landing-square-title">' + map.title.substring(0, 30) + (map.title.length > 30 ? '&hellip;' : '') + '</span>'
+                        + '</a>'
                         + '</div>'
                         + '</div>');
                     }
@@ -77,7 +81,6 @@ $(function() {
     // loadMaps(0);
     // load first 9 elements, no offset
     loadMaps(globOffset, 0, function (results, noMoreResults) {
-        console.log(noMoreResults);
         if (!noMoreResults) {
             $("#loadothers").removeClass("donotdisplay");
         }
@@ -103,7 +106,7 @@ $(function() {
             }
             else {
                 $("#loadothers").removeClass("donotdisplay");
-                // Scroll to bottom
+                // Scroll to bottom, 800ms
                 $("html, body").animate({ scrollTop: $(document).height() - $(window).height() }, 800);
             }
         });
