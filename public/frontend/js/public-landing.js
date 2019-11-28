@@ -65,7 +65,11 @@ $(function() {
                             // icon
                             + mapIcon
                             // title
+<<<<<<< HEAD
                             + '<span class="landing-square-title">' + map.title.substring(0, 30) + (map.title.length > 30 ? '&hellip;' : '') + '</span>'
+=======
+                            + map.title.substring(0, 30) + (map.title.length > 30 ? '&hellip;' : '')
+>>>>>>> 03ee8b655ebf19c630a56ba5682fd912dc329a95
                         + '</a>'
                         + '</div>'
                         + '</div>');

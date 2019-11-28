@@ -39,20 +39,33 @@ h1 {
   text-transform: none;
   font-size: 20px;
   line-height: 24px;
+<<<<<<< HEAD
   min-width: 44%; /*  10 - 12 */
   max-width: 44%;
   display: flex;
   padding: 20% 20px 7% 20px;
   position: relative;
+=======
+  min-width: 44%;
+  max-width: 44%;
+  min-height: 54%;
+  display: flex;
+  align-items: flex-end;
+
+>>>>>>> 03ee8b655ebf19c630a56ba5682fd912dc329a95
 }
 #infinite .attached i.icon {
   font-weight: 400 !important;
   margin-bottom: 1rem;
   display: block;
   position: absolute;
+<<<<<<< HEAD
   top: 0;
 }
 #infinite .landing-square-title {
   min-height: 48px;
   margin-top: 1em;
+=======
+  top: 36px;
+>>>>>>> 03ee8b655ebf19c630a56ba5682fd912dc329a95
 }
