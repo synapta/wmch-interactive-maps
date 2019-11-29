@@ -16,39 +16,69 @@
     </style>
 </head>
 <body class="landing" id="landing">
-  <!-- *** begin menu **************************************** -->
-  <div class="ui menu borderless">
-    <div class="item" id="logoonmenu">
-      <a href="/"><img class="logo" src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
-    </div>
-    <div class="item">
-      <h1 class="ui header medium">{{#i18n}}page.title{{/i18n}}</h1>
-    </div>
-    <div class="right menu">
-          <!-- Icon linking to github repo -->
-          <div class="item">
-            <a title="wmch-interactive-maps@github" href="https://github.com/synapta/wmch-interactive-maps" target="_blank"><i class="ui grey icon large github"></i></a>
+  <!-- HEADER ************************************************************** -->
+  <div class="ui inverted vertical masthead left aligned segment paddingless">
+    <div class="ui text segment noradius">
+      <div class="ui container">
+        <div class="ui large secondary menu">
+          <div class="item marginless" id="logoonmenu">
+            <a href="/"><img class="logo" src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
           </div>
-          <div class="item">
-              <div class="ui wikiblue dropdown search icon button" id="languages">
-                <span class="text">{{langname}}</span>
-                <div class="menu">
-                  {{#languages}}
-                  <div class="item" data-value="{{code}}">{{name}}</div>
-                  {{/languages}}
+          <!-- {{! hamburger menu ** a class="toc item">
+            <i class="sidebar icon"></i>
+          </a -->
+          <!-- a class="active item">One</a -->
+          <!-- a class="item">Two</a }}-->
+          <div class="right item">
+                <div class="ui wikiblue dropdown search icon button" id="languages">
+                  <span class="text">{{langname}}</span>
+                  <div class="menu">
+                    {{#languages}}
+                    <div class="item" data-value="{{code}}">{{name}}</div>
+                    {{/languages}}
+                  </div>
                 </div>
-              </div>
+
           </div>
+        </div>
+      </div>
     </div>
-  </div>
+
+      <div class="ui container">
+        <div class="ui grid">
+            <div class="eight wide column">
+                <h1 class="ui inverted header wikisemibold uppercase">
+                  {{#i18n}}page.title{{/i18n}}
+                </h1>
+                <h2 class="wikiregular">{{#i18n}}page.subtitle{{/i18n}}</h2>
+                <!-- {{! div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div }} -->
+            </div>
+        </div>
+      </div>
+
+    </div>
   <!-- *** end menu **************************************** -->
-    <div class="ui container">
+    <div class="ui container infinite-container">
         <div class="ui stackable doubling two column centered grid" id="infinite">
         </div>
         <a href="#" id="loadothers" class="huge ui fluid button donotdisplay" data-noresults="{{#i18n}}actions.noresults.text{{/i18n}}">
           {{#i18n}}actions.loadothers.text{{/i18n}}
         </a>
     </div>
+
+    <!-- Footer with GITHUB link -->
+    <div class="ui footer wikilightgray">
+        <div class="ui text marginless menu">
+          <div class="right item">
+            <!-- Icon linking to github repo -->
+            <div class="item">
+              <a title="wmch-interactive-maps@github" href="https://github.com/synapta/wmch-interactive-maps" target="_blank"><i class="ui grey icon large github"></i></a>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
 
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>

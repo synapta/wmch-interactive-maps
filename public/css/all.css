@@ -8,11 +8,26 @@
 body {
     font-family: 'Open Sans', sans-serif;
 }
+.wikiregular {
+    font-weight: 400 !important;
+}
 .wikisemibold {
     font-weight: 600 !important;
 }
 .wikibold {
     font-weight: 700 !important;
+}
+.marginless {
+  margin: 0 !important;
+}
+.paddingless {
+  padding: 0 !important;
+}
+.uppercase {
+  text-transform: uppercase !important;
+}
+.noradius {
+  border-radius: 0px !important;
 }
 #wmap .popup-content,
 #preview .popup-content {
@@ -227,6 +242,8 @@ body {
 }
 #languages {
   border-radius: 24px;
+  font-weight: 400;
+  font-size: 16px;
 }
 /** Override marker colors v. 2.0.2
  ** @see https://github.com/lvoogdt/Leaflet.awesome-markers/blob/v2.0.2/dist/leaflet.awesome-markers.css
@@ -568,6 +585,9 @@ a.ui.inverted.wikiblue.header:hover {
 .wikigold {
   color: #cca613;
 }
+.footer.wikilightgray {
+  background-color: #f1f2f2;
+}
 /* Override Lato Font on Semantic UI */
 #wmap h1,
 #wmap h2,
@@ -761,7 +781,7 @@ a.ui.inverted.wikiblue.header:hover {
 /* general typography */
 .leaflet-container,
 .leaflet-container a.leaflet-popup-close-button
- {
+{
   font-family: 'Open Sans', sans-serif !important;
 }
 

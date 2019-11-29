@@ -363,7 +363,7 @@ module.exports = function(app, apicache, passport) {
                       // variables to pass to Mustache to populate template
                       var view = {
                         shortlang: shortlang,
-                        logo: config.logo,
+                        logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         baseurl: localconfig.url + "/",
                         languages: config.languages,
