@@ -116,7 +116,7 @@ var popupGenerator = function(feature, layer) {
         // Qui eventualmente aggiungere cache lato client
     }
     var withwithout = hasImage ? 'withimage' : 'noimage';
-    popup += '<div class="row"><div class="popup-cover-image sixteen wide column {{withwithout}}" style="{{bgimage}}"><a href="{{commons}}" target="_blank"><span>{{imglicense}}</span></a></div></div>'
+    popup += '<div class="row"><div class="popup-cover-image sixteen wide column {{withwithout}}"><a href="{{commons}}" style="{{bgimage}}" target="_blank"><span>{{imglicense}}</span></a></div></div>'
     .replace(/{{withwithout}}/g, withwithout)
     .replace(/{{commons}}/g, wikidataImageUrl2licenseUrl({'url': feature.properties.image}))
     .replace(/{{imglicense}}/g, $('.mapdata').data('popup-image-license'))

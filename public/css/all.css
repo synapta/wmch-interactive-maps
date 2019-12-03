@@ -175,8 +175,8 @@ body {
     list-style-type: none;
     padding: 0;
 }
-.leaflet-popup-content .popup-cover-image {
-    background-color: #416574;
+.leaflet-popup-content .popup-cover-image a {
+    /* background-color: #636466; */
     background-repat: no-repeat;
     background-position: center center;
     -webkit-background-size: cover;

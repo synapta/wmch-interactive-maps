@@ -56,3 +56,13 @@
 #languages .menu {
   z-index: 997;
 }
+#wmap .popup-cover-image {
+  /* background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/64/Image-x-generic-2.svg); */
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif);
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#wmap .popup-cover-image.noimage {
+  background-color: #636466;
+  background-image: none;
+}
