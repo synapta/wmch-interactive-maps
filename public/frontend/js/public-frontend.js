@@ -108,7 +108,17 @@ $(function() {
         }
         window.mapControl = L.control.layers(null, overlayMaps);
         window.mapControl.addTo(window.map);
+
+        // Execute at the very end ///////////////////////////
+        // Wikipedia title inside Legenda
         $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span>");
+        // Switch between timeline / real time
+        $(".timecontrol-backward").before('<button class="ui active button grey" id="realtime">\
+          <i class="fire icon"></i>\
+          ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
+        </button>');
+
+
     }
 
     function loadmap (parsedOptions) {
@@ -339,7 +349,7 @@ $(function() {
         }
     });
 
-    $('#back').on("click", function (e) {
+    $(document).on("click", "#back", function (e) {
         e.preventDefault();
         // check if l parameter exists (user define a language via dropdown / url)
         var lang = getUrlParameter('l');
@@ -363,7 +373,7 @@ $(function() {
     $('#pagepop').dimmer('show');
 
     // go to History page
-    $('#history').on("click", function (e) {
+    $(document).on("click", "history", function (e) {
         e.preventDefault();
         // check if l parameter exists (user define a language via dropdown / url)
         // from [V]iew to [H]istory

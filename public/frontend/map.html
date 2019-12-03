@@ -15,38 +15,32 @@
     <link rel="stylesheet" href="/js/Leaflet.TimeDimension/dist/leaflet.timedimension.control.min.css" />
 
     <link href="//tools-static.wmflabs.org/fontcdn/css?family=Open+Sans:400,600,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/override.css" />
     <link rel="stylesheet" href="/css/all.css" />
     <link rel="stylesheet" href="/css/frontend.css" />
 
     <style type="text/css">
     </style>
 </head>
-<body>
-  <div class="top-buttons-wrapper">
-    <button class="ui active button wikiblue l" id="back">
-      <i class="home icon"></i>
-      {{#i18n}}actions.back.text{{/i18n}}
-    </button>
-        {{#isHistory}}
-        <button class="ui active button grey" id="realtime">
-          <i class="fire icon"></i>
-          {{#i18n}}actions.realtime.text{{/i18n}}
-        </button>
-        {{/isHistory}}
-        {{^isHistory}}
-        <button class="ui active button grey" id="history">
-          <i class="archive icon"></i>
-          {{#i18n}}actions.history.text{{/i18n}}
-        </button>
-        {{/isHistory}}
-    </div>
-    <div class="ui floating dropdown labeled search icon left floated button leaflet-control" id="languages">
-      <i class="language large icon"></i>
-      <span class="text">{{langname}}</span>
-      <div class="menu">
-        {{#languages}}
-        <div class="item" data-value="{{code}}">{{name}}</div>
-        {{/languages}}
+<body id="frontend">
+    <div class="ui container top-buttons-wrapper">
+      <div class="ui grid left aligned">
+        <div class="three wide column ">
+          <a href="/"><img class="logo" src="{{logo.src}}" alt="{{#i18n}}actions.back.text{{/i18n}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
+        </div>
+        <div class="ten wide column center aligned">
+          <h1>{{dbMap.title}}</h1>
+        </div>
+        <div class="three wide column right aligned">
+          <div class="ui wikiblue dropdown search icon button" id="languages">
+            <span class="text">{{langname}}</span>
+            <div class="menu">
+              {{#languages}}
+              <div class="item" data-value="{{code}}">{{name}}</div>
+              {{/languages}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div id="wmap" class="mapdata"
@@ -61,6 +55,9 @@
     data-filter-one="{{#i18n}}filter.one{{/i18n}}"
     data-filter-three="{{#i18n}}filter.three{{/i18n}}"
     data-filter-four="{{#i18n}}filter.four{{/i18n}}"
+    data-realtime-text="{{#i18n}}actions.realtime.text{{/i18n}}"
+    data-history-text="{{#i18n}}actions.history.text{{/i18n}}"
+    data-is-history="{{#isHistory}}1{{/isHistory}}{{^isHistory}}0{{/isHistory}}"
     ></div>
 
     <div id="author" class="donotdisplay">{{{map.author}}}</div>

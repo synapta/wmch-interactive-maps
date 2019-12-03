@@ -23,7 +23,7 @@ $(function() {
       }
   });
 
-  $('#back').on("click", function (e) {
+  $(document).on("click", "#back", function (e) {
       e.preventDefault();
       // check if l parameter exists (user define a language via dropdown / url)
       var lang = getUrlParameter('l');
@@ -37,7 +37,7 @@ $(function() {
       }
   });
 
-  $('#realtime').on("click", function (e) {
+  $(document).on("click", "#realtime", function (e) {
       e.preventDefault();
       // check if l parameter exists (user define a language via dropdown / url)
       // from [V]iew to [H]istory

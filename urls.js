@@ -54,6 +54,7 @@ module.exports = function(app, apicache, passport) {
                   shortlang: shortlang,
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   map: config.map,
+                  logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                   sparql: config.sparql,
                   languages: config.languages,
                   isHistory: isHistory, // serve history or current page?
@@ -602,7 +603,7 @@ module.exports = function(app, apicache, passport) {
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         languages: config.languages,
                         credits: config.map.author,
-                        logo: config.logo,
+                        logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                         maps: maps,
                         i18n: function () {
                           return function (text, render) {
