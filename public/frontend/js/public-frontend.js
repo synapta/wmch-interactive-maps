@@ -44,7 +44,7 @@ $(function() {
         }
     };
 
-    var legendaUpdate = function (data) {
+    var legendaUpdate = function (data, pinIcon) {
         // get elements count for each pin
         var counterArrayByCriteria = countByFilter(data, museumsList);
         var newText = '';
@@ -53,6 +53,9 @@ $(function() {
             // dell'ordine dei dati nell'array countByFilter
             newText = $(this).text().replace(/(0)/g, counterArrayByCriteria[index].toString());
             $(this).text(newText);
+        });
+        $('.leaflet-control-layers-overlays .icon').each(function (index) {
+          $(this).addClass(pinIcon);
         });
     };
 
@@ -71,7 +74,7 @@ $(function() {
                 markers = new L.MarkerClusterGroup(options.cluster);
                 addMarkers(newJson, window.map, markers, options, autozoom);
                 // Aggiungi i contatori alla mappa
-                legendaUpdate(newJson);
+                legendaUpdate(newJson, options.pinIcon);
                 // disable throbbler
                 $('#pagepop').dimmer('hide');
             }
@@ -91,7 +94,13 @@ $(function() {
         var emptyLayers = {};
         // load controls (legenda)
         for (i=0; i < prettyLabels.length; i++) {
+            // var lab = prettyLabels[i].replace(/{{iconClasses}}/g, iconClasses);
             emptyLayers[prettyLabels[i]] = new L.layerGroup().addTo(map);
+            /**
+            emptyLayers[
+              prettyLabels[i].replace(/{{iconClasses}}/g, iconClasses)
+            ] = new L.layerGroup().addTo(map);
+            **/
         }
 
         for (var index in emptyLayers) {
@@ -99,6 +108,7 @@ $(function() {
         }
         window.mapControl = L.control.layers(null, overlayMaps);
         window.mapControl.addTo(window.map);
+        $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span>");
     }
 
     function loadmap (parsedOptions) {
@@ -136,6 +146,7 @@ $(function() {
               chunkedLoading: true  //  Boolean to split the addLayers processing in to small intervals so that the page does not freeze.
               // autoPan: false
           },
+          pinIcon: parsedOptions.pinIcon,
           sparql: parsedOptions.query,
           map: parsedOptions.map,
           pins: {}

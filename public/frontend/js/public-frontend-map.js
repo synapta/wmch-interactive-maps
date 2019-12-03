@@ -69,7 +69,7 @@ L.timeDimension.layer.timedGeojson = function(layer, options) {
 
 $(function() {
 
-    var legendaTimeUpdate = function (forceIndex) {
+    var legendaTimeUpdate = function (pinIcon, forceIndex) {
         // get elements count for each pin
         $('.legenda-label').each(function (index) {
             var currentTimeInSeconds = window.map.timeDimension.getCurrentTime() / 1000;
@@ -82,6 +82,10 @@ $(function() {
               countersIndex
             ][index] + ')';
             $(this).text(newText);
+        });
+        // add icon to legenda
+        $('.leaflet-control-layers-overlays .icon').each(function (index) {
+            $(this).addClass(pinIcon);
         });
     };
 
@@ -195,6 +199,7 @@ $(function() {
                     // @see https://github.com/socib/Leaflet.TimeDimension/issues/14#issuecomment-158116366
                     //declare a normal GeoJson layer
 
+                    // LEGENDA /////////////////////////////////////////////////
                     var overlayMaps = {};
                     $.each(markerAvailableColors, function( mciIndex, color ) {
                         var visibleName = prettyLabels[mciIndex];
@@ -225,13 +230,12 @@ $(function() {
                         });
                         overlayMaps[visibleName].on("timeload", function () {
                             mobileDesktopLegenda();
-                            legendaTimeUpdate();
+                            legendaTimeUpdate(mapOpts.pinIcon);
                         });
                         // show the timed layer to the map
                         // comment to do not show (unchecked box)
                         overlayMaps[visibleName].addTo(window.map);
                     });
-
 
                     // Add timedimension control
                     var timeDimensionControl = new L.Control.TimeDimensionCustom({
@@ -273,10 +277,11 @@ $(function() {
                     }
                     var lastDate = Object.keys(countersByTime).pop();
                     // if is undefined, automatically get current time
-                    legendaTimeUpdate(lastDate);
+                    legendaTimeUpdate(mapOpts.pinIcon, lastDate);
 
 
                     // console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());  // DEBUG
+                    $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span>");
                 }  // END success 2
             });  // END ajax 2
         }  // END success 1
@@ -284,11 +289,6 @@ $(function() {
 
 
     // map events requiring jQuery /////////////////////////////////////////////
-
-
-
-
-
 
 
 });  // END jQuery document Ready

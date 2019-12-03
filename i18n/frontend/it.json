@@ -9,9 +9,9 @@
   },
   "filter": {
     "no": "Nessuna voce",
-    "one": "Una voce",
-    "three": "Fino a tre voci",
-    "four": "Quattro voci"
+    "one": "1 voce",
+    "three": "Fino a 3 voci",
+    "four": "4 voci"
   },
   "actions": {
     "back": {

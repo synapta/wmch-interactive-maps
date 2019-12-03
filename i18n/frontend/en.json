@@ -9,9 +9,9 @@
   },
   "filter": {
     "no": "No article",
-    "one": "One article",
-    "three": "Up to three articles",
-    "four": "Four articles"
+    "one": "1 article",
+    "three": "Up to 3 articles",
+    "four": "4 articles"
   },
   "actions": {
     "back": {

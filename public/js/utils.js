@@ -1,3 +1,11 @@
+// map color names to color
+var colorname2color = {
+  "black": "#231F20",
+  "red": "#990000",
+  "orange": "#E5AD40",
+  "green": "#339966"
+};
+
 var dictItems = function (Ogg) {
     // ottieni valori dell'oggetto (dizionario)
     var els = [];
@@ -79,12 +87,13 @@ var prettify = function(text, color, totcounter) {
     // input: text
     // output: html
     // Label degli pseudolivelli da visualizzare
-    var layersLabelsPattern = '<span class="legenda-label" style="background-color: {{bg}};">{{text}} ({{count}})</span>';
+    var layersLabelsPattern = '<i class="ui icon" style="color: {{iconcolor}};"></i><span class="legenda-label">{{text}} ({{count}})</span>';
     var count = 0;
-    return layersLabelsPattern.replace(/{{bg}}/g, color)
+    return layersLabelsPattern.replace(/{{iconcolor}}/g, colorname2color[color])
                               .replace(/{{text}}/g, text)
                               .replace(/{{count}}/g, count.toString())
                               // totcounter
+                              // skip: {{iconClasses}} (do later)
 };
 
 var getUrlParameter = function getUrlParameter (sParam) {
