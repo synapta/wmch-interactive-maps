@@ -63,7 +63,7 @@ $(function() {
                             // icon
                             + mapIcon
                             // title
-                            + '<div class="landing-square-title">' + map.title.substring(0, 30) + (map.title.length > 30 ? '&hellip;' : '') + '<span class="svg-clip-art-left-arrow">' + svgClipArt.arrow_left + '</span>' +  '</div>'
+                            + '<div class="landing-square-title">' + map.title.substring(0, 26) + (map.title.length > 26 ? '&hellip;' : '') + '<span class="svg-clip-art-left-arrow">' + svgClipArt.arrow_left + '</span>' +  '</div>'
                         + '</a>'
                         + '</div>'
                         + '</div>');
