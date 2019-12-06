@@ -282,7 +282,19 @@ body {
   height: 58px;
 }
 #languages {
-  border-radius: 24px;
+  border-radius: 28px;
   font-weight: 400;
   font-size: 16px;
+  min-width: 184px;
+  line-height: 20px;
+  font-size: 20px;
+}
+/* svg clip art */
+.svg-clip-art-left-arrow {
+  position: absolute;
+  right: 30px;
+  bottom: 18px;
+}
+.svg-clip-art-down-arrow {
+  float: right;
 }

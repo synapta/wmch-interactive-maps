@@ -1,5 +1,4 @@
 // Landing page
-
 $(function() {
     // var skip = 9;
     var globLimit = 20;  // 2 elements x 10 rows
@@ -46,7 +45,6 @@ $(function() {
                 console.warn('Error retrieving data');
             },
             success: function(mapResults) {
-                console.log(mapResults);
                 // Add map preview
                 // add language when user selected it
                 var userDefinedLang = getUrlParameter('l');
@@ -65,7 +63,7 @@ $(function() {
                             // icon
                             + mapIcon
                             // title
-                            + '<span class="landing-square-title">' + map.title.substring(0, 30) + (map.title.length > 30 ? '&hellip;' : '') + '</span>'
+                            + '<div class="landing-square-title">' + map.title.substring(0, 30) + (map.title.length > 30 ? '&hellip;' : '') + '<span class="svg-clip-art-left-arrow">' + svgClipArt.arrow_left + '</span>' +  '</div>'
                         + '</a>'
                         + '</div>'
                         + '</div>');
@@ -124,5 +122,8 @@ $(function() {
         var loc = $(this).parents('.segment').find('a').attr('href');
         window.location.href = loc;
     });
+
+    // add arrow to #languages dropdown
+    $("#languages .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
 
 });
