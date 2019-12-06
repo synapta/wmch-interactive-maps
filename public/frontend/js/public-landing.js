@@ -63,7 +63,11 @@ $(function() {
                             // icon
                             + mapIcon
                             // title
+<<<<<<< HEAD
                             + '<div class="landing-square-title">' + map.title.substring(0, 26) + (map.title.length > 26 ? '&hellip;' : '') + '<span class="svg-clip-art-left-arrow">' + svgClipArt.arrow_left + '</span>' +  '</div>'
+=======
+                            + '<div class="landing-square-title">' + map.title.substring(0, 26) + (map.title.length > 30 ? '&hellip;' : '') + '<span class="svg-clip-art-left-arrow">' + svgClipArt.arrow_left + '</span>' +  '</div>'
+>>>>>>> 4d9de75ed394fbf32ac55f7700108298e6688376
                         + '</a>'
                         + '</div>'
                         + '</div>');
