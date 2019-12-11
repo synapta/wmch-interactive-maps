@@ -4,8 +4,9 @@
 // Common changes for all after legenda update
 function fancyUI () {
   // Execute at the very end ///////////////////////////
+  var gitHubLink = '<a class="internal-githublink leaflet-control" title="wmch-interactive-maps@github" href="https://github.com/synapta/wmch-interactive-maps" target="_blank"><i class="ui grey icon large github"></i></a>';
   // add fancy icon and text to legenda placeholder
-  $(".leaflet-control-layers-toggle").html('<div class="ui grid"><div class="row"><div class="three wide column">' + svgClipArt.layers + '</div><div class="ten wide column"><span class="overlays-header">Wikipedia</span></div><div class="three wide column">' + svgClipArt.arrow_down.replace('#ffffff', '#636466') + '</div></div></div>');      
+  $(".leaflet-control-layers-toggle").html('<div class="ui grid"><div class="row"><div class="three wide column">' + svgClipArt.layers + '</div><div class="ten wide column"><span class="overlays-header">Wikipedia</span></div><div class="three wide column">' + svgClipArt.arrow_down.replace('#ffffff', '#636466') + '</div></div></div>');
   // Wikipedia title inside Legenda
   $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span>");
   if ($("#wmap").data('isHistory')) {
@@ -15,6 +16,7 @@ function fancyUI () {
         <i class=""></i>\
         ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
       </button>');
+      $(".leaflet-bottom:first").append(gitHubLink);
   }
   else {
       // Real time version  ////////////////////////////////////////////////////
@@ -23,9 +25,8 @@ function fancyUI () {
       $(".leaflet-control-attribution").parent().prepend('<button class="leaflet-control ui active button grey" id="history">\
         <i class=""></i>\
         ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
-      </button>');
+      </button>' + gitHubLink);
   }
-  // <i class="ui grey icon large github"></i>
 
 }
 

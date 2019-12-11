@@ -122,8 +122,11 @@
 .leaflet-control-layers-toggle .three:last-child {
   padding-top: 13px;
 }
-.selement {
-  display: block;
-  height: 100%;
-  float: left;
+.internal-githublink {
+  position: absolute;
+  right: 0;
+  cursor: pointer;
+}
+.internal-githublink .icon {
+  font-size: 38px !important;
 }
