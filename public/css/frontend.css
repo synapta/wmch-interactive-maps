@@ -106,3 +106,24 @@
  font-size: 20px;
  margin-left: 2px;
 }
+.leaflet-control-layers-toggle {
+  background: white;
+  border: 1px solid #636466;
+  display: block;
+  min-width: 230px;
+  padding: 0 20px;
+}
+.leaflet-control-layers-toggle .column {
+  border: 1px solid transparent;
+}
+.leaflet-control-layers-toggle .three:first-child {
+  padding-top: 13px;
+}
+.leaflet-control-layers-toggle .three:last-child {
+  padding-top: 13px;
+}
+.selement {
+  display: block;
+  height: 100%;
+  float: left;
+}

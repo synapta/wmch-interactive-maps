@@ -49,8 +49,8 @@ body {
 }
 #wmap .leaflet-control.leaflet-control-layers-expanded label,
 #preview .leaflet-control.leaflet-control-layers-expanded label,
-#wmap .leaflet-control.leaflet-control-layers-expanded .overlays-header,
-#preview .leaflet-control.leaflet-control-layers-expanded .overlays-header {
+#wmap .overlays-header,
+#preview .overlays-header {
   display: block;
   font-size: 14px;
   padding-top: 12px;
@@ -63,10 +63,11 @@ body {
 #preview .leaflet-control.leaflet-control-layers-expanded {
   padding: 15px;
 }
-#wmap .leaflet-control.leaflet-control-layers-expanded .overlays-header,
-#preview .leaflet-control.leaflet-control-layers-expanded .overlays-header {
+#wmap .overlays-header,
+#preview .overlays-header {
   font-size: 14px;
   font-weight: bold;
+  color: rgba(0,0,0,.87);
 }
 #wmap .leaflet-control.leaflet-control-layers-expanded .icon,
 #preview .leaflet-control.leaflet-control-layers-expanded .icon {

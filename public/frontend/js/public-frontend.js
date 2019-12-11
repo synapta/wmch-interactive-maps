@@ -12,18 +12,6 @@ $(function() {
     var museumsList = [];
     var markers = null;
 
-    // soglia usata per determinare se dispositivo è mobile (es. x legenda)
-    var confMobileThresold = 641;
-
-    window.isMobile = function () {
-        var viewportWidth = $(window).width();
-        var viewportHeight = $(window).height();
-        if (viewportWidth < confMobileThresold) {
-            return true;
-        }
-        return false;
-    };
-
     var hideLeafletControls = function () {
         $(".leaflet-control").hide();
     }
@@ -75,6 +63,7 @@ $(function() {
                 addMarkers(newJson, window.map, markers, options, autozoom);
                 // Aggiungi i contatori alla mappa
                 legendaUpdate(newJson, options.pinIcon);
+                fancyUI();
                 // disable throbbler
                 $('#pagepop').dimmer('hide');
             }
@@ -345,46 +334,50 @@ $(function() {
         }
     });
 
-    $('#languages').dropdown({
-        onChange: function (value) {
-            if (window.location.pathname.indexOf('/v/') === 0) {
-                window.location.href = window.location.pathname + '?l=' + value;
-            }
-        }
-    });
+    // MOVED
+    // $('#languages').dropdown({
+    //     onChange: function (value) {
+    //         if (window.location.pathname.indexOf('/v/') === 0) {
+    //             window.location.href = window.location.pathname + '?l=' + value;
+    //         }
+    //     }
+    // });
 
-    $(document).on("click", "#back", function (e) {
-        e.preventDefault();
-        // check if l parameter exists (user define a language via dropdown / url)
-        var lang = getUrlParameter('l');
-        if (lang ? true : false) {
-            // user-defined language
-            window.location.href = '/?l=' + lang;
-        }
-        else {
-            // browser-defined language
-            window.location.href = '/';
-        }
-    });
+    // MOVED
+    // $(document).on("click", "#back", function (e) {
+    //     e.preventDefault();
+    //     // check if l parameter exists (user define a language via dropdown / url)
+    //     var lang = getUrlParameter('l');
+    //     if (lang ? true : false) {
+    //         // user-defined language
+    //         window.location.href = '/?l=' + lang;
+    //     }
+    //     else {
+    //         // browser-defined language
+    //         window.location.href = '/';
+    //     }
+    // });
 
-    $('#pagepopclose').on("click", function (e) {
-        // Hide close button
-        $('#pagepop').dimmer('hide');
-        $('#pagepopclose').hide();
-    });
+    // $('#pagepopclose').on("click", function (e) {
+    //     // Hide close button
+    //     $('#pagepop').dimmer('hide');
+    //     $('#pagepopclose').hide();
+    // });
 
     // show loader
     $('#pagepop').dimmer('show');
 
-    // go to History page
-    $(document).on("click", "#history", function (e) {
-        e.preventDefault();
-        // check if l parameter exists (user define a language via dropdown / url)
-        // from [V]iew to [H]istory
-        window.location.href = window.location.href.replace(/\/v\//g, "/h/");
-    });
+    // MOVED
+    // // go to History page
+    // $(document).on("click", "#history", function (e) {
+    //     e.preventDefault();
+    //     // check if l parameter exists (user define a language via dropdown / url)
+    //     // from [V]iew to [H]istory
+    //     window.location.href = window.location.href.replace(/\/v\//g, "/h/");
+    // });
 
+    // MOVED
     // add arrow to #languages dropdown
-    $("#languages .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
+    // $("#languages .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
 
 });

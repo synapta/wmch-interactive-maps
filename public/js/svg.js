@@ -1,4 +1,98 @@
 var svgClipArt = {
+  "layers": `<svg
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:cc="http://creativecommons.org/ns#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     id="svg449"
+     version="1.1"
+     viewBox="0 0 4.1999995 4.1999998"
+     height="4.1999998mm"
+     width="4.1999998mm">
+    <defs
+       id="defs443">
+      <clipPath
+         clipPathUnits="userSpaceOnUse"
+         id="clipPath261">
+        <path
+           d="M 0,505.983 H 320.694 V 0 H 0 Z"
+           id="path259" />
+      </clipPath>
+    </defs>
+    <metadata
+       id="metadata446">
+      <rdf:RDF>
+        <cc:Work
+           rdf:about="">
+          <dc:format>image/svg+xml</dc:format>
+          <dc:type
+             rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+          <dc:title></dc:title>
+        </cc:Work>
+      </rdf:RDF>
+    </metadata>
+    <g
+       transform="translate(0,-292.8)"
+       id="layer1">
+      <g
+         id="g257"
+         clip-path="url(#clipPath261)"
+         transform="matrix(0.35277777,0,0,-0.35277777,-66.852596,432.41054)">
+        <g
+           id="g565">
+          <g
+             transform="translate(195.3896,384.359)"
+             id="g267">
+            <path
+               id="path269"
+               style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               d="M 0,0 -5.362,3.154 0,7.115 5.538,3.47 Z" />
+          </g>
+          <g
+             transform="translate(195.3896,384.359)"
+             id="g271">
+            <path
+               id="path273"
+               style="fill:none;stroke:#636466;stroke-width:0.63099998;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+               d="M 0,0 -5.362,3.154 0,7.115 5.538,3.47 Z" />
+          </g>
+          <g
+             transform="translate(195.3896,386.2516)"
+             id="g275">
+            <path
+               id="path277"
+               style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               d="M 0,0 -5.362,3.154 0,7.115 5.538,3.47 Z" />
+          </g>
+          <g
+             transform="translate(195.3896,386.2516)"
+             id="g279">
+            <path
+               id="path281"
+               style="fill:none;stroke:#636466;stroke-width:0.63099998;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+               d="M 0,0 -5.362,3.154 0,7.115 5.538,3.47 Z" />
+          </g>
+          <g
+             transform="translate(195.3896,388.1442)"
+             id="g283">
+            <path
+               id="path285"
+               style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none"
+               d="M 0,0 -5.362,3.154 0,7.115 5.538,3.47 Z" />
+          </g>
+          <g
+             transform="translate(195.3896,388.1442)"
+             id="g287">
+            <path
+               id="path289"
+               style="fill:none;stroke:#636466;stroke-width:0.63099998;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+               d="M 0,0 -5.362,3.154 0,7.115 5.538,3.47 Z" />
+          </g>
+        </g>
+      </g>
+    </g>
+  </svg>`,
   "arrow_left": `<svg
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:cc="http://creativecommons.org/ns#"

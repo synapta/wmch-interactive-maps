@@ -1,4 +1,13 @@
 // User Interface
+// common to both Real-time and History
+
+// Common changes for all after legenda update
+function fancyUI () {
+  // add fancy icon and text to legenda placeholder
+  $(".leaflet-control-layers-toggle").html('<div class="ui grid"><div class="row"><div class="three wide column">' + svgClipArt.layers + '</div><div class="ten wide column"><span class="overlays-header">Wikipedia</span></div><div class="three wide column">' + svgClipArt.arrow_down.replace('#ffffff', '#636466') + '</div></div></div>');
+}
+
+
 $(function() {
 
   // soglia usata per determinare se dispositivo è mobile (es. x legenda)
@@ -17,7 +26,7 @@ $(function() {
   // select language
   $('#languages').dropdown({
       onChange: function (value) {
-          if (window.location.pathname.indexOf('/v/') === 0) {
+          if (window.location.pathname.indexOf('/v/') === 0 || window.location.pathname.indexOf('/h/') === 0) {
               window.location.href = window.location.pathname + '?l=' + value;
           }
       }
@@ -37,11 +46,20 @@ $(function() {
       }
   });
 
+  // go to realtime page
   $(document).on("click", "#realtime", function (e) {
       e.preventDefault();
       // check if l parameter exists (user define a language via dropdown / url)
       // from [V]iew to [H]istory
       window.location.href = window.location.href.replace(/\/h\//g, "/v/");
+  });
+
+  // go to History page
+  $(document).on("click", "#history", function (e) {
+      e.preventDefault();
+      // check if l parameter exists (user define a language via dropdown / url)
+      // from [V]iew to [H]istory
+      window.location.href = window.location.href.replace(/\/v\//g, "/h/");
   });
 
   // Popups
