@@ -284,7 +284,7 @@ $(function() {
                     $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span>");
                     // Switch between timeline / real time
                     $(".timecontrol-backward").before('<button class="ui active button grey" id="realtime">\
-                      <i class="fire icon"></i>\
+                      <i class=""></i>\
                       ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
                     </button>');
                     // console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());  // DEBUG

@@ -537,5 +537,9 @@ a.ui.inverted.wikiblue.header:hover {
 {
   font-family: 'Open Sans', sans-serif !important;
 }
-
 /** END Override font Leaflet **/
+/* Leaflet + semantic UI meshup */
+.leaflet-control-container .button {
+  font-family: 'Open Sans', sans-serif !important;
+}
+/* END Leaflet + semantic UI meshup */

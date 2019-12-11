@@ -112,13 +112,6 @@ $(function() {
         // Execute at the very end ///////////////////////////
         // Wikipedia title inside Legenda
         $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span>");
-        // Switch between timeline / real time
-        $(".timecontrol-backward").before('<button class="ui active button grey" id="realtime">\
-          <i class="fire icon"></i>\
-          ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
-        </button>');
-
-
     }
 
     function loadmap (parsedOptions) {
@@ -314,6 +307,17 @@ $(function() {
         mobileDesktopLegenda();
         // load data
         loadData(options, parsedOptions.autoZoom);
+
+
+        // Switch between timeline / real time (Real time version)
+        $(".leaflet-control-attribution").parent().addClass("large-mapfooter");
+        $(".leaflet-control-attribution").parent().prepend('<button class="leaflet-control ui active button grey" id="history">\
+          <i class=""></i>\
+          ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
+        </button>');
+
+
+
     }
 
     // default (aliased url)
@@ -373,7 +377,7 @@ $(function() {
     $('#pagepop').dimmer('show');
 
     // go to History page
-    $(document).on("click", "history", function (e) {
+    $(document).on("click", "#history", function (e) {
         e.preventDefault();
         // check if l parameter exists (user define a language via dropdown / url)
         // from [V]iew to [H]istory

@@ -53,6 +53,7 @@
   padding-top: 30px;
   padding-bottom: 20px;
 }
+/* Footer on map, History version */
 #wmap .leaflet-bar-timecontrol,
 #wmap .leaflet-left.leaflet-bottom .leaflet-control  {
   margin: 12px 34px 0 34px !important;
@@ -60,11 +61,22 @@
   padding-bottom: 20px;
   background-color: transparent;
 }
-#wmap .leaflet-bottom.leaflet-left {
+#wmap .leaflet-bottom.leaflet-left,
+.large-mapfooter {
   width: 100%;
   background-color: #f1f2f2 !important;
 }
 #realtime,
 #history {
   float: left;
+}
+/* Footer on map, real time version */
+.large-mapfooter {
+  padding-top: 12px;
+  padding-left: 34px;
+  z-index: 998;
+}
+.large-mapfooter button {
+  z-index: 999;
+  margin: 0 !important;
 }

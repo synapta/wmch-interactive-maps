@@ -298,3 +298,6 @@ body {
 .svg-clip-art-down-arrow {
   float: right;
 }
+.leaflet-control-container .button {
+  border-radius: 18px;
+}
