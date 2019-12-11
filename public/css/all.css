@@ -203,6 +203,12 @@ body {
     height: 3rem;
 }
 #pagepop .withimage {
+  min-height: 15rem;
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif);
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#pagepop .withimage a {
     height: 15rem;
     background-repat: no-repeat;
     background-position: center center;

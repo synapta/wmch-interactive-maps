@@ -99,8 +99,6 @@ $(function() {
         window.mapControl.addTo(window.map);
 
         // Execute at the very end ///////////////////////////
-        // Wikipedia title inside Legenda
-        $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span>");
     }
 
     function loadmap (parsedOptions) {
@@ -296,16 +294,6 @@ $(function() {
         mobileDesktopLegenda();
         // load data
         loadData(options, parsedOptions.autoZoom);
-
-
-        // Switch between timeline / real time (Real time version)
-        $(".leaflet-control-attribution").parent().addClass("large-mapfooter");
-        $(".leaflet-control-attribution").parent().prepend('<button class="leaflet-control ui active button grey" id="history">\
-          <i class=""></i>\
-          ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
-        </button>');
-
-
 
     }
 

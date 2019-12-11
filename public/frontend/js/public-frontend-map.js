@@ -277,16 +277,8 @@ $(function() {
                     }
                     var lastDate = Object.keys(countersByTime).pop();
                     // if is undefined, automatically get current time
-                    legendaTimeUpdate(mapOpts.pinIcon, lastDate);
-
-                    // Execute at the very end ///////////////////////////
-                    // Wikipedia title inside Legenda
-                    $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span>");
-                    // Switch between timeline / real time
-                    $(".timecontrol-backward").before('<button class="ui active button grey" id="realtime">\
-                      <i class=""></i>\
-                      ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
-                    </button>');
+                    legendaTimeUpdate(mapOpts.pinIcon, lastDate);                    
+                    fancyUI();
                     // console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());  // DEBUG
                 }  // END success 2
             });  // END ajax 2

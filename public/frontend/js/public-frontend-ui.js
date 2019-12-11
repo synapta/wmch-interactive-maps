@@ -3,8 +3,30 @@
 
 // Common changes for all after legenda update
 function fancyUI () {
+  // Execute at the very end ///////////////////////////
   // add fancy icon and text to legenda placeholder
-  $(".leaflet-control-layers-toggle").html('<div class="ui grid"><div class="row"><div class="three wide column">' + svgClipArt.layers + '</div><div class="ten wide column"><span class="overlays-header">Wikipedia</span></div><div class="three wide column">' + svgClipArt.arrow_down.replace('#ffffff', '#636466') + '</div></div></div>');
+  $(".leaflet-control-layers-toggle").html('<div class="ui grid"><div class="row"><div class="three wide column">' + svgClipArt.layers + '</div><div class="ten wide column"><span class="overlays-header">Wikipedia</span></div><div class="three wide column">' + svgClipArt.arrow_down.replace('#ffffff', '#636466') + '</div></div></div>');      
+  // Wikipedia title inside Legenda
+  $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span>");
+  if ($("#wmap").data('isHistory')) {
+      // History version ///////////////////////////////////////////////////////
+      // Switch between timeline / real time
+      $(".timecontrol-backward").before('<button class="ui active button grey" id="realtime">\
+        <i class=""></i>\
+        ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
+      </button>');
+  }
+  else {
+      // Real time version  ////////////////////////////////////////////////////
+      // Switch between timeline / real time (Real time version)
+      $(".leaflet-control-attribution").parent().addClass("large-mapfooter");
+      $(".leaflet-control-attribution").parent().prepend('<button class="leaflet-control ui active button grey" id="history">\
+        <i class=""></i>\
+        ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
+      </button>');
+  }
+  // <i class="ui grey icon large github"></i>
+
 }
 
 
