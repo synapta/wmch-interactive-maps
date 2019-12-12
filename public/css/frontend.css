@@ -1,5 +1,9 @@
 #wmap {
   width: 100%;
+  height: 100%;
+}
+/* removable class for screenshot */
+#wmap.with-largefooter {
   height: calc(100% - 100px);
 }
 

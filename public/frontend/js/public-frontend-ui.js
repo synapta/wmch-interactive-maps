@@ -1,6 +1,12 @@
 // User Interface
 // common to both Real-time and History
 
+// Remove footer space calc if screenshot removing dedicated class
+if (window.location.search.indexOf('noControls=1') !== -1) {
+    $("#wmap").removeClass("with-largefooter");
+}
+
+
 // Common changes for all after legenda update
 function fancyUI () {
   // Execute at the very end ///////////////////////////
@@ -28,8 +34,19 @@ function fancyUI () {
       </button>' + gitHubLink);
   }
 
+  // hide leaflet controls (used for screenshots)
+  if (window.location.search.indexOf('noControls=1') !== -1) {
+      hideLeafletControls();
+  }
 }
 
+
+var hideLeafletControls = function () {
+    $(".leaflet-control").hide();
+    $(".top-buttons-wrapper").hide();
+    $(".large-mapfooter").hide();
+    $("#wmap").css("height", "100%");
+}
 
 $(function() {
 

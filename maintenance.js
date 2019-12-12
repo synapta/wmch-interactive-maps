@@ -19,8 +19,8 @@ program
 
 function regenerateMaps (maps) {
     if (maps.length) {
-        let record = maps.pop();
-        util.log("Updating preview for id %d", record.id);
+        let record = maps.shift();
+        util.log("Updating preview for id %d - %s", record.id, record.title);
         request({
              url: config.screenshotServer.url,
              method: "PUT",
@@ -29,8 +29,10 @@ function regenerateMaps (maps) {
              },
              json: {mapargs: record.mapargs}
         }, async function (error, response, jsonBody) {
-            console.log(jsonBody);
-            record.screenshot = util.format(config.screenshotServer.options.path, hasha(record.mapargs));
+            // console.log(jsonBody);
+            record.screenshot = jsonBody.path;
+            // console.log(record.screenshot);
+            // console.log(record.screenshot);
             // update record with the new screenshot
             record.save().then(() => {
                 regenerateMaps(maps);
@@ -50,7 +52,11 @@ if (program.regeneratepreviews)  {
     const Map = dbMeta.db.define('map', models.Map);
     const History = dbMeta.db.define('history', models.History);
     Map.hasMany(History); // 1 : N
-    Map.findAll({}).then(maps => {
+    Map.findAll({
+      where: {
+        published: true
+      }
+    }).then(maps => {
       let jsonRes = [];
       if (maps) {
           // for (record of maps) {
