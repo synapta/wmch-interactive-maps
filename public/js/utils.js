@@ -5,6 +5,7 @@ var colorname2color = {
   "orange": "#E5AD40",
   "green": "#339966"
 };
+var httpToken = '://';
 
 var dictItems = function (Ogg) {
     // ottieni valori dell'oggetto (dizionario)
@@ -24,11 +25,16 @@ var arrSum = function (arr) {
 ////
 
 var isWikipediaURL = function (record) {
-    // Verifica se un link appartiene a Commons
-    return record.indexOf('wikipedia.org') > -1;
+    // Verifica se un link NON appartiene a Commons, includento i langcode
+    return record.indexOf('wikipedia.org') > -1 || record.indexOf(httpToken) === -1;
 };
 var getWikipediaLang = function (record) {
-    return record.split('://')[1].split('.')[0];
+    if (record.indexOf(httpToken) !== -1) {
+        return record.split(httpToken)[1].split('.')[0];
+    }
+    else {
+        return record;
+    }
 };
 var getWikipediaPageName = function (record) {
     try {

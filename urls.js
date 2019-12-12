@@ -289,7 +289,8 @@ module.exports = function(app, apicache, passport) {
     });
 
     // for wizard & co.
-    app.get('/api/data', apicache('5 minutes'), async function (req, res) {
+    // apicache('5 minutes')
+    app.get('/api/data', async function (req, res) {
         let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
         if (sparqlJsonResult.error) {
             // error
