@@ -543,3 +543,12 @@ a.ui.inverted.wikiblue.header:hover {
   font-family: 'Open Sans', sans-serif !important;
 }
 /* END Leaflet + semantic UI meshup */
+/** Firefox workaround for https://github.com/Leaflet/Leaflet/issues/4686 */
+.leaflet-fade-anim .leaflet-tile {
+  will-change: auto !important;
+}
+
+.leaflet-zoom-anim .leaflet-zoom-animated {
+  will-change: auto !important;
+}
+/** END firefox workaround for Leaflet **/
