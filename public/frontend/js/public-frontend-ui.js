@@ -38,6 +38,11 @@ function fancyUI () {
   if (window.location.search.indexOf('noControls=1') !== -1) {
       hideLeafletControls();
   }
+
+  // XXX workaround for strange pin disappear until an action is performed on map
+  $(".leaflet-control-container input[type='checkbox']:first").trigger("click");
+  $(".leaflet-control-container input[type='checkbox']:first").trigger("click");
+
 }
 
 
