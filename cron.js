@@ -9,7 +9,8 @@ const CronJob = require('cron').CronJob;
 const util = require('util');
 const models = require('./db/models');
 const data = require('./units/data');
-const dbinit       = require('./db/init');
+const dbinit = require('./db/init');
+const diff = require('./units/diff');
 // load local config and check if is ok (testing db)
 const localconfig = dbinit.init();
 // connect to db
@@ -68,26 +69,21 @@ const job = new CronJob(localconfig.cronTime, async function() {
 							limit: 1
 						}).then(async hists => {
 								let hist = hists.pop();
-								// console.log("mapId", record.id);
-								//console.log(hist);
-								//console.log(hist.json);
 								let ob = models.mapargsParse(record);
 								// prepare JSON to be written on database
-								let currentJson = JSON.stringify(await data.getJSONfromQuery(ob.query, "cron.js"));
-								// console.log("currentJson", currentJson.length);  // DEBUG
-								// console.log("last hist", hist.json.length);  // DEBUG
-								let isDifferent = (typeof hist == 'undefined') ? true : currentJson.localeCompare(hist.json);
-								// console.log("non bool", isDifferent);
-								// console.log("bool", isDifferent ? true : false);
+								let currentObj = await data.getJSONfromQuery(ob.query, "cron.js");
+                // get from database the last saved record as string, hydrate it to object
+                let beforeObj = JSON.parse(hist.json);
+                // isDifferent if 1) is a new record or 2) is identical to previous record (using node.js assert)
+                let isDifferent = (typeof hist == 'undefined') ? true : diff.isStrictDifferent(beforeObj, afterObj);
+                // create a new History record
 								await History.create({
 									mapId: record.id,
-									json: currentJson,
-									// str2.localeCompare(str1) == 0 -> exact match (diff: false)
-									diff: isDifferent ? true : false
+									json: JSON.stringify(currentObj),
+									diff: isDifferent
 								});
 								// regenerate another after msCronWaitWikidata milliseconds
 								setTimeout(timeshotDo, localconfig.msCronWaitWikidata);
-								// }
 						});
 				}
 		}
