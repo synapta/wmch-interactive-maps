@@ -22,5 +22,5 @@ SELECT ?item ?itemLabel ?coord ?commons ?website ?img ?lang ?langcode
                 }
                 SERVICE wikibase:label { bd:serviceParam wikibase:language "en,de,fr,it". }
             }
-            ORDER BY ?item ASC(?langcode) ASC(?lang)
+          ORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord)
 ~~~
