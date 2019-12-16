@@ -91,6 +91,8 @@ const job = new CronJob(localconfig.cronTime, async function() {
         }
 		}
 
+
+    // init ////////////////////////////////////////////////////////////////////
 		// save history only of published maps
 		Map.findAll({
 			where: {

@@ -18,7 +18,7 @@ const db = require(util.format('./db/connector/%s', localconfig.database.engine)
 program
   .version('0.0.1')
   .option('-P, --regeneratepreviews', 'Regenerate preview for all maps (can take a long time)')
-  .option('-D, --testdiff', 'Test diff between histories on all maps')
+  .option('-D, --testdiff <mapId>', 'Test diff between histories on all maps')
   .parse(process.argv);
 
 function regenerateMaps (maps) {
@@ -117,8 +117,8 @@ if (program.testdiff)  {
   const History = dbMeta.db.define('history', models.History);
   Map.hasMany(History); // 1 : N
   History.belongsTo(Map);  // new property named "map" for each record
-
-  var historyWhere = { mapId: 10 };  // DEBUG, only one map
+  // specify map.id by command line
+  var historyWhere = {mapId:  parseInt(program.testdiff)};
   historyWhere['diff'] = true;
   History.findAll({
     where: historyWhere,
