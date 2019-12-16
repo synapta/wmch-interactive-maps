@@ -19,3 +19,5 @@ function isStrictDifferent(before, after) {
         return true;
     }
 }
+
+exports.isStrictDifferent = isStrictDifferent;

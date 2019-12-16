@@ -73,9 +73,9 @@ const job = new CronJob(localconfig.cronTime, async function() {
 								// prepare JSON to be written on database
 								let currentObj = await data.getJSONfromQuery(ob.query, "cron.js");
                 // get from database the last saved record as string, hydrate it to object
-                let beforeObj = JSON.parse(hist.json);
+                let beforeObj = (typeof hist == 'undefined') ? false : JSON.parse(hist.json);
                 // isDifferent if 1) is a new record or 2) is identical to previous record (using node.js assert)
-                let isDifferent = (typeof hist == 'undefined') ? true : diff.isStrictDifferent(beforeObj, afterObj);
+                let isDifferent = (typeof hist == 'undefined') ? true : diff.isStrictDifferent (beforeObj, currentObj);
                 // create a new History record
 								await History.create({
 									mapId: record.id,
@@ -86,12 +86,16 @@ const job = new CronJob(localconfig.cronTime, async function() {
 								setTimeout(timeshotDo, localconfig.msCronWaitWikidata);
 						});
 				}
+        else {
+            util.log("*** cron timeshot end ***");
+        }
 		}
 
 		// save history only of published maps
 		Map.findAll({
 			where: {
-				published: true
+				published: true,
+        id: 10  // DEBUG, only one map
 			},
 			order: [
 				// prepare results array for pop(), so order of execution will be from id 1 to N
