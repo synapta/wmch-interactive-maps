@@ -51,13 +51,12 @@ function regenerateMaps (maps) {
 }
 
 function processDeepDiff(hists) {
-    let recordA, recordB;
     if (hists.length) {
         try {
-            recordA = hists.shift();
+            let recordA = hists.shift();
             // console.log(recordA);
             // process.exit(1);
-            recordB = hists.shift();
+            let recordB = hists[0];  // keep for next check
             // console.log(recordA);
             // process.exit(1);
             util.log("Show diff between id %d and %d", recordA.get('id'), recordB.get('id'));
