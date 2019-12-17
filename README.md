@@ -209,6 +209,14 @@ To regenerate all preview screenshots:
 
 `node maintenance.js -P`
 
+To test comparison between History of a specified map.id (e.g. 10):
+
+`node maintenance.js -T 10`
+
+To regenerate diff between History of a specified map.id (e.g. 10):
+
+`node maintenance.js -D 10`
+
 Help for all available commands:
 
 `node maintenance.js --help`

@@ -37,6 +37,33 @@ const job = new CronJob(localconfig.cronTime, async function() {
     History.belongsTo(Map);  // new property named "map" for each record
 		//////////////////////////////////////////
 
+    function postProcess(before, after) {
+        /**
+    		 *  aaa
+    		 *  @param {object} before: wikidata result object, previous version
+    		 *  @param {object} after: wikidata result object, current version
+    		 **/
+        return new Promise(async (resolve, reject) => {
+            diff.processDeepDiff([before, after], function (diffResults) {
+                // only one element here, since it's a comparison between 2
+                // console.log(typeof diffResults);
+                // console.log(diffResults);
+                let diffResultObj = diffResults.shift();
+                // one results must exists (before and after are different)
+                if (typeof diffResultObj !== 'undefined') {
+                    for (recordKey in after.data) {
+                        let wikidataId = after.data[recordKey].properties.wikidata;
+                        // console.log(wikidataId, diffResultObj[wikidataId]);
+                        if (typeof diffResultObj[wikidataId] !== 'undefined') {
+                            after.data[recordKey].postProcess = diffResultObj[wikidataId];
+                        }
+                    }
+                }
+                resolve(after);
+            });
+      });
+    }
+
 		async function timeshot(maps) {
 			/**
 			 *  Add a new timeshot to History table
@@ -72,14 +99,14 @@ const job = new CronJob(localconfig.cronTime, async function() {
 								let ob = models.mapargsParse(record);
 								// prepare JSON to be written on database
 								let currentObj = await data.getJSONfromQuery(ob.query, "cron.js");
-                // get from database the last saved record as string, hydrate it to object
-                let beforeObj = (typeof hist == 'undefined') ? false : JSON.parse(hist.json);
+                // get from database the last saved record as string, hydrate it to object and remove our metadata postProcess
+                let beforeObj = (typeof hist == 'undefined') ? false : diff.removePostProcess(JSON.parse(hist.json));
                 // isDifferent if 1) is a new record or 2) is identical to previous record (using node.js assert)
                 let isDifferent = (typeof hist == 'undefined') ? true : diff.isStrictDifferent (beforeObj, currentObj);
                 // create a new History record
 								await History.create({
 									mapId: record.id,
-									json: JSON.stringify(currentObj),
+									json: JSON.stringify(await postProcess(beforeObj, currentObj)),
 									diff: isDifferent
 								});
 								// regenerate another after msCronWaitWikidata milliseconds
