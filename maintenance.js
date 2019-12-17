@@ -97,7 +97,7 @@ if (program.testdiff)  {
       diff.processDeepDiff(hists, function (results) {
           for (r of results) {
               util.log('----------------------------------------------------');
-              console.log(r.length);
+              console.log(r);
           }
           process.exit(0)
       });

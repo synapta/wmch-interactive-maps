@@ -22,17 +22,20 @@ function isStrictDifferent(before, after) {
     }
 }
 
-// class Accumulator {
-//     constructor() {
-//         this.els = [];
-//     }
-//     push(el) {
-//         this.els.push(el);
-//         return;
-//     }
-// }
-
-// let acc = new Accumulator();
+function wdarr2obj(arr) {
+    /**
+    * Convert array to object for comparison with ordered elements
+    *
+    *  @param {array} arr array of wikidata results
+    *  @return {object} object with wikidata id as key
+     **/
+    let ob = {};
+    for (el of arr) {
+        let wdId = el.properties.wikidata;
+        ob[wdId] = el;
+    }
+    return ob;
+}
 
 function processDeepDiff(hists, finalCallback, passedResults) {
     let results = (typeof passedResults === 'undefined') ? [] : passedResults;
@@ -47,20 +50,13 @@ function processDeepDiff(hists, finalCallback, passedResults) {
             // console.log(recordA);
             // process.exit(1);
             util.log("Show diff between id %d and %d", recordA.get('id'), recordB.get('id'));
-            let parsedA = JSON.parse(recordA.json);
-            let parsedB = JSON.parse(recordB.json);
+            let parsedA = wdarr2obj(JSON.parse(recordA.json).data);
+            let parsedB = wdarr2obj(JSON.parse(recordB.json).data);
             let differences = deepd.diff(
               parsedA, // record A
               parsedB,  // record B
-              // function (path, key) {  // prefilter
-              //     // do nothing
-              //     // if (key === 'wikidata') {
-              //     //     return true;
-              //     // }
-              // }
-              // acc
-              // // function (path, key) {  // accumulator
-              // // }
+              // function (path, key) { return true | false }  // prefilter
+              // function () { ??? }  // accumulator
             );
             // console.log(differences);
             results.push(differences);
@@ -71,7 +67,6 @@ function processDeepDiff(hists, finalCallback, passedResults) {
                 fs.writeFile(nomeFile, JSON.stringify(JSON.parse(rec.json), 2, '\t'), (err) => {
                     // throws an error, you could also catch it here
                     if (err) throw err;
-
                     // success case, the file was saved
                     console.log('saved!');
                     processDeepDiff(hists, finalCallback, results);
