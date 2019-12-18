@@ -76,11 +76,16 @@ const job = new CronJob(localconfig.cronTime, async function() {
                 let beforeObj = (typeof hist == 'undefined') ? false : diff.removePostProcess(JSON.parse(hist.json));
                 // isDifferent if 1) is a new record or 2) is identical to previous record (using node.js assert)
                 let isDifferent = (typeof hist == 'undefined') ? true : diff.isStrictDifferent (beforeObj, currentObj);
+                let jsonValue = '';
+                if (beforeObj) {
+                    // alter currentObj adding .postProcess on each feature if changed
+                    await diff.postProcess(beforeObj, currentObj);
+                }
                 // create a new History record
 								await History.create({
 									mapId: record.id,
                   // do not add postProcess if fist element
-									json: (!beforeObj) ? JSON.stringify(currentObj) : JSON.stringify(await diff.postProcess(beforeObj, currentObj)),
+									json: JSON.stringify(currentObj),
 									diff: isDifferent
 								});
 								// regenerate another after msCronWaitWikidata milliseconds

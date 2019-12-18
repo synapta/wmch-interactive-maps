@@ -225,7 +225,7 @@ function getWizard(req, res, action, id) {
                 // unpublished or removed item
                 res.status(404).send('<h1>Not found</h1>')
              }
-             if (DEBUG) console.log("THE WINNER IS*****************************************************************", values);
+             if (DEBUG) console.log("DEBUG TEMPLATE *****************************************************************", values);
              var view = {
                shortlang: shortlang,
                langname: i18n_utils.getLangName(config.languages, shortlang),
