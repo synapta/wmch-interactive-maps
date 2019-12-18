@@ -37,33 +37,6 @@ const job = new CronJob(localconfig.cronTime, async function() {
     History.belongsTo(Map);  // new property named "map" for each record
 		//////////////////////////////////////////
 
-    function postProcess(before, after) {
-        /**
-    		 *  aaa
-    		 *  @param {object} before: wikidata result object, previous version
-    		 *  @param {object} after: wikidata result object, current version
-    		 **/
-        return new Promise(async (resolve, reject) => {
-            diff.processDeepDiff([before, after], function (diffResults) {
-                // only one element here, since it's a comparison between 2
-                // console.log(typeof diffResults);
-                // console.log(diffResults);
-                let diffResultObj = diffResults.shift();
-                // one results must exists (before and after are different)
-                if (typeof diffResultObj !== 'undefined') {
-                    for (recordKey in after.data) {
-                        let wikidataId = after.data[recordKey].properties.wikidata;
-                        // console.log(wikidataId, diffResultObj[wikidataId]);
-                        if (typeof diffResultObj[wikidataId] !== 'undefined') {
-                            after.data[recordKey].postProcess = diffResultObj[wikidataId];
-                        }
-                    }
-                }
-                resolve(after);
-            });
-      });
-    }
-
 		async function timeshot(maps) {
 			/**
 			 *  Add a new timeshot to History table
@@ -106,7 +79,8 @@ const job = new CronJob(localconfig.cronTime, async function() {
                 // create a new History record
 								await History.create({
 									mapId: record.id,
-									json: JSON.stringify(await postProcess(beforeObj, currentObj)),
+                  // do not add postProcess if fist element
+									json: (!beforeObj) ? JSON.stringify(currentObj) : JSON.stringify(await diff.postProcess(beforeObj, currentObj)),
 									diff: isDifferent
 								});
 								// regenerate another after msCronWaitWikidata milliseconds

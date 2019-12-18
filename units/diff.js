@@ -2,6 +2,49 @@ const assert = require('assert').strict;
 const deepd  = require('deep-diff');
 const util   = require('util');
 
+function postProcess(before, after) {
+    /**
+     *  Apply after.data[recordKey].postProcess['diff'] to all stored objects.
+     *  @param {object} before: wikidata result object, previous version
+     *  @param {object} after: wikidata result object, current version
+     **/
+    return new Promise(async (resolve, reject) => {
+        processDeepDiff([before, after], function (diffResults) {
+            // only one element here, since it's a comparison between 2
+            // console.log(typeof diffResults);
+            // console.log(diffResults);
+            let diffResultObj = diffResults.shift();
+            if (typeof diffResultObj !== 'undefined') {
+                // cannot convert diffResultObj.rhs / diffResultObj.rls values to json! Circular objects
+                // delete diffResultObj.rhs;
+                // delete diffResultObj.lhs;
+                // one results must exists (before and after are different)
+                if (typeof diffResultObj !== 'undefined') {
+                    for (recordKey in after.data) {
+                        let wikidataId = after.data[recordKey].properties.wikidata;
+                        // console.log(wikidataId, diffResultObj[wikidataId]);
+                        if (typeof diffResultObj[wikidataId] !== 'undefined') {
+                            after.data[recordKey].postProcess = {};
+                            after.data[recordKey].postProcess['diff'] = diffResult2dict(diffResultObj[wikidataId]);
+                        }
+                        else if (typeof after.data[recordKey].postProcess === 'undefined') {
+                            // clean stale record if exists
+                            delete after.data[recordKey].postProcess;
+                        }
+                    }
+                }
+                // TODO? to suport more than 2 elements on postProcess, add:
+                // processDeepDiff(array, function () {});
+                resolve(after);
+            }
+            else {
+                // last element reached
+                resolve(after);
+            }
+        });
+  });
+}
+
 function isStrictDifferent(before, after) {
   /**
    *  Check if two objects, or any other types, are identical or not.
@@ -20,6 +63,19 @@ function isStrictDifferent(before, after) {
     catch (e) {
         return true;
     }
+}
+
+function diffResult2dict(diffResult) {
+  /**
+   *  Convert a deep-diff object into a JSON convertible dictionary
+   *
+   *  @param {object} diffResult from deep-diff
+   *  @return {object} new, clean object
+   **/
+    return {
+      kind: diffResult.kind,
+      path: diffResult.path
+    };
 }
 
 function removePostProcess(wikidataResult) {
@@ -43,9 +99,11 @@ function wdarr2obj(arr) {
     *  @return {object} object with wikidata id as key
      **/
     let ob = {};
-    for (el of arr) {
-        let wdId = el.properties.wikidata;
-        ob[wdId] = el;
+    if (typeof arr !== 'undefined') {
+        for (el of arr) {
+            let wdId = el.properties.wikidata;
+            ob[wdId] = el;
+        }
     }
     return ob;
 }
@@ -111,6 +169,8 @@ function processDeepDiff(jsons, finalCallback, passedResults) {
     }
 }
 
+exports.postProcess = postProcess;
 exports.isStrictDifferent = isStrictDifferent;
 exports.processDeepDiff = processDeepDiff;
 exports.removePostProcess = removePostProcess;
+exports.diffResult2dict = diffResult2dict;

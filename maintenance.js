@@ -50,6 +50,96 @@ function regenerateMaps (maps) {
     }
 }
 
+function programProcessdiff(mapId, finalCallback) {
+    /**
+     *  Read database History for the specified mapId, overwrite postProcess
+     *  with new data, dropping old postProcess.
+     *
+     *  @param {integer} mapId: map.id of History to regenerate
+     *  @param {callback} finalCallback: callback to call at the very end
+     *  @return nothing, alter records on database
+     **/
+    let limit = 2;
+    let offset = 0;
+    // init database ORM
+    let dbMeta = new db.Database(localconfig.database);
+    const Map = dbMeta.db.define('map', models.Map);
+    const History = dbMeta.db.define('history', models.History);
+    Map.hasMany(History);  // 1 : N
+    History.belongsTo(Map);  // new property named "map" for each record
+    // specify map.id by command line
+    let historyWhere = {
+      mapId: mapId
+      // diff: true  // check even not different elements, maybe wrong with new code
+    };
+
+    function writeDiff() {
+        util.log("limit %d; offset %d", limit, offset);
+        History.findAll({
+          where: historyWhere,
+          include: [{
+              model: Map,
+              where: {
+                published: true
+              }
+            }
+          ],
+          order: [
+            ['createdAt', 'ASC']
+          ],
+          limit: limit,
+          offset: offset
+        }).then( async hists => {
+            // must compare 2 elements, not less (last element)
+            if (hists.length === limit) {
+                let beforeRecord = hists.shift();
+                let afterRecord = hists.shift();
+                // hydrate, remove postProcess, and compare
+                let before = diff.removePostProcess(JSON.parse(beforeRecord.json));
+                let after = diff.removePostProcess(JSON.parse(afterRecord.json));
+                // first record of the set? different by default (to display on map)
+                afterRecord.diff = diff.isStrictDifferent (before, after);
+                // change History record
+                // write new after.data[n].features.postProcess, dehydrate and
+                //   overwrite old record
+                afterRecord.json = JSON.stringify(await diff.postProcess(before, after));
+                // afterRecord.json = JSON.stringify(after); // DEBUG
+                // eg. to compare A, B, C will be compared:
+                // A vs. B;
+                // B vs. C (shifting 1 element)
+                offset += 1;
+                // next couple by query
+                afterRecord.save().then(() => {
+                    if (offset > 0) {
+                        // next couple to compare
+                        writeDiff();
+                    }
+                    else {
+                        // first record of History for a single map.id MUST
+                        // 1) be CLEAN (without data[n].features.postProcess)
+                        // 2) marked as different to appear ALWAYS on map
+                        // first record MUST be clean
+                        beforeRecord.json = JSON.stringify(before);
+                        beforeRecord.diff = 1;
+                        beforeRecord.save().then(() => {
+                            // next couple to compare
+                            writeDiff();
+                        });
+                    }
+                });
+            }
+            else {
+                // quit
+                finalCallback();
+            }
+        });
+    }
+
+    // starts here
+    writeDiff();
+
+}
+
 if (program.regeneratepreviews)  {
     // Used for landing page, 3 elements per load, offset passed by url
     let dbMeta = new db.Database(localconfig.database);
@@ -93,7 +183,6 @@ if (program.testdiff)  {
         ['createdAt', 'ASC']
       ],
       // offset: ???,
-      limit: 20
     }).then(hists => {
       let elements = [];
       for (h of hists) {
@@ -105,53 +194,19 @@ if (program.testdiff)  {
               util.log('----------------------------------------------------');
               console.log(JSON.stringify(r, null, 2));
           }
-          process.exit(0)
+          process.exit(0);
       });
     });
 }
 if (program.processdiff)  {
     console.log("TODO: process all records for the provided map and regenerate postProcess field");
-    // let dbMeta = new db.Database(localconfig.database);
-    // const Map = dbMeta.db.define('map', models.Map);
-    // const History = dbMeta.db.define('history', models.History);
-    // Map.hasMany(History); // 1 : N
-    // History.belongsTo(Map);  // new property named "map" for each record
-    // // specify map.id by command line
-    // var historyWhere = {mapId:  parseInt(program.testdiff)};
-    // historyWhere['diff'] = true;
-    // History.findAll({
-    //   where: historyWhere,
-    //   include: [{
-    //       model: Map,
-    //       where: {
-    //         published: true
-    //       }
-    //     }
-    //   ],
-    //   order: [
-    //     ['createdAt', 'ASC']
-    //   ],
-    //   // offset: ???,
-    //   limit: 20
-    // }).then(hists => {
-    //   let elements = [];
-    //   for (h of hists) {
-    //       // remove our metadata before compare
-    //       elements.push(diff.removePostProcess(JSON.parse(h.json)));
-    //   }
-    //   diff.processDeepDiff(elements, function (results) {
-    //       let diffResultObj = diffResults.shift();
-    //       // one results must exists (before and after are different)
-    //       if (typeof diffResultObj !== 'undefined') {
-    //           for (recordKey in elements) {
-    //               let wikidataId = elements[recordKey].properties.wikidata;
-    //               // console.log(wikidataId, diffResultObj[wikidataId]);
-    //               if (typeof diffResultObj[wikidataId] !== 'undefined') {
-    //                   elements[recordKey].postProcess = diffResultObj[wikidataId];
-    //               }
-    //           }
-    //       }
-    //       process.exit(0)
-    //   });
-    // });
+    let mapId = parseInt(program.processdiff);
+    programProcessdiff(
+      mapId,
+      function () {
+          // all ok
+          util.log("Diff successfully written on History for Map with map.id = %d", mapId);
+          process.exit(0);
+      }
+    );
 }
