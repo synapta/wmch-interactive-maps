@@ -1,19 +1,22 @@
+// Database connection
+const dbinit       = require('../db/init');
+const localconfig = dbinit.init();
 const assert = require('assert').strict;
 const deepd  = require('deep-diff');
 const util   = require('util');
+const DEBUG = localconfig.debug ? localconfig.debug : false;
 
 /**
  * Apply after.data[recordKey].postProcess['diff'] to all stored objects.
+ * XXX Will alter the after object!
  * @param  {object} before  wikidata result object, previous version
  * @param  {object} after   wikidata result object, current version
- * @return {[type]}        [description]
+ * @return {Promise}        a Promise with a new data of the after object.
  */
 function postProcess(before, after) {
     return new Promise(async (resolve, reject) => {
         processDeepDiff([before, after], function (diffResults) {
             // only one element here, since it's a comparison between 2
-            // console.log(typeof diffResults);
-            // console.log(diffResults);
             let diffResultObj = diffResults.shift();
             if (typeof diffResultObj !== 'undefined') {
                 // cannot convert diffResultObj.rhs / diffResultObj.rls values to json! Circular objects
@@ -156,9 +159,11 @@ function processDeepDiff(jsons, finalCallback, passedResults) {
             processDeepDiff(jsons, finalCallback, results);
     }
     else {
-        util.debug("deep diff ok");
-        for (r of results) {
-            console.log(r);
+        if (DEBUG) {
+            util.debug("deep diff ok");
+            for (r of results) {
+                console.log(r);
+            }
         }
         finalCallback(wddiff2obj(results));
     }

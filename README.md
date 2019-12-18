@@ -136,6 +136,14 @@ To auto-update and keep running the node servers in development environment on c
 
 In this case nodemon must be installed globally.
 
+On production, use something like [supervisor](http://supervisord.org/) with a script like this:
+
+~~~
+#!/bin/bash
+cd /path/to/my/app;
+exec node app.js --port 9089;
+~~~
+
 ## Languages
 
 The app supports multiple languages.
@@ -213,9 +221,11 @@ To test comparison between History of a specified map.id (e.g. 10):
 
 `node maintenance.js -T 10`
 
-To regenerate diff between History of a specified map.id (e.g. 10):
+To regenerate diff between History of a specified map.id (e.g. 10) e.g. when changing diff or json on History database:
 
 `node maintenance.js -D 10`
+
+both diff and json will be changed accordingly to diff between nearest siblings.
 
 Help for all available commands:
 

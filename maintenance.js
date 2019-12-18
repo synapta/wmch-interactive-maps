@@ -102,8 +102,14 @@ function programProcessdiff(mapId, finalCallback) {
                 // change History record
                 // write new after.data[n].features.postProcess, dehydrate and
                 //   overwrite old record
-                afterRecord.json = JSON.stringify(await diff.postProcess(before, after));
-                // afterRecord.json = JSON.stringify(after); // DEBUG
+                // set to false to DEBUG cleaning up all postProcess
+                if (true) {
+                    await diff.postProcess(before, after);
+                    afterRecord.json = JSON.stringify(after);
+                }
+                else {
+                    afterRecord.json = JSON.stringify(after);
+                }
                 // eg. to compare A, B, C will be compared:
                 // A vs. B;
                 // B vs. C (shifting 1 element)
