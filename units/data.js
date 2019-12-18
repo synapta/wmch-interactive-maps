@@ -1,16 +1,12 @@
 const request = require('request');
 
+/**
+ * Get values for map, edit or add.
+ * @param  {integer} encodedQuery encoded query for wikidata
+ * @param  {text} caller       caller (message for debug purposes)
+ * @return {Promise}           promise with results
+ */
 function getJSONfromQuery(encodedQuery, caller) {
-  /**
-   *  Get values for map, edit or add.
-   *  @param {integer} id Map primary key on database, numeric integer.
-   *  @return {Promise} Promise of an object containing:
-          object['error'] true | false
-          object['errormsg'] error message
-          object['errorcode'] HTTP error code from Wikidata
-          object['errorarr'] HTTP error code from Wikidata
-          object['data'] The result object from Wikidata if any
-   **/
     console.log("Caller:\n", caller, "query:\n", encodedQuery, "\n-----------");
     return new Promise((resolve, reject) => {
         // encodeURIComponent(query) non necessario
@@ -28,11 +24,11 @@ function getJSONfromQuery(encodedQuery, caller) {
             }
         };
 
+        /**
+         * Map results from arr, populating jsonRes.
+         * @return {Array} Array of objects with parsed and enriched results from Wikidata.
+         */
         function apiDataProcess() {
-            /**
-             *  Return array .
-             *  @return {Array}: Array of objects with parsed and enriched results from Wikidata.
-             **/
             var oldQid;
             var isNewQid = true;
 
@@ -78,12 +74,12 @@ function getJSONfromQuery(encodedQuery, caller) {
             return jsonRes;
         }
 
+        /**
+         * Order langs array to allow successful comparison as JSON string.
+         * @param  {Array} jsonResults Array of objects with parsed and enriched results from Wikidata.
+         * @return {Array}            the source array, with ordered properties.langs
+         */
         function orderLangs(jsonResults) {
-            /**
-             *  Order langs array to allow successful comparison as JSON string.
-             *  @param {Array} jsonResults: Array of objects with parsed and enriched results from Wikidata.
-             *  @return {Array}: the source array, with ordered properties.langs
-             **/
              for (feature of jsonResults) {
                  // see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
                  feature.properties.lang.sort(function(a, b) {

@@ -2,12 +2,13 @@ const assert = require('assert').strict;
 const deepd  = require('deep-diff');
 const util   = require('util');
 
+/**
+ * Apply after.data[recordKey].postProcess['diff'] to all stored objects.
+ * @param  {object} before  wikidata result object, previous version
+ * @param  {object} after   wikidata result object, current version
+ * @return {[type]}        [description]
+ */
 function postProcess(before, after) {
-    /**
-     *  Apply after.data[recordKey].postProcess['diff'] to all stored objects.
-     *  @param {object} before: wikidata result object, previous version
-     *  @param {object} after: wikidata result object, current version
-     **/
     return new Promise(async (resolve, reject) => {
         processDeepDiff([before, after], function (diffResults) {
             // only one element here, since it's a comparison between 2
@@ -45,17 +46,16 @@ function postProcess(before, after) {
   });
 }
 
+/**
+*  Check if two objects, or any other types, are identical or not.
+*  {a: 1} vs {a: "1"} = true
+*  {a: "1"} vs {a: "1"} = false
+*  {a: [1,2,3]} vs {a: [1,3,2]} = true
+ * @param  {object}  before e.g. object to compare with after
+ * @param  {object}  after  e.g. object
+ * @return {Boolean}        true if objects contents are different, false if aren't
+ */
 function isStrictDifferent(before, after) {
-  /**
-   *  Check if two objects, or any other types, are identical or not.
-   *  {a: 1} vs {a: "1"} = true
-   *  {a: "1"} vs {a: "1"} = false
-   *  {a: [1,2,3]} vs {a: [1,3,2]} = true
-   *
-   *  @param {any} before e.g. object to compare with after
-   *  @param {any} after e.g. object
-   *  @return {boolean} true if objects contents are different, false if aren't
-   **/
     try {
         assert.deepStrictEqual(before, after);
         return false;
@@ -65,39 +65,36 @@ function isStrictDifferent(before, after) {
     }
 }
 
+/**
+ * Convert a deep-diff object into a JSON convertible dictionary
+ * @param  {[type]} diffResult from deep-diff
+ * @return {[type]}            new, clean object
+ */
 function diffResult2dict(diffResult) {
-  /**
-   *  Convert a deep-diff object into a JSON convertible dictionary
-   *
-   *  @param {object} diffResult from deep-diff
-   *  @return {object} new, clean object
-   **/
     return {
       kind: diffResult.kind,
       path: diffResult.path
     };
 }
 
+/**
+ * Convert array to object for comparison with ordered elements
+ * @param  {object} wikidataResult object results from wikidata
+ * @return {object}                object without .postProcess field
+ */
 function removePostProcess(wikidataResult) {
-  /**
-  * Convert array to object for comparison with ordered elements
-  *
-  *  @param {object} wikidataResult object results from wikidata
-  *  @return {object} object without .postProcess field
-   **/
    for (ob of wikidataResult.data) {
       delete ob.postProcess;
    }
    return wikidataResult;
 }
 
+/**
+ * Convert array to object for comparison with ordered elements
+ * @param  {array} arr array of wikidata results
+ * @return {object}     object with wikidata id as key
+ */
 function wdarr2obj(arr) {
-    /**
-    * Convert array to object for comparison with ordered elements
-    *
-    *  @param {array} arr array of wikidata results
-    *  @return {object} object with wikidata id as key
-     **/
     let ob = {};
     if (typeof arr !== 'undefined') {
         for (el of arr) {
@@ -108,13 +105,12 @@ function wdarr2obj(arr) {
     return ob;
 }
 
+/**
+ *  Convert array of array to array of objects with wikidata id as key.
+ * @param  {array} arr array of diff records
+ * @return {object}     object of diff records
+ */
 function wddiff2obj(arr) {
-    /**
-    * Convert array of array to array of objects with wikidata id as key.
-    *
-    *  @param {array} arr array of diff records
-    *  @return {object} object of diff records
-     **/
     let ars = [];
     for (els of arr) {
         if (typeof els !== 'undefined') {
@@ -129,18 +125,17 @@ function wddiff2obj(arr) {
     return ars;
 }
 
+/**
+ * [processDeepDiff description]
+ * @param  {array} jsons          array of javascript objects
+ * @param  {function} finalCallback callback to call at the very end, with
+ *                    results as returned argument populated with differences
+ *                    by deep-diff
+ * @param  {array} passedResults array of differences generated with
+ *                 deep-diff against an object mapped with wikidata Q
+ * @return {array}               nothing, see finalCallback
+ */
 function processDeepDiff(jsons, finalCallback, passedResults) {
-    /**
-    * Analyze History looking for differences between versions
-    *
-    *  @param {array} jsons array of jsons
-    *  @param {function} finalCallback callback to call at the very end, with
-    *                    results as returned argument populated with differences
-    *                    by deep-diff
-    *  @param {array} passedResults array of differences generated with
-    *                 deep-diff against an object mapped with wikidata Q
-    *  @return nothing, see finalCallback
-    **/
     let results = (typeof passedResults === 'undefined') ? [] : passedResults;
     let final = false;
     // Only 2 or more elements are comparable
