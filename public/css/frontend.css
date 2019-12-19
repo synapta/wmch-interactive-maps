@@ -30,6 +30,9 @@
 }
 /* Media queries */
 @media (max-width: 640px) {
+  .leaflet-control-attribution {
+      bottom: 38px;
+  }
 }
 @media (min-width: 641px) and (max-width: 130ex) {
 }
@@ -62,12 +65,21 @@
   padding-top: 24px !important;
 }
 /* Footer on map, History version */
-#wmap .leaflet-bar-timecontrol,
+/* #wmap .leaflet-bar-timecontrol,
 #wmap .leaflet-left.leaflet-bottom .leaflet-control  {
   margin: 12px 34px 0 34px !important;
   border: none;
   padding-bottom: 20px;
   background-color: transparent;
+} */
+#wmap .leaflet-bar-timecontrol,
+#wmap .leaflet-left.leaflet-bottom .leaflet-control  {
+  border: none;
+  background-color: transparent;
+  margin: 0;
+}
+#wmap .leaflet-bar-timecontrol .leaflet-control-timecontrol {
+  border: none;
 }
 #wmap .leaflet-bottom.leaflet-left,
 .large-mapfooter {
@@ -80,13 +92,15 @@
 }
 /* Footer on map, real time version */
 .large-mapfooter {
-  padding-top: 12px;
-  padding-left: 34px;
+  padding: 10px 0 10px 10px;
   z-index: 998;
 }
 .large-mapfooter button {
   z-index: 999;
   margin: 0 !important;
+}
+#wmap .internal-githublink {
+  margin: 0;
 }
 /* Checkbox color */
 .leaflet-control-container input[type='checkbox'] {
@@ -142,4 +156,28 @@
 }
 .internal-githublink .icon {
   font-size: 38px !important;
+}
+.map-realtime #wmap .leaflet-control-attribution {
+  position: absolute;
+  bottom: 56px;
+  right: 0;
+}
+.map-history #wmap .leaflet-bottom.leaflet-left {
+  padding: 10px 0 10px 10px;
+}
+.map-history #wmap .leaflet-bottom.leaflet-right {
+  position: absolute;
+  bottom: 56px;
+  right: 0;
+}
+#wmap .leaflet-control-timecontrol:first-of-type {
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+#wmap .leaflet-control-timecontrol:last-of-type {
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+#wmap .leaflet-control-timecontrol {
+  margin-top: 3px;
 }

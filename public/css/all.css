@@ -336,6 +336,14 @@ body {
   cursor: pointer;
   color: white !important;
 }
+@media (max-width: 875px) {
+  #languages {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    font-size: 1rem;
+  }
+}
 /* svg clip art */
 .svg-clip-art-left-arrow {
   position: absolute;
