@@ -32,6 +32,9 @@ body {
 .noradius {
   border-radius: 0px !important;
 }
+#wmap .leaflet-control-layers:not(.leaflet-control-layers-expanded) {
+    border: none;
+}
 #wmap .leaflet-control-layers-selector,
 #landing .leaflet-control-layers-selector {
  display: inline-block;
