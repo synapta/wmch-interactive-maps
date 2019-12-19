@@ -103,7 +103,7 @@ const job = new CronJob(localconfig.cronTime, async function() {
 		Map.findAll({
 			where: {
 				published: true,
-        id: 10  // DEBUG, only one map
+        // id: 10  // DEBUG, only one map
 			},
 			order: [
 				// prepare results array for pop(), so order of execution will be from id 1 to N
