@@ -87,6 +87,19 @@ $(function() {
         $('.leaflet-control-layers-overlays .icon').each(function (index) {
             $(this).addClass(pinIcon);
         });
+
+        // semplice
+        $(".new-pin-on-time:visible").parent().css("background-color", "rgba(255,255,0,0.5)");
+        $(".new-pin-on-time:visible").parent().css("z-index", "800");
+
+        // non funzionante
+        // $(".new-pin-on-time:visible").parent().effect("bounce", {times: 2}, 300);
+
+        // decentrato
+        // $(".new-pin-on-time:visible").parent().css("padding", "40px");
+        // $(".new-pin-on-time:visible").parent().css("border-radius", "60px");
+        // $(".new-pin-on-time:visible").parent().css("background-color", "rgba(255,255,0,0.5)");
+
     };
 
     var mobileDesktopLegenda = function () {
@@ -138,6 +151,7 @@ $(function() {
             console.warn('Error retrieving data from url parameters');
         },
         success: function(mapOpts) {
+            console.log(mapOpts);  // DEBUG
             // set attribution to map
             mapOpts.baseAttribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
             mapOpts.subdomains = '1234';
@@ -201,6 +215,18 @@ $(function() {
 
                     // LEGENDA /////////////////////////////////////////////////
                     var overlayMaps = {};
+
+                    function getExtraClasses(feat) {
+                        var extraClasses = "";
+                        if (typeof feat.postProcess !== 'undefined') {
+                            console.log(typeof feat.postProcess['diff']);
+                            if (typeof feat.postProcess['diff'] !== 'undefined') {
+                                return " new-pin-on-time";
+                            }
+                        }
+                        else return "";
+                    }
+
                     $.each(markerAvailableColors, function( mciIndex, color ) {
                         var visibleName = prettyLabels[mciIndex];
                         var geoJsonLayer = L.geoJson(colorLayerParse(geoJsonData, color) , {
@@ -209,7 +235,7 @@ $(function() {
                                     icon: mapOpts.pinIcon,
                                     prefix: 'icon',
                                     markerColor: feature.properties.pin.color,
-                                    extraClasses: mapOpts.pinIcon
+                                    extraClasses: mapOpts.pinIcon + getExtraClasses(feature)
                                 });
                                 return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
                             },
@@ -251,7 +277,7 @@ $(function() {
                           loopButton: true,
                           // timeZones: ["Local", "UTC"],  // not working
                           playerOptions: {
-                              transitionTime: 125,
+                              transitionTime: 1000,
                               loop: false
                               // buffer: 1,
                               // minBufferReady: -1
@@ -277,7 +303,7 @@ $(function() {
                     }
                     var lastDate = Object.keys(countersByTime).pop();
                     // if is undefined, automatically get current time
-                    legendaTimeUpdate(mapOpts.pinIcon, lastDate);                    
+                    legendaTimeUpdate(mapOpts.pinIcon, lastDate);
                     fancyUI();
                     // console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());  // DEBUG
                 }  // END success 2
