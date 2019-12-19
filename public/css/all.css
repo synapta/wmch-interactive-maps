@@ -326,6 +326,15 @@ body {
   min-width: 184px;
   line-height: 20px;
   font-size: 20px;
+  cursor: pointer;
+}
+#languages input {
+  color: white;
+  cursor: pointer;
+}
+#languages .text {
+  cursor: pointer;
+  color: white !important;
 }
 /* svg clip art */
 .svg-clip-art-left-arrow {
