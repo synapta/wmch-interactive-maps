@@ -10,7 +10,8 @@
   /* 388 : 750 ratio */
   /* padding-top: 51.73%; */
   /* remove inner label size height */
-  padding-top: 38.73%;  /* 51.73% - 13% */
+  /* padding-top: 38.73%;  51.73% - 13% */
+  padding-top: 51.73%;
 }
 .landing .infinite-container {
   padding-bottom: 5em;
@@ -37,7 +38,7 @@ h1 {
 #infinite .segment {
   padding: 0;
 }
-#infinite .attached {
+#infinite .attached-old {
   border-radius: 0px;
   text-transform: none;
   font-size: 20px;
@@ -50,16 +51,27 @@ h1 {
   padding: 10% 20px 3% 20px;
   position: relative;
 }
+#infinite .attached {
+  border-radius: 0px;
+  text-transform: none;
+  font-size: 18px;
+  line-height: 24px;
+  padding-top: 44px;
+}
 #infinite .attached i.icon {
   font-weight: 400 !important;
   margin-bottom: 1rem;
   display: block;
   position: absolute;
-  top: 36px;
+  top: 20px;
+}
+#infinite .attached {
+  width: 60%;
+  height: 60%;
 }
 #infinite .landing-square-title {
-  min-height: 48px;
-  margin-top: 1em;
+  /* min-height: 48px;
+  margin-top: 1em; */
 }
 #landing .masthead {
   background-image: url(/images/landing/headerbg.jpg);
