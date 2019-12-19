@@ -70,8 +70,23 @@ body {
   border-color: #636466;
   border-width: 0 0 1px 0;
 }
-#wmap .leaflet-control.leaflet-control-layers-expanded label:last-child,
-#preview .leaflet-control.leaflet-control-layers-expanded label:last-child {
+#wmap .overlays-header,
+#preview .overlays-header {
+  display: block;
+  font-size: 14px;
+  padding-top: 0;
+  padding-bottom: 9px;
+  border-style: solid;
+  border-color: #636466;
+  border-width: 0 0 1px 0;
+}
+#wmap .leaflet-control-layers:not(.leaflet-control-layers-expanded) .overlays-header,
+#preview .leaflet-control-layers:not(.leaflet-control-layers-expanded) .overlays-header {
+  padding-top: 10px;
+  border: none;
+}
+#wmap .leaflet-control.leaflet-control-layers label:last-child,
+#preview .leaflet-control.leaflet-control-layers label:last-child {
   border: none;
   padding-bottom: 0;
 }
