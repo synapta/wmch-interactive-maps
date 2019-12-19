@@ -88,9 +88,12 @@ $(function() {
             $(this).addClass(pinIcon);
         });
 
+        // add class for changed markers
+        $(".new-pin-on-time:visible").parent().addClass("new-pin-on-time-marker");
+
         // semplice
-        $(".new-pin-on-time:visible").parent().css("background-color", "rgba(255,255,0,0.5)");
-        $(".new-pin-on-time:visible").parent().css("z-index", "800");
+        // $(".new-pin-on-time:visible").parent().css("background-color", "rgba(255,255,0,0.5)");
+        // $(".new-pin-on-time:visible").parent().css("z-index", "800");
 
         // non funzionante
         // $(".new-pin-on-time:visible").parent().effect("bounce", {times: 2}, 300);
