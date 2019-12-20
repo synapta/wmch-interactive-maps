@@ -25,7 +25,7 @@
 </head>
 <body id="frontend" class="{{#isHistory}}map-history{{/isHistory}}{{^isHistory}}map-realtime{{/isHistory}}">
     <div class="ui container top-buttons-wrapper">
-      <div class="ui grid left aligned">
+      <div class="ui grid left aligned computer tablet only">
         <div class="three wide column ">
               <a href="/" class="logoonmap"><img class="logo" src="{{logo.src}}" alt="{{#i18n}}actions.back.text{{/i18n}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
         </div>
@@ -42,6 +42,17 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="ui grid left aligned mobile only marginless">
+          <div class="four wide column paddingless">
+                <a href="/" class="logoonmap"><img class="logo" src="{{logo.src}}" alt="{{#i18n}}actions.back.text{{/i18n}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
+          </div>
+          <div class="eleven wide column paddingless">
+                <h1>{{dbMap.title}}</h1>
+          </div>
+          <div class="one wide column paddingless">
+              <!--TODO: add languages for mobile (code only) -->
+          </div>
       </div>
     </div>
     <div id="wmap" class="mapdata with-largefooter"
