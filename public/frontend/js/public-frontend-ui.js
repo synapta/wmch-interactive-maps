@@ -76,6 +76,13 @@ $(function() {
           }
       }
   });
+  $('#languagesmobile').dropdown({
+      onChange: function (value) {
+          if (window.location.pathname.indexOf('/v/') === 0 || window.location.pathname.indexOf('/h/') === 0) {
+              window.location.href = window.location.pathname + '?l=' + value;
+          }
+      }
+  });
 
   $(document).on("click", "#back", function (e) {
       e.preventDefault();

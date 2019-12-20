@@ -48,10 +48,17 @@
                 <a href="/" class="logoonmap"><img class="logo" src="{{logo.src}}" alt="{{#i18n}}actions.back.text{{/i18n}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
           </div>
           <div class="eleven wide column paddingless">
-                <h1>{{dbMap.title}}</h1>
+                <div class="ui wikiblue dropdown search icon button" class="languages-switch" id="languagesmobile">
+                  <span class="text">{{langname}}</span>
+                  <div class="menu">
+                    {{#languages}}
+                    <div class="item" data-value="{{code}}">{{name}}</div>
+                    {{/languages}}
+                  </div>
+                </div>
           </div>
-          <div class="one wide column paddingless">
-              <!--TODO: add languages for mobile (code only) -->
+          <div class="sixteen wide column paddingless">
+              <h1>{{dbMap.title}}</h1>
           </div>
       </div>
     </div>

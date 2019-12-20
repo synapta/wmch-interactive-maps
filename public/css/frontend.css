@@ -64,8 +64,6 @@
 }
 .top-buttons-wrapper {
   background-color: white !important;
-  max-height: 90px;
-  min-height: 90px;
   padding-top: 0;
   padding-bottom: 0;
 }

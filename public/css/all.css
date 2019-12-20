@@ -50,7 +50,8 @@ body {
  display: inline-block;
  float: right;
 }
-#languages .menu {
+#languages .menu,
+#languagesmobile .menu {
   z-index: 999;
 }
 /* Legenda ****************************************************************** */
@@ -329,7 +330,8 @@ body {
   width: 58px;
   height: 58px;
 }
-#languages {
+#languages,
+#languagesmobile {
   border-radius: 28px;
   font-weight: 400;
   font-size: 16px;
@@ -338,16 +340,19 @@ body {
   font-size: 20px;
   cursor: pointer;
 }
-#languages input {
+#languages input,
+#languagesmobile input {
   color: white;
   cursor: pointer;
 }
-#languages .text {
+#languages .text,
+#languagesmobile .text {
   cursor: pointer;
   color: white !important;
 }
 @media (max-width: 875px) {
-  #languages {
+  #languages,
+  #languagesmobile {
     position: absolute;
     top: 30px;
     right: 0;
