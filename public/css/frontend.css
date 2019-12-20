@@ -117,6 +117,7 @@
 }
 .leaflet-control-container input[type='checkbox'] {
   background-color: white;
+  border-radius: 0;
 }
 .leaflet-control-container input[type='checkbox']:checked {
   background-color: #636466;
@@ -127,6 +128,10 @@
  color: white;
  font-size: 20px;
  margin-left: 2px;
+}
+/* override for Safari */
+#wmap .leaflet-control-layers-toggle {
+  background-image: none;
 }
 .leaflet-control-layers-toggle {
   background: white;
