@@ -208,7 +208,7 @@ module.exports = function(app, apicache, passport) {
           }
         });
     });
-  
+
     app.get('/api/timedata', apicache('5 minutes'), async function (req, res) {
         /**
          *  GeoJSON Features from Wikidata, with properties.time to be consumed
@@ -327,6 +327,7 @@ module.exports = function(app, apicache, passport) {
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/",
                   languages: config.languages,
+                  author: config.map.author,
                   i18n: function () {
                     return function (text, render) {
                         i18next.changeLanguage(shortlang);
