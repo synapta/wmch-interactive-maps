@@ -281,7 +281,7 @@ $(function() {
                           // timeZones: ["Local", "UTC"],  // not working
                           playerOptions: {
                               transitionTime: 1000,
-                              loop: false
+                              loop: true
                               // buffer: 1,
                               // minBufferReady: -1
                           }
