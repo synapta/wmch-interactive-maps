@@ -14,7 +14,7 @@ function fancyUI () {
   // add fancy icon and text to legenda placeholder
   $(".leaflet-control-layers-toggle").html('<div class="ui grid"><div class="row"><div class="three wide column">' + svgClipArt.layers + '</div><div class="ten wide column"><span class="overlays-header">Wikipedia</span></div><div class="three wide column">' + svgClipArt.arrow_down.replace('#ffffff', '#636466') + '</div></div></div>');
   // Wikipedia title inside Legenda
-  $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span>");
+  $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span><a href=\"#\" id=\"leaflet-control-layers-overlays-x\">" + svgClipArt.x.replace(/\#ffffff/g, '#636466')) + "</a>";
   if ($("#wmap").data('isHistory')) {
       // History version ///////////////////////////////////////////////////////
       // Switch between timeline / real time
@@ -119,6 +119,12 @@ $(function() {
       // Hide close button
       $('#pagepop').dimmer('hide');
       $('#pagepopclose').hide();
+  });
+
+  // attach a close event to dinamically created elements (Legenda)
+  $(document).on("click", "#leaflet-control-layers-overlays-x", function (ev) {
+      ev.preventDefault();
+      $(".leaflet-control-layers").removeClass("leaflet-control-layers-expanded");
   });
 
   // add arrow to #languages dropdown

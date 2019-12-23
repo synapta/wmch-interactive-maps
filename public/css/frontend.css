@@ -197,3 +197,10 @@
 #wmap .leaflet-control-timecontrol {
   margin-top: 3px;
 }
+#leaflet-control-layers-overlays-x {
+  float: right;
+}
+/* XXX disable non working control on realtime */
+.map-realtime #leaflet-control-layers-overlays-x {
+    display: none;
+}

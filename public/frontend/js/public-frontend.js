@@ -309,6 +309,7 @@ $(function() {
             console.warn('Error retrieving data from url parameters');
         },
         success: function(mapOpts) {
+            // mapOpts.collapse = false;  // NW
             // console.log('Loading map');
             //  console.log(mapOpts);
             window.attribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
@@ -349,6 +350,10 @@ $(function() {
 
     // show loader
     $('#pagepop').dimmer('show');
+
+    $(document).on("mouseout", ".leaflet-control-toggle", function (evi) {
+        evi.preventDefault();
+    });
 
     // MOVED
     // // go to History page

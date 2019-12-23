@@ -136,6 +136,56 @@ var svgClipArt = {
     </g>
   </svg>
 `,
+  "x": `<svg
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:cc="http://creativecommons.org/ns#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     id="svg1255"
+     version="1.1"
+     viewBox="0 0 5.2916666 5.2916668"
+     height="20"
+     width="20">
+    <defs
+       id="defs1249" />
+    <metadata
+       id="metadata1252">
+      <rdf:RDF>
+        <cc:Work
+           rdf:about="">
+          <dc:format>image/svg+xml</dc:format>
+          <dc:type
+             rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+          <dc:title></dc:title>
+        </cc:Work>
+      </rdf:RDF>
+    </metadata>
+    <g
+       transform="translate(-140.04187,-120.07569)"
+       id="layer1">
+      <g
+         transform="matrix(0.35277777,0,0,-0.35277777,145.17835,120.42643)"
+         id="g240">
+        <path
+           id="path242"
+           style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+           d="m 0,0 -6.614,-6.614 c -0.253,-0.252 -0.662,-0.252 -0.915,0 L -14.143,0" />
+      </g>
+    </g>
+    <g
+       transform="matrix(1,0,0,-1,-140.00524,125.59411)"
+       id="layer1-3">
+      <g
+         transform="matrix(0.35277777,0,0,-0.35277777,145.17835,120.42643)"
+         id="g240-6">
+        <path
+           id="path242-7"
+           style="fill:none;stroke:#ffffff;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+           d="m 0,0 -6.614,-6.614 c -0.253,-0.252 -0.662,-0.252 -0.915,0 L -14.143,0" />
+      </g>
+    </g>
+  </svg>`,
   "arrow_down": `<svg
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:cc="http://creativecommons.org/ns#"
