@@ -208,8 +208,7 @@ module.exports = function(app, apicache, passport) {
           }
         });
     });
-
-
+  
     app.get('/api/timedata', apicache('5 minutes'), async function (req, res) {
         /**
          *  GeoJSON Features from Wikidata, with properties.time to be consumed
