@@ -180,7 +180,7 @@ module.exports = function(app, apicache, passport) {
     });
 
     app.get('/api/all', function (req, res) {
-        // Used for landing page, 3 elements per load, offset passed by url
+        // Used for landing page, limited elements per load, offset passed by url
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
         const History = dbMeta.db.define('history', models.History);
@@ -209,8 +209,8 @@ module.exports = function(app, apicache, passport) {
         });
     });
 
-    // apicache('5 minutes')
-    app.get('/api/timedata', async function (req, res) {
+
+    app.get('/api/timedata', apicache('5 minutes'), async function (req, res) {
         /**
          *  GeoJSON Features from Wikidata, with properties.time to be consumed
          *  by Leaflet TimeDimension to display a timeline.
@@ -289,8 +289,7 @@ module.exports = function(app, apicache, passport) {
     });
 
     // for wizard & co.
-    // apicache('5 minutes')
-    app.get('/api/data', async function (req, res) {
+    app.get('/api/data', apicache('5 minutes'), async function (req, res) {
         let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
         if (sparqlJsonResult.error) {
             // error
