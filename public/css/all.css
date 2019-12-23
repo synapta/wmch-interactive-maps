@@ -12,7 +12,7 @@ body {
     padding: 10px 0 4px 10px;
 }
 .map-history #wmap .awesome-marker {
-    opacity: 0.4;
+    opacity: 0.2;
     filter: grayscale(30%);
 }
 .map-history #wmap .new-pin-on-time-marker {

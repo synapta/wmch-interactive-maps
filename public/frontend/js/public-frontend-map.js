@@ -232,15 +232,31 @@ $(function() {
 
                     $.each(markerAvailableColors, function( mciIndex, color ) {
                         var visibleName = prettyLabels[mciIndex];
+                        var circleMarkerOptions = {
+                          color: markerAvailableColorsCodes[mciIndex],
+                          weight: 2,
+                          radius: 6,
+                          opacity: 0.8
+                        };
                         var geoJsonLayer = L.geoJson(colorLayerParse(geoJsonData, color) , {
                             pointToLayer: function (feature, latlng) {
-                                var pin = L.AwesomeMarkers.icon({
-                                    icon: mapOpts.pinIcon,
-                                    prefix: 'icon',
-                                    markerColor: feature.properties.pin.color,
-                                    extraClasses: mapOpts.pinIcon + getExtraClasses(feature)
-                                });
-                                return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+                                var pin = false;
+                                var extraClassesForThisFeature = getExtraClasses(feature);
+                                // if this entry has data changed, display as pin, else display as circle
+                                if (extraClassesForThisFeature.indexOf('new-pin-on-time') !== -1) {
+                                    pin = L.AwesomeMarkers.icon({
+                                        icon: mapOpts.pinIcon,
+                                        prefix: 'icon',
+                                        markerColor: feature.properties.pin.color,
+                                        extraClasses: mapOpts.pinIcon + extraClassesForThisFeature
+                                    });
+                                }
+                                if (!pin) {
+                                    return L.circleMarker(latlng, circleMarkerOptions).on('popupopen', openModal);
+                                }
+                                else {
+                                    return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+                                }
                             },
                             // attach popup on each feature
                             onEachFeature: function (feature, layer) {

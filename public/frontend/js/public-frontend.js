@@ -44,6 +44,15 @@ $(function() {
     };
 
 
+    function generateCircleMarkerByColorIndex(latlng, mciIndex) {
+        var circleMarkerOptions = {
+          color: markerAvailableColorsCodes[mciIndex],
+          weight: 2,
+          radius: 6
+        };
+        return L.circleMarker(latlng, circleMarkerOptions).on('popupopen', openModal);
+    }
+
     function loadData(options, autozoom) {
         // console.log('Autozoom', autozoom);
         // window.sparqlCache = options.sparql;
@@ -157,13 +166,14 @@ $(function() {
                 popupGenerator(feature, layer);
             },
             pointToLayer: function (feature, latlng) {
-                var pin = L.AwesomeMarkers.icon({
-                    icon: parsedOptions.pinIcon,
-                    prefix: 'icon',
-                    markerColor: feature.properties.pin.color,
-                    extraClasses: parsedOptions.pinIcon
-                });
-                return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+                // var pin = L.AwesomeMarkers.icon({
+                //     icon: parsedOptions.pinIcon,
+                //     prefix: 'icon',
+                //     markerColor: feature.properties.pin.color,
+                //     extraClasses: parsedOptions.pinIcon
+                // });
+                // return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+                return generateCircleMarkerByColorIndex(latlng, 0);
             },
             filter: function (feature, layer) {
                 return feature.properties.pin.color === "black";
@@ -174,13 +184,14 @@ $(function() {
                   popupGenerator(feature, layer);
               },
               pointToLayer: function (feature, latlng) {
-                  var pin = L.AwesomeMarkers.icon({
-                      icon: parsedOptions.pinIcon,
-                      prefix: 'icon',
-                      markerColor: feature.properties.pin.color,
-                      extraClasses: parsedOptions.pinIcon
-                  });
-                  return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+                  // var pin = L.AwesomeMarkers.icon({
+                  //     icon: parsedOptions.pinIcon,
+                  //     prefix: 'icon',
+                  //     markerColor: feature.properties.pin.color,
+                  //     extraClasses: parsedOptions.pinIcon
+                  // });
+                  // return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+                  return generateCircleMarkerByColorIndex(latlng, 1);
               },
               filter: function (feature, layer) {
                   return feature.properties.pin.color === "red";
@@ -191,13 +202,14 @@ $(function() {
                 popupGenerator(feature, layer);
             },
             pointToLayer: function (feature, latlng) {
-                var pin = L.AwesomeMarkers.icon({
-                    icon: parsedOptions.pinIcon,
-                    prefix: 'icon',
-                    markerColor: feature.properties.pin.color,
-                    extraClasses: parsedOptions.pinIcon
-                });
-                return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+                // var pin = L.AwesomeMarkers.icon({
+                //     icon: parsedOptions.pinIcon,
+                //     prefix: 'icon',
+                //     markerColor: feature.properties.pin.color,
+                //     extraClasses: parsedOptions.pinIcon
+                // });
+                // return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+                return generateCircleMarkerByColorIndex(latlng, 2);
             },
             filter: function (feature, layer) {
                 return feature.properties.pin.color === "orange";
@@ -209,13 +221,14 @@ $(function() {
               popupGenerator(feature, layer);
           },
           pointToLayer: function (feature, latlng) {
-              var pin = L.AwesomeMarkers.icon({
-                  icon: parsedOptions.pinIcon,
-                  prefix: 'icon',
-                  markerColor: feature.properties.pin.color,
-                  extraClasses: parsedOptions.pinIcon
-              });
-              return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+              // var pin = L.AwesomeMarkers.icon({
+              //     icon: parsedOptions.pinIcon,
+              //     prefix: 'icon',
+              //     markerColor: feature.properties.pin.color,
+              //     extraClasses: parsedOptions.pinIcon
+              // });
+              // return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+              return generateCircleMarkerByColorIndex(latlng, 3);
           },
           filter: function (feature, layer) {
               return feature.properties.pin.color === "green";

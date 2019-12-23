@@ -64,6 +64,12 @@ var markerAvailableColors = [
     'orange',
     'green'
 ];
+var markerAvailableColorsCodes = [
+    '#231f20',
+    '#d63e2a',
+    '#e5ad40',
+    '#339966'
+];
 var markerLabels = [
     "Poor",
     "Mediocre",
