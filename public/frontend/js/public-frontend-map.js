@@ -154,7 +154,7 @@ $(function() {
             console.warn('Error retrieving data from url parameters');
         },
         success: function(mapOpts) {
-            console.log(mapOpts);  // DEBUG
+            // console.log(mapOpts);  // DEBUG
             // set attribution to map
             mapOpts.baseAttribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
             mapOpts.subdomains = '1234';
