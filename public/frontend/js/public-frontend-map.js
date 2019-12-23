@@ -287,7 +287,8 @@ $(function() {
                           }
                     });
                     window.map.addControl(timeDimensionControl);
-
+                    // display legenda every time a popup is closed
+                    window.map.on('popupclose', closePopup);
 
                     //       baseLayer (radio)     overlay (checkbox)
                     L.control.layers(null, overlayMaps, { collapsed: window.isMobile() ? true : false } ).addTo(window.map);

@@ -100,7 +100,7 @@ var popupGenerator = function(feature, layer) {
     var popup = '<div class="popup-content ui stackable grid">';
     if (isTimeline) {
         if (typeof feature.postProcess !== 'undefined') {
-            popup += '<span class="ui left corner label orange"><i class="certificate icon"></i></span>';          
+            popup += '<span class="ui left corner label orange"><i class="certificate icon"></i></span>';
         }
         else if (feature.properties.current) {
             popup += '<span class="ui left corner label green"><i class="fire icon"></i></span>';

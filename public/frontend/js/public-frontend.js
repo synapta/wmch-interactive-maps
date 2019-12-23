@@ -280,6 +280,9 @@ $(function() {
           }
         });
 
+        // display legenda every time a popup is closed
+        window.map.on('popupclose', closePopup);
+
         $(window).resize(function() {
             mobileDesktopLegenda();
         });

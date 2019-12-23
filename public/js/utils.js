@@ -51,7 +51,14 @@ var openModal = function (ev) {
         if (window.isMobile()) {
             openModalOnMobile(ev);
         }
+        else {
+            $('.leaflet-control-layers').hide();
+        }
     }
+};
+
+var closePopup = function (ev) {
+    $('.leaflet-control-layers').show();
 };
 
 var openModalOnMobile = function (ev) {
