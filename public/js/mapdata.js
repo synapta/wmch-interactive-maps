@@ -11,6 +11,8 @@ var confPopupOpts = {
 };
 
 
+var countersByTime = {};
+
 var featureLinkCounter = function(feature) {
     // conta il numero di link del museo corrente
     var counters = {
@@ -60,9 +62,13 @@ var featureLinkCounter = function(feature) {
     return counters;
 };
 
+var randInt = function (max) {
+    return Math.floor(Math.random() * Math.floor(max));
+}
+
 var enrichFeatures = function (features) {
     var feature = new Object();
-    var richFeatures = [];
+    var currentTimeKey = "";
     for (j=0; j < features.length; j++) {
         feature = features[j];
         // ottengo i contatori separati per ogni tipo di link al museo
@@ -71,10 +77,19 @@ var enrichFeatures = function (features) {
         feature.properties.pin = markerCounter2PinDataObj(
             feature.properties.counters
         );
-        richFeatures[j] = features[j];
-        if (j % 3 == 0) {  // debug
-            // console.log(feature);
+        if (isTimeline) {
+            currentTimeKey = feature.properties.time.toString();
+            if (!countersByTime.hasOwnProperty(currentTimeKey)) {
+                countersByTime[currentTimeKey] = [];
+                for (i=0; i < markerAvailableColors.length; i++) {
+                    countersByTime[currentTimeKey].push(0);
+                }
+            }
+            countersByTime[currentTimeKey][markerAvailableColors.indexOf(feature.properties.pin.color)] += 1;
         }
+        // if (j % 3 == 0) {  // debug
+            // console.log(feature);
+        // }
     }
     return features;
 };
@@ -83,6 +98,17 @@ var popupGenerator = function(feature, layer) {
     // conta il numero di link del museo corrente
     var counters = feature.properties.counters;
     var popup = '<div class="popup-content ui stackable grid">';
+    if (isTimeline) {
+        if (typeof feature.postProcess !== 'undefined') {
+            popup += '<span class="ui left corner label orange"><i class="certificate icon"></i></span>';
+        }
+        else if (feature.properties.current) {
+            popup += '<span class="ui left corner label green"><i class="fire icon"></i></span>';
+        }
+        else {
+            popup += '<span class="ui left corner label grey"><i class="archive icon"></i></span>';
+        }
+    }
     // I progetti Wikimedia dispongono dell'immagine principale?
     var hasImage = typeof feature.properties.image !== 'undefined';
     ////////////////// console.log(feature.properties.image, wikidataImageUrl2licenseUrl({'url': feature.properties.image}));
@@ -93,7 +119,7 @@ var popupGenerator = function(feature, layer) {
         // Qui eventualmente aggiungere cache lato client
     }
     var withwithout = hasImage ? 'withimage' : 'noimage';
-    popup += '<div class="row"><div class="popup-cover-image sixteen wide column {{withwithout}}" style="{{bgimage}}"><a href="{{commons}}" target="_blank"><span>{{imglicense}}</span></a></div></div>'
+    popup += '<div class="row"><div class="popup-cover-image sixteen wide column {{withwithout}}"><a href="{{commons}}" style="{{bgimage}}" target="_blank"><span>{{imglicense}}</span></a></div></div>'
     .replace(/{{withwithout}}/g, withwithout)
     .replace(/{{commons}}/g, wikidataImageUrl2licenseUrl({'url': feature.properties.image}))
     .replace(/{{imglicense}}/g, $('.mapdata').data('popup-image-license'))
@@ -212,7 +238,7 @@ function addMarkers(json, map, markers, options, autozoom) {
 }
 
 /**
- *  Count pins in leaflet maps.
+ *  Count pins in leaflet maps (public-frontend.js, clustered).
  *  @param {string} data: data from query
  *  @param {array} leafletPins: array of Leaflet pins already loaded on map
  *  @return {object}: an array counting number of elements per leafletPins, index matched with leafletPins
@@ -236,3 +262,13 @@ var countByFilter = function (data, leafletPins) {
     }
     return acounters;
 };
+
+var getVarUrl = function () {
+  var varurl = [window.location.protocol, '//', window.location.host, '/s', window.location.pathname.substring(2)].join('');
+
+  // fallback: full string url
+  if (window.location.search.length > 10 && window.location.search.indexOf('apiv=') !== -1) {
+      varurl = [window.location.protocol, '//', window.location.host, '/a/', window.location.search].join('');
+  }
+  return varurl;
+}

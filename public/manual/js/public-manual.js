@@ -5,6 +5,11 @@ $(function() {
           window.location.href = window.location.pathname + "?l=" + value;
       }
   });
+  $('#languagesmobile').dropdown({
+      onChange: function (value) {
+          window.location.href = window.location.pathname + "?l=" + value;
+      }
+  });
 
   // add Semantic Ui class to man page
   $('h1').each(function () {

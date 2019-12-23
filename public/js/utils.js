@@ -1,3 +1,12 @@
+// map color names to color
+var colorname2color = {
+  "black": "#231F20",
+  "red": "#990000",
+  "orange": "#E5AD40",
+  "green": "#339966"
+};
+var httpToken = '://';
+
 var dictItems = function (Ogg) {
     // ottieni valori dell'oggetto (dizionario)
     var els = [];
@@ -16,11 +25,16 @@ var arrSum = function (arr) {
 ////
 
 var isWikipediaURL = function (record) {
-    // Verifica se un link appartiene a Commons
-    return record.indexOf('wikipedia.org') > -1;
+    // Verifica se un link NON appartiene a Commons, includento i langcode
+    return record.indexOf('wikipedia.org') > -1 || record.indexOf(httpToken) === -1;
 };
 var getWikipediaLang = function (record) {
-    return record.split('://')[1].split('.')[0];
+    if (record.indexOf(httpToken) !== -1) {
+        return record.split(httpToken)[1].split('.')[0];
+    }
+    else {
+        return record;
+    }
 };
 var getWikipediaPageName = function (record) {
     try {
@@ -37,7 +51,14 @@ var openModal = function (ev) {
         if (window.isMobile()) {
             openModalOnMobile(ev);
         }
+        else {
+            $('.leaflet-control-layers').hide();
+        }
     }
+};
+
+var closePopup = function (ev) {
+    $('.leaflet-control-layers').show();
 };
 
 var openModalOnMobile = function (ev) {
@@ -79,12 +100,13 @@ var prettify = function(text, color, totcounter) {
     // input: text
     // output: html
     // Label degli pseudolivelli da visualizzare
-    var layersLabelsPattern = '<span class="legenda-label" style="background-color: {{bg}};">{{text}} ({{count}})</span>';
+    var layersLabelsPattern = '<i class="ui icon" style="color: {{iconcolor}};"></i><span class="legenda-label">{{text}} ({{count}})</span>';
     var count = 0;
-    return layersLabelsPattern.replace(/{{bg}}/g, color)
+    return layersLabelsPattern.replace(/{{iconcolor}}/g, colorname2color[color])
                               .replace(/{{text}}/g, text)
                               .replace(/{{count}}/g, count.toString())
                               // totcounter
+                              // skip: {{iconClasses}} (do later)
 };
 
 var getUrlParameter = function getUrlParameter (sParam) {

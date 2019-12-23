@@ -25,7 +25,8 @@
 .step:nth-child(4):before {
     content: "4";
 }
-#languages * {
+#languages *,
+#languagesmobile * {
     cursor: pointer;
 }
 #mapstyle {

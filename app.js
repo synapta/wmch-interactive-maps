@@ -2,10 +2,14 @@
 const dbinit       = require('./db/init');
 const localconfig = dbinit.init();
 var parseArgs = require('minimist');
-var argv = parseArgs(process.argv, opts={boolean: []});
+var argv = parseArgs(process.argv, opts={boolean: ['nosentry']});
 // error reporting
 var Raven = require('raven');
-if (!argv['no-sentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
+if (!argv['nosentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
+console.log(argv);
+if (argv['nosentry']) {
+  console.log("*** Sentry disabled ***");
+}
 const util       = require('util');
 // external dependencies ///////////////////////////////////////////////////////
 const express      = require('express');
@@ -30,13 +34,17 @@ const server = app.listen(port, function() {
     util.log('Loading database');
     let dbMeta = new db.Database(localconfig.database);
     const Map = dbMeta.db.define('map', models.Map);
+    const History = dbMeta.db.define('history', models.History);
+    Map.hasMany(History); // 1 : N
     // create table(s) if doesn't exists
     Map.sync().then(() => {
-        util.log('Database "%s" loaded, tables created if needed', localconfig.database.name);
-        util.log('Starting server');
-        // start server
-        const host = server.address().address;
-        const port = server.address().port;
-        util.log('%s listening at http://%s:%s', config.appname, host, port);
+        History.sync().then(() => {
+            util.log('Database "%s" loaded, tables created if needed', localconfig.database.name);
+            util.log('Starting server');
+            // start server
+            const host = server.address().address;
+            const port = server.address().port;
+            util.log('%s listening at http://%s:%s', config.appname, host, port);
+        });
     });
 });

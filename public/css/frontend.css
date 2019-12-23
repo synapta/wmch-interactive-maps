@@ -2,22 +2,22 @@
   width: 100%;
   height: 100%;
 }
-#wmap .legenda-label {
-  color: white;
-  padding: 0.4rem 0.3rem;
-  line-height: 2em;
+.computer.tablet.only h1 {
 }
-#back {
-  position: absolute;
-  margin-top: 10px;
-  margin-left: 10px;
-  z-index: 998;
+.mobile.only h1 {
 }
-.leaflet-control-container .leaflet-control-layers {
-  margin-top: 12em;
+/* removable class for screenshot */
+#wmap.with-largefooter {
+ height: calc(100% - 167px);
 }
 #wmap .leaflet-control-zoom {
-  margin-top: 12em;
+  margin-top: calc(100vh - 340px);
+}
+#frontend h1 {
+  color: #0065A4;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 56px;
 }
 .popup-content dd {
   margin-left: 0;
@@ -29,15 +29,25 @@
   z-index: 1001;
 }
 /* Media queries */
+@media (min-width: 768px) {
+  #wmap.with-largefooter {
+    height: calc(100% - 77px);
+  }
+  #wmap .leaflet-control-zoom {
+    margin-top: calc(100vh - 230px);
+  }
+}
 @media (max-width: 640px) {
-    #wmap .leaflet-bottom.leaflet-left .leaflet-bar {
-        margin-bottom: 43px;
-    }
+  .leaflet-control-attribution {
+      bottom: 38px;
+  }
+}
+@media (min-width: 641px) and (min-height: 481px) {
+  .leaflet-control-container .leaflet-control-layers {
+    margin-top: 12em;
+  }
 }
 @media (min-width: 641px) and (max-width: 130ex) {
-    #wmap .leaflet-bottom.leaflet-left .leaflet-bar {
-        margin-bottom: 26px;
-    }
 }
 @media (min-width: 641px) {
     #wmap .popup-title {
@@ -47,13 +57,150 @@
         font-size: 17px;
     }
 }
-#languages {
+#wmap .popup-cover-image {
+  /* background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/64/Image-x-generic-2.svg); */
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif);
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#wmap .popup-cover-image.noimage {
+  background-color: #636466;
+  background-image: none;
+}
+.top-buttons-wrapper {
+  background-color: white !important;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.top-buttons-wrapper .ui.grid > .column {
+  padding-top: 24px !important;
+}
+/* Footer on map, History version */
+/* #wmap .leaflet-bar-timecontrol,
+#wmap .leaflet-left.leaflet-bottom .leaflet-control  {
+  margin: 12px 34px 0 34px !important;
+  border: none;
+  padding-bottom: 20px;
+  background-color: transparent;
+} */
+#wmap .leaflet-bar-timecontrol,
+#wmap .leaflet-left.leaflet-bottom .leaflet-control  {
+  border: none;
+  background-color: transparent;
+  margin: 0;
+}
+#wmap .leaflet-bar-timecontrol .leaflet-control-timecontrol {
+  border: none;
+}
+#wmap .leaflet-bottom.leaflet-left,
+.large-mapfooter {
+  width: 100%;
+  background-color: #f1f2f2 !important;
+}
+#realtime,
+#history {
+  float: left;
+}
+/* Footer on map, real time version */
+.large-mapfooter {
+  padding: 10px 0 10px 10px;
+  z-index: 998;
+}
+.large-mapfooter button {
+  z-index: 999;
+  margin: 0 !important;
+}
+#wmap .internal-githublink {
+  margin: 0;
+}
+/* Checkbox color */
+.leaflet-control-container input[type='checkbox'] {
+  width: 20px !important;
+  height: 20px !important;
+  margin: 5px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  appearance:none;
+  outline: 2px solid #636466;
+  box-shadow: none;
+  font-size: 2em;
+}
+.leaflet-control-container input[type='checkbox'] {
+  background-color: white;
+  border-radius: 0;
+}
+.leaflet-control-container input[type='checkbox']:checked {
+  background-color: #636466;
+}
+.leaflet-control-container input[type='checkbox']:checked:before {
+ content: "\2713";
+ position: absolute;
+ color: white;
+ font-size: 20px;
+ margin-left: 2px;
+}
+/* override for Safari */
+#wmap .leaflet-control-layers-toggle {
+  background-image: none;
+}
+.leaflet-control-layers-toggle {
+  background: white;
+  border: 1px solid #636466;
+  display: block;
+  min-width: 230px;
+  padding: 0 20px;
+}
+/* special override */
+#wmap.leaflet-touch .leaflet-control-layers,
+#wmap.leaflet-touch .leaflet-bar {
+  /* border: none; */
+}
+.leaflet-control-layers-toggle .column {
+  border: 1px solid transparent;
+}
+.leaflet-control-layers-toggle .three:first-child {
+  padding-top: 13px;
+}
+.leaflet-control-layers-toggle .three:last-child {
+  padding-top: 13px;
+}
+.internal-githublink {
   position: absolute;
   right: 0;
-  z-index: 997;
-  margin-right: 10px;
-  margin-top: 10px;
+  cursor: pointer;
 }
-#languages .menu {
-  z-index: 997;
+.internal-githublink .icon {
+  font-size: 38px !important;
+}
+.map-realtime #wmap .leaflet-control-attribution {
+  position: absolute;
+  bottom: 56px;
+  right: 0;
+}
+.map-history #wmap .leaflet-bottom.leaflet-left {
+  padding: 10px 0 10px 10px;
+}
+.map-history #wmap .leaflet-bottom.leaflet-right {
+  position: absolute;
+  bottom: 56px;
+  right: 0;
+}
+#wmap .leaflet-control-timecontrol:first-of-type {
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+#wmap .leaflet-control-timecontrol:last-of-type {
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+#wmap .leaflet-control-timecontrol {
+  margin-top: 3px;
+}
+#leaflet-control-layers-overlays-x {
+  float: right;
+}
+/* XXX disable non working control on realtime */
+.map-realtime #leaflet-control-layers-overlays-x {
+    display: none;
 }

@@ -7,33 +7,62 @@
 
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
-    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.5.1/leaflet.css" />
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css" />
-    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet.markercluster/1.3.0/MarkerCluster.css" />
-    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet.markercluster/1.3.0/MarkerCluster.Default.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
+    {{! <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" /> }}
 
-    <link href="//tools-static.wmflabs.org/fontcdn/css?family=Montserrat" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/js/Leaflet.TimeDimension/dist/leaflet.timedimension.control.min.css" />
+
+    <link href="//tools-static.wmflabs.org/fontcdn/css?family=Open+Sans:400,600,700&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="/css/override.css" />
     <link rel="stylesheet" href="/css/all.css" />
     <link rel="stylesheet" href="/css/frontend.css" />
 
     <style type="text/css">
     </style>
 </head>
-<body>
-    <button class="ui active button blue leaflet-control" id="back">
-      <i class="home icon"></i>
-      {{#i18n}}actions.back.text{{/i18n}}
-    </button>
-    <div class="ui floating dropdown labeled search icon left floated button leaflet-control" id="languages">
-      <i class="language large icon"></i>
-      <span class="text">{{langname}}</span>
-      <div class="menu">
-        {{#languages}}
-        <div class="item" data-value="{{code}}">{{name}}</div>
-        {{/languages}}
+<body id="frontend" class="{{#isHistory}}map-history{{/isHistory}}{{^isHistory}}map-realtime{{/isHistory}}">
+    <div class="ui container top-buttons-wrapper">
+      <div class="ui grid left aligned computer tablet only">
+        <div class="three wide column ">
+              <a href="/" class="logoonmap"><img class="logo" src="{{logo.src}}" alt="{{#i18n}}actions.back.text{{/i18n}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
+        </div>
+        <div class="ten wide column center aligned">
+          <h1>{{dbMap.title}}</h1>
+        </div>
+        <div class="three wide column right aligned">
+          <div class="ui wikiblue dropdown search icon button" id="languages">
+            <span class="text">{{langname}}</span>
+            <div class="menu">
+              {{#languages}}
+              <div class="item" data-value="{{code}}">{{name}}</div>
+              {{/languages}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui grid left aligned mobile only marginless">
+          <div class="four wide column paddingless">
+                <a href="/" class="logoonmap"><img class="logo" src="{{logo.src}}" alt="{{#i18n}}actions.back.text{{/i18n}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
+          </div>
+          <div class="eleven wide column paddingless">
+                <div class="ui wikiblue dropdown search icon button" class="languages-switch" id="languagesmobile">
+                  <span class="text">{{langname}}</span>
+                  <div class="menu">
+                    {{#languages}}
+                    <div class="item" data-value="{{code}}">{{name}}</div>
+                    {{/languages}}
+                  </div>
+                </div>
+          </div>
+          <div class="sixteen wide column paddingless">
+              <h1>{{dbMap.title}}</h1>
+          </div>
       </div>
     </div>
-    <div id="wmap" class="mapdata"
+    <div id="wmap" class="mapdata with-largefooter"
     data-nowikipedia="{{#i18n}}actions.nowikipedia.text{{/i18n}}"
     data-popup-image-license="{{#i18n}}popup.imageLicense{{/i18n}}"
     data-morelanguages="{{#i18n}}actions.morelanguages.text{{/i18n}}"
@@ -45,14 +74,20 @@
     data-filter-one="{{#i18n}}filter.one{{/i18n}}"
     data-filter-three="{{#i18n}}filter.three{{/i18n}}"
     data-filter-four="{{#i18n}}filter.four{{/i18n}}"
+    data-realtime-text="{{#i18n}}actions.realtime.text{{/i18n}}"
+    data-history-text="{{#i18n}}actions.history.text{{/i18n}}"
+    data-is-history="{{#isHistory}}1{{/isHistory}}{{^isHistory}}0{{/isHistory}}"
     ></div>
 
     <div id="author" class="donotdisplay">{{{map.author}}}</div>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
-    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.3.1/leaflet.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.5.1/leaflet.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
-    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet.markercluster/1.3.0/leaflet.markercluster.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster.js"></script>
+    <script src="/js/iso8601-js-period/iso8601.js"></script>
+    <script src="/js/Leaflet.TimeDimension/dist/leaflet.timedimension.min.js"></script>
+    {{! <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> }}
     <!-- script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script -->
 
     <div id="pagepop" class="ui page dimmer inverted">
@@ -67,6 +102,13 @@
     <script src="/js/utils.js"></script>
     <script src="/js/icons.js"></script>
     <script src="/js/mapdata.js"></script>
+    <script src="/frontend/js/public-frontend-ui.js"></script>
+    {{#isHistory}}
+    <script src="/frontend/js/public-frontend-map.js"></script>
+    {{/isHistory}}
+    {{^isHistory}}
     <script src="/frontend/js/public-frontend.js"></script>
+    {{/isHistory}}
+    <script src="/js/svg.js"></script>
 </body>
 </html>

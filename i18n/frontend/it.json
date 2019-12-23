@@ -1,6 +1,7 @@
 {
   "page": {
-    "title": "Servizio mappe WMCH"
+    "title": "Servizio mappe WMCH",
+    "subtitle": "Le voci di Wikipedia incontrano le mappe! Esplora i luoghi, verifica la completezza delle voci in inglese, tedesco, italiano e francese."
   },
   "popup": {
     "website": "Sito ufficiale",
@@ -8,13 +9,19 @@
   },
   "filter": {
     "no": "Nessuna voce",
-    "one": "Una voce",
-    "three": "Fino a tre voci",
-    "four": "Quattro voci"
+    "one": "1 voce",
+    "three": "Fino a 3 voci",
+    "four": "4 voci"
   },
   "actions": {
     "back": {
       "text": "Torna indietro"
+    },
+    "history": {
+      "text": "Mostra cronologia"
+    },
+    "realtime": {
+      "text": "Torna al tempo reale"
     },
     "close": {
       "text": "Chiudi"

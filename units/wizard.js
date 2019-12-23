@@ -16,12 +16,13 @@ var md = require('markdown-it')();
 const db = require(util.format('../db/connector/%s', localconfig.database.engine));
 const DEBUG = localconfig.debug ? localconfig.debug : false;
 
+/**
+ * Check permission against action name and id.
+ * @param  {string} action to perform (optional).
+ * @param  {integer} id     Map primary key on database, numeric integer.
+ * @return {Boolean}        True if can perorm action
+ */
 function getWizardActionPermissionAllowed(action, id) {
-   /**
-    *  @param {string} action to perform (optional).
-    *  @param {integer} id Map primary key on database, numeric integer.
-    *  @return {Boolean}. True if can perorm action
-    **/
     let permission = config.actionPermissions[action];
     if (typeof(permission) === 'undefined') {
        // undeclared permission
@@ -36,16 +37,15 @@ function getWizardActionPermissionAllowed(action, id) {
     }
 }
 
-
+/**
+ * Get CRUx interface for maps, but before check if action is allowed.
+ * @param  {object} req           Express object. req.params.action
+ * @param  {object} res           Express object.
+ * @param  {string} [action=null] to perform (optional).
+ * @param  {integer} [id=null]     Map primary key on database, numeric integer.
+ * @return {undefined}             None. A res.send() must be set to expose output. An HTTP error 400 bad request instead.
+ */
 function getWizardPath(req, res, action=null, id=null) {
- /**
-  *  Get CRUx interface for maps, but before check if action is allowed.
-  *  @param {object} req Express object. req.params.action
-  *  @param {object} res Express object.
-  *  @param {string} action to perform (optional).
-  *  @param {integer} id Map primary key on database, numeric integer.
-  *  @return None. A res.send() must be set to expose output. An HTTP error 400 bad request instead.
-  **/
    // let action = req.params.action ? req.params.action : 'add';
    if (DEBUG) {
        console.log('Path', req.originalUrl, 'Action: ', action, "Id:", id);
@@ -58,16 +58,18 @@ function getWizardPath(req, res, action=null, id=null) {
    }
 }
 
+/**
+ * Get values for map, edit or add.
+ * @param  {integer} id Map primary key on database, numeric integer.
+ * @return {Promise}    Promise of a database record of Map. Empty object on error.
+ */
 function getMapConfigFromDb (id) {
-  /**
-   *  Get values for map, edit or add.
-   *  @param {integer} id Map primary key on database, numeric integer.
-   *  @return {Promise} Promise of a database record of Map. Empty object on error.
-   **/
     console.log(id);
     return new Promise((resolve, reject) => {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         Map.findOne({
           where: {
             id: id,
@@ -85,14 +87,14 @@ function getMapConfigFromDb (id) {
     });
 }
 
+/**
+ * Do CxUx actions (create or update).
+ * @param  {object} req    Express object. req.params.action
+ * @param  {object} res    Express object.
+ * @param  {string} action to perform
+ * @return {undefined}        None. A res.send() must be set to expose output, redirect to map on success.
+ */
 async function cuMap (req, res, action) {
-  /**
-   *  Do CxUx actions (create or update).
-   *  @param {object} req Express object. req.params.action
-   *  @param {object} res Express object.
-   *  @param {string} action to perform
-   *  @return None. A res.send() must be set to expose output, redirect to map on success.
-   **/
     // load database from configuration
     let dbMeta = new db.Database(localconfig.database);
     // create a connection with Sequelize
@@ -103,6 +105,8 @@ async function cuMap (req, res, action) {
     else {
         // models.Map.sync();
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         // add a new record
         try {
             // let url = util.format("%s/%s", config.screenshotServer.url, req.query.mapargs);
@@ -153,13 +157,13 @@ async function cuMap (req, res, action) {
     }
 }
 
+/**
+ * Get values for map, edit or add.
+ * @param  {string} action to perform (optional).
+ * @param  {integer} id     Map primary key on database, numeric integer.
+ * @return {Promise}        with data already saved to db.
+ */
 function getMapValues(action, id) {
-  /**
-   *  Get values for map, edit or add.
-   *  @param {string} action to perform (optional).
-   *  @param {integer} id Map primary key on database, numeric integer.
-   *  @return {Promise} with data already saved to db.
-   **/
     return new Promise((resolve, reject) => {
         if (action === 'edit') {
           getMapConfigFromDb(id).then(configFromDb => {
@@ -221,12 +225,12 @@ function getWizard(req, res, action, id) {
                 // unpublished or removed item
                 res.status(404).send('<h1>Not found</h1>')
              }
-             if (DEBUG) console.log("THE WINNER IS*****************************************************************", values);
+             if (DEBUG) console.log("DEBUG TEMPLATE *****************************************************************", values);
              var view = {
                shortlang: shortlang,
                langname: i18n_utils.getLangName(config.languages, shortlang),
                map: values,
-               logo: config.logo,
+               logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                baseurl: localconfig.url + "/",
                sparql: config.sparql,
                languages: config.languages,
@@ -247,6 +251,11 @@ function getWizard(req, res, action, id) {
    });
 }
 
+/**
+ * Convert a Mardown string into a HTML. Used to display manuals.
+ * @param  {object} data Markdown object to be converted into a string
+ * @return {string}      result HTML string
+ */
 function manRender(data) {
     let content = md.render(data.toString());
     // adding a touch of style to images

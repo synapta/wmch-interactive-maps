@@ -13,6 +13,7 @@ const models       = require('./db/models');
 const sharp = require('sharp');
 // Local units
 const wizard = require('./units/wizard');
+const data = require('./units/data');
 // Global settings
 const config = require('./config');
 const url = require('url');
@@ -27,7 +28,7 @@ const db = require(util.format('./db/connector/%s', localconfig.database.engine)
 // var request = require('request');
 module.exports = function(app, apicache, passport) {
 
-      function generateMapPage (req, res, dbMap) {
+      function generateMapPage (req, res, dbMap, isHistory) {
         /**
          *  Detect user language and serve the page accordingly
          *  @param {object} req: request to use to find user language
@@ -53,8 +54,10 @@ module.exports = function(app, apicache, passport) {
                   shortlang: shortlang,
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   map: config.map,
+                  logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                   sparql: config.sparql,
                   languages: config.languages,
+                  isHistory: isHistory, // serve history or current page?
                   dbMap: dbMap,
                   // queryJsonStr: JSON.stringify(req.query, null, '  '),
                   i18n: function () {
@@ -77,9 +80,11 @@ module.exports = function(app, apicache, passport) {
       *  @param {object} e: JavaScript object from JSON
        *  @return {object}: JavaScript object of derived fields.
        **/
+       let tmpUrl = new URL(e.mapargs, 'http://localhost');
        return {
          href: util.format(config.mapPattern, e.path),
          title: e.title,
+         icon: tmpUrl.searchParams.get("pinIcon"),  // get pin icon classes
          screenshot: util.format(config.screenshotPattern, e.screenshot.split('/').pop()),
          star: e.star
        };
@@ -134,7 +139,7 @@ module.exports = function(app, apicache, passport) {
     // full url map route, with exposed parameters
     app.get('/m', function (req, res) {
         // temporary url, do not pass dbMap
-        generateMapPage(req, res, {});
+        generateMapPage(req, res, {}, false);
     });
 
     // convert exposed parameters to JSON to be served in /m route
@@ -147,6 +152,8 @@ module.exports = function(app, apicache, passport) {
     app.get('/s/:path', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         Map.findOne({
           where: {
             path: req.params.path,
@@ -173,9 +180,11 @@ module.exports = function(app, apicache, passport) {
     });
 
     app.get('/api/all', function (req, res) {
-        // Used for landing page, 3 elements per load, offset passed by url
+        // Used for landing page, limited elements per load, offset passed by url
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         Map.findAll({
           where: {
             published: true
@@ -199,95 +208,101 @@ module.exports = function(app, apicache, passport) {
           }
         });
     });
-
-    app.get('/api/data', apicache('5 minutes'), function (req, res) {
-
-        // encodeURIComponent(query) non necessario
-        let encodedQuery = req.query.q;
-        let jsonRes = [];
-        let arr = [];
-        let errorObj = {
-          code: 400,
-          arr: []
-        };
-        let options = {
-            url: "https://query.wikidata.org/sparql?query=" + encodedQuery,
-            headers: {
-              'Accept': 'application/json',
-              'User-Agent': 'wmch-interactive-maps'
-            }
-        };
-
-        function apiDataProcess() {
-            /**
-             *  Return array .
-             *  @return {Array}: Array of objects with parsed and enriched results from Wikidata.
-             **/
-            var oldQid;
-            var isNewQid = true;
-
-            for (let i = 0; i < arr.length; i++) {
-                if (oldQid !== arr[i].item.value && oldQid !== undefined) {
-                    isNewQid = true;
-                    jsonRes.push(obj);
-                }
-
-                if (isNewQid) {
-                    oldQid = arr[i].item.value;
-                    isNewQid = false;
-                    var obj = {};
-
-                    obj.type = "Feature";
-
-                    obj.properties = {};
-                    obj.properties.name = arr[i].itemLabel.value;
-                    obj.properties.wikidata = arr[i].item.value.replace("http://www.wikidata.org/entity/","");
-                    if (arr[i].commons !== undefined) obj.properties.commons = arr[i].commons.value;
-                    if (arr[i].website !== undefined) obj.properties.website = arr[i].website.value;
-                    if (arr[i].img !== undefined) obj.properties.image = arr[i].img.value;
-                    obj.properties.lang = [];
-                    if (arr[i].lang !== undefined) obj.properties.lang.push(arr[i].lang.value);
-
-                    obj.geometry = {};
-                    obj.geometry.type = "Point";
-
-                    let coordArray = [];
-                    coordArray.push(arr[i].coord.value.split(" ")[0].replace("Point(",""));
-                    coordArray.push(arr[i].coord.value.split(" ")[1].replace(")",""));
-                    obj.geometry.coordinates = coordArray;
-                } else {
-                    if (arr[i].lang !== undefined) obj.properties.lang.push(arr[i].lang.value);
-                    obj.properties.lang = obj.properties.lang.filter(function(elem, pos) {
-                        return obj.properties.lang.indexOf(elem) == pos;
-                    })
-                }
-
-                if (i === arr.length -1) jsonRes.push(obj);
-            }
-            return jsonRes;
+  
+    app.get('/api/timedata', apicache('5 minutes'), async function (req, res) {
+        /**
+         *  GeoJSON Features from Wikidata, with properties.time to be consumed
+         *  by Leaflet TimeDimension to display a timeline.
+         *
+         *  @return {GeoJSON string}: send JSON of past results merged with direct
+         *  Wikidata query results, inverse order (direct query before, past
+         *  after)
+         **/
+        let emptyResponse = '{"data": []}';
+        let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
+        if (sparqlJsonResult.error) {
+            // error
+            console.log('error:', sparqlJsonResult.errormsg); // Print the error if one occurred
+            res.status(sparqlJsonResult.errorcode).send(sparqlJsonResult.errormsg);
         }
+        else {
+            let now = parseInt(Math.round(new Date().getTime() / 1000));
+            console.log(now);
+            // apply now for current Query from Wikidata
+            // flag real time results to be populated with the very current time
+            // using client-side javascript (see enrichFeatures on mapdata.js)
+            for (el of sparqlJsonResult.data) {
+                // el.properties.isNow = false;
+                el.properties.time = now;
+                el.properties.current = true;
+            }
+            // sparqlJsonResult.data = [sparqlJsonResult.data.pop()];  // DEBUG
+            // Extract past results from History
+            let dbMeta = new db.Database(localconfig.database);
+            const Map = dbMeta.db.define('map', models.Map);
+            const History = dbMeta.db.define('history', models.History);
+            Map.hasMany(History); // 1 : N
+            History.belongsTo(Map);  // new property named "map" for each record
 
-        request(options, function (error, response, body) {
-            try {
-                let res = JSON.parse(body);
-                arr = res.results.bindings;
+            var historyWhere = { mapId: req.query.id };
+            if (localconfig.historyOnlyDiff) {
+                historyWhere['diff'] = true;
             }
-            catch (e) {
-                error = true;
-            }
-            if (error) {
-                // error response
-                console.log('error:', error); // Print the error if one occurred
-                res.status(errorObj.code).send(errorObj.arr);
-            }
-            else {
-                res.send(apiDataProcess());
-            }
-        });
+            History.findAll({
+              where: historyWhere,
+              include: [{
+                  model: Map,
+                  where: {
+                    published: true
+                  }
+                }
+              ],
+              order: [
+                // inverse order
+                ['createdAt', 'DESC']
+              ],
+              // offset: ???,
+              limit: localconfig.historyTimelineLimit
+            }).then(hists => {
+                if (hists) {
+                    for (hist of hists) {
+                        if (DEBUG) {
+                            console.log('mapId', hist.mapId, 'published', hist.map.published);  // DEBUG
+                        }
+                        // TODO: try / catch?
+                        let localRes = JSON.parse(hist.json);
+                        let localResData = localRes.data;
+                        for (elk of localResData) {
+                            elk.properties.time = Math.round(new Date(hist.createdAt).getTime() / 1000);
+                            sparqlJsonResult.data.push(elk);
+                            // break;  // DEBUG
+                        }
+                        // break;  // DEBUG
+                    }
+                }
+                // A) if hist > 0, send past results merged with direct Wikidata query results, inverse order
+                // B) else send only direct Wikidata query results, inverse order
+                res.send(sparqlJsonResult.data);
+            });
+        }
+    });
+
+    // for wizard & co.
+    app.get('/api/data', apicache('5 minutes'), async function (req, res) {
+        let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
+        if (sparqlJsonResult.error) {
+            // error
+            console.log('error:', sparqlJsonResult.errormsg); // Print the error if one occurred
+            res.status(sparqlJsonResult.errorcode).send(sparqlJsonResult.errormsg);
+        }
+        else {
+            res.send(sparqlJsonResult.data);
+        }
     });
     // serve JS common to frontend and backend
-    app.use('/js/',express.static('./public/js'));
     app.use('/css/',express.static('./public/css'));
+    app.use('/images/',express.static('./public/images'));
+    app.use('/js/',express.static('./public/js'));
 
     // landing page
     app.get('/', function (req, res) {
@@ -308,7 +323,7 @@ module.exports = function(app, apicache, passport) {
                 // variables to pass to Mustache to populate template
                 var view = {
                   shortlang: shortlang,
-                  logo: config.logo,
+                  logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/",
                   languages: config.languages,
@@ -348,7 +363,7 @@ module.exports = function(app, apicache, passport) {
                       // variables to pass to Mustache to populate template
                       var view = {
                         shortlang: shortlang,
-                        logo: config.logo,
+                        logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         baseurl: localconfig.url + "/",
                         languages: config.languages,
@@ -369,9 +384,9 @@ module.exports = function(app, apicache, passport) {
         });
     });
 
-    // Proxy per convertire l'url (redirect) fornito da Wikimedia in
-    // una immagine scalata. Cache: 5 minuti.
-    // apicache, espresso in millisecondi max un int 32 bit
+    // Proxy to convert (redirect) url provided by Wikimedia
+    // to a scaled image. Cache: 5 minutes.
+    // apicache, in milliseconds, has a max of int 32 bit
     // max: 2147483647 = 0.81 months
     app.get(/thumb\/(.+)$/, apicache(2147483647), function(req, res) {
       try {
@@ -400,6 +415,7 @@ module.exports = function(app, apicache, passport) {
                     const transformer = sharp()
                         .rotate()  // auto-rotate on EXIF
                         .resize(popupMaxWidth, popupMaxWidth)
+                        // .png({ interlaced: true })
                         // .crop(sharp.strategy.entropy)
                         .on('error', function(err) {
                             console.log(err);
@@ -425,6 +441,30 @@ module.exports = function(app, apicache, passport) {
     app.get('/v/:path', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        // no history needed here
+        Map.findOne({
+          where: {
+            path: req.params.path,
+            published: true
+          }
+        }).then(record => {
+          if (record) {
+              generateMapPage(req, res, models.getMapRecordAsDict(record), false);
+          }
+          else {
+              res.status(404).send('<h2>Not found</h2>');
+          }
+        });
+    });
+
+    app.get('/h/:path', function (req, res) {
+        /**
+          Display current results with past results on a timeline.
+         **/
+        let dbMeta = new db.Database(localconfig.database);
+        const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         // let path = req.url.substring(1);
         Map.findOne({
           where: {
@@ -433,10 +473,7 @@ module.exports = function(app, apicache, passport) {
           }
         }).then(record => {
           if (record) {
-              // map.get('title') will contain the name of the map
-              // res.send(record.get('title'));
-              //////// res.redirect(record.get('mapargs'));  // redirect
-              generateMapPage(req, res, models.getMapRecordAsDict(record));
+              generateMapPage(req, res, models.getMapRecordAsDict(record), true);
           }
           else {
               res.status(404).send('<h2>Not found</h2>');
@@ -483,6 +520,8 @@ module.exports = function(app, apicache, passport) {
         /** Update multiple records **/
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         let updateCount = 0;
         // Save all records
         updateRecordList(Map, req.body.records, updateCount, res);
@@ -495,6 +534,8 @@ module.exports = function(app, apicache, passport) {
     function admin_api_action_delete (req, res, published=false) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
         // soft delete (unpublish)
         console.log(req.body);
         Map.update(
@@ -531,9 +572,11 @@ module.exports = function(app, apicache, passport) {
             // load all maps data
             let dbMeta = new db.Database(localconfig.database);
             const Map = dbMeta.db.define('map', models.Map);
+            const History = dbMeta.db.define('history', models.History);
+            Map.hasMany(History); // 1 : N
             Map.findAll({
               where:  {
-                published: true  // nascondi gli elementi cancellati
+                published: true  // hide "deleted" elements
               },
               order: [
                 ['sticky', 'DESC'],
@@ -559,7 +602,7 @@ module.exports = function(app, apicache, passport) {
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         languages: config.languages,
                         credits: config.map.author,
-                        logo: config.logo,
+                        logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                         maps: maps,
                         i18n: function () {
                           return function (text, render) {

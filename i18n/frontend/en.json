@@ -1,6 +1,7 @@
 {
   "page": {
-    "title": "WMCH map service"
+    "title": "WMCH map service",
+    "subtitle": "Wikipedia articles on maps! Explore locations, check article coverage in English, German, Italian and French."
   },
   "popup": {
     "website": "Official Website",
@@ -8,13 +9,19 @@
   },
   "filter": {
     "no": "No article",
-    "one": "One article",
-    "three": "Up to three articles",
-    "four": "Four articles"
+    "one": "1 article",
+    "three": "Up to 3 articles",
+    "four": "4 articles"
   },
   "actions": {
     "back": {
       "text": "Back to home"
+    },
+    "history": {
+      "text": "Browse history"
+    },
+    "realtime": {
+      "text": "Back to real time"
     },
     "close": {
       "text": "Close"

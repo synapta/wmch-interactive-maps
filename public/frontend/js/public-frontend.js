@@ -1,4 +1,6 @@
-// Client rendering and functions for Map Wizard
+// Client rendering and functions for frontend
+var isTimeline = false;
+
 $(function() {
     // variables available to all functions inside document ready
     var prettyLabels = [
@@ -9,22 +11,6 @@ $(function() {
     ];
     var museumsList = [];
     var markers = null;
-
-    // soglia usata per determinare se dispositivo è mobile (es. x legenda)
-    var confMobileThresold = 641;
-
-    window.isMobile = function () {
-        var viewportWidth = $(window).width();
-        var viewportHeight = $(window).height();
-        if (viewportWidth < confMobileThresold) {
-            return true;
-        }
-        return false;
-    };
-
-    var hideLeafletControls = function () {
-        $(".leaflet-control").hide();
-    }
 
     var mobileDesktopLegenda = function () {
         if (isMobile()) {
@@ -42,7 +28,7 @@ $(function() {
         }
     };
 
-    var legendaUpdate = function (data) {
+    var legendaUpdate = function (data, pinIcon) {
         // get elements count for each pin
         var counterArrayByCriteria = countByFilter(data, museumsList);
         var newText = '';
@@ -52,14 +38,10 @@ $(function() {
             newText = $(this).text().replace(/(0)/g, counterArrayByCriteria[index].toString());
             $(this).text(newText);
         });
+        $('.leaflet-control-layers-overlays .icon').each(function (index) {
+          $(this).addClass(pinIcon);
+        });
     };
-
-    // On language selection:
-    $('#languages').dropdown({
-        onChange: function (value) {
-            window.location.href = "/wizard/?l=" + value;
-        }
-    });
 
 
     function loadData(options, autozoom) {
@@ -76,7 +58,8 @@ $(function() {
                 markers = new L.MarkerClusterGroup(options.cluster);
                 addMarkers(newJson, window.map, markers, options, autozoom);
                 // Aggiungi i contatori alla mappa
-                legendaUpdate(newJson);
+                legendaUpdate(newJson, options.pinIcon);
+                fancyUI();
                 // disable throbbler
                 $('#pagepop').dimmer('hide');
             }
@@ -96,7 +79,13 @@ $(function() {
         var emptyLayers = {};
         // load controls (legenda)
         for (i=0; i < prettyLabels.length; i++) {
+            // var lab = prettyLabels[i].replace(/{{iconClasses}}/g, iconClasses);
             emptyLayers[prettyLabels[i]] = new L.layerGroup().addTo(map);
+            /**
+            emptyLayers[
+              prettyLabels[i].replace(/{{iconClasses}}/g, iconClasses)
+            ] = new L.layerGroup().addTo(map);
+            **/
         }
 
         for (var index in emptyLayers) {
@@ -104,6 +93,8 @@ $(function() {
         }
         window.mapControl = L.control.layers(null, overlayMaps);
         window.mapControl.addTo(window.map);
+
+        // Execute at the very end ///////////////////////////
     }
 
     function loadmap (parsedOptions) {
@@ -141,6 +132,7 @@ $(function() {
               chunkedLoading: true  //  Boolean to split the addLayers processing in to small intervals so that the page does not freeze.
               // autoPan: false
           },
+          pinIcon: parsedOptions.pinIcon,
           sparql: parsedOptions.query,
           map: parsedOptions.map,
           pins: {}
@@ -257,6 +249,7 @@ $(function() {
         // carica la mappa nel div #wmap
         window.map = new L.Map('wmap', {
             center: new L.LatLng(parsedOptions.startLat, parsedOptions.startLng),
+            fullscreenControl: true,
             zoom: parsedOptions.zoom,
             maxZoom: parsedOptions.maxZoom,
             minZoom: parsedOptions.minZoom,
@@ -286,10 +279,9 @@ $(function() {
               }
           }
         });
-        // hide leaflet controls (used for screenshots)
-        if (window.location.search.indexOf('noControls=1') !== -1) {
-            hideLeafletControls();
-        }
+
+        // display legenda every time a popup is closed
+        window.map.on('popupclose', closePopup);
 
         $(window).resize(function() {
             mobileDesktopLegenda();
@@ -297,6 +289,7 @@ $(function() {
         mobileDesktopLegenda();
         // load data
         loadData(options, parsedOptions.autoZoom);
+
     }
 
     // default (aliased url)
@@ -316,6 +309,7 @@ $(function() {
             console.warn('Error retrieving data from url parameters');
         },
         success: function(mapOpts) {
+            // mapOpts.collapse = false;  // NW
             // console.log('Loading map');
             //  console.log(mapOpts);
             window.attribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
@@ -324,35 +318,54 @@ $(function() {
         }
     });
 
-    $('#languages').dropdown({
-        onChange: function (value) {
-            if (window.location.pathname.indexOf('/v/') === 0) {
-                window.location.href = window.location.pathname + '?l=' + value;
-            }
-        }
-    });
+    // MOVED
+    // $('#languages').dropdown({
+    //     onChange: function (value) {
+    //         if (window.location.pathname.indexOf('/v/') === 0) {
+    //             window.location.href = window.location.pathname + '?l=' + value;
+    //         }
+    //     }
+    // });
 
-    $('#back').on("click", function (e) {
-        e.preventDefault();
-        // check if l parameter exists (user define a language via dropdown / url)
-        var lang = getUrlParameter('l');
-        if (lang ? true : false) {
-            // user-defined language
-            window.location.href = '/?l=' + lang;
-        }
-        else {
-            // browser-defined language
-            window.location.href = '/';
-        }
-    });
+    // MOVED
+    // $(document).on("click", "#back", function (e) {
+    //     e.preventDefault();
+    //     // check if l parameter exists (user define a language via dropdown / url)
+    //     var lang = getUrlParameter('l');
+    //     if (lang ? true : false) {
+    //         // user-defined language
+    //         window.location.href = '/?l=' + lang;
+    //     }
+    //     else {
+    //         // browser-defined language
+    //         window.location.href = '/';
+    //     }
+    // });
 
-    $('#pagepopclose').on("click", function (e) {
-        // Hide close button
-        $('#pagepop').dimmer('hide');
-        $('#pagepopclose').hide();
-    });
+    // $('#pagepopclose').on("click", function (e) {
+    //     // Hide close button
+    //     $('#pagepop').dimmer('hide');
+    //     $('#pagepopclose').hide();
+    // });
 
     // show loader
     $('#pagepop').dimmer('show');
+
+    $(document).on("mouseout", ".leaflet-control-toggle", function (evi) {
+        evi.preventDefault();
+    });
+
+    // MOVED
+    // // go to History page
+    // $(document).on("click", "#history", function (e) {
+    //     e.preventDefault();
+    //     // check if l parameter exists (user define a language via dropdown / url)
+    //     // from [V]iew to [H]istory
+    //     window.location.href = window.location.href.replace(/\/v\//g, "/h/");
+    // });
+
+    // MOVED
+    // add arrow to #languages dropdown
+    // $("#languages .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
 
 });

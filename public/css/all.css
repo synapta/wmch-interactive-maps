@@ -6,8 +6,116 @@
     cursor: pointer;
 }
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
+#logoonmenu {
+    padding: 10px 0 4px 10px;
+}
+.map-history #wmap .awesome-marker {
+    opacity: 0.4;
+    filter: grayscale(30%);
+}
+.map-history #wmap .new-pin-on-time-marker {
+    opacity: 1;
+    /* background-color: rgba(255,255,0,0.5); */
+    z-index: 900 !important;
+    filter: grayscale(0);
+}
+.wikiregular {
+    font-weight: 400 !important;
+}
+.wikisemibold {
+    font-weight: 600 !important;
+}
+.wikibold {
+    font-weight: 700 !important;
+}
+.marginless {
+  margin: 0 !important;
+}
+.paddingless {
+  padding: 0 !important;
+}
+.uppercase {
+  text-transform: uppercase !important;
+}
+.noradius {
+  border-radius: 0px !important;
+}
+#wmap .leaflet-control-layers:not(.leaflet-control-layers-expanded) {
+    border: none;
+}
+#wmap .leaflet-control-layers-selector,
+#landing .leaflet-control-layers-selector {
+ display: inline-block;
+ float: right;
+}
+#languages .menu,
+#languagesmobile .menu {
+  z-index: 999;
+}
+/* Legenda ****************************************************************** */
+#wmap .leaflet-control.leaflet-control-layers-expanded,
+#landing .leaflet-control.leaflet-control-layers-expanded {
+  border-radius: 0;
+  border-color: #636466;
+  border-width: 1px;
+}
+#wmap .leaflet-control.leaflet-control-layers-expanded label,
+#preview .leaflet-control.leaflet-control-layers-expanded label {
+  display: block;
+  font-size: 14px;
+  padding-top: 12px;
+  padding-bottom: 9px;
+  border-style: solid;
+  border-color: #636466;
+  border-width: 0 0 1px 0;
+}
+#wmap .overlays-header,
+#preview .overlays-header {
+  display: block;
+  font-size: 14px;
+  padding-top: 0;
+  padding-bottom: 9px;
+  border-style: solid;
+  border-color: #636466;
+  border-width: 0 0 1px 0;
+}
+#wmap .overlays-header,
+#preview .overlays-header {
+  display: block;
+  font-size: 14px;
+  padding-top: 0;
+  padding-bottom: 9px;
+  border-style: solid;
+  border-color: #636466;
+  border-width: 0 0 1px 0;
+}
+#wmap .leaflet-control-layers:not(.leaflet-control-layers-expanded) .overlays-header,
+#preview .leaflet-control-layers:not(.leaflet-control-layers-expanded) .overlays-header {
+  padding-top: 10px;
+  border: none;
+}
+#wmap .leaflet-control.leaflet-control-layers label:last-child,
+#preview .leaflet-control.leaflet-control-layers label:last-child {
+  border: none;
+  padding-bottom: 0;
+}
+#wmap .leaflet-control.leaflet-control-layers-expanded,
+#preview .leaflet-control.leaflet-control-layers-expanded {
+  padding: 15px;
+}
+#wmap .overlays-header,
+#preview .overlays-header {
+  font-size: 14px;
+  font-weight: bold;
+  color: rgba(0,0,0,.87);
+}
+#wmap .leaflet-control.leaflet-control-layers-expanded .icon,
+#preview .leaflet-control.leaflet-control-layers-expanded .icon {
+  font-size: 24px;
+}
+/* ************************************************************************** */
 #wmap .popup-content,
 #preview .popup-content {
     height: auto;
@@ -116,8 +224,8 @@ body {
     list-style-type: none;
     padding: 0;
 }
-.leaflet-popup-content .popup-cover-image {
-    background-color: #416574;
+.leaflet-popup-content .popup-cover-image a {
+    /* background-color: #636466; */
     background-repat: no-repeat;
     background-position: center center;
     -webkit-background-size: cover;
@@ -137,6 +245,12 @@ body {
     height: 3rem;
 }
 #pagepop .withimage {
+  min-height: 15rem;
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif);
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+#pagepop .withimage a {
     height: 15rem;
     background-repat: no-repeat;
     background-position: center center;
@@ -157,7 +271,7 @@ body {
 }
 #wmap .legenda-label {
     padding: 0.4rem 0.3rem;
-    color: white;
+    color: #636466;
 }
 /* Modal per mobile */
 #wmap .leaflet-modal .modal-content {
@@ -212,10 +326,48 @@ body {
   font-size: 1.5rem;
   line-height: 3rem;
 }
-#logoonmenu img {
+.logo {
   width: 58px;
   height: 58px;
 }
-#logoonmenu {
-  padding: 0 0 0 1ex !important;
+#languages,
+#languagesmobile {
+  border-radius: 28px;
+  font-weight: 400;
+  font-size: 16px;
+  min-width: 184px;
+  line-height: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+#languages input,
+#languagesmobile input {
+  color: white;
+  cursor: pointer;
+}
+#languages .text,
+#languagesmobile .text {
+  cursor: pointer;
+  color: white !important;
+}
+@media (max-width: 875px) {
+  #languages,
+  #languagesmobile {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    font-size: 1rem;
+  }
+}
+/* svg clip art */
+.svg-clip-art-left-arrow {
+  position: absolute;
+  right: 30px;
+  bottom: 18px;
+}
+.svg-clip-art-down-arrow {
+  float: right;
+}
+.leaflet-control-container .button {
+  border-radius: 18px;
 }

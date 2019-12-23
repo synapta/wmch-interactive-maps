@@ -7,6 +7,11 @@
     "port": 3306,
     "dialectOptions": {"connectTimeout": 1000}
   },
+  "renameToLogo": "rename this key to logo to override config.logo",
+  "cronTime": "0 */10 * * * *",
+  "msCronWaitWikidata": 10000,
+  "historyTimelineLimit": 52,
+  "historyOnlyDiff": true,
   "debug": false,
   "url": "http://example.org",
   "internalUrl": "http://localhost:9089"
