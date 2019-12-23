@@ -8,7 +8,10 @@
 }
 /* removable class for screenshot */
 #wmap.with-largefooter {
-  height: calc(100% - 77px);
+ height: calc(100% - 167px);
+}
+#wmap .leaflet-control-zoom {
+  margin-top: calc(100vh - 340px);
 }
 #frontend h1 {
   color: #0065A4;
@@ -26,12 +29,17 @@
   z-index: 1001;
 }
 /* Media queries */
+@media (min-width: 768px) {
+  #wmap.with-largefooter {
+    height: calc(100% - 77px);
+  }
+  #wmap .leaflet-control-zoom {
+    margin-top: calc(100vh - 230px);
+  }
+}
 @media (max-width: 640px) {
   .leaflet-control-attribution {
       bottom: 38px;
-  }
-  #wmap .leaflet-control-zoom {
-    margin-top: calc(100vh - 310px);
   }
 }
 @media (min-width: 641px) and (min-height: 481px) {
@@ -47,9 +55,6 @@
     }
     #wmap .leaflet-popup-content dt {
         font-size: 17px;
-    }
-    #wmap .leaflet-control-zoom {
-      margin-top: calc(100vh - 230px);
     }
 }
 #wmap .popup-cover-image {
