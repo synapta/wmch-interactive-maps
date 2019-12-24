@@ -24,3 +24,12 @@ SELECT ?item ?itemLabel ?coord ?commons ?website ?img ?lang ?langcode
             }
           ORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord) ASC(?commons) DESC(?website) ASC(?img)
 ~~~
+
+Order criteria are:
+
+1. ?langcode	ASC
+2. ?lang	ASC
+3. ?coord	DESC  (prefer more decimals if truncated)
+4. ?commons 	ASC
+5. ?website	DESC    (prefer https over http)
+6. ?img	ASC
