@@ -214,7 +214,7 @@ body {
 #preview a.leaflet-popup-close-button:hover,
 #preview a.leaflet-popup-close-button:focus,
 #preview a.leaflet-popup-close-button:active {
-    font-size: 36px;
+    font-size: 24px;
     color: white;
     padding-right: 30px;
     top: 8px;
@@ -288,7 +288,7 @@ body {
     position: absolute;
     right: 0;
     z-index: 10001;
-    font-size: 36px;
+    font-size: 24px;
     color: white;
     opacity: 1;
 }

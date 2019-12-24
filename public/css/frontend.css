@@ -51,7 +51,7 @@
 }
 @media (min-width: 641px) {
     #wmap .popup-title {
-        font-size: 36px;
+        font-size: 24px;
     }
     #wmap .leaflet-popup-content dt {
         font-size: 17px;
