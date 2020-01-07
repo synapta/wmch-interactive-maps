@@ -274,12 +274,14 @@ module.exports = function(app, apicache) {
                     if (DEBUG) {
                         console.log('mapId', hist.mapId, 'published', hist.map.published);  // DEBUG
                     }
-                    // TODO: try / catch?
-                    let localRes = JSON.parse(hist.json);
-                    let localResData = localRes.data;
-                    for (elk of localResData) {
-                        elk.properties.time = Math.round(new Date(hist.createdAt).getTime() / 1000);
-                        sparqlResultsArray.push(elk);
+                    // Ignore broken records, but keep them in History table
+                    if (!hist.error) {
+                        let localRes = JSON.parse(hist.json);
+                        let localResData = localRes.data;
+                        for (elk of localResData) {
+                            elk.properties.time = Math.round(new Date(hist.createdAt).getTime() / 1000);
+                            sparqlResultsArray.push(elk);
+                        }
                     }
                 }
             }
