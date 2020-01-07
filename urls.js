@@ -179,8 +179,13 @@ module.exports = function(app, apicache, passport) {
         wizard.cuMap(req, res, 'add');
     });
 
+    /**
+     * Used for landing page, limited elements per load, offset passed by url.
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return {[type]}     [description]
+     */
     app.get('/api/all', function (req, res) {
-        // Used for landing page, limited elements per load, offset passed by url
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
         const History = dbMeta.db.define('history', models.History);
@@ -209,85 +214,79 @@ module.exports = function(app, apicache, passport) {
         });
     });
 
+    /**
+     * GeoJSON Features from Wikidata, with properties.time to be consumed
+     * by Leaflet TimeDimension to display a timeline.
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return {GeoJSON string}     send JSON of past results merged with direct
+     * Wikidata query results, inverse order (direct query before, past after)
+     */
     app.get('/api/timedata', apicache('5 minutes'), async function (req, res) {
-        /**
-         *  GeoJSON Features from Wikidata, with properties.time to be consumed
-         *  by Leaflet TimeDimension to display a timeline.
-         *
-         *  @return {GeoJSON string}: send JSON of past results merged with direct
-         *  Wikidata query results, inverse order (direct query before, past
-         *  after)
-         **/
-        let emptyResponse = '{"data": []}';
-        let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
-        if (sparqlJsonResult.error) {
-            // error
-            console.log('error:', sparqlJsonResult.errormsg); // Print the error if one occurred
-            res.status(sparqlJsonResult.errorcode).send(sparqlJsonResult.errormsg);
+        // Reuse previous (cached) query
+        let sparqlResultsArray = await data.getJSONfromInternalUrl("/api/data", req);
+        let now = parseInt(Math.round(new Date().getTime() / 1000));
+        console.log(now);
+        // apply now for current Query from Wikidata
+        // flag real time results to be populated with the very current time
+        // using client-side javascript (see enrichFeatures on mapdata.js)
+        for (el of sparqlResultsArray) {
+            el.properties.time = now;
+            el.properties.current = true;
         }
-        else {
-            let now = parseInt(Math.round(new Date().getTime() / 1000));
-            console.log(now);
-            // apply now for current Query from Wikidata
-            // flag real time results to be populated with the very current time
-            // using client-side javascript (see enrichFeatures on mapdata.js)
-            for (el of sparqlJsonResult.data) {
-                // el.properties.isNow = false;
-                el.properties.time = now;
-                el.properties.current = true;
-            }
-            // sparqlJsonResult.data = [sparqlJsonResult.data.pop()];  // DEBUG
-            // Extract past results from History
-            let dbMeta = new db.Database(localconfig.database);
-            const Map = dbMeta.db.define('map', models.Map);
-            const History = dbMeta.db.define('history', models.History);
-            Map.hasMany(History); // 1 : N
-            History.belongsTo(Map);  // new property named "map" for each record
+        // Extract past results from History
+        let dbMeta = new db.Database(localconfig.database);
+        const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
+        History.belongsTo(Map);  // new property named "map" for each record
 
-            var historyWhere = { mapId: req.query.id };
-            if (localconfig.historyOnlyDiff) {
-                historyWhere['diff'] = true;
+        var historyWhere = { mapId: req.query.id };
+        if (localconfig.historyOnlyDiff) {
+            historyWhere['diff'] = true;
+        }
+        History.findAll({
+          where: historyWhere,
+          include: [{
+              model: Map,
+              where: {
+                published: true
+              }
             }
-            History.findAll({
-              where: historyWhere,
-              include: [{
-                  model: Map,
-                  where: {
-                    published: true
-                  }
-                }
-              ],
-              order: [
-                // inverse order
-                ['createdAt', 'DESC']
-              ],
-              // offset: ???,
-              limit: localconfig.historyTimelineLimit
-            }).then(hists => {
-                if (hists) {
-                    for (hist of hists) {
-                        if (DEBUG) {
-                            console.log('mapId', hist.mapId, 'published', hist.map.published);  // DEBUG
-                        }
-                        // TODO: try / catch?
-                        let localRes = JSON.parse(hist.json);
-                        let localResData = localRes.data;
-                        for (elk of localResData) {
-                            elk.properties.time = Math.round(new Date(hist.createdAt).getTime() / 1000);
-                            sparqlJsonResult.data.push(elk);
-                            // break;  // DEBUG
-                        }
-                        // break;  // DEBUG
+          ],
+          order: [
+            // inverse order
+            ['createdAt', 'DESC']
+          ],
+          // offset: ???,
+          limit: localconfig.historyTimelineLimit
+        }).then(hists => {
+            if (hists) {
+                for (hist of hists) {
+                    if (DEBUG) {
+                        console.log('mapId', hist.mapId, 'published', hist.map.published);  // DEBUG
+                    }
+                    // TODO: try / catch?
+                    let localRes = JSON.parse(hist.json);
+                    let localResData = localRes.data;
+                    for (elk of localResData) {
+                        elk.properties.time = Math.round(new Date(hist.createdAt).getTime() / 1000);
+                        sparqlResultsArray.push(elk);
                     }
                 }
-                // A) if hist > 0, send past results merged with direct Wikidata query results, inverse order
-                // B) else send only direct Wikidata query results, inverse order
-                res.send(sparqlJsonResult.data);
-            });
-        }
+            }
+            // A) if hist > 0, send past results merged with direct Wikidata query results, inverse order
+            // B) else send only direct Wikidata query results, inverse order
+            res.send(sparqlResultsArray);
+        });
     });
 
-    // for wizard & co.
+    /**
+     * Real-time results.
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return {GeoJSON string}
+     */
     app.get('/api/data', apicache('5 minutes'), async function (req, res) {
         let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
         if (sparqlJsonResult.error) {

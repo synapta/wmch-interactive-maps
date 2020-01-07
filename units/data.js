@@ -1,4 +1,7 @@
-const request = require('request');
+const util        = require('util');
+const request     = require('request');
+const dbinit      = require('../db/init');
+const localconfig = dbinit.init();
 
 /**
  * Get values for map, edit or add.
@@ -125,4 +128,28 @@ function getJSONfromQuery(encodedQuery, caller) {
     });
 }
 
+/**
+ * Return an object containing the converted JSON result on route with req parameters
+ * @param  {[type]} route route to call
+ * @param  {[type]} req   Express request object
+ * @return {[type]}       Object
+ */
+function getJSONfromInternalUrl(route, previousReq) {
+    return new Promise((resolve, reject) => {
+        let options = {
+            // re-encode component decoded by express, @see http://expressjs.com/en/api.html#req
+            url: util.format("%s/api/data/?q=%s", localconfig.url, encodeURIComponent(previousReq.query.q)),
+            headers: {
+              'Accept': 'application/json',
+              'User-Agent': 'wmch-interactive-maps'
+            }
+        };
+        request(options, function (error, response, body) {
+            // results are already parsed in previous call (only wikidataResult.data returned)
+            resolve(JSON.parse(body));
+        });
+    });
+}
+
 exports.getJSONfromQuery = getJSONfromQuery;
+exports.getJSONfromInternalUrl = getJSONfromInternalUrl;
