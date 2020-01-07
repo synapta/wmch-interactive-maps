@@ -130,15 +130,13 @@ function getJSONfromQuery(encodedQuery, caller) {
 
 /**
  * Return an object containing the converted JSON result on route with req parameters
- * @param  {[type]} route route to call
- * @param  {[type]} req   Express request object
- * @return {[type]}       Object
+ * @param  {string} encodedQuery Wikidata query
+ * @return {Promise}       Array with results
  */
-function getJSONfromInternalUrl(route, previousReq) {
+function getJSONfromInternalUrl(encodedQuery) {
     return new Promise((resolve, reject) => {
         let options = {
-            // re-encode component decoded by express, @see http://expressjs.com/en/api.html#req
-            url: util.format("%s/api/data/?q=%s", localconfig.url, encodeURIComponent(previousReq.query.q)),
+            url: util.format("%s/api/data/?q=", localconfig.url) + encodedQuery,
             headers: {
               'Accept': 'application/json',
               'User-Agent': 'wmch-interactive-maps'

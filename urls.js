@@ -231,17 +231,8 @@ module.exports = function(app, apicache) {
      * Wikidata query results, inverse order (direct query before, past after)
      */
     app.get('/api/timedata', apicache('5 minutes'), async function (req, res) {
-        // Reuse previous (cached) query
-        let sparqlResultsArray = await data.getJSONfromInternalUrl("/api/data", req);
         let now = parseInt(Math.round(new Date().getTime() / 1000));
         console.log(now);
-        // apply now for current Query from Wikidata
-        // flag real time results to be populated with the very current time
-        // using client-side javascript (see enrichFeatures on mapdata.js)
-        for (el of sparqlResultsArray) {
-            el.properties.time = now;
-            el.properties.current = true;
-        }
         // Extract past results from History
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
@@ -249,6 +240,17 @@ module.exports = function(app, apicache) {
         Map.hasMany(History); // 1 : N
         History.belongsTo(Map);  // new property named "map" for each record
 
+        // Reuse previous (cached) query
+        let sparqlResultsArray = await data.getJSONfromInternalUrl(req.query.q);
+        // apply now for current Query from Wikidata
+        // flag real time results to be populated with the very current time
+        // using client-side javascript (see enrichFeatures on mapdata.js)
+        for (el of sparqlResultsArray) {
+            el.properties.time = now;
+            el.properties.current = true;
+        }
+
+        // make query for old results on History
         var historyWhere = { mapId: req.query.id };
         if (localconfig.historyOnlyDiff) {
             historyWhere['diff'] = true;
