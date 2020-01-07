@@ -86,10 +86,13 @@ function diffResult2dict(diffResult) {
  * @return {object}                object without .postProcess field
  */
 function removePostProcess(wikidataResult) {
-   for (ob of wikidataResult.data) {
-      delete ob.postProcess;
-   }
-   return wikidataResult;
+    // return as is if structure is invalid
+    if (wikidataResult && !wikidataResult.error) {
+        for (ob of wikidataResult.data) {
+            delete ob.postProcess;
+        }
+    }
+    return wikidataResult;
 }
 
 /**
