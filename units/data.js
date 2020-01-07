@@ -136,7 +136,7 @@ function getJSONfromQuery(encodedQuery, caller) {
 function getJSONfromInternalUrl(encodedQuery) {
     return new Promise((resolve, reject) => {
         let options = {
-            url: util.format("%s/api/data/?q=", localconfig.url) + encodedQuery,
+            url: util.format("%s/api/data/?q=", localconfig.internalUrl) + encodedQuery,
             headers: {
               'Accept': 'application/json',
               'User-Agent': 'wmch-interactive-maps'
