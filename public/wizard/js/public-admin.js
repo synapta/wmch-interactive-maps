@@ -203,5 +203,10 @@ $(function() {
     });
 
 
+    // add arrow to #languages dropdown
+    $("#languages .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
+    $("#languagesmobile .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
+
+
 
 });
