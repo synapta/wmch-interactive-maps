@@ -22,11 +22,8 @@ const localconfig = dbinit.init();
 const DEBUG = localconfig.debug ? localconfig.debug : false;
 // connect to db
 const db = require(util.format('./db/connector/%s', localconfig.database.engine));
-// const puppeteer = require("puppeteer");
-// launch browser on node launch
 
-// var request = require('request');
-module.exports = function(app, apicache, passport) {
+module.exports = function(app, apicache) {
 
       function generateMapPage (req, res, dbMap, isHistory) {
         /**
@@ -74,12 +71,12 @@ module.exports = function(app, apicache, passport) {
         });
     }
 
+    /**
+     * Return exposable fields from database.
+     * @param  {Object} e JavaScript object from JSON
+     * @return {Object}   JavaScript object of derived fields.
+     */
     function exposeMap(e) {
-      /**
-       *  Return exposable fields from database.
-      *  @param {object} e: JavaScript object from JSON
-       *  @return {object}: JavaScript object of derived fields.
-       **/
        let tmpUrl = new URL(e.mapargs, 'http://localhost');
        return {
          href: util.format(config.mapPattern, e.path),
@@ -91,6 +88,12 @@ module.exports = function(app, apicache, passport) {
     }
 
     // TODO: reuse wizard.getMapValues ??
+    /**
+     * Convert querystring ?q=ENCODED into an options JSON
+     * @param  {Express response} res
+     * @param  {string} enrichedQuery SPARQL query
+     * @return An Express send with the response will be sent.
+     */
     function querystring2json (res, enrichedQuery) {
         models.booleanize(enrichedQuery);
         enrichedQuery.currentStyle = false;
@@ -174,8 +177,13 @@ module.exports = function(app, apicache, passport) {
     });
 
 
+    /**
+     * Save the map to database (add)
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return An Express send with a redirect to new map (or error message) will be sent.
+     */
     app.get('/wizard/generate', async function (req, res) {
-        /** Save the map to database (add) **/
         wizard.cuMap(req, res, 'add');
     });
 
@@ -303,7 +311,12 @@ module.exports = function(app, apicache, passport) {
     app.use('/images/',express.static('./public/images'));
     app.use('/js/',express.static('./public/js'));
 
-    // landing page
+    /**
+     * Display Landing page
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return Express send with HTML.
+     */
     app.get('/', function (req, res) {
         fs.readFile(util.format('%s/public/frontend/index.html', __dirname), function (err, fileData) {
             if (err) {
@@ -388,6 +401,14 @@ module.exports = function(app, apicache, passport) {
     // to a scaled image. Cache: 5 minutes.
     // apicache, in milliseconds, has a max of int 32 bit
     // max: 2147483647 = 0.81 months
+    /**
+     * Proxy to convert (redirect) url provided by Wikimedia to a scaled image
+     * with long cache. Module apicache has a max of int 32 bit milliseconds
+     * max: 2147483647 = 0.81 months
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return Express send binary, scaled and EXIF-rotated image.
+     */
     app.get(/thumb\/(.+)$/, apicache(2147483647), function(req, res) {
       try {
             var popupMaxWidth = 480;
@@ -437,7 +458,13 @@ module.exports = function(app, apicache, passport) {
         }
     });
 
-    // do not cache (multilingual)
+    /**
+     * Serve Real-time map page (HTML) based on query on req (e.g. /v/slug).
+     * Do not cache (multilingual).
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return Express send HTML.
+     */
     app.get('/v/:path', function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
@@ -457,10 +484,15 @@ module.exports = function(app, apicache, passport) {
         });
     });
 
+    /**
+     * Serve History timeline map page (HTML). Display current results with past
+     * results on a timeline (HTML) based on req (e.g. /v/slug).
+     * Do not cache (multilingual).
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return Express send HTML.
+     */
     app.get('/h/:path', function (req, res) {
-        /**
-          Display current results with past results on a timeline.
-         **/
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
         const History = dbMeta.db.define('history', models.History);
@@ -481,16 +513,16 @@ module.exports = function(app, apicache, passport) {
         });
     });
 
+    /**
+     * Update a list of records an pop one after another until it's consumed.
+     * Then send a response with the outcome.
+     * @param  {object} sequelizeModel sequelize model
+     * @param  {array} records        list of records
+     * @param  {integer} count          updated record count
+     * @param  {Express response} res            response object from Express
+     * @return Express send the outcome (an Object with updateNumer: COUNT)
+     */
     function updateRecordList(sequelizeModel, records, count, res) {
-      /**
-       *  Update a list of records an pop one after another until it's consumed.
-       *  Then send a response.
-       *
-       *  @param {object} sequelizeModel: sequelize model
-       *  @param {array} records: list of records
-       *  @param {integer} count: updated record count
-       *  @param {object} res: response object from Express
-       **/
         let record = records.pop();
         if (record) {
             sequelizeModel.update(
@@ -550,6 +582,12 @@ module.exports = function(app, apicache, passport) {
     // Enable json for express (to get req.body to work)
     app.use(express.json());
 
+    /**
+     * Internal admin API to C-U- (not Read, not real Delete) maps.
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return {[type]}     [description]
+     */
     app.put('/admin/api/:action', function (req, res) {
         let fun = eval('admin_api_action_' + req.params.action);
         try {
@@ -561,6 +599,12 @@ module.exports = function(app, apicache, passport) {
         }
     });
 
+    /**
+     * Admin pages, listing all available maps.
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return Express send of HTML.
+     */
     app.get('/admin', async function (req, res) {
         // [ 'it', 'it-IT', 'en-US', 'en' ]
         // console.log(req.acceptsLanguages()[0]);
