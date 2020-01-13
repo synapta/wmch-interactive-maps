@@ -1,4 +1,4 @@
-// Client rendering and functions for frontend
+// Client rendering and functions for frontend (Real-time)
 var isTimeline = false;
 
 $(function() {

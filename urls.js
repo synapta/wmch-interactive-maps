@@ -14,6 +14,7 @@ const sharp = require('sharp');
 // Local units
 const wizard = require('./units/wizard');
 const data = require('./units/data');
+const diff = require('./units/diff');
 // Global settings
 const config = require('./config');
 const url = require('url');
@@ -230,8 +231,11 @@ module.exports = function(app, apicache) {
      * @return {GeoJSON string}     send JSON of past results merged with direct
      * Wikidata query results, inverse order (direct query before, past after)
      */
-    app.get('/api/timedata', apicache('5 minutes'), async function (req, res) {
-        let now = parseInt(Math.round(new Date().getTime() / 1000));
+    app.get('/api/timedata', apicache('30 minutes'), async function (req, res) {
+        // all results from all timeshot and real-time, merged together
+        let sparqlResultsArray = [];
+        // let now = parseInt(Math.round(new Date().getTime() / 1000));
+        let now = new Date().getTime();
         console.log(now);
         // Extract past results from History
         let dbMeta = new db.Database(localconfig.database);
@@ -239,16 +243,7 @@ module.exports = function(app, apicache) {
         const History = dbMeta.db.define('history', models.History);
         Map.hasMany(History); // 1 : N
         History.belongsTo(Map);  // new property named "map" for each record
-
-        // Reuse previous (cached) query
-        let sparqlResultsArray = await data.getJSONfromInternalUrl(req.query.q);
-        // apply now for current Query from Wikidata
-        // flag real time results to be populated with the very current time
-        // using client-side javascript (see enrichFeatures on mapdata.js)
-        for (el of sparqlResultsArray) {
-            el.properties.time = now;
-            el.properties.current = true;
-        }
+        let sparqlJsonResultsArray = [];  // all results
 
         // make query for old results on History
         var historyWhere = { mapId: req.query.id };
@@ -265,31 +260,59 @@ module.exports = function(app, apicache) {
             }
           ],
           order: [
-            // inverse order
-            ['createdAt', 'DESC']
+            ['createdAt', 'ASC']
           ],
           // offset: ???,
           limit: localconfig.historyTimelineLimit
-        }).then(hists => {
+        }).then(async hists => {
+            // store all timeshot date from all Histories for this map
+            let allTimes = [];
             if (hists) {
-                for (hist of hists) {
+                // Past timeshots //////////////////////////////////////////////
+                for (histInd in hists) {
+                    let hist = hists[histInd];
                     if (DEBUG) {
-                        console.log('mapId', hist.mapId, 'published', hist.map.published);  // DEBUG
+                        console.log('mapId', hist.mapId, 'published', hist.map.published, 'histInd (array)', histInd);  // DEBUG
                     }
                     // Ignore broken records, but keep them in History table
                     if (!hist.error) {
                         let localRes = JSON.parse(hist.json);
                         let localResData = localRes.data;
-                        for (elk of localResData) {
-                            elk.properties.time = Math.round(new Date(hist.createdAt).getTime() / 1000);
-                            sparqlResultsArray.push(elk);
+                        // times accepts a) An array of times (in milliseconds)
+                        // @see https://github.com/socib/Leaflet.TimeDimension#options
+                        let thisHistoryTime = new Date(hist.createdAt).getTime();
+                        for (elkInd in localResData) {
+                            let elk = localResData[elkInd];
+                            // add only if is changed compared to before record OR is first History element (to use with intersect / union on TimeDimension)
+                            if (elk.hasOwnProperty('postProcess')) {
+                                elk.properties.times = [thisHistoryTime];
+                                sparqlResultsArray.push(elk);
+                            }
+                            // add when different from previous record
+                            if (!allTimes.length || thisHistoryTime !== allTimes[allTimes.length - 1]) {
+                                // run only on first element of histories
+                                allTimes.push(thisHistoryTime);
+                            }
                         }
+                        // isFirstFoundHistory = false;
                     }
                 }
+
             }
-            // A) if hist > 0, send past results merged with direct Wikidata query results, inverse order
-            // B) else send only direct Wikidata query results, inverse order
-            res.send(sparqlResultsArray);
+            // now as last time in array
+            allTimes.push(now);
+            // Real-time data ////////////////////////////////////////////////
+            // Reuse previous (cached) query from previous screen
+            let sparqlResultsRealtimeArray = await data.getJSONfromInternalUrl(req.query.q);
+            // apply now for current Query from Wikidata
+            // flag real time results to be populated with the very current time
+            // using client-side javascript (see enrichFeatures on mapdata.js)
+            for (el of sparqlResultsRealtimeArray) {
+                // el.properties.time = now;
+                el.properties.times = allTimes;
+                el.properties.current = true;
+            }
+            res.send(sparqlResultsArray.concat(sparqlResultsRealtimeArray));
         });
     });
 

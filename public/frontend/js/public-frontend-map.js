@@ -1,4 +1,4 @@
-// Client rendering and functions for Public Map Frontend
+// Client rendering and functions for Public Map Frontend (History)
 
 // shortest duration possibile (get all data, do not aggregate)
 var historyTimelineDuration = "PT1S";
@@ -26,12 +26,14 @@ L.TimeDimension.Layer.timedGeoJSON = L.TimeDimension.Layer.GeoJson.extend({
         if (feature.properties.hasOwnProperty('coordTimes')) {
             return feature.properties.coordTimes;
         }
+        // used to display History
         if (feature.properties.hasOwnProperty('times')) {
             return feature.properties.times;
         }
         if (feature.properties.hasOwnProperty('linestringTimestamps')) {
             return feature.properties.linestringTimestamps;
         }
+        // used to display Real-time
         if (feature.properties.hasOwnProperty('time')) {
             return [feature.properties.time * 1000];
         }
@@ -72,12 +74,12 @@ $(function() {
     var legendaTimeUpdate = function (pinIcon, forceIndex) {
         // get elements count for each pin
         $('.legenda-label').each(function (index) {
-            var currentTimeInSeconds = window.map.timeDimension.getCurrentTime() / 1000;
+            // var currentTimeInSeconds = window.map.timeDimension.getCurrentTime() / 1000;
             // l'ordine di visualizzazione della legenda è il medesimo
             // dell'ordine dei dati nell'array countByFilter
             var components = $(this).text().split('(');
-            // seconds to milliseconds
-            var countersIndex = ((typeof forceIndex === 'undefined') ? currentTimeInSeconds.toString() : forceIndex);
+            // keep milliseconds
+            var countersIndex = ((typeof forceIndex === 'undefined') ? window.map.timeDimension.getCurrentTime().toString() : forceIndex);
             var newText = components[0] + '(' + countersByTime[
               countersIndex
             ][index] + ')';
@@ -90,18 +92,6 @@ $(function() {
 
         // add class for changed markers
         $(".new-pin-on-time:visible").parent().addClass("new-pin-on-time-marker");
-
-        // semplice
-        // $(".new-pin-on-time:visible").parent().css("background-color", "rgba(255,255,0,0.5)");
-        // $(".new-pin-on-time:visible").parent().css("z-index", "800");
-
-        // non funzionante
-        // $(".new-pin-on-time:visible").parent().effect("bounce", {times: 2}, 300);
-
-        // decentrato
-        // $(".new-pin-on-time:visible").parent().css("padding", "40px");
-        // $(".new-pin-on-time:visible").parent().css("border-radius", "60px");
-        // $(".new-pin-on-time:visible").parent().css("background-color", "rgba(255,255,0,0.5)");
 
     };
 
@@ -269,7 +259,7 @@ $(function() {
                         overlayMaps[visibleName] = L.timeDimension.layer.timedGeojson(geoJsonLayer , {
                             addlastPoint: false,
                             updateTimeDimension: true,
-                            updateTimeDimensionMode: 'replace',
+                            updateTimeDimensionMode: 'intersect',   // MODIFICA QUI, union o intersect
                             // same of Map > timeDimensionOptions > period
                             duration: historyTimelineDuration
                         });

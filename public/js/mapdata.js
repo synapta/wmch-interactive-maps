@@ -78,14 +78,30 @@ var enrichFeatures = function (features) {
             feature.properties.counters
         );
         if (isTimeline) {
-            currentTimeKey = feature.properties.time.toString();
-            if (!countersByTime.hasOwnProperty(currentTimeKey)) {
-                countersByTime[currentTimeKey] = [];
-                for (i=0; i < markerAvailableColors.length; i++) {
-                    countersByTime[currentTimeKey].push(0);
+            // if Real-time, times are expressed in properties.time in seconds (number)
+            if (feature.properties.hasOwnProperty('time')) {
+              currentTimeKey = feature.properties.time.toString();
+              if (!countersByTime.hasOwnProperty(currentTimeKey)) {
+                  countersByTime[currentTimeKey] = [];
+                  for (i=0; i < markerAvailableColors.length; i++) {
+                      countersByTime[currentTimeKey].push(0);
+                  }
+              }
+              countersByTime[currentTimeKey][markerAvailableColors.indexOf(feature.properties.pin.color)] += 1;
+            }
+            // if History, times are expressed in properties.times as Array of milliseconds (Array)
+            if (feature.properties.hasOwnProperty('times')) {
+                for (jjj = 0; jjj < feature.properties.times.length; jjj++) {
+                    currentTimeKey = feature.properties.times[jjj].toString();
+                    if (!countersByTime.hasOwnProperty(currentTimeKey)) {
+                        countersByTime[currentTimeKey] = [];
+                        for (i=0; i < markerAvailableColors.length; i++) {
+                            countersByTime[currentTimeKey].push(0);
+                        }
+                    }
+                    countersByTime[currentTimeKey][markerAvailableColors.indexOf(feature.properties.pin.color)] += 1;
                 }
             }
-            countersByTime[currentTimeKey][markerAvailableColors.indexOf(feature.properties.pin.color)] += 1;
         }
         // if (j % 3 == 0) {  // debug
             // console.log(feature);
