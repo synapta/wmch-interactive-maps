@@ -212,7 +212,7 @@ $(function() {
                     function getExtraClasses(feat) {
                         var extraClasses = "";
                         if (typeof feat.postProcess !== 'undefined') {
-                            console.log(typeof feat.postProcess['diff']);
+                            // console.log(typeof feat.postProcess['diff']);
                             if (typeof feat.postProcess['diff'] !== 'undefined') {
                                 return " new-pin-on-time";
                             }
