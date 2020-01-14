@@ -12,6 +12,7 @@ if (argv['nosentry']) {
 }
 const util       = require('util');
 // external dependencies ///////////////////////////////////////////////////////
+const compression = require('compression');
 const express      = require('express');
 const apicache     = require('apicache').options({ debug: false }).middleware;
 const morgan       = require('morgan');
@@ -23,6 +24,9 @@ const port = parseInt(argv.port ? argv.port : "8080");
 // connect to db
 const db = require(util.format('./db/connector/%s', localconfig.database.engine));
 const models       = require('./db/models');
+
+// compress all responses @see https://www.npmjs.com/package/compression#examples
+app.use(compression());
 
 //NEXT TWO LINES FOR READ BODY FROM POST
 app.use(morgan('common'));

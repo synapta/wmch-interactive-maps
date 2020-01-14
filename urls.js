@@ -231,9 +231,12 @@ module.exports = function(app, apicache) {
      * @return {GeoJSON string}     send JSON of past results merged with direct
      * Wikidata query results, inverse order (direct query before, past after)
      */
-    app.get('/api/timedata', apicache('30 minutes'), async function (req, res) {
+    // apicache('30 minutes'),
+    app.get('/api/timedata', async function (req, res) {
         // all results from all timeshot and real-time, merged together
         let sparqlResultsArray = [];
+        let sparqlResultsFirstShotArray = [];
+        let sparqlResultsChangedDuplicatesArray = [];
         // let now = parseInt(Math.round(new Date().getTime() / 1000));
         let now = new Date().getTime();
         console.log(now);
@@ -265,11 +268,65 @@ module.exports = function(app, apicache) {
           // offset: ???,
           limit: localconfig.historyTimelineLimit
         }).then(async hists => {
+            /**
+             * Get only the times an element isn't changed.
+             * It's used to avoid duplicates pin when element change and to display
+             * correct counters.
+             * @param  {Object} el Object from JSON, to get Wikidata id
+             * @param  {[type]} changedTimes [description]
+             * @param  {[type]} allTimes     [description]
+             * @return {Array}    array of unchanged times
+             */
+            function getOnlyUnchangedTimes (el, changedTimes, allTimes) {
+                let unchangedTimes = [];
+                // previously stored changed times
+                let ct = changedTimes[el.properties.wikidata];
+                if (typeof ct !== 'undefined') {
+                    // get difference between all stored times from history
+                    //  and changed times
+                    for (at of allTimes) {
+                        if (ct.indexOf(at) === -1) {
+                            unchangedTimes.push(at);
+                        }
+                        else {
+                            // do not collect anymore unchangedTimes if is changed
+                            // new result will be kept from now on
+                            break;
+                        }
+                    }
+                    console.log(el.properties.wikidata);
+                                    console.log(unchangedTimes);
+                    return unchangedTimes;
+                }
+                else {
+                    // this pin is never changed in History
+                    return allTimes;
+                }
+            }
+
+            function getOnlyNextTimes(el, changedTimes, allTimes) {
+                let ct = changedTimes[el.properties.wikidata];
+                let allTimeStartInd = allTimes.indexOf(el.properties.times[0]);
+                // TODO: exclude elements changed another time later! duplicates in this case!
+                return allTimes.slice(allTimeStartInd + 1);
+            }
+
             // store all timeshot date from all Histories for this map
             let allTimes = [];
-            if (hists) {
+            let changedTimes = {};
+
+            // copy first valid timeshot History
+            let n;
+            for (n = 0; n < hists.length; n++) {
+                if (!hists[n].error) {
+                    sparqlResultsFirstShotArray = JSON.parse(hists[0].json).data;
+                    break;
+                }
+            }
+            // get only differences between sparqlResultsFirstShotArray and other Histories
+            if (hists.slice(n+1)) {
                 // Past timeshots //////////////////////////////////////////////
-                for (histInd in hists) {
+                for (histInd in hists.slice(n+1)) {
                     let hist = hists[histInd];
                     if (DEBUG) {
                         console.log('mapId', hist.mapId, 'published', hist.map.published, 'histInd (array)', histInd);  // DEBUG
@@ -287,32 +344,61 @@ module.exports = function(app, apicache) {
                             if (elk.hasOwnProperty('postProcess')) {
                                 elk.properties.times = [thisHistoryTime];
                                 sparqlResultsArray.push(elk);
+                                // save a map with wikidata id and changed times for later use
+                                if (typeof changedTimes[elk.properties.wikidata] === 'undefined') {
+                                    changedTimes[elk.properties.wikidata] = [];
+                                }
+                                changedTimes[elk.properties.wikidata].push(thisHistoryTime);
                             }
-                            // add when different from previous record
+                            // add to global time array when time is different from previous record
                             if (!allTimes.length || thisHistoryTime !== allTimes[allTimes.length - 1]) {
                                 // run only on first element of histories
                                 allTimes.push(thisHistoryTime);
                             }
                         }
-                        // isFirstFoundHistory = false;
                     }
                 }
 
             }
             // now as last time in array
             allTimes.push(now);
+            // first results: assign times only if are unchanged on all timeshots
+            for (fstel of sparqlResultsFirstShotArray) {
+                // el.properties.time = now;
+                fstel.properties.times = getOnlyUnchangedTimes(fstel, changedTimes, allTimes);
+            }
+            // create an array with old items changed at least one time, to be displayed as circle
+
+            // TODO:
+            for (htel of sparqlResultsArray) {
+                let newObj = JSON.parse(JSON.stringify(htel));
+                // display as a circle, removing postProcess
+                delete newObj.postProcess;
+                // get times after the change and create a new record with it
+                newObj.properties.times = getOnlyNextTimes(htel, changedTimes, allTimes);
+                console.log(newObj);
+                sparqlResultsChangedDuplicatesArray.push(newObj);
+            }
+            // sparqlResultsChangedDuplicatesArray = [];  // XXX DEBUG
+            // console.log(sparqlResultsChangedDuplicatesArray);
+            //
+            //
+            //
             // Real-time data ////////////////////////////////////////////////
             // Reuse previous (cached) query from previous screen
-            let sparqlResultsRealtimeArray = await data.getJSONfromInternalUrl(req.query.q);
+            // let sparqlResultsRealtimeArray = await data.getJSONfromInternalUrl(req.query.q);
             // apply now for current Query from Wikidata
             // flag real time results to be populated with the very current time
             // using client-side javascript (see enrichFeatures on mapdata.js)
-            for (el of sparqlResultsRealtimeArray) {
-                // el.properties.time = now;
-                el.properties.times = allTimes;
-                el.properties.current = true;
-            }
-            res.send(sparqlResultsArray.concat(sparqlResultsRealtimeArray));
+            // for (rtel of sparqlResultsRealtimeArray) {
+            //     // el.properties.time = now;
+            //     rtel.properties.times = getOnlyUnchangedTimes(rtel, changedTimes, allTimes);
+            //     rtel.properties.current = true;
+            // }
+            ////// res.send(sparqlResultsArray.concat(sparqlResultsRealtimeArray));
+
+            // output: First results [circle], all results of changed elements first time changed [pin], changed in the past [circle]
+            res.send(sparqlResultsFirstShotArray.concat(sparqlResultsArray).concat(sparqlResultsChangedDuplicatesArray));
         });
     });
 
