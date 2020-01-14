@@ -277,31 +277,25 @@ module.exports = function(app, apicache) {
              * @param  {[type]} allTimes     [description]
              * @return {Array}    array of unchanged times
              */
-            function getOnlyUnchangedTimes (el, changedTimes, allTimes) {
-                let unchangedTimes = [];
+            function getTimesBeforeFirstChange (el, changedTimes, allTimes) {
                 // previously stored changed times
-                let ct = changedTimes[el.properties.wikidata];
-                if (typeof ct !== 'undefined') {
-                    // get difference between all stored times from history
-                    //  and changed times
-                    for (at of allTimes) {
-                        if (ct.indexOf(at) === -1) {
-                            unchangedTimes.push(at);
-                        }
-                        else {
-                            // do not collect anymore unchangedTimes if is changed
-                            // new result will be kept from now on
-                            break;
-                        }
-                    }
-                    console.log(el.properties.wikidata);
-                                    console.log(unchangedTimes);
-                    return unchangedTimes;
+                let elChangedTimes = changedTimes[el.properties.wikidata];
+                let unchangedTimes = [];
+                if (typeof elChangedTimes !== 'undefined') {
+                    let allTimeEndInd = allTimes.indexOf(elChangedTimes[0]);
+                    unchangedTimes = allTimes.slice(0, allTimeEndInd);
                 }
                 else {
-                    // this pin is never changed in History
-                    return allTimes;
+                    // never changed
+                    unchangedTimes = allTimes;
                 }
+                // DEBUG
+                // if (DEBUG && elChangedTimes && el.properties.wikidata === 'Q3825655') {
+                //     console.log('allTimes', allTimes);
+                //     console.log('elChangedTimes', elChangedTimes);
+                //     console.log('unchangedTimes', unchangedTimes);
+                // }
+                return unchangedTimes;
             }
 
             /**
@@ -335,7 +329,7 @@ module.exports = function(app, apicache) {
                     // from allTimeStartInd on
                     : allTimes.length;
                     // DEBUG
-                    // if (el.properties.wikidata === 'Q15953347') {
+                    // if (el.properties.wikidata === 'Q3825655') {
                     //     console.log('allTimes', allTimes);
                     //     console.log('elChangedTimes', elChangedTimes);
                     //     console.log('changeTimeNext', changeTimeNext);
@@ -359,7 +353,8 @@ module.exports = function(app, apicache) {
             let n;
             for (n = 0; n < hists.length; n++) {
                 if (!hists[n].error) {
-                    sparqlResultsFirstShotArray = JSON.parse(hists[0].json).data;
+                    sparqlResultsFirstShotArray = JSON.parse(hists[n].json).data;
+                    console.log('First timeshot is id: ' + hists[n].id);
                     break;
                 }
             }
@@ -369,7 +364,7 @@ module.exports = function(app, apicache) {
                 for (histInd in hists.slice(n+1)) {
                     let hist = hists[histInd];
                     if (DEBUG) {
-                        console.log('mapId', hist.mapId, 'published', hist.map.published, 'histInd (array)', histInd);  // DEBUG
+                        console.log('id', hist.id, 'mapId', hist.mapId, 'published', hist.map.published, 'histInd (array)', histInd);  // DEBUG
                     }
                     // Ignore broken records, but keep them in History table
                     if (!hist.error) {
@@ -403,9 +398,9 @@ module.exports = function(app, apicache) {
             // now as last time in array
             // allTimes.push(now);
             // first results: assign times only if are unchanged on all timeshots
-            for (fstel of sparqlResultsFirstShotArray) {
+            for (fstelInd in sparqlResultsFirstShotArray) {
                 // el.properties.time = now;
-                fstel.properties.times = getOnlyUnchangedTimes(fstel, changedTimes, allTimes);
+                sparqlResultsFirstShotArray[fstelInd].properties.times = getTimesBeforeFirstChange(sparqlResultsFirstShotArray[fstelInd], changedTimes, allTimes);
             }
             // create an array with old items changed at least one time, to be displayed as circle
 
