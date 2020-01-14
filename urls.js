@@ -304,11 +304,51 @@ module.exports = function(app, apicache) {
                 }
             }
 
+            /**
+             * Get dates where a GeoJSON record will be available as circle,
+             * after it was displayed as pin.
+             * @param  {Object} el           Object from JSON element
+             * @param  {Array} changedTimes  Array of milliseconds integers
+             * about when the object is changed in timeshots
+             * @param  {Array} allTimes     all times from History
+             * @return {Array}              Array populated with milliseconds
+             * where a circle will be displayed.
+             * Empty array if element will not be displayed as circle.
+             */
             function getOnlyNextTimes(el, changedTimes, allTimes) {
-                let ct = changedTimes[el.properties.wikidata];
-                let allTimeStartInd = allTimes.indexOf(el.properties.times[0]);
-                // TODO: exclude elements changed another time later! duplicates in this case!
-                return allTimes.slice(allTimeStartInd + 1);
+                // when new element should be available as Circle on map?
+                let allTimeStartInd = 1 + allTimes.indexOf(el.properties.times[0]);
+                if (typeof allTimes[allTimeStartInd] !== 'undefined') {
+                    // get all times the element is changed
+                    let elChangedTimes = changedTimes[el.properties.wikidata];
+                    // get the index inside the changedTimes array
+                    let changeTimeInd = elChangedTimes.indexOf(el.properties.times[0]);
+                    // get the next changed element time value in milliseconds
+                    let changeTimeNext = elChangedTimes[changeTimeInd + 1];
+                    // calculate the last available time for this item
+                    // to be displayed as circle
+                    let allTimeEndInd = typeof changeTimeNext !== 'undefined'
+                    // If out of array, slice returns
+                    // an empty array
+                    ? allTimes.indexOf(changeTimeNext)
+                    // never changed after, keep all records
+                    // from allTimeStartInd on
+                    : allTimes.length;
+                    // DEBUG
+                    // if (el.properties.wikidata === 'Q15953347') {
+                    //     console.log('allTimes', allTimes);
+                    //     console.log('elChangedTimes', elChangedTimes);
+                    //     console.log('changeTimeNext', changeTimeNext);
+                    //     console.log('allTimeStartInd', allTimeStartInd);
+                    //     console.log('allTimeEndInd', allTimeEndInd);
+                    //     console.log('slice: ',  allTimes.slice(allTimeStartInd, allTimeEndInd));
+                    // }
+                    return allTimes.slice(allTimeStartInd, allTimeEndInd);
+                }
+                else {
+                    // never available, is already the last element
+                    return [];
+                }
             }
 
             // store all timeshot date from all Histories for this map
@@ -361,7 +401,7 @@ module.exports = function(app, apicache) {
 
             }
             // now as last time in array
-            allTimes.push(now);
+            // allTimes.push(now);
             // first results: assign times only if are unchanged on all timeshots
             for (fstel of sparqlResultsFirstShotArray) {
                 // el.properties.time = now;
@@ -376,8 +416,10 @@ module.exports = function(app, apicache) {
                 delete newObj.postProcess;
                 // get times after the change and create a new record with it
                 newObj.properties.times = getOnlyNextTimes(htel, changedTimes, allTimes);
-                console.log(newObj);
-                sparqlResultsChangedDuplicatesArray.push(newObj);
+                // it should be available in the future? If no times specified, no (last element of timeshots)
+                if (newObj.properties.times.length) {
+                    sparqlResultsChangedDuplicatesArray.push(newObj);
+                }
             }
             // sparqlResultsChangedDuplicatesArray = [];  // XXX DEBUG
             // console.log(sparqlResultsChangedDuplicatesArray);
