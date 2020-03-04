@@ -817,6 +817,8 @@ module.exports = function(app, apicache) {
         });
     });
 
-
+    app.get('/k/:path', (req, res) => {
+        res.sendFile(util.format('%s/public/kepler/index.html', __dirname));
+    });
 
 }
