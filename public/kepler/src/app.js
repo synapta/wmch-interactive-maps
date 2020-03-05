@@ -36,9 +36,9 @@ import {addDataToMap} from 'kepler.gl/actions';
 // Kepler.gl Data processing APIs
 import Processors from 'kepler.gl/processors';
 
-import positron from './map_style/positron.json';
+import MAP_STYLES from './map_styles';
 
-console.log(positron);
+console.log(MAP_STYLES);
 
 // const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
 // const MAPBOX_TOKEN = 'pk.eyJ1IjoiZnJhbmNlc2NvY3JldHRpIiwiYSI6ImNrNzNtZHllcDBkZXMzZG1zcmFzMXJtMHQifQ.f4OEnS23dbLKKFrJudClhA'; // eslint-disable-line
@@ -78,8 +78,7 @@ class App extends Component {
       id: "customStyle",
       label: "Custom style",
       url: "http://localhost:9000/styles/osm-bright/style.json",
-      style: positron,
-      icon: ""
+      style: MAP_STYLES.darkMatter
     }));
 
     this.props.dispatch(addCustomMapStyle())
