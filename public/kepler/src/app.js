@@ -29,19 +29,17 @@ import KeplerGl from 'kepler.gl';
 
 // data
 // import nycTrips from './data/nyc-trips.csv';
+import wmchTest from './data/framap-test.csv';
 import swissMuseums from './data/swiss-museums.json';
 
 // Kepler.gl actions
-import {inputMapStyle} from 'kepler.gl/actions';
-import {addCustomMapStyle} from 'kepler.gl/actions';
-import {addDataToMap} from 'kepler.gl/actions';
+import {inputMapStyle, addCustomMapStyle, addDataToMap, updateMap} from 'kepler.gl/actions';
 
 // Kepler.gl Data processing APIs
 import Processors from 'kepler.gl/processors';
 
 import MAP_STYLES from './map_styles';
 
-console.log(MAP_STYLES);
 
 // const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
 // const MAPBOX_TOKEN = 'pk.eyJ1IjoiZnJhbmNlc2NvY3JldHRpIiwiYSI6ImNrNzNtZHllcDBkZXMzZG1zcmFzMXJtMHQifQ.f4OEnS23dbLKKFrJudClhA'; // eslint-disable-line
@@ -61,25 +59,29 @@ class App extends Component {
   componentDidMount() {
 
     // Use processCsvData helper to convert csv file into kepler.gl structure {fields, rows}
-    // const data = Processors.processCsvData(nycTrips);
+    const wmchTestData = Processors.processCsvData(wmchTest);
+    // console.log(wmchTestData);
     const data = Processors.processGeojson(swissMuseums);
     // Create dataset structure
     const dataset = {
-      data,
+      wmchTestData,
       info: {
         // `info` property are optional, adding an `id` associate with this dataset makes it easier
         // to replace it later
-        id: 'swissMuseumsData'
+        id: 'test_data'
       }
     };
     // addDataToMap action to inject dataset into kepler.gl instance
     this.props.dispatch(addDataToMap({
-      datasets: dataset,
+      datasets: {},
       options: {
-        centerMap: true,
-        readOnly: false
+        centerMap: false,
+        readOnly: true
       }
     }));
+
+    // set switzerland on center
+    this.props.dispatch(updateMap({latitude: 46.5302175253001, longitude: 7.655025992403368, zoom: 7.3420833731326685}));
 
     // inputMapStyle action to inject dataset into kepler.gl instance
     this.props.dispatch(inputMapStyle({
