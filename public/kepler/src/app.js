@@ -19,6 +19,9 @@
 // THE SOFTWARE.
 
 import React, {Component} from 'react';
+
+import ButtonsPanel from './components/buttons.js';
+
 import {connect} from 'react-redux';
 
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
@@ -45,6 +48,11 @@ console.log(MAP_STYLES);
 const MAPBOX_TOKEN = ''; // eslint-disable-line
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.changeBaseMapStyle = this.changeBaseMapStyle.bind(this);
+  }
   /*
    * Da @link https://it.reactjs.org/docs/state-and-lifecycle.html
    * Il metodo componentDidMount() viene eseguito dopo che l’output del
@@ -78,15 +86,31 @@ class App extends Component {
       id: "customStyle",
       label: "Custom style",
       url: "http://localhost:9000/styles/osm-bright/style.json",
-      style: MAP_STYLES.darkMatter
+      style: MAP_STYLES.find(style => style.name === 'bright').config
     }));
 
-    this.props.dispatch(addCustomMapStyle())
+    this.props.dispatch(addCustomMapStyle());
   }
+
+  changeBaseMapStyle(e) {
+    const styleName = e.target.dataset.style;
+    const mapStyle = MAP_STYLES.find(style => style.name === styleName).config;
+
+    this.props.dispatch(inputMapStyle({
+      style: mapStyle
+    }));
+
+    this.props.dispatch(addCustomMapStyle());
+  };
+
 
   render() {
     return (
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
+        <ButtonsPanel
+        mapStyles={MAP_STYLES}
+        clickHandler={this.changeBaseMapStyle}
+        />,
         <AutoSizer>
           {({height, width}) => (
             <KeplerGl
