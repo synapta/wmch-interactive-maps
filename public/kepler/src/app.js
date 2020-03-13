@@ -22,15 +22,23 @@ import React, {Component} from 'react';
 
 import ButtonsPanel from './components/buttons.js';
 
+
+// d3 csv request and parse
+import {text} from 'd3-fetch';
+
 import {connect} from 'react-redux';
 
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import KeplerGl from 'kepler.gl';
 
 // data
-// import nycTrips from './data/nyc-trips.csv';
+import nycTrips from './data/nyc-trips.csv';
 import wmchTest from './data/framap-test.csv';
 import swissMuseums from './data/swiss-museums.json';
+
+// config
+// import layerNYConfig from './data/nyc-config.json';
+import layerConfig from './data/wmch-config.json';
 
 // Kepler.gl actions
 import {inputMapStyle, addCustomMapStyle, addDataToMap, updateMap} from 'kepler.gl/actions';
@@ -51,37 +59,43 @@ class App extends Component {
 
     this.changeBaseMapStyle = this.changeBaseMapStyle.bind(this);
   }
+
   /*
    * Da @link https://it.reactjs.org/docs/state-and-lifecycle.html
    * Il metodo componentDidMount() viene eseguito dopo che l’output del
    * componente è stato renderizzato nel DOM.
    */
-  componentDidMount() {
+  async componentDidMount() {
+    // fetch raw csv data from API
+    const rawCsvData = await text("/proxy/test");
 
     // Use processCsvData helper to convert csv file into kepler.gl structure {fields, rows}
-    const wmchTestData = Processors.processCsvData(wmchTest);
-    // console.log(wmchTestData);
-    const data = Processors.processGeojson(swissMuseums);
+    const wmchTestData = Processors.processCsvData(rawCsvData);
+    // const nycTripsData = Processors.processCsvData(nycTrips);
+    // const data = Processors.processGeojson(swissMuseums);
+
     // Create dataset structure
     const dataset = {
-      wmchTestData,
+      data: wmchTestData,
       info: {
         // `info` property are optional, adding an `id` associate with this dataset makes it easier
         // to replace it later
-        id: 'test_data'
+        id: 'wmch_data'
       }
     };
+
     // addDataToMap action to inject dataset into kepler.gl instance
     this.props.dispatch(addDataToMap({
-      datasets: {},
+      datasets: dataset,
+      config: layerConfig,
       options: {
-        centerMap: false,
+        centerMap: true,
         readOnly: true
       }
     }));
 
-    // set switzerland on center
-    this.props.dispatch(updateMap({latitude: 46.5302175253001, longitude: 7.655025992403368, zoom: 7.3420833731326685}));
+    // set switzerland on center (included in layer config)
+    // this.props.dispatch(updateMap({latitude: 46.5302175253001, longitude: 7.655025992403368, zoom: 7.3420833731326685}));
 
     // inputMapStyle action to inject dataset into kepler.gl instance
     this.props.dispatch(inputMapStyle({
@@ -103,7 +117,7 @@ class App extends Component {
     }));
 
     this.props.dispatch(addCustomMapStyle());
-  };
+  }
 
 
   render() {

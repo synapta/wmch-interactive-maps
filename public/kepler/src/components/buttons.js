@@ -18,7 +18,7 @@ const panelStyle = {
   position: 'absolute',
   zIndex: 100,
   bottom: 0,
-  right: 0,
+  left: 0,
   margin:'30px',
   display: 'flex'
 };
