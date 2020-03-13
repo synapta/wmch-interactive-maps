@@ -821,4 +821,9 @@ module.exports = function(app, apicache) {
         res.sendFile(util.format('%s/public/kepler/index.html', __dirname));
     });
 
+    app.get('/proxy/:file', (req, res) => {
+        res.setHeader('Content-Type', 'text/csv');
+        res.sendFile(util.format('%s/csv_proxy/wmch-map.csv', __dirname));
+    });
+
 }
