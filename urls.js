@@ -826,4 +826,39 @@ module.exports = function(app, apicache) {
         res.sendFile(util.format('%s/csv_proxy/wmch-map.csv', __dirname));
     });
 
+    app.get('/api/data/map/:mapname', function (req, res) {
+        const mariadb = require('mariadb');
+        const pool = mariadb.createPool({
+            host: 'localhost',
+            database: localconfig.database.name,
+            user: localconfig.database.username,
+            port: localconfig.database.port,
+            password: localconfig.database.password,
+            connectionLimit: 5
+        });
+
+        const seed = "select d.* from maps m, `data` d where m.`path` = '" +
+                     req.params.mapname + "' and d.map_id  = m.id";
+
+        console.log(seed)
+
+        pool.getConnection()
+            .then(conn => {
+              conn.query(seed)
+                .then((rows) => {
+                    res.send(rows);
+                })
+                .catch(err => {
+                  //handle error
+                  console.log(err);
+                  res.status(500).send('<h2>Server Error</h2>');
+                  conn.end();
+                  pool.end();
+                })
+            }).catch(err => {
+                console.log(err);
+                res.status(500).send('<h2>Server Error</h2>');
+            });
+    });
+
 }
