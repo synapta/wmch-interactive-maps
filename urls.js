@@ -837,8 +837,10 @@ module.exports = function(app, apicache) {
             connectionLimit: 5
         });
 
-        const seed = "select d.* from maps m, `data` d where m.`path` = '" +
-                     req.params.mapname + "' and d.map_id  = m.id";
+        const seed = "select max(h.createdAt) as timestamp, d.name, d.wikidata, d.commons, d.website, d.image, d.link_en, d.link_fr, d.link_de, d.link_fr, d.link_it, d.link_tot_count, d.lat, d.lon\
+        from maps m, histories h, data d\
+        where m.`path` = '" + req.params.mapname + "'  and d.map_id  = m.id and d.id_history = h.id\
+        group by d.name, d.wikidata, d.commons, d.website, d.image, d.link_en, d.link_fr, d.link_de, d.link_fr, d.link_it, d.link_tot_count, d.lat, d.lon";
 
         console.log(seed)
 
