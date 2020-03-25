@@ -67,10 +67,15 @@ class App extends Component {
    */
   async componentDidMount() {
     // fetch raw csv data from API
-    const rawCsvData = await text("/proxy/test");
+    // const rawCsvData = await text("/proxy/test");
+    // console.log(rawCsvData);
+
+    const rawCsvData = await text("/api/data/map/swiss-museums");
+    // console.log(rawCsvData);
 
     // Use processCsvData helper to convert csv file into kepler.gl structure {fields, rows}
     const wmchTestData = Processors.processCsvData(rawCsvData);
+    console.log(wmchTestData);
     // const nycTripsData = Processors.processCsvData(nycTrips);
     // const data = Processors.processGeojson(swissMuseums);
 
