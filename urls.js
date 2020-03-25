@@ -6,6 +6,7 @@ const Sequelize = require('sequelize');
 const Mustache = require('mustache');
 const i18next = require('i18next');
 const request = require('request');
+const { parse } = require('json2csv');
 // Custom functions for internationalization
 const i18n_utils = require('./i18n/utils');
 const dbinit       = require('./db/init');
@@ -848,7 +849,11 @@ module.exports = function(app, apicache) {
             .then(conn => {
               conn.query(seed)
                 .then((rows) => {
-                    res.send(rows);
+                    const csv = convertToCsv(rows);
+                    // res.send(rows);
+                    res.setHeader('Content-Type', 'text/csv');
+                    res.write(csv);
+                    res.end();
                 })
                 .catch(err => {
                   //handle error
@@ -862,5 +867,35 @@ module.exports = function(app, apicache) {
                 res.status(500).send('<h2>Server Error</h2>');
             });
     });
+
+    function convertToCsv(rows) {
+      // test with first 10 rows
+      const testData = rows.slice(0, 1000);
+      // console.log(test);
+      try {
+        const csvOpts = {
+          fields: [
+            "name",
+            "wikidata",
+            "commons",
+            "website",
+            "image",
+            // "link_commons",
+            "link_de",
+            "link_en",
+            "link_fr",
+            "link_tot_count",
+            "lon",
+            "lat",
+            "timestamp"
+          ]
+        };
+        return parse(testData, csvOpts);
+      } catch (err) {
+        return err;
+      }
+    }
+
+
 
 }
