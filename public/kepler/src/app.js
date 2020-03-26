@@ -50,8 +50,8 @@ import MAP_STYLES from './map_styles';
 
 
 // const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
-// const MAPBOX_TOKEN = 'pk.eyJ1IjoiZnJhbmNlc2NvY3JldHRpIiwiYSI6ImNrNzNtZHllcDBkZXMzZG1zcmFzMXJtMHQifQ.f4OEnS23dbLKKFrJudClhA'; // eslint-disable-line
-const MAPBOX_TOKEN = ''; // eslint-disable-line
+const MAPBOX_TOKEN = 'pk.eyJ1IjoiZnJhbmNlc2NvY3JldHRpIiwiYSI6ImNrNzNtZHllcDBkZXMzZG1zcmFzMXJtMHQifQ.f4OEnS23dbLKKFrJudClhA'; // eslint-disable-line
+// const MAPBOX_TOKEN = ''; // eslint-disable-line
 
 class App extends Component {
   constructor(props) {
