@@ -69,8 +69,10 @@ class App extends Component {
     // fetch raw csv data from API
     // const rawCsvData = await text("/proxy/test");
     // console.log(rawCsvData);
+    //
+    const pathName = window.location.pathname.split('/').pop();
 
-    const rawCsvData = await text("/api/data/map/swiss-museums");
+    const rawCsvData = await text(`/api/data/map/${pathName}`);
     // console.log(rawCsvData);
 
     // Use processCsvData helper to convert csv file into kepler.gl structure {fields, rows}
