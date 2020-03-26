@@ -7,6 +7,8 @@ const Mustache = require('mustache');
 const i18next = require('i18next');
 const request = require('request');
 const { parse } = require('json2csv');
+const { paix } = require('paix');
+const CryptoJS = require("crypto-js");
 // Custom functions for internationalization
 const i18n_utils = require('./i18n/utils');
 const dbinit       = require('./db/init');
@@ -824,10 +826,11 @@ module.exports = function(app, apicache) {
 
     app.get('/proxy/:file', (req, res) => {
         res.setHeader('Content-Type', 'text/csv');
-        res.sendFile(util.format('%s/csv_proxy/wmch-map.csv', __dirname));
+        res.sendFile(util.format('%s/csv_proxy/wmch-map-small.csv', __dirname));
     });
 
     app.get('/api/data/map/:mapname', function (req, res) {
+      console.log('test');
         const mariadb = require('mariadb');
         const pool = mariadb.createPool({
             host: 'localhost',
@@ -849,7 +852,12 @@ module.exports = function(app, apicache) {
             .then(conn => {
               conn.query(seed)
                 .then((rows) => {
-                    const csv = convertToCsv(rows);
+                    const withThumbnails = rows.map(obj => {
+                      obj.image = obj.image ? getThumbnailUrl(obj.image.split('/').pop(), 300) : obj.image;
+                      return obj;
+                    });
+                    const mapped = withThumbnails.map(obj => paix(obj, { image: '<img>' , link_tot_count: 'languages' }));
+                    const csv = convertToCsv(mapped);
                     // res.send(rows);
                     res.setHeader('Content-Type', 'text/csv');
                     res.write(csv);
@@ -868,9 +876,20 @@ module.exports = function(app, apicache) {
             });
     });
 
+    function fixedEncodeURIComponent(str) {
+    	return encodeURIComponent(str).replace(/[!'()*]/g, c => '%' + c.charCodeAt(0).toString(16));
+    }
+
+    function getThumbnailUrl(fileName, sizeInPixel) {
+      const decodedFileName = decodeURIComponent(fileName).replace(/ /g, '_');
+      const baseUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb";
+      const hash = CryptoJS.MD5(decodedFileName).toString(CryptoJS.enc.Hex);
+      return baseUrl + "/" + hash.substring(0, 1) + "/" + hash.substring(0, 2) + "/" + fixedEncodeURIComponent(decodedFileName).replace(/%25C3%25/g, "%C3%") + "/" + sizeInPixel.toString() + "px-thumbnail.jpg";
+    }
+
     function convertToCsv(rows) {
       // test with first 10 rows
-      const testData = rows.slice(0, 1000);
+
       // console.log(test);
       try {
         const csvOpts = {
@@ -879,18 +898,18 @@ module.exports = function(app, apicache) {
             "wikidata",
             "commons",
             "website",
-            "image",
+            "<img>",
             // "link_commons",
             "link_de",
             "link_en",
             "link_fr",
-            "link_tot_count",
+            "languages",
             "lon",
             "lat",
             "timestamp"
           ]
         };
-        return parse(testData, csvOpts);
+        return parse(rows, csvOpts);
       } catch (err) {
         return err;
       }
