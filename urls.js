@@ -852,11 +852,12 @@ module.exports = function(app, apicache) {
             .then(conn => {
               conn.query(seed)
                 .then((rows) => {
-                    const withThumbnails = rows.map(obj => {
+                    const processed = rows.map(obj => {
+                      obj.link_tot_count ? obj.link_tot_count : 0;
                       obj.image = obj.image ? getThumbnailUrl(obj.image.split('/').pop(), 300) : obj.image;
                       return obj;
                     });
-                    const mapped = withThumbnails.map(obj => paix(obj, { image: '<img>' , link_tot_count: 'languages' }));
+                    const mapped = processed.map(obj => paix(obj, { image: '<img>' , link_tot_count: 'languages' }));
                     const csv = convertToCsv(mapped);
                     // res.send(rows);
                     res.setHeader('Content-Type', 'text/csv');
