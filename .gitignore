@@ -71,3 +71,7 @@ localconfig.json
 
 # ignore package-lock
 package-lock.json
+
+# webpack bundles
+public/js/kepler.bundle.js
+public/js/kepler.bundle.js.map
