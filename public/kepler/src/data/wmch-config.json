@@ -5,12 +5,12 @@
       "filters": [
         {
           "dataId": "wmch_data",
-          "id": "01474zmz5",
+          "id": "sv4soada6",
           "name": "timestamp",
           "type": "timeRange",
           "value": [
-            1578743525000,
-            1578916325000
+            1577184724000,
+            1579553525000
           ],
           "enlarged": true,
           "plotType": "histogram",
@@ -23,7 +23,7 @@
           "type": "point",
           "config": {
             "dataId": "wmch_data",
-            "label": "new layer",
+            "label": "Musemus",
             "color": [
               23,
               184,
@@ -32,27 +32,27 @@
             ],
             "columns": {
               "lat": "lat",
-              "lng": "long",
+              "lng": "lon",
               "altitude": null
             },
             "isVisible": true,
             "visConfig": {
-              "radius": 10,
+              "radius": 23,
               "fixedRadius": false,
               "opacity": 0.8,
-              "outline": false,
+              "outline": true,
               "thickness": 2,
               "colorRange": {
-                "name": "Uber Viz Diverging 1.5",
-                "type": "diverging",
-                "category": "Uber",
+                "name": "ColorBrewer Dark2-6",
+                "type": "qualitative",
+                "category": "ColorBrewer",
                 "colors": [
-                  "#00939C",
-                  "#5DBABF",
-                  "#BAE1E2",
-                  "#F8C0AA",
-                  "#DD7755",
-                  "#C22E00"
+                  "#1b9e77",
+                  "#d95f02",
+                  "#7570b3",
+                  "#e7298a",
+                  "#66a61e",
+                  "#e6ab02"
                 ],
                 "reversed": false
               },
@@ -79,33 +79,31 @@
           },
           "visualChannels": {
             "colorField": {
-              "name": "link_count",
+              "name": "languages",
               "type": "integer"
             },
             "colorScale": "quantile",
-            "sizeField": {
-              "name": "link_count",
-              "type": "integer"
-            },
-            "sizeScale": "sqrt"
+            "sizeField": null,
+            "sizeScale": "linear"
           }
         }
       ],
       "interactionConfig": {
         "tooltip": {
           "fieldsToShow": {
-            "my_data": [
+            "wmch_data": [
               "name",
+              "languages",
               "wikidata",
               "commons",
               "website",
-              "image"
+              "<img>"
             ]
           },
           "enabled": true
         },
         "brush": {
-          "size": 0.5,
+          "size": 26.3,
           "enabled": false
         }
       },
@@ -115,13 +113,14 @@
     "mapState": {
       "bearing": 0,
       "dragRotate": false,
-      "latitude": 46.5302175253001,
-      "longitude": 7.655025992403368,
+      "latitude": 46.809272892961886,
+      "longitude": 8.084883527836968,
       "pitch": 0,
-      "zoom": 7.3420833731326685,
+      "zoom": 7.105685890459816,
       "isSplit": false
     },
     "mapStyle": {
+      "styleType": "customStyle",
       "topLayerGroups": {},
       "visibleLayerGroups": {},
       "mapStyles": {}
