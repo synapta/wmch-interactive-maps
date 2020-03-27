@@ -86,15 +86,39 @@ Port and dialectOptions can be omitted, getting the default values above.
 
 [Reference for MariaDB](http://docs.sequelizejs.com/manual/usage.html#mariadb)
 
+## Run a local tileserver
+
+Run a tileserver in order to serve tiles to KeplerGL map.
+We suggest to run [TileServerGL](https://github.com/maptiler/tileserver-gl) via Docker.
+
+First download Switzerland **OpenStreetMap vector tiles** from [OpenMapTiles](https://openmaptiles.com/downloads/europe/switzerland/).
+
+Then, from the directory with the downloaded tiles (`.mbtiles`) run:
+
+`docker run --rm -it -v $(pwd):/data -p 9000:80 klokantech/tileserver-gl`
+
+> IMPORTANT: run on port `9000`
+
+
+More info [here](https://openmaptiles.org/docs/host/tileserver-gl/)
+
+## Build the frontend
+To build React-based components of the project (such as Kepler.gl) we use [Webpack](https://webpack.js.org/)
+as module bundler and [Babel](https://babeljs.io/) as JavaScript transpiler to
+ensure compatibility with older browsers.
+
+`npm run build`
+
+
 ## Run the webservice
 
 The webservice app exposes the website locally on the specified port using [Express](https://expressjs.com/).
 
-`node app.js`
+`node app.js` or `npm start`
 
 15 Mar 10:46:25 - WMCH Interactive maps listening at http://:::8080
 
-`node app.js --port 9089`
+`node app.js --port 9089` or `npm start -- --port=9089`
 
 15 Mar 10:46:31 - WMCH Interactive maps listening at http://:::9089
 
