@@ -830,7 +830,7 @@ module.exports = function(app, apicache) {
     });
 
     app.get('/api/data/map/:mapname', function (req, res) {
-      console.log('test');
+
         const mariadb = require('mariadb');
         const pool = mariadb.createPool({
             host: 'localhost',
@@ -846,12 +846,13 @@ module.exports = function(app, apicache) {
         where m.`path` = '" + req.params.mapname + "'  and d.map_id  = m.id and d.id_history = h.id\
         group by d.name, d.wikidata, d.commons, d.website, d.image, d.link_en, d.link_fr, d.link_de, d.link_fr, d.link_it, d.link_tot_count, d.lat, d.lon";
 
-        console.log(seed)
+        // console.log(seed)
 
         pool.getConnection()
             .then(conn => {
               conn.query(seed)
                 .then((rows) => {
+                    // TODO add placeholder when img in not present ?
                     const processed = rows.map(obj => {
                       obj.link_tot_count ? obj.link_tot_count : 0;
                       obj.image = obj.image ? getThumbnailUrl(obj.image.split('/').pop(), 300) : obj.image;
@@ -889,9 +890,6 @@ module.exports = function(app, apicache) {
     }
 
     function convertToCsv(rows) {
-      // test with first 10 rows
-
-      // console.log(test);
       try {
         const csvOpts = {
           fields: [
@@ -915,7 +913,6 @@ module.exports = function(app, apicache) {
         return err;
       }
     }
-
 
 
 }
