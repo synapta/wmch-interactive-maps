@@ -40,7 +40,8 @@ const customKeplerReducer = keplerGlReducer.initialState({
   },
   uiState: {
     readOnly: true,
-    centerMap: true
+    centerMap: true,
+    currentModal: null
   }
 });
 
