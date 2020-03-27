@@ -89,7 +89,7 @@ Port and dialectOptions can be omitted, getting the default values above.
 ## Run a local tileserver
 
 Run a tileserver in order to serve tiles to KeplerGL map.
-We suggest to run [TileServerGL](https://github.com/maptiler/tileserver-gl) via Docker.
+We suggest to run [TileServerGL](https://github.com/maptiler/tileserver-gl) via [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/).
 
 First download Switzerland **OpenStreetMap vector tiles** from [OpenMapTiles](https://openmaptiles.com/downloads/europe/switzerland/).
 
