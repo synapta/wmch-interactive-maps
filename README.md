@@ -95,7 +95,7 @@ First download Switzerland **OpenStreetMap vector tiles** from [OpenMapTiles](ht
 
 Then, from the directory with the downloaded tiles (`.mbtiles`) run:
 
-`docker run --rm -it -v $(pwd):/data -p 9000:80 klokantech/tileserver-gl`
+`docker run --rm -it -v $(pwd):/data -p 127.0.0.1:9000:80 klokantech/tileserver-gl`
 
 > IMPORTANT: run on port `9000`
 
