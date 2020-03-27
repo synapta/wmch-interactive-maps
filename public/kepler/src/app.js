@@ -31,13 +31,7 @@ import {connect} from 'react-redux';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import KeplerGl from 'kepler.gl';
 
-// data
-import nycTrips from './data/nyc-trips.csv';
-import wmchTest from './data/framap-test.csv';
-import swissMuseums from './data/swiss-museums.json';
-
 // config
-// import layerNYConfig from './data/nyc-config.json';
 import layerConfig from './data/wmch-config.json';
 
 // Kepler.gl actions
@@ -48,10 +42,8 @@ import Processors from 'kepler.gl/processors';
 
 import MAP_STYLES from './map_styles';
 
-
 // const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
-const MAPBOX_TOKEN = 'pk.eyJ1IjoiZnJhbmNlc2NvY3JldHRpIiwiYSI6ImNrNzNtZHllcDBkZXMzZG1zcmFzMXJtMHQifQ.f4OEnS23dbLKKFrJudClhA'; // eslint-disable-line
-// const MAPBOX_TOKEN = ''; // eslint-disable-line
+const MAPBOX_TOKEN = ''; // eslint-disable-line
 
 class App extends Component {
   constructor(props) {
@@ -60,30 +52,19 @@ class App extends Component {
     this.changeBaseMapStyle = this.changeBaseMapStyle.bind(this);
   }
 
-  /*
-   * Da @link https://it.reactjs.org/docs/state-and-lifecycle.html
-   * Il metodo componentDidMount() viene eseguito dopo che l’output del
-   * componente è stato renderizzato nel DOM.
-   */
+
+  // eseguito dopo che l’output del componente è stato renderizzato nel DOM.
   async componentDidMount() {
     // fetch raw csv data from API
-    // const rawCsvData = await text("/proxy/test");
-    // console.log(rawCsvData);
-    //
     const pathName = window.location.pathname.split('/').pop();
-
     const rawCsvData = await text(`/api/data/map/${pathName}`);
-    // console.log(rawCsvData);
 
     // Use processCsvData helper to convert csv file into kepler.gl structure {fields, rows}
-    const wmchTestData = Processors.processCsvData(rawCsvData);
-    console.log(wmchTestData);
-    // const nycTripsData = Processors.processCsvData(nycTrips);
-    // const data = Processors.processGeojson(swissMuseums);
+    const processedData = Processors.processCsvData(rawCsvData);
 
     // Create dataset structure
     const dataset = {
-      data: wmchTestData,
+      data: processedData,
       info: {
         // `info` property are optional, adding an `id` associate with this dataset makes it easier
         // to replace it later
@@ -94,20 +75,16 @@ class App extends Component {
     // addDataToMap action to inject dataset into kepler.gl instance
     this.props.dispatch(addDataToMap({
       datasets: dataset,
-      config: layerConfig,
-      options: {
-        centerMap: true,
-        readOnly: true
-      }
+      config: layerConfig
     }));
 
-    // set switzerland on center (included in layer config)
+    // set switzerland on center (also included in layer config, so if you load it you don't need this line)
     // this.props.dispatch(updateMap({latitude: 46.5302175253001, longitude: 7.655025992403368, zoom: 7.3420833731326685}));
 
-    // inputMapStyle action to inject dataset into kepler.gl instance
+    // inputMapStyle actions to inject dataset into kepler.gl instance
     this.props.dispatch(inputMapStyle({
-      id: "customStyle",
-      label: "Custom style",
+      id: "OpenStreetMap",
+      label: "OpenStreetMap",
       url: "http://localhost:9000/styles/osm-bright/style.json",
       style: MAP_STYLES.find(style => style.name === 'bright').config
     }));
@@ -133,7 +110,7 @@ class App extends Component {
         <ButtonsPanel
         mapStyles={MAP_STYLES}
         clickHandler={this.changeBaseMapStyle}
-        />,
+        />
         <AutoSizer>
           {({height, width}) => (
             <KeplerGl

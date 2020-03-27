@@ -24,17 +24,39 @@ import {routerReducer} from 'react-router-redux';
 
 import keplerGlReducer from 'kepler.gl/reducers';
 
+// CONSTANTS
+const INIT = 'INIT';
+
 // INITIAL_APP_STATE
 const initialAppState = {
-  appName: 'example',
+  appName: 'WMCH maps',
   loaded: false
 };
 
+const customKeplerReducer = keplerGlReducer.initialState({
+  mapStyle: {
+    mapStyles: {},
+    styleType: 'OpenStreetMap'
+  },
+  uiState: {
+    readOnly: true,
+    centerMap: true
+  }
+});
+
+const appReducer = handleActions(
+  {
+    [INIT]: (state, action) => ({
+      ...state,
+      loaded: true
+    })
+  },
+  initialAppState
+);
+
 const reducers = combineReducers({
-  keplerGl: keplerGlReducer,
-  app: handleActions({
-    // you can put your app reducer here
-  }, initialAppState),
+  keplerGl: customKeplerReducer,
+  app: appReducer,
   routing: routerReducer
 });
 
