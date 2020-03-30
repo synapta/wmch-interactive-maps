@@ -856,6 +856,7 @@ module.exports = function(app, apicache) {
                     const processed = rows.map(obj => {
                       obj.link_tot_count ? obj.link_tot_count : 0;
                       obj.image = obj.image ? getThumbnailUrl(obj.image.split('/').pop(), 300) : obj.image;
+                      obj.icon = 'pin';
                       return obj;
                     });
                     const mapped = processed.map(obj => paix(obj, { image: '<img>' , link_tot_count: 'languages' }));
@@ -905,7 +906,8 @@ module.exports = function(app, apicache) {
             "languages",
             "lon",
             "lat",
-            "timestamp"
+            "timestamp",
+            "icon"
           ]
         };
         return parse(rows, csvOpts);
