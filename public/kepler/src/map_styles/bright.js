@@ -1,4 +1,4 @@
-{
+const bright = {
   "version": 8,
   "name": "OSM Bright",
   "metadata": {
@@ -5377,4 +5377,6 @@
       }
     }
   ]
-}
+};
+
+export default bright;

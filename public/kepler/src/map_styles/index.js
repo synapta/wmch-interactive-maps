@@ -1,7 +1,7 @@
-import positron from './positron.json';
-import dark_matter from './dark_matter.json';
-import basic from './basic.json';
-import bright from './bright.json';
+import positron from './positron';
+import dark_matter from './dark_matter';
+import basic from './basic';
+import bright from './bright';
 
 const MAP_STYLES = [
   {

@@ -1,4 +1,4 @@
-{
+const basic = {
   "version": 8,
   "name": "Klokantech Basic",
   "metadata": {
@@ -1531,4 +1531,6 @@
       }
     }
   ]
-}
+};
+
+export default basic;

@@ -1,33 +1,50 @@
-const path = require('path');
+// avoid destructuring for older Node version support
+const resolve = require('path').resolve;
+const join = require('path').join;
+const webpack = require('webpack');
 
-module.exports = {
+const CONFIG = {
+  mode: 'development',
   // bundle app.js and everything it imports, recursively.
-  // mode: 'development',
   entry: {
-    app: path.resolve('./public/kepler/src/main.js')
+    app: resolve('./public/kepler/src/main.js')
   },
   output: {
-    filename: 'kepler.bundle.js',
-    path: path.resolve('./public/js')
+    path: resolve('./public/js'),
+    filename: 'kepler.bundle.js'
   },
+
   devtool: 'source-map',
+
   module: {
     rules: [
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: path.join(__dirname, 'public/kepler/src'),
+        include: [join(__dirname, 'public/kepler/src')],
         exclude: [/node_modules/]
       },
       {
-        // JSON data
+        // The example has some JSON data
         test: /\.json$/,
         loader: 'json-loader',
         exclude: [/node_modules/]
       }
     ]
   },
+
   node: {
     fs: 'empty'
+  },
+
+  // to support browser history api and remove the '#' sign
+  devServer: {
+    historyApiFallback: true
   }
+
+};
+
+// This line enables bundling against src in this repo rather than installed deck.gl module
+module.exports = env => {
+  return env ? require('../webpack.config.local')(CONFIG, __dirname)(env) : CONFIG;
 };
