@@ -829,7 +829,7 @@ module.exports = function(app, apicache) {
         res.sendFile(util.format('%s/csv_proxy/wmch-map-small.csv', __dirname));
     });
 
-    app.get('/api/data/map/:mapname', function (req, res) {
+    app.get(['/api/data/map/static/:mapname', '/api/data/map/static/:mapname/:limit'], function (req, res) {
 
         const mariadb = require('mariadb');
         const pool = mariadb.createPool({
@@ -841,27 +841,15 @@ module.exports = function(app, apicache) {
             connectionLimit: 5
         });
 
-        const seed = "select max(h.createdAt) as timestamp, d.name, d.wikidata, d.commons, d.website, d.image, d.link_en, d.link_fr, d.link_de, d.link_fr, d.link_it, d.link_tot_count, d.lat, d.lon\
+        const seed = "select h.createdAt as timestamp, d.name, d.wikidata, d.commons, d.website, d.image, d.link_en, d.link_fr, d.link_de, d.link_fr, d.link_it, d.link_tot_count, d.lat, d.lon\
         from maps m, histories h, data d\
-        where m.`path` = '" + req.params.mapname + "'  and d.map_id  = m.id and d.id_history = h.id\
-        group by d.name, d.wikidata, d.commons, d.website, d.image, d.link_en, d.link_fr, d.link_de, d.link_fr, d.link_it, d.link_tot_count, d.lat, d.lon";
-
-        // console.log(seed)
+        where m.`path` = '" + req.params.mapname + "'  and d.map_id  = m.id and d.id_history = h.id";
 
         pool.getConnection()
             .then(conn => {
               conn.query(seed)
-                .then((rows) => {
-                    // TODO add placeholder when img in not present ?
-                    const processed = rows.map(obj => {
-                      obj.link_tot_count ? obj.link_tot_count : 0;
-                      obj.image = obj.image ? getThumbnailUrl(obj.image.split('/').pop(), 300) : obj.image;
-                      obj.icon = 'pin';
-                      return obj;
-                    });
-                    const mapped = processed.map(obj => paix(obj, { image: '<img>' , link_tot_count: 'languages' }));
-                    const csv = convertToCsv(mapped);
-                    // res.send(rows);
+                .then(rows => {
+                    const csv = processRows(rows, req.params.limit, false);
                     res.setHeader('Content-Type', 'text/csv');
                     res.write(csv);
                     res.end();
@@ -879,8 +867,56 @@ module.exports = function(app, apicache) {
             });
     });
 
-    function fixedEncodeURIComponent(str) {
-    	return encodeURIComponent(str).replace(/[!'()*]/g, c => '%' + c.charCodeAt(0).toString(16));
+    app.get(['/api/data/map/diff/:mapname', '/api/data/map/diff/:mapname/:limit'], function (req, res) {
+
+        const mariadb = require('mariadb');
+        const pool = mariadb.createPool({
+            host: 'localhost',
+            database: localconfig.database.name,
+            user: localconfig.database.username,
+            port: localconfig.database.port,
+            password: localconfig.database.password,
+            connectionLimit: 5
+        });
+
+        const seed = "select min(h.createdAt) as timestamp, d.name, d.wikidata, d.commons, d.website, d.image, d.link_en, d.link_fr, d.link_de, d.link_fr, d.link_it, d.link_tot_count, d.lat, d.lon\
+        from maps m, histories h, data d\
+        where m.`path` = '" + req.params.mapname + "'  and d.map_id  = m.id and d.id_history = h.id\
+        group by d.name, d.wikidata, d.commons, d.website, d.image, d.link_en, d.link_fr, d.link_de, d.link_fr, d.link_it, d.link_tot_count, d.lat, d.lon";
+
+        pool.getConnection()
+            .then(conn => {
+              conn.query(seed)
+                .then(rows => {
+                    const csv = processRows(rows, req.params.limit, true);
+                    res.setHeader('Content-Type', 'text/csv');
+                    res.write(csv);
+                    res.end();
+                })
+                .catch(err => {
+                  //handle error
+                  console.log(err);
+                  res.status(500).send('<h2>Server Error</h2>');
+                  conn.end();
+                  pool.end();
+                })
+            }).catch(err => {
+                console.log(err);
+                res.status(500).send('<h2>Server Error</h2>');
+            });
+    });
+
+    function processRows(rows, limit, timestamp) {
+      const processed = rows.map(obj => {
+        obj.link_tot_count ? obj.link_tot_count : 0;
+        // TODO add placeholder when img in not present ?
+        obj.image = obj.image ? getThumbnailUrl(obj.image.split('/').pop(), 300) : obj.image;
+        obj.icon = 'pin';
+        return obj;
+      });
+      const mapped = processed.map(obj => paix(obj, { image: '<img>' , link_tot_count: 'languages' }));
+      const csv = limit ? convertToCsv(mapped.slice(0, limit), true) : convertToCsv(mapped, true);
+      return csv;
     }
 
     function getThumbnailUrl(fileName, sizeInPixel) {
@@ -890,7 +926,11 @@ module.exports = function(app, apicache) {
       return baseUrl + "/" + hash.substring(0, 1) + "/" + hash.substring(0, 2) + "/" + fixedEncodeURIComponent(decodedFileName).replace(/%25C3%25/g, "%C3%") + "/" + sizeInPixel.toString() + "px-thumbnail.jpg";
     }
 
-    function convertToCsv(rows) {
+    function fixedEncodeURIComponent(str) {
+      return encodeURIComponent(str).replace(/[!'()*]/g, c => '%' + c.charCodeAt(0).toString(16));
+    }
+
+    function convertToCsv(rows, timestamp) {
       try {
         const csvOpts = {
           fields: [
@@ -906,10 +946,10 @@ module.exports = function(app, apicache) {
             "languages",
             "lon",
             "lat",
-            "timestamp",
             "icon"
           ]
         };
+        if (timestamp) csvOpts.fields.push('timestamp');
         return parse(rows, csvOpts);
       } catch (err) {
         return err;
