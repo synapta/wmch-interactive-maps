@@ -92,10 +92,6 @@ class App extends Component {
   render() {
     return (
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
-        <ButtonsPanel
-        mapStyles={MAP_STYLES}
-        clickHandler={this.changeBaseMapStyle}
-        />
         <AutoSizer>
           {({height, width}) => (
             <KeplerGl
