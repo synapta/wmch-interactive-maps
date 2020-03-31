@@ -1,38 +1,19 @@
-// Copyright (c) 2018 Uber Technologies, Inc.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
-
 import React, {Component} from 'react';
 
 import ButtonsPanel from './components/buttons.js';
 
-
 // d3 csv request and parse
 import {text} from 'd3-fetch';
 
+import styled, {ThemeProvider} from 'styled-components';
+import window from 'global/window';
 import {connect} from 'react-redux';
 
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import KeplerGl from 'kepler.gl';
 
 // config
-import layerConfig from './data/wmch-config.json';
+import layerConfig from './data/wmch-config';
 
 // Kepler.gl actions
 import {inputMapStyle, addCustomMapStyle, addDataToMap, updateMap} from 'kepler.gl/actions';
@@ -55,26 +36,28 @@ class App extends Component {
 
   // eseguito dopo che l’output del componente è stato renderizzato nel DOM.
   async componentDidMount() {
-    // fetch raw csv data from API
+    // get current name
     const pathName = window.location.pathname.split('/').pop();
-    const rawCsvData = await text(`/api/data/map/${pathName}`);
-
+    // fetch raw csv data from API
+    const staticDataRawCsv = await text(`/api/data/map/static/${pathName}`); // temp limit to 100
     // Use processCsvData helper to convert csv file into kepler.gl structure {fields, rows}
-    const processedData = Processors.processCsvData(rawCsvData);
-
+    const staticData = Processors.processCsvData(staticDataRawCsv);
     // Create dataset structure
-    const dataset = {
-      data: processedData,
-      info: {
-        // `info` property are optional, adding an `id` associate with this dataset makes it easier
-        // to replace it later
-        id: 'wmch_data'
-      }
+    const staticDataset = {
+      info: { id: 'wmch_data_static', label: 'Static data updated to last entry'},
+      data: staticData
+    };
+
+    const timeDataRawCsv = await text(`/api/data/map/diff/${pathName}`);
+    const timeData = Processors.processCsvData(timeDataRawCsv);
+    const timeDataset = {
+      info: { id: 'wmch_data_time', label: 'Entries differences over time'},
+      data: timeData
     };
 
     // addDataToMap action to inject dataset into kepler.gl instance
     this.props.dispatch(addDataToMap({
-      datasets: dataset,
+      datasets: [staticDataset, timeDataset],
       config: layerConfig
     }));
 
@@ -90,6 +73,8 @@ class App extends Component {
     }));
 
     this.props.dispatch(addCustomMapStyle());
+
+    console.log('finish adding data');
   }
 
   changeBaseMapStyle(e) {
