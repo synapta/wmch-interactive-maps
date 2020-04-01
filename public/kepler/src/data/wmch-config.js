@@ -112,7 +112,7 @@ const layerConfig = {
           "type": "icon",
           "config": {
             "dataId": "wmch_data_time",
-            "label": "new layer",
+            "label": "Time Data",
             "color": [
               250,
               227,
