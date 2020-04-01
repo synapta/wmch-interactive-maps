@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 
-import ButtonsPanel from './components/buttons.js';
+import ButtonsPanel from './components/buttons';
+import FullScreenLoader from './components/loaders';
+
 
 // d3 csv request and parse
 import {text} from 'd3-fetch';
@@ -30,9 +32,12 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      loading: true
+    };
+
     this.changeBaseMapStyle = this.changeBaseMapStyle.bind(this);
   }
-
 
   // eseguito dopo che l’output del componente è stato renderizzato nel DOM.
   async componentDidMount() {
@@ -74,7 +79,9 @@ class App extends Component {
 
     this.props.dispatch(addCustomMapStyle());
 
-    console.log('finish adding data');
+    this.setState({
+      loading: false
+    });
   }
 
   changeBaseMapStyle(e) {
@@ -88,10 +95,16 @@ class App extends Component {
     this.props.dispatch(addCustomMapStyle());
   }
 
-
   render() {
     return (
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
+        {
+          this.state.loading ?
+          <FullScreenLoader
+            color={'#0065A4'}
+            loading={true}
+          /> : ''
+        }
         <AutoSizer>
           {({height, width}) => (
             <KeplerGl
