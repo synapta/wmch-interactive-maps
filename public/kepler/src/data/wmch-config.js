@@ -62,16 +62,14 @@ const layerConfig = {
               "fixedRadius": false,
               "opacity": 1,
               "colorRange": {
-                "name": "Uber Viz Diverging 1.5",
-                "type": "diverging",
-                "category": "Uber",
+                "name": "Custom Palette",
+                "type": "custom",
+                "category": "Custom",
                 "colors": [
-                  "#00939C",
-                  "#5DBABF",
-                  "#BAE1E2",
-                  "#F8C0AA",
-                  "#DD7755",
-                  "#C22E00"
+                  "#231F20",
+                  "#990000",
+                  "#E5AD40",
+                  "#339966"
                 ]
               },
               "radiusRange": [
@@ -99,10 +97,10 @@ const layerConfig = {
           },
           "visualChannels": {
             "colorField": {
-              "name": "languages",
-              "type": "integer"
+              "name": "wikipedia_articles",
+              "type": "string"
             },
-            "colorScale": "quantile",
+            "colorScale": "ordinal",
             "sizeField": null,
             "sizeScale": "linear"
           }
@@ -178,18 +176,13 @@ const layerConfig = {
             "wmch_data_static": [
               "name",
               "languages",
+              "wikipedia_articles",
               "wikidata",
               "commons",
               "website",
               "<img>"
             ],
-            "wmch_data_time": [
-              "name",
-              "wikidata",
-              "commons",
-              "website",
-              "<img>"
-            ]
+            "wmch_data_time": []
           },
           "enabled": true
         },

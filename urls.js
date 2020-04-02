@@ -826,7 +826,7 @@ module.exports = function(app, apicache) {
 
     app.get('/proxy/:file', (req, res) => {
         res.setHeader('Content-Type', 'text/csv');
-        res.sendFile(util.format('%s/csv_proxy/wmch-map-small.csv', __dirname));
+        res.sendFile(util.format('%s/csv_proxy/wmch-map.csv', __dirname));
     });
 
     app.get(['/api/data/map/static/:mapname', '/api/data/map/static/:mapname/:limit'], function (req, res) {
@@ -906,9 +906,12 @@ module.exports = function(app, apicache) {
             });
     });
 
+
+
     function processRows(rows, limit, timestamp) {
       const processed = rows.map(obj => {
         obj.link_tot_count ? obj.link_tot_count : 0;
+        obj.wikipedia_articles = quantizedArticles(parseInt(obj.link_tot_count));
         // TODO add placeholder when img in not present ?
         obj.image = obj.image ? getThumbnailUrl(obj.image.split('/').pop(), 300) : obj.image;
         obj.icon = 'pin';
@@ -917,6 +920,13 @@ module.exports = function(app, apicache) {
       const mapped = processed.map(obj => paix(obj, { image: '<img>' , link_tot_count: 'languages' }));
       const csv = limit ? convertToCsv(mapped.slice(0, limit), true) : convertToCsv(mapped, true);
       return csv;
+    }
+
+    function quantizedArticles(n) {
+      if (n > 3) return 'd) Four or more articles';
+      if (n === 2 || n === 3) return 'c) Up to three articles';
+      if (n === 1) return 'b) One article';
+      if (n === 0) return 'a) No article';
     }
 
     function getThumbnailUrl(fileName, sizeInPixel) {
@@ -944,6 +954,7 @@ module.exports = function(app, apicache) {
             "link_en",
             "link_fr",
             "languages",
+            "wikipedia_articles",
             "lon",
             "lat",
             "icon"
