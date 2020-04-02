@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import ButtonsPanel from './components/buttons';
 import FullScreenLoader from './components/loaders';
-
+import NavBar from './components/navbar';
 
 // d3 csv request and parse
 import {text} from 'd3-fetch';
@@ -104,6 +104,9 @@ class App extends Component {
             loading={true}
           /> : ''
         }
+        <NavBar
+          id="navbar"
+        />
         <AutoSizer>
           {({height, width}) => (
             <KeplerGl
