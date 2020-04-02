@@ -17,15 +17,17 @@ import KeplerGl from 'kepler.gl';
 import layerConfig from './data/wmch-config';
 
 // Kepler.gl actions
-import {inputMapStyle, addCustomMapStyle, addDataToMap, updateMap} from 'kepler.gl/actions';
+import {inputMapStyle, addCustomMapStyle, addDataToMap, updateMap, layerConfigChange} from 'kepler.gl/actions';
 
 // Kepler.gl Data processing APIs
 import Processors from 'kepler.gl/processors';
-
 import MAP_STYLES from './map_styles';
 
 // const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
 const MAPBOX_TOKEN = ''; // eslint-disable-line
+
+const STATIC_LAYER_DATA_ID = 'wmch_data_static';
+
 
 class App extends Component {
   constructor(props) {
@@ -36,6 +38,7 @@ class App extends Component {
     };
 
     this.changeBaseMapStyle = this.changeBaseMapStyle.bind(this);
+    this.toggleLayerVisibility = this.toggleLayerVisibility.bind(this);
   }
 
   // eseguito dopo che l’output del componente è stato renderizzato nel DOM.
@@ -48,7 +51,7 @@ class App extends Component {
     const staticData = Processors.processCsvData(staticDataRawCsv);
     // Create dataset structure
     const staticDataset = {
-      info: { id: 'wmch_data_static', label: 'Static data updated to last entry'},
+      info: { id: STATIC_LAYER_DATA_ID, label: 'Static data updated to last entry'},
       data: staticData
     };
 
@@ -72,7 +75,7 @@ class App extends Component {
     this.props.dispatch(inputMapStyle({
       id: "OpenStreetMap",
       label: "OpenStreetMap",
-      url: "http://tile.synapta.io/styles/osm-bright/style.json",
+      url: "https://tile.synapta.io/styles/osm-bright/style.json",
       style: MAP_STYLES.find(style => style.name === 'bright').config
     }));
 
@@ -81,6 +84,13 @@ class App extends Component {
     this.setState({
       loading: false
     });
+  }
+
+  toggleLayerVisibility(layerDataID) {
+    const mapLayers = this.props.keplerGl.map.visState.layers;
+    const layer = mapLayers.find(lyr => lyr.config.dataId === layerDataID);
+    const visible = layer.config.isVisible;
+    this.props.dispatch(layerConfigChange(layer, { isVisible: !visible }));
   }
 
   changeBaseMapStyle(e) {
