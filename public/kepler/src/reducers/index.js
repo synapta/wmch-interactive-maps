@@ -6,7 +6,7 @@ import {routerReducer} from 'react-router-redux';
 import keplerGlReducer from 'kepler.gl/reducers';
 
 // CONSTANTS
-const INIT = 'INIT';
+import { ADD_METADATA, DATA_LOADED } from '../actions';
 
 // INITIAL_APP_STATE
 const initialAppState = {
@@ -14,6 +14,31 @@ const initialAppState = {
   loaded: false
 };
 
+// custom updaters
+const dataLoadedUpdater = (state, action) => {
+  return {
+    ...state,
+    loaded: true
+  };
+};
+
+const updateMetadata = (state, action) => {
+  return {
+    ...state,
+    metadata: action.metadata
+  };
+};
+
+// app reducer
+const appReducer = handleActions(
+  {
+    [DATA_LOADED]: dataLoadedUpdater,
+    [ADD_METADATA]: updateMetadata
+  },
+  initialAppState
+);
+
+// kepler reducer
 const customKeplerReducer = keplerGlReducer.initialState({
   mapStyle: {
     mapStyles: {},
@@ -28,16 +53,6 @@ const customKeplerReducer = keplerGlReducer.initialState({
     exportData: false
   }
 });
-
-const appReducer = handleActions(
-  {
-    [INIT]: (state, action) => ({
-      ...state,
-      loaded: true
-    })
-  },
-  initialAppState
-);
 
 const reducers = combineReducers({
   keplerGl: customKeplerReducer,

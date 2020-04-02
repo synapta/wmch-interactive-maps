@@ -867,6 +867,14 @@ module.exports = function(app, apicache) {
             });
     });
 
+    app.get('/metadata', (req, res) => {
+      const metadata = {
+        logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+        languages: config.languages
+      };
+      res.status(200).json(metadata);
+    });
+
     app.get(['/api/data/map/diff/:mapname', '/api/data/map/diff/:mapname/:limit'], function (req, res) {
 
         const mariadb = require('mariadb');

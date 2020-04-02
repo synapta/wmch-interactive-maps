@@ -19,6 +19,9 @@ import layerConfig from './data/wmch-config';
 // Kepler.gl actions
 import {inputMapStyle, addCustomMapStyle, addDataToMap, updateMap, layerConfigChange} from 'kepler.gl/actions';
 
+// custom app actions
+import {addMetadata, dataLoaded} from './actions';
+
 // Kepler.gl Data processing APIs
 import Processors from 'kepler.gl/processors';
 import MAP_STYLES from './map_styles';
@@ -28,14 +31,12 @@ const MAPBOX_TOKEN = ''; // eslint-disable-line
 
 const STATIC_LAYER_DATA_ID = 'wmch_data_static';
 
+const NAVBAR_HEIGHT = 85; // px
+const WIKIBLUE = '#0065A4';
 
 class App extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      loading: true
-    };
 
     this.changeBaseMapStyle = this.changeBaseMapStyle.bind(this);
     this.toggleLayerVisibility = this.toggleLayerVisibility.bind(this);
@@ -43,10 +44,21 @@ class App extends Component {
 
   // eseguito dopo che l’output del componente è stato renderizzato nel DOM.
   async componentDidMount() {
+
+    const res = await fetch('/metadata');
+    const metadata = await res.json();
+
+    this.props.dispatch(addMetadata(metadata));
+
+    const t_mount = performance.now();
     // get current name
     const pathName = window.location.pathname.split('/').pop();
     // fetch raw csv data from API
     const staticDataRawCsv = await text(`/api/data/map/static/${pathName}`); // temp limit to 100
+    const timeDataRawCsv = await text(`/api/data/map/diff/${pathName}`);
+
+    const t_data = performance.now();
+
     // Use processCsvData helper to convert csv file into kepler.gl structure {fields, rows}
     const staticData = Processors.processCsvData(staticDataRawCsv);
     // Create dataset structure
@@ -55,8 +67,8 @@ class App extends Component {
       data: staticData
     };
 
-    const timeDataRawCsv = await text(`/api/data/map/diff/${pathName}`);
     const timeData = Processors.processCsvData(timeDataRawCsv);
+
     const timeDataset = {
       info: { id: 'wmch_data_time', label: 'Entries differences over time'},
       data: timeData
@@ -81,9 +93,16 @@ class App extends Component {
 
     this.props.dispatch(addCustomMapStyle());
 
-    this.setState({
-      loading: false
-    });
+    console.log('finished loading data');
+
+    this.props.dispatch(dataLoaded());
+
+    const t_process = performance.now();
+
+    // console.log(`**** PERFORMANCE ****`);
+    // console.log(`Fetching data took ${t_data - t_mount}ms`);
+    // console.log(`Processing data took ${t_process - t_data}ms`);
+    // console.log(`*********************`);
   }
 
   toggleLayerVisibility(layerDataID) {
@@ -104,19 +123,45 @@ class App extends Component {
     this.props.dispatch(addCustomMapStyle());
   }
 
+
   render() {
     return (
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
+        <div id="navbar"
+          style={{
+            height: NAVBAR_HEIGHT,
+            minHeight: NAVBAR_HEIGHT,
+            display: 'flex',
+            alignItems: 'center',
+            borderBottom: `2px solid ${WIKIBLUE}`
+          }}
+        >
+        <NavBar
+            id="navbar"
+            title={window.location.pathname.split('/').pop().toUpperCase()}
+            logo={this.props.app.metadata ? this.props.app.metadata.logo : {}}
+          />
+        </div>
         {
-          this.state.loading ?
+          !this.props.app.loaded ?
           <FullScreenLoader
-            color={'#0065A4'}
+            color={WIKIBLUE}
             loading={true}
           /> : ''
         }
-        <NavBar
-          id="navbar"
+        <ButtonsPanel
+        mapStyles={[{name: 'toggleLayerVisibility'}]}
+        clickHandler={this.toggleLayerVisibility}
         />
+        <div
+          style={{
+            transition: 'margin 1s, height 1s',
+            position: 'absolute',
+            width: '100%',
+            height: `calc(100% - ${NAVBAR_HEIGHT}px)`,
+            minHeight: `calc(100% - ${NAVBAR_HEIGHT}px)`
+          }}
+        >
         <AutoSizer>
           {({height, width}) => (
             <KeplerGl
@@ -127,6 +172,7 @@ class App extends Component {
             />
           )}
         </AutoSizer>
+        </div>
       </div>
     );
   }

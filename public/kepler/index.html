@@ -4,8 +4,11 @@
     <meta charset='UTF-8' />
     <title>WMCH | Kepler</title>
     <link href="https://d1a3f4spazzrp4.cloudfront.net/uber-fonts/4.0.0/superfine.css" rel="stylesheet">
-    <!-- <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.0/mapbox-gl.css" rel="stylesheet"> -->
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.0/mapbox-gl.css" rel="stylesheet">
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
+    <link rel="stylesheet" href="/css/override.css" />
+    <link rel="stylesheet" href="/css/all.css" />
+    <link rel="stylesheet" href="/css/frontend.css" />
     <link rel="shortcut icon" href="favicon.png">
     <style type="text/css">
        body {
@@ -21,21 +24,32 @@
 
        /* share button */
        .side-panel__panel-header__right {
-         display: none;
+         /* display: none; */
        }
 
        /* side panles tabs */
        .sc-cqCuEk.kuVKmp.side-panel__tab {
-         display: none;
+         /* display: none; */
        }
 
        /* new filter button */
-       .sc-kAzzGY.ifZwlr {
+       .sc-kAzzGY.ifZwlr.button {
+         /* display: none; */
+       }
+
+       /* delete filter icons */
+       .sc-jzgbtB.frKDWv.panel--header__action {
          display: none;
        }
+
+       #languages .menu .text {
+         cursor: pointer;
+         color: black !important;
+       }
+
     </style>
   </head>
-  <body>
+  <body id="frontend">
     <script src='/js/kepler.bundle.js'></script>
   </body>
 </html>
