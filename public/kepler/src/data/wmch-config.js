@@ -231,17 +231,7 @@ const layerConfig = {
         230.92517894351974,
         227.2005792831404,
         223.47597962276103
-      ],
-      "mapStyles": {
-        "OpenStreetMap": {
-          "accessToken": null,
-          "custom": true,
-          "icon": "https://api.mapbox.com/styles/v1/http://localhost:9000/styles/osm-bright/style.json/static/-122.3391,37.7922,9,0,0/400x300?access_token=&logo=false&attribution=false",
-          "id": "OpenStreetMap",
-          "label": "OpenStreetMap",
-          "url": "http://localhost:9000/styles/osm-bright/style.json"
-        }
-      }
+      ]
     }
   }
 };

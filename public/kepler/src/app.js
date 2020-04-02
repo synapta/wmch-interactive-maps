@@ -73,7 +73,7 @@ class App extends Component {
     this.props.dispatch(inputMapStyle({
       id: "OpenStreetMap",
       label: "OpenStreetMap",
-      url: "http://localhost:9000/styles/osm-bright/style.json",
+      url: "http://tile.synapta.io/styles/osm-bright/style.json",
       style: MAP_STYLES.find(style => style.name === 'bright').config
     }));
 

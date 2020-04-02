@@ -48,11 +48,11 @@ const bright = {
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "http://localhost:9000/data/v3.json"
+      "url": "https://tile.synapta.io/data/v3.json"
     }
   },
-  "sprite": "http://localhost:9000/styles/osm-bright/sprite",
-  "glyphs": "http://localhost:9000/fonts/{fontstack}/{range}.pbf",
+  "sprite": "https://tile.synapta.io/styles/osm-bright/sprite",
+  "glyphs": "https://tile.synapta.io/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",

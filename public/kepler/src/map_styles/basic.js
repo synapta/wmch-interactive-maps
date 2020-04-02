@@ -19,10 +19,10 @@ const basic = {
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "http://localhost:9000/data/v3.json"
+      "url": "https://tile.synapta.io/data/v3.json"
     }
   },
-  "glyphs": "http://localhost:9000/fonts/{fontstack}/{range}.pbf",
+  "glyphs": "https://tile.synapta.io/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
