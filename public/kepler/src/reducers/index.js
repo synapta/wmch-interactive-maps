@@ -3,7 +3,7 @@ import {combineReducers} from 'redux';
 import {handleActions} from 'redux-actions';
 import {routerReducer} from 'react-router-redux';
 
-import keplerGlReducer, {combinedUpdaters, uiStateUpdaters} from 'kepler.gl/reducers';
+import keplerGlReducer from 'kepler.gl/reducers';
 
 // CONSTANTS
 const INIT = 'INIT';

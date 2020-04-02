@@ -7,7 +7,6 @@ import FullScreenLoader from './components/loaders';
 // d3 csv request and parse
 import {text} from 'd3-fetch';
 
-import styled, {ThemeProvider} from 'styled-components';
 import window from 'global/window';
 import {connect} from 'react-redux';
 

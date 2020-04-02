@@ -1,5 +1,5 @@
-import {combineReducers, createStore, applyMiddleware, compose} from 'redux';
-import {routerReducer, routerMiddleware} from 'react-router-redux';
+import {createStore, applyMiddleware, compose} from 'redux';
+import {routerMiddleware} from 'react-router-redux';
 import {browserHistory} from 'react-router';
 import {enhanceReduxMiddleware} from 'kepler.gl/middleware';
 import thunk from 'redux-thunk';
