@@ -30,8 +30,9 @@ class NavBar extends Component {
               className='icon wikiblue'
               floating
               labeled
+              disabled
               icon='world'
-              options={languageOptions}              
+              options={languageOptions}
               text='Select Language'
             />
           </Grid.Column>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import ButtonsPanel from './components/buttons';
+import {LayersButtonsPanel} from './components/buttons';
 import FullScreenLoader from './components/loaders';
 import NavBar from './components/navbar';
 
@@ -11,28 +11,46 @@ import window from 'global/window';
 import {connect} from 'react-redux';
 
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
-import KeplerGl from 'kepler.gl';
 
 // config
 import layerConfig from './config/wmch-config';
 
+// Kepler.gl components
+import {SidePanelFactory, MapControlFactory, injectComponents} from 'kepler.gl/components';
 // Kepler.gl actions
 import {inputMapStyle, addCustomMapStyle, addDataToMap, updateMap, layerConfigChange} from 'kepler.gl/actions';
+// Kepler.gl Data processing APIs
+import Processors from 'kepler.gl/processors';
 
+// custom app copmonents
+import {CustomMapControlFactory, CustomSidePanelFactory} from './components/custom-panel';
 // custom app actions
 import {addMetadata, dataLoaded} from './actions';
 
-// Kepler.gl Data processing APIs
-import Processors from 'kepler.gl/processors';
 import MAP_STYLES from './map_styles';
 
-// const MAPBOX_TOKEN = process.env.MapboxAccessToken; // eslint-disable-line
 const MAPBOX_TOKEN = ''; // eslint-disable-line
 
-const STATIC_LAYER_DATA_ID = 'wmch_data_static';
+// const STATIC_LAYER_DATA_ID = 'wmch_data_static';
+const STATIC_LAYER_DATA = {
+  id    : layerConfig.config.visState.layers[0].config.dataId,
+  label : layerConfig.config.visState.layers[0].config.label
+};
 
-const NAVBAR_HEIGHT = 85; // px
+const TIME_LAYER_DATA = {
+  id    : layerConfig.config.visState.layers[1].config.dataId,
+  label : layerConfig.config.visState.layers[1].config.label
+};
+
+const NAVBAR_HEIGHT = 75; // px
 const WIKIBLUE = '#0065A4';
+
+
+const KeplerGl = injectComponents([
+  [MapControlFactory, CustomMapControlFactory],
+  [SidePanelFactory, CustomSidePanelFactory]
+]);
+
 
 class App extends Component {
   constructor(props) {
@@ -63,14 +81,14 @@ class App extends Component {
     const staticData = Processors.processCsvData(staticDataRawCsv);
     // Create dataset structure
     const staticDataset = {
-      info: { id: STATIC_LAYER_DATA_ID, label: 'Static data updated to last entry'},
+      info: { id: STATIC_LAYER_DATA.id, label: 'Static data updated to last entry'},
       data: staticData
     };
 
     const timeData = Processors.processCsvData(timeDataRawCsv);
 
     const timeDataset = {
-      info: { id: 'wmch_data_time', label: 'Entries differences over time'},
+      info: { id: TIME_LAYER_DATA.id, label: 'Entries differences over time'},
       data: timeData
     };
 
@@ -105,35 +123,36 @@ class App extends Component {
     // console.log(`*********************`);
   }
 
-  toggleLayerVisibility(layerDataID) {
+  toggleLayerVisibility(e) {
+    console.log(e.target.dataset);
+    const layerDataId = e.target.dataset.layer_data_id;
     const mapLayers = this.props.keplerGl.map.visState.layers;
-    const layer = mapLayers.find(lyr => lyr.config.dataId === layerDataID);
+    const layer = mapLayers.find(lyr => lyr.config.dataId === layerDataId);
     const visible = layer.config.isVisible;
+    visible ? e.target.classList.add('semitransparent') : e.target.classList.remove('semitransparent');
     this.props.dispatch(layerConfigChange(layer, { isVisible: !visible }));
   }
 
   changeBaseMapStyle(e) {
     const styleName = e.target.dataset.style;
     const mapStyle = MAP_STYLES.find(style => style.name === styleName).config;
-
-    this.props.dispatch(inputMapStyle({
-      style: mapStyle
-    }));
-
+    this.props.dispatch(inputMapStyle({ style: mapStyle }));
     this.props.dispatch(addCustomMapStyle());
   }
-
 
   render() {
     return (
       <div style={{position: 'absolute', width: '100%', height: '100%'}}>
         <div id="navbar"
           style={{
+            position: 'relative',
             height: NAVBAR_HEIGHT,
             minHeight: NAVBAR_HEIGHT,
             display: 'flex',
             alignItems: 'center',
-            borderBottom: `2px solid ${WIKIBLUE}`
+            borderBottom: `1px solid ${WIKIBLUE}`,
+            boxShadow: 'rgba(0,0,0,.15) 0 5px 10px 0px',
+            zIndex: 2
           }}
         >
         <NavBar
@@ -149,8 +168,8 @@ class App extends Component {
             loading={true}
           /> : ''
         }
-        <ButtonsPanel
-        mapStyles={[{name: 'toggleLayerVisibility'}]}
+        <LayersButtonsPanel
+        layersConfig={[STATIC_LAYER_DATA, TIME_LAYER_DATA]}
         clickHandler={this.toggleLayerVisibility}
         />
         <div
@@ -159,7 +178,8 @@ class App extends Component {
             position: 'absolute',
             width: '100%',
             height: `calc(100% - ${NAVBAR_HEIGHT}px)`,
-            minHeight: `calc(100% - ${NAVBAR_HEIGHT}px)`
+            minHeight: `calc(100% - ${NAVBAR_HEIGHT}px)`,
+            zIndex: 0
           }}
         >
         <AutoSizer>

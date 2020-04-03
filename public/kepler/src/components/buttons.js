@@ -1,29 +1,35 @@
 import React, { Component } from 'react';
 
+const CONTROLS_BACKGROUND = '#29323C';
+
 const buttonStyle = {
   position: 'relative',
-  zIndex: 100,
+  zIndex: 2,
   width: '120px',
   height: '40px',
-  backgroundColor: '#1f7cf4',
+  backgroundColor: CONTROLS_BACKGROUND,
   color: '#FFFFFF',
   cursor: 'pointer',
   border: 0,
   borderRadius: '3px',
   fontSize: '12px',
-  margin:'0 10px'
+  margin:'8px 0',
+  transition: 'opacity .3s'
 };
 
 const panelStyle = {
   position: 'absolute',
-  zIndex: 100,
-  bottom: 0,
-  left: 0,
-  margin:'30px',
-  display: 'flex'
+  zIndex: 2,
+  top: '40%',
+  right: '0px',
+  padding: '12px',
+  display: 'flex',
+  flexDirection: 'column',
+  textAlign: 'center',
+  color: CONTROLS_BACKGROUND
 };
 
-class SingleButton extends Component {
+class StyleButton extends Component {
   render() {
     return (
       <button
@@ -37,10 +43,10 @@ class SingleButton extends Component {
   }
 }
 
-class ButtonsPanel extends Component {
+export class ButtonsPanel extends Component {
   render() {
     const buttons = this.props.mapStyles.map(styleJson =>
-      <SingleButton
+      <StyleButton
       clickHandler={this.props.clickHandler}
       btnId={`style-button-${styleJson.name}`}
       text={styleJson.name}
@@ -57,4 +63,39 @@ class ButtonsPanel extends Component {
   }
 }
 
-export default ButtonsPanel;
+class LayerButton extends Component {
+  render() {
+    return (
+      <button
+      data-layer_data_id={this.props.layer_data_id}
+      id={this.props.btnId}
+      style={buttonStyle}
+      onClick={this.props.clickHandler}>
+        {this.props.text}
+      </button>
+    );
+  }
+}
+
+export class LayersButtonsPanel extends Component {
+  render() {
+    // console.log(this.props.layersConfig);
+    const buttons = this.props.layersConfig.map((layerId, idx) =>
+      <LayerButton
+      clickHandler={this.props.clickHandler}
+      layer_data_id={layerId.id}
+      btnId={`style-button-${layerId.id}`}
+      text={layerId.label}
+      key={`${layerId.id}-${idx}`}
+      />
+    );
+
+    return (
+      <div
+      style={panelStyle}>
+      <h4>TOGGLE VIEW</h4>
+      {buttons}
+      </div>
+    );
+  }
+}
