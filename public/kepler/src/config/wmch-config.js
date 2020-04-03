@@ -31,7 +31,7 @@ const layerConfig = {
           "type": "range",
           "value": [
             0,
-            16
+            28
           ],
           "enlarged": false,
           "plotType": "histogram",
@@ -44,7 +44,7 @@ const layerConfig = {
           "type": "icon",
           "config": {
             "dataId": "wmch_data_static",
-            "label": "Static Data",
+            "label": "Live Data",
             "color": [
               23,
               184,
@@ -110,7 +110,7 @@ const layerConfig = {
           "type": "icon",
           "config": {
             "dataId": "wmch_data_time",
-            "label": "Time Data",
+            "label": "History",
             "color": [
               250,
               227,

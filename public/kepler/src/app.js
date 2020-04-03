@@ -14,7 +14,7 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import KeplerGl from 'kepler.gl';
 
 // config
-import layerConfig from './data/wmch-config';
+import layerConfig from './config/wmch-config';
 
 // Kepler.gl actions
 import {inputMapStyle, addCustomMapStyle, addDataToMap, updateMap, layerConfigChange} from 'kepler.gl/actions';
