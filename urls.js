@@ -896,7 +896,10 @@ module.exports = function(app, apicache) {
             .then(conn => {
               conn.query(seed)
                 .then(rows => {
-                    const csv = processRows(rows, req.params.limit, true);
+                    // remove initial peak 
+                    const filtered = rows.filter(row => new Date(row.timestamp) > new Date('2019-12-25'));
+                    // console.log(rows.slice(0,10));
+                    const csv = processRows(filtered, req.params.limit, true);
                     res.setHeader('Content-Type', 'text/csv');
                     res.write(csv);
                     res.end();
