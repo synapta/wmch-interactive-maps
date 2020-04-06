@@ -145,8 +145,8 @@ Complete list on https://tools.wmflabs.org/cdnjs-beta/.
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/visibility.min.js
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.css
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.js
-//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.css
-//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/semantic.min.js
+/css/lib/semantic-2.4.2.min.css
+/js/lib/semantic-2.4.2.min.js
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/themes/basic/assets/fonts/icons.eot
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/themes/basic/assets/fonts/icons.svg
 //tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/themes/basic/assets/fonts/icons.ttf
