@@ -23,6 +23,25 @@
     <link rel="icon" href="/images/favicon.png" type="image/png" />
 
     <style type="text/css">
+    /* .awesome-marker i {
+      font-size: 28px;
+      margin-top: 18px;
+    } */
+    .map-history #wmap .awesome-marker {
+      opacity: .8;
+      filter: none;
+    }
+
+    .map-history #wmap .new-pin-on-time-marker {
+      opacity: 1;
+    }
+
+    .new-pin-on-time {
+      color: red !important;
+      /* font-size: 18px !important;
+      margin-left: 1px !important;
+      margin-top: 5px !important; */
+    }
     </style>
 </head>
 <body id="frontend" class="{{#isHistory}}map-history{{/isHistory}}{{^isHistory}}map-realtime{{/isHistory}}">

@@ -221,6 +221,7 @@ $(function() {
                     }
 
                     $.each(markerAvailableColors, function( mciIndex, color ) {
+                      // console.log(markerAvailableColors);
                         var visibleName = prettyLabels[mciIndex];
                         var circleMarkerOptions = {
                           color: markerAvailableColorsCodes[mciIndex],
@@ -233,16 +234,30 @@ $(function() {
                                 var pin = false;
                                 var extraClassesForThisFeature = getExtraClasses(feature);
                                 // if this entry has data changed, display as pin, else display as circle
-                                if (extraClassesForThisFeature.indexOf('new-pin-on-time') !== -1) {
+                                if (extraClassesForThisFeature.includes('new-pin-on-time')) {
+                                  // console.log(feature);
                                     pin = L.AwesomeMarkers.icon({
                                         icon: mapOpts.pinIcon,
                                         prefix: 'icon',
                                         markerColor: feature.properties.pin.color,
                                         extraClasses: mapOpts.pinIcon + extraClassesForThisFeature
                                     });
+                                  //   pin = L.icon({
+                                  //     iconUrl: '/images/icons/leaf-green.png',
+                                  //     iconSize:     [38, 95], // size of the icon
+                                  //     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+                                  //     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+                                  // });
                                 }
                                 if (!pin) {
-                                    return L.circleMarker(latlng, circleMarkerOptions).on('popupopen', openModal);
+                                    // return L.circleMarker(latlng, circleMarkerOptions).on('popupopen', openModal);
+                                    const icon = L.AwesomeMarkers.icon({
+                                        icon: mapOpts.pinIcon,
+                                        prefix: 'icon',
+                                        markerColor: feature.properties.pin.color,
+                                        extraClasses: mapOpts.pinIcon
+                                    });
+                                    return L.marker(latlng, { icon: icon }).on('popupopen', openModal);
                                 }
                                 else {
                                     return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
