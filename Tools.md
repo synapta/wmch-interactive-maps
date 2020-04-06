@@ -193,7 +193,7 @@ https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.5.1/images/marker-ico
 https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.5.1/images/marker-shadow.png
 https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.5.1/leaflet-src.js
 https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.5.1/leaflet-src.js.map
-https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.5.1/leaflet.css
-https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.5.1/leaflet.js
-https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.5.1/leaflet.js.map
+https:/css/lib/leaflet.css
+https:/js/lib/leaflet.js
+https:/js/lib/leaflet.js.map
 ~~~
