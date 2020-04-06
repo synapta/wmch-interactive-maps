@@ -69,6 +69,7 @@ class LayerButton extends Component {
       <button
       data-layer_data_id={this.props.layer_data_id}
       id={this.props.btnId}
+      className={this.props.btnClass}
       style={buttonStyle}
       onClick={this.props.clickHandler}>
         {this.props.text}
@@ -80,13 +81,14 @@ class LayerButton extends Component {
 export class LayersButtonsPanel extends Component {
   render() {
     // console.log(this.props.layersConfig);
-    const buttons = this.props.layersConfig.map((layerId, idx) =>
+    const buttons = this.props.layersConfig.map((config, idx) =>
       <LayerButton
       clickHandler={this.props.clickHandler}
-      layer_data_id={layerId.id}
-      btnId={`style-button-${layerId.id}`}
-      text={layerId.label}
-      key={`${layerId.id}-${idx}`}
+      layer_data_id={config.id}
+      btnClass={config.isVisible ? '' : 'semitransparent'}
+      btnId={`style-button-${config.id}`}
+      text={config.label}
+      key={`${config.id}-${idx}`}
       />
     );
 

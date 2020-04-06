@@ -29,7 +29,7 @@
 
        /* new filter button */
        .sc-kAzzGY.ifZwlr.button {
-         /* display: none; */
+         display: none;
        }
 
        /* delete filter icons */
@@ -40,6 +40,16 @@
        /* draw polygon */
        .sc-ebFjAB.cXriNp {
          /* display: none; */
+       }
+
+       /* leavo onlt legend and 3D toggle */
+       .sc-ebFjAB.cXriNp:not(.toggle-3d):not(.show-legend) {
+          display: none;
+       }
+
+       /* close sidebar button */
+       .sc-bbmXgH.iGkOuc.side-bar__close {
+         display: none;
        }
 
        #languages {
@@ -56,6 +66,7 @@
        }
     </style>
   </head>
+
   <body id="frontend">
     <script src='/js/kepler.bundle.js'></script>
   </body>

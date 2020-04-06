@@ -1,4 +1,4 @@
-const layerConfig = {
+const layerConfigHistory = {
   "version": "v1",
   "config": {
     "visState": {
@@ -12,11 +12,8 @@ const layerConfig = {
             "timestamp"
           ],
           "type": "timeRange",
-          "value": [
-            1577184724000,
-            1579035123000
-          ],
-          "enlarged": false,
+          "value": [],
+          "enlarged": true,
           "plotType": "histogram",
           "yAxis": null
         },
@@ -29,16 +26,77 @@ const layerConfig = {
             "languages"
           ],
           "type": "range",
-          "value": [
-            0,
-            28
-          ],
+          "value": [],
           "enlarged": false,
           "plotType": "histogram",
           "yAxis": null
         }
       ],
       "layers": [
+        {
+          "id": "80lkaa",
+          "type": "icon",
+          "config": {
+            "dataId": "wmch_data_time",
+            "label": "History",
+            "color": [
+              195,
+              40,
+              153
+            ],
+            "columns": {
+              "lat": "lat",
+              "lng": "lon",
+              "icon": "icon"
+            },
+            "isVisible": true,
+            "visConfig": {
+              "radius": 90,
+              "fixedRadius": false,
+              "opacity": 0.8,
+              "colorRange": {
+                "name": "Global Warming",
+                "type": "sequential",
+                "category": "Uber",
+                "colors": [
+                  "#5A1846",
+                  "#900C3F",
+                  "#C70039",
+                  "#E3611C",
+                  "#F1920E",
+                  "#FFC300"
+                ]
+              },
+              "radiusRange": [
+                0,
+                50
+              ]
+            },
+            "textLabel": [
+              {
+                "field": null,
+                "color": [
+                  255,
+                  255,
+                  255
+                ],
+                "size": 18,
+                "offset": [
+                  0,
+                  0
+                ],
+                "anchor": "start",
+                "alignment": "center"
+              }
+            ]
+          },
+          "visualChannels": {
+            "colorField": null,
+            "colorScale": "quantile",
+            "sizeField": null,
+            "sizeScale": "linear"
+          }
+        },
         {
           "id": "luccf1q",
           "type": "icon",
@@ -104,70 +162,6 @@ const layerConfig = {
             "sizeField": null,
             "sizeScale": "linear"
           }
-        },
-        {
-          "id": "80lkaa",
-          "type": "icon",
-          "config": {
-            "dataId": "wmch_data_time",
-            "label": "History",
-            "color": [
-              250,
-              227,
-              0
-            ],
-            "columns": {
-              "lat": "lat",
-              "lng": "lon",
-              "icon": "icon"
-            },
-            "isVisible": true,
-            "visConfig": {
-              "radius": 87.9,
-              "fixedRadius": false,
-              "opacity": 0.8,
-              "colorRange": {
-                "name": "Global Warming",
-                "type": "sequential",
-                "category": "Uber",
-                "colors": [
-                  "#5A1846",
-                  "#900C3F",
-                  "#C70039",
-                  "#E3611C",
-                  "#F1920E",
-                  "#FFC300"
-                ]
-              },
-              "radiusRange": [
-                0,
-                50
-              ]
-            },
-            "textLabel": [
-              {
-                "field": null,
-                "color": [
-                  255,
-                  255,
-                  255
-                ],
-                "size": 18,
-                "offset": [
-                  0,
-                  0
-                ],
-                "anchor": "start",
-                "alignment": "center"
-              }
-            ]
-          },
-          "visualChannels": {
-            "colorField": null,
-            "colorScale": "quantile",
-            "sizeField": null,
-            "sizeScale": "linear"
-          }
         }
       ],
       "interactionConfig": {
@@ -182,7 +176,13 @@ const layerConfig = {
               "website",
               "<img>"
             ],
-            "wmch_data_time": []
+            "wmch_data_time": [
+              "name",
+              "wikidata",
+              "commons",
+              "website",
+              "<img>"
+            ]
           },
           "enabled": true
         },
@@ -204,29 +204,33 @@ const layerConfig = {
     "mapState": {
       "bearing": 0,
       "dragRotate": false,
-      "latitude": 46.73194962387401,
-      "longitude": 7.999332695433259,
+      "latitude": 46.407488663633785,
+      "longitude": 7.843660031328733,
       "pitch": 0,
-      "zoom": 7.599985831836746,
+      "zoom": 7.003281264924753,
       "isSplit": false
     },
     "mapStyle": {
       "styleType": "OpenStreetMap",
       "topLayerGroups": {},
-      "visibleLayerGroups": {
-        "label": true,
-        "road": true,
-        "building": true,
-        "water": true,
-        "land": true
-      },
+      "visibleLayerGroups": {},
       "threeDBuildingColor": [
         230.92517894351974,
         227.2005792831404,
         223.47597962276103
-      ]
+      ],
+      "mapStyles": {
+        "OpenStreetMap": {
+          "accessToken": null,
+          "custom": true,
+          "icon": "https://api.mapbox.com/styles/v1/https://tile.synapta.io/styles/osm-bright/style.json/static/-122.3391,37.7922,9,0,0/400x300?access_token=&logo=false&attribution=false",
+          "id": "OpenStreetMap",
+          "label": "OpenStreetMap",
+          "url": "https://tile.synapta.io/styles/osm-bright/style.json"
+        }
+      }
     }
   }
 };
 
-export default layerConfig;
+export default layerConfigHistory;

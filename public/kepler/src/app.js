@@ -13,7 +13,8 @@ import {connect} from 'react-redux';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 
 // config
-import layerConfig from './config/wmch-config';
+import layerConfigHistory from './config/wmch-config-history';
+import layerConfig3D from './config/wmch-config-history-3d';
 
 // Kepler.gl components
 import {SidePanelFactory, MapControlFactory, injectComponents} from 'kepler.gl/components';
@@ -31,15 +32,19 @@ import MAP_STYLES from './map_styles';
 
 const MAPBOX_TOKEN = ''; // eslint-disable-line
 
-// const STATIC_LAYER_DATA_ID = 'wmch_data_static';
-const STATIC_LAYER_DATA = {
-  id    : layerConfig.config.visState.layers[0].config.dataId,
-  label : layerConfig.config.visState.layers[0].config.label
-};
+const MAP_3D = false;
+const layerConfig = MAP_3D ? layerConfig3D : layerConfigHistory;
 
 const TIME_LAYER_DATA = {
-  id    : layerConfig.config.visState.layers[1].config.dataId,
-  label : layerConfig.config.visState.layers[1].config.label
+  id        : layerConfig.config.visState.layers[0].config.dataId,
+  label     : layerConfig.config.visState.layers[0].config.label,
+  isVisible : layerConfig.config.visState.layers[0].config.isVisible
+};
+
+const STATIC_LAYER_DATA = {
+  id        : layerConfig.config.visState.layers[1].config.dataId,
+  label     : layerConfig.config.visState.layers[1].config.label,
+  isVisible : layerConfig.config.visState.layers[1].config.isVisible
 };
 
 const NAVBAR_HEIGHT = 75; // px
@@ -47,8 +52,8 @@ const WIKIBLUE = '#0065A4';
 
 
 const KeplerGl = injectComponents([
-  [MapControlFactory, CustomMapControlFactory],
-  [SidePanelFactory, CustomSidePanelFactory]
+  [SidePanelFactory, CustomSidePanelFactory],
+  [MapControlFactory, CustomMapControlFactory]
 ]);
 
 
@@ -124,7 +129,6 @@ class App extends Component {
   }
 
   toggleLayerVisibility(e) {
-    console.log(e.target.dataset);
     const layerDataId = e.target.dataset.layer_data_id;
     const mapLayers = this.props.keplerGl.map.visState.layers;
     const layer = mapLayers.find(lyr => lyr.config.dataId === layerDataId);
