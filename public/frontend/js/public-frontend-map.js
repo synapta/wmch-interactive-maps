@@ -238,7 +238,7 @@ $(function() {
                                   // console.log(feature);
                                     pin = L.AwesomeMarkers.icon({
                                         icon: mapOpts.pinIcon,
-                                        prefix: 'icon',
+                                        prefix: 'fa',
                                         markerColor: feature.properties.pin.color,
                                         extraClasses: mapOpts.pinIcon + extraClassesForThisFeature
                                     });
@@ -253,7 +253,7 @@ $(function() {
                                     // return L.circleMarker(latlng, circleMarkerOptions).on('popupopen', openModal);
                                     const icon = L.AwesomeMarkers.icon({
                                         icon: mapOpts.pinIcon,
-                                        prefix: 'icon',
+                                        prefix: 'fa',
                                         markerColor: feature.properties.pin.color,
                                         extraClasses: mapOpts.pinIcon
                                     });
