@@ -8,7 +8,9 @@
   },
   "languages": [
     {"code": "en", "name": "English"},
-    {"code": "it", "name": "Italiano"}
+    {"code": "it", "name": "Italiano"},
+    {"code": "fr", "name": "Français"},
+    {"code": "de", "name": "Deutsch"}
   ],
   "mapPattern": "/v/%s",
   "screenshotPattern": "/p/%s",

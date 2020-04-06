@@ -1,0 +1,53 @@
+{
+  "page": {
+    "title": "WMCH Kartendienst",
+    "subtitle": "Wikipedia-Artikel auf geographischen Karten! Standorte erkunden, Artikelabdeckung überprüfen und mit enzyklopädischen Inhalten beitragen. Unterstütze uns dabei, das freie Wissen zu erweitern!"
+  },
+  "popup": {
+    "website": "Sito ufficiale",
+    "imageLicense": "Fonte Wikimedia Commons"
+  },
+  "filter": {
+    "no": "Kein Wikipedia-Artikel",
+    "one": "Ein Wikipedia-Artikel",
+    "three": "Mindestens zwei Wikipedia-Artikel",
+    "four": "Vier oder mehr Wikipedia-Artikel"
+  },
+  "actions": {
+    "back": {
+      "text": "Back to home"
+    },
+    "history": {
+      "text": "Browse history"
+    },
+    "realtime": {
+      "text": "Back to real time"
+    },
+    "close": {
+      "text": "Close"
+    },
+    "loadothers": {
+      "text": "Load others"
+    },
+    "noresults": {
+      "text": "No more results"
+    },
+    "throbbler": {
+      "text": "Loading"
+    },
+    "website": {
+      "text": "Official website"
+    },
+    "nocommonscat": {
+      "text": "No Commons category so far"
+    },
+    "morelanguages": {
+      "text": "&hellip; and in other !counter !languages",
+      "singular": "language",
+      "plural": "languages"
+    },
+    "nowikipedia": {
+      "text": "No Wikipedia articles so far"
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "page": {
+    "title": "Service de carte WMCH",
+    "subtitle": "Articles Wikipédia sur les cartes géographiques! Explorez les lieux, examinez la couverture des articles et contribuez avec du contenu encyclopédique.Soutenez-nous pour augmenter les connaissances libre!."
+  },
+  "popup": {
+    "website": "Site officiel",
+    "imageLicense": "From Wikimedia Commons"
+  },
+  "filter": {
+    "no": "Aucun article sur Wikipédia",
+    "one": "Un article sur Wikipédia",
+    "three": "Au moins deux articles sur Wikipédia",
+    "four": "Quatre articles sur Wikipédia"
+  },
+  "actions": {
+    "back": {
+      "text": "Back to home"
+    },
+    "history": {
+      "text": "Browse history"
+    },
+    "realtime": {
+      "text": "Back to real time"
+    },
+    "close": {
+      "text": "Close"
+    },
+    "loadothers": {
+      "text": "Load others"
+    },
+    "noresults": {
+      "text": "No more results"
+    },
+    "throbbler": {
+      "text": "Loading"
+    },
+    "website": {
+      "text": "Official website"
+    },
+    "nocommonscat": {
+      "text": "No Commons category so far"
+    },
+    "morelanguages": {
+      "text": "&hellip; and in other !counter !languages",
+      "singular": "language",
+      "plural": "languages"
+    },
+    "nowikipedia": {
+      "text": "No Wikipedia articles so far"
+    }
+  }
+}
