@@ -105,6 +105,9 @@ module.exports = function(app, apicache) {
             }
         }
         if (enrichedQuery.currentStyle) {
+            // TEMP - hard code Synapta tile server
+            // enrichedQuery.tile = "//tile.synapta.io/styles/klokantech-basic/{z}/{x}/{y}.png";
+            enrichedQuery.tile = "//tile.synapta.io/styles/osm-bright/{z}/{x}/{y}.png";
             res.send(JSON.stringify(enrichedQuery, null, ''));
         }
         else {
