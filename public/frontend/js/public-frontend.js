@@ -168,7 +168,7 @@ $(function() {
             pointToLayer: function (feature, latlng) {
                 var pin = L.AwesomeMarkers.icon({
                     icon: parsedOptions.pinIcon,
-                    prefix: 'fa',
+                    prefix: 'icon',
                     markerColor: feature.properties.pin.color,
                     extraClasses: parsedOptions.pinIcon
                 });
@@ -186,7 +186,7 @@ $(function() {
               pointToLayer: function (feature, latlng) {
                   var pin = L.AwesomeMarkers.icon({
                       icon: parsedOptions.pinIcon,
-                      prefix: 'fa',
+                      prefix: 'icon',
                       markerColor: feature.properties.pin.color,
                       extraClasses: parsedOptions.pinIcon
                   });
@@ -204,7 +204,7 @@ $(function() {
             pointToLayer: function (feature, latlng) {
                 var pin = L.AwesomeMarkers.icon({
                     icon: parsedOptions.pinIcon,
-                    prefix: 'fa',
+                    prefix: 'icon',
                     markerColor: feature.properties.pin.color,
                     extraClasses: parsedOptions.pinIcon
                 });
@@ -223,7 +223,7 @@ $(function() {
           pointToLayer: function (feature, latlng) {
               var pin = L.AwesomeMarkers.icon({
                   icon: parsedOptions.pinIcon,
-                  prefix: 'fa',
+                  prefix: 'icon',
                   markerColor: feature.properties.pin.color,
                   extraClasses: parsedOptions.pinIcon
               });
