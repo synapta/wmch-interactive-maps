@@ -30,7 +30,29 @@ function getShortlang (langcode) {
     return navigatorLanguage;
 }
 
+
+/////////////////////////////////////
 function languageWalker(candidateLangsReversed, req, fallbackLanguage, section) {
+    let shortlang = fallbackLanguage;
+    let translationData = loadTranslationFile(section, shortlang);
+    if (candidateLangsReversed.length) {
+        candidateLang = candidateLangsReversed.pop();
+        shortlang = getShortlang(req.query.l ? req.query.l : candidateLang);
+        // console.log("shortLang is", shortLang);
+        try {
+            translationData = loadTranslationFile(section, shortlang);
+        }
+        catch (e) {
+            // not found in local translation, restore fallback language
+            shortlang = fallbackLanguage;
+        }
+    }
+    return [shortlang, translationData];
+}
+
+/////////////////////////////////
+// OLD VERSION
+function languageWalkerOLD(candidateLangsReversed, req, fallbackLanguage, section) {
     if (candidateLangsReversed.length) {
         let candidateLang = candidateLangsReversed.pop();
         let shortlang = getShortlang(req.query.l ? req.query.l : candidateLang);

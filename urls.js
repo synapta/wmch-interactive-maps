@@ -50,7 +50,7 @@ module.exports = function(app, apicache) {
                 // variables to pass to Mustache to populate template
                 var view = {
                   shortlang: shortlang,
-                  langname: i18n_utils.getLangName(config.languages, shortlang) || 'English',
+                  langname: i18n_utils.getLangName(config.languages, shortlang),
                   map: config.map,
                   logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                   sparql: config.sparql,
@@ -489,7 +489,7 @@ module.exports = function(app, apicache) {
                 var view = {
                   shortlang: shortlang,
                   logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
-                  langname: i18n_utils.getLangName(config.languages, shortlang) || 'English',
+                  langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/",
                   languages: config.languages,
                   author: config.map.author,
@@ -530,7 +530,7 @@ module.exports = function(app, apicache) {
                       var view = {
                         shortlang: shortlang,
                         logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
-                        langname: i18n_utils.getLangName(config.languages, shortlang) || 'English',
+                        langname: i18n_utils.getLangName(config.languages, shortlang),
                         baseurl: localconfig.url + "/",
                         languages: config.languages,
                         credits: config.map.author,
@@ -796,7 +796,7 @@ module.exports = function(app, apicache) {
                       // variables to pass to Mustache to populate template
                       var view = {
                         shortlang: shortlang,
-                        langname: i18n_utils.getLangName(config.languages, shortlang) || 'English',
+                        langname: i18n_utils.getLangName(config.languages, shortlang),
                         languages: config.languages,
                         credits: config.map.author,
                         logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
