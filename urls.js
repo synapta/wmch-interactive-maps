@@ -463,6 +463,7 @@ module.exports = function(app, apicache) {
     app.use('/css/',express.static('./public/css'));
     app.use('/images/',express.static('./public/images'));
     app.use('/js/',express.static('./public/js'));
+    app.use('/fonts/',express.static('./public/fonts'));
 
     /**
      * Display Landing page
