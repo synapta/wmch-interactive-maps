@@ -204,3 +204,8 @@
 .map-realtime #leaflet-control-layers-overlays-x {
     display: none;
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: .5;
+}

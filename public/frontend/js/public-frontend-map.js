@@ -68,8 +68,11 @@ L.timeDimension.layer.timedGeojson = function(layer, options) {
 };
 
 
-
 $(function() {
+
+  console.log('entry');
+
+  const t_entry = performance.now();
 
     var legendaTimeUpdate = function (pinIcon, forceIndex) {
         // get elements count for each pin
@@ -135,6 +138,9 @@ $(function() {
         return els;
     }
 
+
+    console.log('ask map options');
+
     // get options for current map
     $.ajax ({
         type:'GET',
@@ -144,6 +150,7 @@ $(function() {
             console.warn('Error retrieving data from url parameters');
         },
         success: function(mapOpts) {
+            const t_opts = performance.now();
             // console.log(mapOpts);  // DEBUG
             // set attribution to map
             mapOpts.baseAttribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
@@ -158,6 +165,8 @@ $(function() {
               'q=' + encodeURIComponent(options.sparql),
               'id=' + mapOpts.id
             ];
+
+            console.log('ask geo data');
             $.ajax ({
                 type:'GET',
                 url: "/api/timedata?" + allArgs.join('&'),
@@ -166,6 +175,9 @@ $(function() {
                 },
                 success: function(geoJsonDataRaw) {
                     var geoJsonData = enrichFeatures(geoJsonDataRaw);
+                    console.log('got geoJSON', geoJsonData);
+                    const t_geo = performance.now();
+
                     // data loaded, hide the throbbler
                     $('#pagepop').dimmer('hide');
 
@@ -206,6 +218,9 @@ $(function() {
                     // @see https://github.com/socib/Leaflet.TimeDimension/issues/14#issuecomment-158116366
                     //declare a normal GeoJson layer
 
+                    console.log('base map instantiated');
+                    const t_basemap = performance.now();
+
                     // LEGENDA /////////////////////////////////////////////////
                     var overlayMaps = {};
 
@@ -220,7 +235,9 @@ $(function() {
                         else return "";
                     }
 
-                    $.each(markerAvailableColors, function( mciIndex, color ) {
+                    console.log('adding geo data to map');
+
+                    $.each(markerAvailableColors, function(mciIndex, color ) {
                       // console.log(markerAvailableColors);
                         var visibleName = prettyLabels[mciIndex];
                         var circleMarkerOptions = {
@@ -229,38 +246,29 @@ $(function() {
                           radius: 6,
                           opacity: 0.8
                         };
-                        var geoJsonLayer = L.geoJson(colorLayerParse(geoJsonData, color) , {
+                        var geoJsonLayer = L.geoJson(colorLayerParse(geoJsonData, color), {
                             pointToLayer: function (feature, latlng) {
                                 var pin = false;
                                 var extraClassesForThisFeature = getExtraClasses(feature);
                                 // if this entry has data changed, display as pin, else display as circle
                                 if (extraClassesForThisFeature.includes('new-pin-on-time')) {
                                   // console.log(feature);
-                                    pin = L.AwesomeMarkers.icon({
+                                    const icon = L.AwesomeMarkers.icon({
                                         icon: mapOpts.pinIcon,
                                         prefix: 'icon',
                                         markerColor: feature.properties.pin.color,
                                         extraClasses: mapOpts.pinIcon + extraClassesForThisFeature
                                     });
-                                  //   pin = L.icon({
-                                  //     iconUrl: '/images/icons/leaf-green.png',
-                                  //     iconSize:     [38, 95], // size of the icon
-                                  //     iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-                                  //     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-                                  // });
-                                }
-                                if (!pin) {
-                                    // return L.circleMarker(latlng, circleMarkerOptions).on('popupopen', openModal);
-                                    const icon = L.AwesomeMarkers.icon({
-                                        icon: mapOpts.pinIcon,
-                                        prefix: 'icon',
-                                        markerColor: feature.properties.pin.color,
-                                        extraClasses: mapOpts.pinIcon
-                                    });
-                                    return L.marker(latlng, { icon: icon }).on('popupopen', openModal);
-                                }
-                                else {
-                                    return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
+                                    return L.marker(latlng, { icon }).on('popupopen', openModal);
+                                } else {color
+                                  // TODO clusterize
+                                  const icon = L.AwesomeMarkers.icon({
+                                      icon: mapOpts.pinIcon,
+                                      prefix: 'icon',
+                                      markerColor: feature.properties.pin.color,
+                                      extraClasses: mapOpts.pinIcon
+                                  });
+                                  return L.marker(latlng, { icon }).on('popupopen', openModal);
                                 }
                             },
                             // attach popup on each feature
@@ -278,14 +286,20 @@ $(function() {
                             // same of Map > timeDimensionOptions > period
                             duration: historyTimelineDuration
                         });
-                        overlayMaps[visibleName].on("timeload", function () {
+                        overlayMaps[visibleName].on("timeload", function (time) {
+                            console.log("ho aggiornato la timelineeeee!!!!!!!!!! color: ", color, "time: ", time)
+                            // TODO faiClusterizzazione()
+                            //
                             mobileDesktopLegenda();
                             legendaTimeUpdate(mapOpts.pinIcon);
                         });
-                        // show the timed layer to the map
+                        // show the timed layer to the mapho aggiornato la timelineeeee!!!!!!!!!! color: ", color, "time: ", time)
                         // comment to do not show (unchecked box)
                         overlayMaps[visibleName].addTo(window.map);
                     });
+
+                    const t_datamap = performance.now();
+                    console.log('finalize map UI');
 
                     // Add timedimension control
                     var timeDimensionControl = new L.Control.TimeDimensionCustom({
@@ -330,6 +344,17 @@ $(function() {
                     // if is undefined, automatically get current time
                     legendaTimeUpdate(mapOpts.pinIcon, lastDate);
                     fancyUI();
+
+                    const t_uimap = performance.now();
+
+                    console.log('******* HISTORY MAP - PERFORMANCE ************');
+                    console.log(`Retrieving map options took ${t_opts - t_entry}ms`);
+                    console.log(`Retrieving geo data took ${t_geo - t_opts}ms`);
+                    console.log(`Rendering basemap took ${t_basemap - t_geo}ms`);
+                    console.log(`Rendering data on map took ${t_datamap - t_basemap}ms`);
+                    console.log(`Finalizing map UI took ${t_uimap - t_datamap}ms`);
+                    console.log('*********************************************');
+
                     // console.log("getAvailableTimes", window.map.timeDimension.getAvailableTimes());  // DEBUG
                 }  // END success 2
             });  // END ajax 2
