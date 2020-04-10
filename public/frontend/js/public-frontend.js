@@ -7,42 +7,27 @@ Number.prototype.mapVal = function(x1, x2, y1, y2) {
 
 $(function() {
 
-    console.log('entry');
     t_entry = performance.now();
 
-    // GLOBALS
+    /******************** GLOBALS (inside document ready) *********************/
     let FIRST_LOADED = false;
-    let museumsList = [];
     let markersLayer;  // leaflet geoJSON layer
     let clustersIndex; // supercluster instance
     let newJson;       // data retreived from API
 
-    // variables available to all functions inside document ready
-    var prettyLabels = [
-        prettify($("#wmap").data('filter-no'), 'black'),
-        prettify($("#wmap").data('filter-one'), 'red'),
-        prettify($("#wmap").data('filter-three'), 'orange'),
-        prettify($("#wmap").data('filter-four'), 'green')
-    ];
-
-    const layersLabels = [
-      {
-        html: prettify($("#wmap").data('filter-no'), 'black'),
-        color: 'black'
-      },
-      {
-        html: prettify($("#wmap").data('filter-one'), 'red'),
-        color: 'red'
-      },
-      {
-        html: prettify($("#wmap").data('filter-three'), 'orange'),
-        color: 'orange'
-      },
-      {
-        html: prettify($("#wmap").data('filter-four'), 'green'),
-        color: 'green'
-      },
-    ];
+    // jQuery map obj
+    const $map = $('#wmap');
+    // available layer colors
+    const colors = ['black', 'red', 'orange', 'green'];
+    // suffixes for dataset, so we can retrieve legend translations from map element dataset
+    const legendaSuffix = ['no', 'one', 'three', 'four'];
+    // legenda label for each layer (color)
+    const layersLabels = colors.map((color, idx) => {
+      return {
+        html: prettify($map.data(`filter-${legendaSuffix[idx]}`), color),
+        color
+      }
+    });
 
     const mobileDesktopLegenda = function() {
       if (isMobile()) {
@@ -56,13 +41,13 @@ $(function() {
     };
 
     const legendaUpdate = function(data, pinIcon) {
-        // get elements count for each pin
-        var counterArrayByCriteria = countByFilter(data, museumsList);
-        var newText = '';
+        // get elements count for each color
+        const counts = colors.map(color => newJson.filter(feature => feature.properties.pin.color === color).length);
+        let newText = '';
         $('.legenda-label').each(function (index) {
             // l'ordine di visualizzazione della legenda è il medesimo
             // dell'ordine dei dati nell'array countByFilter
-            newText = $(this).text().replace(/(0)/g, counterArrayByCriteria[index].toString());
+            newText = $(this).text().replace(/(0)/g, counts[index].toString());
             $(this).text(newText);
         });
         $('.leaflet-control-layers-overlays .icon').each(function (index) {
@@ -92,7 +77,6 @@ $(function() {
         // perform filtering and update clusters
         const activeCheckboxes = Array.from(document.querySelectorAll('.leaflet-control-layers-selector:checked'));
         const activeColors = activeCheckboxes.map(input => input.dataset.color);
-        console.log('activeColors', activeColors);
         const newData = filterByColors(newJson, activeColors);
         clustersIndex.load(newData);
         updateClusters(markersLayer, clustersIndex)
@@ -115,7 +99,6 @@ $(function() {
       geoJsonLayer.addData(clusters);
     };
 
-    window.updateClusters = updateClusters;
 
     /**
      * @function generateClusterIcon
@@ -123,7 +106,6 @@ $(function() {
      * @param  {object} latlng  latidude/longitude position
      */
     const generateClusterIcon = (options, feature, latlng) => {
-      // console.log(feature);
       if (feature.properties.cluster) {
         // if is a cluster, render circle with count
         const count = feature.properties.point_count;
@@ -158,21 +140,7 @@ $(function() {
       }
     };
 
-    // function generateCircleMarkerByColorIndex(latlng, mciIndex) {
-    //     var circleMarkerOptions = {
-    //       color: markerAvailableColorsCodes[mciIndex],
-    //       weight: 2,
-    //       radius: 6
-    //     };
-    //     return L.circleMarker(latlng, circleMarkerOptions).on('popupopen', openModal);
-    // }
-
-    window.filterByColors = filterByColors;
-
     function loadData(options) {
-        // console.log('Autozoom', options.autozoom);
-        // window.sparqlCache = options.sparql;
-        console.log('ask geo data');
         $.ajax({
             type:'GET',
             url: "/api/data?q=" + encodeURIComponent(options.sparql),
@@ -181,51 +149,32 @@ $(function() {
                 // enrich feature
                 newJson = enrichFeatures(json);
 
-                console.log('got geoJSON', newJson);
                 // count data points
                 const dataPoints = newJson.length;
 
                 t_geo = performance.now();
-                // console.log('t_geo', t_geo);
 
-                console.log('add geo markers')
 
-                // smallest 675 - 10
-                // small 1863 - 40
-                // big 7818 - 80
-                // biggest 14706 - 150
-
-                console.log('options.cluster', options.cluster);
-
-                markersLayer = L.geoJSON(null, {
-                  onEachFeature : manageClusterPopup,
-                  pointToLayer  : (feature, latlng) => generateClusterIcon(options, feature, latlng)
-                }).addTo(window.map);
 
                 // adaptive in range [10 - 150]
                 const radius = options.noCluster ? 0 : dataPoints.mapVal(600, 15000, 10, 150);
-                console.log('radius', radius);
                 clustersIndex = new Supercluster({ radius });
-
-                window.clustersIndex = clustersIndex;
 
                 const t1 = performance.now();
                 clustersIndex.load(newJson);
                 const t2 = performance.now();
                 console.log(`load ${dataPoints} dataPoints in supercluster took ${t2 - t1}ms`);
 
+                markersLayer = L.geoJSON(null, {
+                  onEachFeature : manageClusterPopup,
+                  pointToLayer  : (feature, latlng) => generateClusterIcon(options, feature, latlng)
+                }).addTo(window.map);
+
                 window.map.on('moveend', () => updateClusters(markersLayer, clustersIndex));
 
                 updateClusters(markersLayer, clustersIndex)
 
-                console.log('markers', markersLayer);
-                // console.log('autozoom', options.autozoom);
-
-                // markers = new L.MarkerClusterGroup(options.cluster);
-                // addMarkers(newJson, window.map, markers, options, options.autozoom);
-
                 t_datamap = performance.now();
-                console.log('finalize map UI');
 
                 // Aggiungi i contatori alla mappa
                 legendaUpdate(newJson, options.pinIcon);
@@ -257,8 +206,8 @@ $(function() {
     }
 
     function loadLegenda() {
-      const t1 = performance.now();
 
+        // define custom control
         L.Control.CustomControl = L.Control.extend({
 
             listenedElements: [],
@@ -342,43 +291,13 @@ $(function() {
           classes  : 'leaflet-control-layers', // use control-layers style
           labels   : layersLabels
         };
-        // const filterControl =  L.control.customControl(controlOptions).addTo(window.map);
 
-        var overlayMaps = {};
-        var emptyLayers = {};
-        // load controls (legenda)
-        for (i=0; i < prettyLabels.length; i++) {
-            // var lab = prettyLabels[i].replace(/{{iconClasses}}/g, iconClasses);
-            emptyLayers[prettyLabels[i]] = new L.layerGroup().addTo(map);
-            /**
-            emptyLayers[
-              prettyLabels[i].replace(/{{iconClasses}}/g, iconClasses)
-            ] = new L.layerGroup().addTo(map);
-            **/
-        }
-
-        for (var index in emptyLayers) {
-            overlayMaps[index] = emptyLayers[index];
-        }
-        console.log('overlayMaps', overlayMaps);
-        window.mapControl = L.control.layers(null, overlayMaps);
-
-
-        // window.mapControl.addTo(window.map);
-
+        // add control
         L.control.customControl(controlOptions).addTo(window.map);
-
-        // Execute at the very end ///////////////////////////
-        //
-        const t2 = performance.now();
-
-        console.log(`loading legenda took ${t2 - t1}ms`)
     }
 
-    function loadmap(parsedOptions) {
+    function loadMap(parsedOptions) {
 
-        // destroy and regenerate
-        // if (window.map && mapInstance.remove) {
         if (window.map) {
             window.map.off();
             window.map.remove();
@@ -387,8 +306,7 @@ $(function() {
             // abort, no style selected
             return;
         }
-        // console.log('ok');
-        // }
+
         // options
         var mapOptions = {};
         mapOptions.baseAttribution = window.attribution;
@@ -433,85 +351,6 @@ $(function() {
 
          **/
 
-        options.pins.museumBlack = L.geoJSON (null, {
-            onEachFeature: function (feature, layer) {
-                popupGenerator(feature, layer);
-            },
-            pointToLayer: function (feature, latlng) {
-                var pin = L.AwesomeMarkers.icon({
-                    icon: parsedOptions.pinIcon,
-                    prefix: 'icon',
-                    markerColor: feature.properties.pin.color,
-                    extraClasses: parsedOptions.pinIcon
-                });
-                return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
-                // return generateCircleMarkerByColorIndex(latlng, 0);
-            },
-            filter: function (feature, layer) {
-                return feature.properties.pin.color === "black";
-            }
-        });
-        options.pins.museumRed = L.geoJSON (null, {
-              onEachFeature: function (feature, layer) {
-                  popupGenerator(feature, layer);
-              },
-              pointToLayer: function (feature, latlng) {
-                  var pin = L.AwesomeMarkers.icon({
-                      icon: parsedOptions.pinIcon,
-                      prefix: 'icon',
-                      markerColor: feature.properties.pin.color,
-                      extraClasses: parsedOptions.pinIcon
-                  });
-                  return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
-                  // return generateCircleMarkerByColorIndex(latlng, 1);
-              },
-              filter: function (feature, layer) {
-                  return feature.properties.pin.color === "red";
-              }
-        });
-        options.pins.museumOrange = L.geoJSON (null, {
-            onEachFeature: function (feature, layer) {
-                popupGenerator(feature, layer);
-            },
-            pointToLayer: function (feature, latlng) {
-                var pin = L.AwesomeMarkers.icon({
-                    icon: parsedOptions.pinIcon,
-                    prefix: 'icon',
-                    markerColor: feature.properties.pin.color,
-                    extraClasses: parsedOptions.pinIcon
-                });
-                return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
-                // return generateCircleMarkerByColorIndex(latlng, 2);
-            },
-            filter: function (feature, layer) {
-                return feature.properties.pin.color === "orange";
-            }
-          });
-
-        options.pins.museumGreen = L.geoJSON (null, {
-          onEachFeature: function (feature, layer) {
-              popupGenerator(feature, layer);
-          },
-          pointToLayer: function (feature, latlng) {
-              var pin = L.AwesomeMarkers.icon({
-                  icon: parsedOptions.pinIcon,
-                  prefix: 'icon',
-                  markerColor: feature.properties.pin.color,
-                  extraClasses: parsedOptions.pinIcon
-              });
-              return L.marker(latlng, { icon: pin }).on('popupopen', openModal);
-              // return generateCircleMarkerByColorIndex(latlng, 3);
-          },
-          filter: function (feature, layer) {
-              return feature.properties.pin.color === "green";
-          }
-        });
-        museumsList = [
-          options.pins.museumBlack,
-          options.pins.museumRed,
-          options.pins.museumOrange,
-          options.pins.museumGreen
-        ];
         ////////////////////////////////////////////////////////////////////////////////
         var labelColumn = "title";
         var opacity = 1.0;
@@ -530,7 +369,7 @@ $(function() {
             subdomains: mapOptions.subdomains,
             opacity: opacity
         });
-        // console.log(parsedOptions.zoom);
+
         // carica la mappa nel div #wmap
         window.map = new L.Map('wmap', {
             center: new L.LatLng(parsedOptions.startLat, parsedOptions.startLng),
@@ -543,27 +382,6 @@ $(function() {
 
         // load controls
         loadLegenda();
-        // console.log(prettyLabels);
-        // Azioni di attivazione / disattivazione degli elementi specifici
-        // filtrati per label
-        // window.map.on('overlayadd', function (a) {
-        //     console.log('overlayadd');
-        //     for (i=0; i < prettyLabels.length; i++) {
-        //         if (a.name === prettyLabels[i]) {
-        //             // markers.addLayer(museumsList[i]);
-        //             break;
-        //         }
-        //     }
-        // });
-        // window.map.on('overlayremove', function (a) {
-        //   console.log('overlayremove');
-        //   for (i=0; i < prettyLabels.length; i++) {
-        //       if (a.name === prettyLabels[i]) {
-        //           // markers.removeLayer(museumsList[i]);
-        //           break;
-        //       }
-        //   }
-        // });
 
         // display legenda every time a popup is closed
         window.map.on('popupclose', closePopup);
@@ -573,10 +391,8 @@ $(function() {
         });
         mobileDesktopLegenda();
         // load data
-        console.log('base map setup');
         t_basemap = performance.now();
         loadData(options);
-
     }
 
     // default (aliased url)
@@ -586,56 +402,21 @@ $(function() {
     if (window.location.search.length > 10 && window.location.search.indexOf('apiv=') !== -1) {
         varurl = [window.location.protocol, '//', window.location.host, '/a/', window.location.search].join('');
     }
-    console.log(varurl);
+
     /** From parameters to object, hydrate **/
-    console.log('ask map options');
     $.ajax ({
-        type:'GET',
-        url: varurl,
-        dataType: 'json',
-        error: function(e) {
-            console.warn('Error retrieving data from url parameters');
-        },
-        success: function(mapOpts) {
+        type     : 'GET',
+        url      : varurl,
+        dataType : 'json',
+        error    : e => console.warn('Error retrieving data from url parameters'),
+        success  : mapOpts => {
           t_opts = performance.now();
             // mapOpts.collapse = false;  // NW
-            // console.log('Loading map');
-            //  console.log(mapOpts);
             window.attribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
             // Load map
-            loadmap(mapOpts);
+            loadMap(mapOpts);
         }
     });
-
-    // MOVED
-    // $('#languages').dropdown({
-    //     onChange: function (value) {
-    //         if (window.location.pathname.indexOf('/v/') === 0) {
-    //             window.location.href = window.location.pathname + '?l=' + value;
-    //         }
-    //     }
-    // });
-
-    // MOVED
-    // $(document).on("click", "#back", function (e) {
-    //     e.preventDefault();
-    //     // check if l parameter exists (user define a language via dropdown / url)
-    //     var lang = getUrlParameter('l');
-    //     if (lang ? true : false) {
-    //         // user-defined language
-    //         window.location.href = '/?l=' + lang;
-    //     }
-    //     else {
-    //         // browser-defined language
-    //         window.location.href = '/';
-    //     }
-    // });
-
-    // $('#pagepopclose').on("click", function (e) {
-    //     // Hide close button
-    //     $('#pagepop').dimmer('hide');
-    //     $('#pagepopclose').hide();
-    // });
 
     // show loader
     $('#pagepop').dimmer('show');
@@ -643,18 +424,4 @@ $(function() {
     $(document).on("mouseout", ".leaflet-control-toggle", function (evi) {
         evi.preventDefault();
     });
-
-    // MOVED
-    // // go to History page
-    // $(document).on("click", "#history", function (e) {
-    //     e.preventDefault();
-    //     // check if l parameter exists (user define a language via dropdown / url)
-    //     // from [V]iew to [H]istory
-    //     window.location.href = window.location.href.replace(/\/v\//g, "/h/");
-    // });
-
-    // MOVED
-    // add arrow to #languages dropdown
-    // $("#languages .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
-
 });
