@@ -448,7 +448,7 @@ module.exports = function(app, apicache) {
      * @param  {Express response} res
      * @return {GeoJSON string}
      */
-    app.get('/api/data', apicache('5 minutes'), async function (req, res) {
+    app.get('/api/data', apicache('24 hours'), async function (req, res) {
         let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
         if (sparqlJsonResult.error) {
             // error
