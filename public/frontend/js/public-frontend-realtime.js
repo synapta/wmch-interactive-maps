@@ -10,7 +10,7 @@ $(function() {
     t_entry = performance.now();
 
     /******************** GLOBALS (inside document ready) *********************/
-    let FIRST_LOADED = false;
+    let MAP_READY = false;
     let markersLayer;  // leaflet geoJSON layer
     let clustersIndex; // supercluster instance
     let newJson;       // data retreived from API
@@ -70,17 +70,15 @@ $(function() {
      * @param  {object} e evento of layer changed
      */
     const filterMapData = e => {
-      if (FIRST_LOADED) {
-        // prevent user to click again while filtering
-        const labels = document.querySelectorAll('.control-layers-labels');
-        labels.forEach(lbl => lbl.classList.add('disabled'));
+      if (MAP_READY) {
         // perform filtering and update clusters
         const activeCheckboxes = Array.from(document.querySelectorAll('.leaflet-control-layers-selector:checked'));
         const activeColors = activeCheckboxes.map(input => input.dataset.color);
         const newData = filterByColors(newJson, activeColors);
         clustersIndex.load(newData);
-        updateClusters(markersLayer, clustersIndex)
+        updateClusters(markersLayer, clustersIndex);
         // restore interaction
+        const labels = document.querySelectorAll('.control-layers-labels');
         labels.forEach(lbl => lbl.classList.remove('disabled'));
       }
     };
@@ -180,7 +178,7 @@ $(function() {
                 legendaUpdate(newJson, options.pinIcon);
                 fancyUI();
 
-                FIRST_LOADED = true;
+                MAP_READY = true;
 
                 t_uimap = performance.now();
 
@@ -213,33 +211,42 @@ $(function() {
             listenedElements: [],
 
             onAdd: function(map) {
-              this.container           = L.DomUtil.create('div', '');
+              this.container           = L.DomUtil.create('div', 'control-container');
               this.container.id        = this.options.id;
               this.container.title     = this.options.title;
               this.container.className = this.options.classes;
 
               // create outer container
-              const section    = L.DomUtil.create('section', '');
+              const section    = L.DomUtil.create('section', 'controls-section');
               const controls   = L.DomUtil.create('div', 'leaflet-control-layers-overlays');
               // controls.className = '';
 
               this.options.labels.forEach(label => {
                 // create label container
                 const lbl = L.DomUtil.create('label', 'control-layers-labels');
-                const div = L.DomUtil.create('div', '');
+                const div = L.DomUtil.create('div', 'control-layers-lbl-div');
 
-                // create input checkbox element (with helper function)
-                const input = createNode('input', {
-                  'type'       : 'checkbox',
-                  'checked'    : true,
-                  'class'      : 'leaflet-control-layers-selector',
-                  'data-color' : label.color
-                });
+                // create input checkbox element
+                const input = L.DomUtil.create('input', 'leaflet-control-layers-selector');
+                input.type = 'checkbox';
+                input.checked = true;
+                input.dataset.color = label.color;
 
                 const action = e => {
-                  const color = e.currentTarget.dataset.color;
-                  const checked = e.currentTarget.checked;
-                  filterMapData({ color, checked });
+                  if (MAP_READY) {
+                    // prevent user to click again while filtering
+                    const labels = document.querySelectorAll('.control-layers-labels');
+                    labels.forEach(lbl => {
+                      console.log('adding to', lbl);
+                      lbl.classList.add('disabled')
+                    });
+
+                    const color = e.currentTarget.dataset.color;
+                    const checked = e.currentTarget.checked;
+
+                    // fitler
+                    filterMapData({ color, checked });
+                  }
                 };
 
                 // set onchange listener

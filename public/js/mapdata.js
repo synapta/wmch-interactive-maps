@@ -255,7 +255,7 @@ function addMarkers(json, map, markers, options, autozoom) {
 }
 
 /**
- *  Count pins in leaflet maps (public-frontend.js, clustered).
+ *  Count pins in leaflet maps (public-frontend-realtime.js, clustered).
  *  @param {string} data: data from query
  *  @param {array} leafletPins: array of Leaflet pins already loaded on map
  *  @return {object}: an array counting number of elements per leafletPins, index matched with leafletPins
