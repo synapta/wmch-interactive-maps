@@ -45,11 +45,14 @@ body {
 #wmap .leaflet-control-layers:not(.leaflet-control-layers-expanded) {
     border: none;
 }
+
 #wmap .leaflet-control-layers-selector,
 #landing .leaflet-control-layers-selector {
  display: inline-block;
  float: right;
+ cursor: pointer;
 }
+
 #languages .menu,
 #languagesmobile .menu {
   z-index: 999;
