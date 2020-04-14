@@ -426,6 +426,7 @@ $(function() {
     });
 
     // show loader
+    $('#pagepop').dimmer({closable: false});
     $('#pagepop').dimmer('show');
 
     $(document).on("mouseout", ".leaflet-control-toggle", function (evi) {

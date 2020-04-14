@@ -126,6 +126,7 @@ $(function() {
     ];
 
     // display throbble while loading
+    $('#pagepop').dimmer({closable: false});
     $('#pagepop').dimmer('show');
 
     function colorLayerParse (arr, color) {
