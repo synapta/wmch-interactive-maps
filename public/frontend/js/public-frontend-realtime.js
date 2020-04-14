@@ -67,19 +67,29 @@ $(function() {
 
     /**
      * @function filterMapData filter data and update map
-     * @param  {object} e evento of layer changed
+     * @param  {object} e event of layer changed
      */
     const filterMapData = e => {
       if (MAP_READY) {
+        // prevent other user interactions
+        const labels = document.querySelectorAll('.control-layers-labels');
+        labels.forEach(lbl => lbl.classList.add('disabled'));
+
         // perform filtering and update clusters
         const activeCheckboxes = Array.from(document.querySelectorAll('.leaflet-control-layers-selector:checked'));
         const activeColors = activeCheckboxes.map(input => input.dataset.color);
         const newData = filterByColors(newJson, activeColors);
         clustersIndex.load(newData);
-        updateClusters(markersLayer, clustersIndex);
-        // restore interaction
-        const labels = document.querySelectorAll('.control-layers-labels');
-        labels.forEach(lbl => lbl.classList.remove('disabled'));
+
+        // setTimeout(fn, 0) is a fix for updatig DOM status BEFORE starting clusters redraw
+        // improves UX because it allows to set buttons as disabled
+        // @link https://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful/4575011#4575011
+        setTimeout(() => {
+          // redraw clusters
+          updateClusters(markersLayer, clustersIndex);
+          // restore interaction
+          labels.forEach(lbl => lbl.classList.remove('disabled'));
+        }, 0);
       }
     };
 
@@ -233,20 +243,9 @@ $(function() {
                 input.dataset.color = label.color;
 
                 const action = e => {
-                  if (MAP_READY) {
-                    // prevent user to click again while filtering
-                    const labels = document.querySelectorAll('.control-layers-labels');
-                    labels.forEach(lbl => {
-                      console.log('adding to', lbl);
-                      lbl.classList.add('disabled')
-                    });
-
-                    const color = e.currentTarget.dataset.color;
-                    const checked = e.currentTarget.checked;
-
-                    // fitler
-                    filterMapData({ color, checked });
-                  }
+                  const color = e.currentTarget.dataset.color;
+                  const checked = e.currentTarget.checked;
+                  filterMapData({ color, checked });
                 };
 
                 // set onchange listener
