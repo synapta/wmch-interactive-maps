@@ -289,3 +289,144 @@ var getVarUrl = function () {
   }
   return varurl;
 }
+
+/**
+ * @function updateClusters calculate and draw clusters based on current zoom and bounds
+ * @param  {L.geoJSON}    geoJsonLayer  geoJSON layer where to draw clusters
+ * @param  {Supercluster} clustersIndex Supercluster instance
+ */
+const updateClusters = (geoJsonLayer, clustersIndex) => {
+  const bounds = window.map.getBounds();
+  const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
+  const zoom = window.map.getZoom();
+  const clusters = clustersIndex.getClusters(bbox, zoom);
+  geoJsonLayer.clearLayers();
+  geoJsonLayer.addData(clusters);
+};
+
+
+/**
+ * @function generateMarkerIcon
+ * @param  {object} feature geoJSON feature
+ * @param  {object} latlng  latidude/longitude position
+ */
+const generateMarkerIcon = (pinIcon, feature, latlng) => {
+  if (feature.properties.cluster) {
+    // if is a cluster, render circle with count
+    const count = feature.properties.point_count;
+    const size = count < 100 ? 'small' : (count < 1000) ? 'medium' : 'large';
+    const icon = L.divIcon({
+      html      : `<div><span>${feature.properties.point_count_abbreviated}</span></div>`,
+      className : `marker-cluster marker-cluster-${size}`,
+      iconSize  : L.point(40, 40)
+    });
+    return L.marker(latlng, {icon});
+  } else {
+    // if post processed feature add 'new-pin-on-time' class for styling
+    const extraclasses = Boolean(feature.postProcess) ? `${pinIcon} new-pin-on-time` : pinIcon;
+    // if single point, render marker icon with proper color
+    const icon = L.AwesomeMarkers.icon({
+        icon         : pinIcon,
+        prefix       : 'icon',
+        markerColor  : feature.properties.pin.color,
+        extraClasses : extraclasses
+    });
+    return L.marker(latlng, { icon }).on('popupopen', openModal);
+  }
+};
+
+/**
+ * @function managePopup
+ * @param  {object} feature geoJSON feature
+ * @param  {object} layer   current layer
+ */
+const managePopup = (feature, layer) => {
+  if (!feature.properties.cluster) {
+    popupGenerator(feature, layer);
+  }
+};
+
+/**
+ * @function filterByColors flter data array by colors
+ * @param  {array} dataPoints array of data points
+ * @param  {array} colors     colors to include
+ * @return {array}            filtered arrays
+ */
+const filterByColors = (dataPoints, colors) => {
+  return dataPoints.filter(feature => colors.includes(feature.properties.pin.color));
+};
+
+
+// define custom control
+L.Control.CustomControl = L.Control.extend({
+
+    listenedElements: [],
+
+    onAdd: function(map) {
+      this.container           = L.DomUtil.create('div', 'control-container');
+      this.container.id        = this.options.id;
+      this.container.title     = this.options.title;
+      this.container.className = this.options.classes;
+
+      // create outer container
+      const section    = L.DomUtil.create('section', 'controls-section');
+      const controls   = L.DomUtil.create('div', 'leaflet-control-layers-overlays');
+
+      this.options.labels.forEach(label => {
+        // create label container
+        const lbl = L.DomUtil.create('label', 'control-layers-labels');
+        const div = L.DomUtil.create('div', 'control-layers-lbl-div');
+
+        // create input checkbox element
+        const input = L.DomUtil.create('input', 'leaflet-control-layers-selector');
+        input.type = 'checkbox';
+        input.checked = true;
+        input.dataset.color = label.color;
+
+        const action = e => {
+          const color = e.currentTarget.dataset.color;
+          const checked = e.currentTarget.checked;
+          this.options.filterAction({ color, checked });
+        };
+
+        // set onchange listener
+        L.DomEvent.on(input, 'change', action);
+
+        // keep track of element with listeners so we can remove them onRemove
+        this.listenedElements.push({
+          el     : input,
+          event  : 'change',
+          action : action
+        });
+
+        // create span element with correct html
+        const span  = L.DomUtil.create('span');
+        span.innerHTML = label.html;
+
+        // compose DOM element
+        div.appendChild(input);
+        div.appendChild(span);
+        lbl.appendChild(div);
+
+        // append to outer contanier
+        controls.appendChild(lbl);
+      });
+
+      // compose final control DOM element
+      section.appendChild(controls);
+      this.container.appendChild(section);
+
+      // prevent click events propagation to map
+      L.DomEvent.disableClickPropagation(this.container);
+
+      // return element
+      return this.container;
+    },
+
+    onRemove: function(map) {
+      // remove all event listeners
+      this.listenedElements.forEach(item => L.DomEvent.off(item.el, item.event, item.action));
+    }
+});
+
+L.control.customControl = opts => new L.Control.CustomControl(opts);

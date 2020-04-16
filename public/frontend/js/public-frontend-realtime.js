@@ -1,10 +1,6 @@
 // Client rendering and functions for frontend (Real-time)
 var isTimeline = false;
 
-Number.prototype.mapVal = function(x1, x2, y1, y2) {
-  return (this - x1) * (y2 - y1) / (x2 - x1) + y1;
-};
-
 $(function() {
 
     t_entry = performance.now();
@@ -43,26 +39,14 @@ $(function() {
     const legendaUpdate = function(data, pinIcon) {
         // get elements count for each color
         const counts = colors.map(color => newJson.filter(feature => feature.properties.pin.color === color).length);
-        let newText = '';
-        $('.legenda-label').each(function (index) {
-            // l'ordine di visualizzazione della legenda è il medesimo
-            // dell'ordine dei dati nell'array countByFilter
-            newText = $(this).text().replace(/(0)/g, counts[index].toString());
+        $('.legenda-label').each(function(index) {
+            // l'ordine di visualizzazione della legenda è il medesimo dell'ordine dei dati nell'array colors
+            const newText = $(this).text().replace(/(0)/g, counts[index].toString());
             $(this).text(newText);
         });
         $('.leaflet-control-layers-overlays .icon').each(function (index) {
           $(this).addClass(pinIcon);
         });
-    };
-
-    /**
-     * @function filterByColors flter data array by colors
-     * @param  {array} dataPoints array of data points
-     * @param  {array} colors     colors to include
-     * @return {array}            filtered arrays
-     */
-    const filterByColors = (dataPoints, colors) => {
-      return dataPoints.filter(feature => colors.includes(feature.properties.pin.color));
     };
 
     /**
@@ -93,61 +77,6 @@ $(function() {
       }
     };
 
-    /**
-     * @function updateClusters calculate and draw clusters based on current zoom and bounds
-     * @param  {L.geoJSON}    geoJsonLayer  geoJSON layer where to draw clusters
-     * @param  {Supercluster} clustersIndex Supercluster instance
-     */
-    const updateClusters = (geoJsonLayer, clustersIndex) => {
-      const bounds = window.map.getBounds();
-      const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
-      const zoom = window.map.getZoom();
-      const clusters = clustersIndex.getClusters(bbox, zoom);
-      geoJsonLayer.clearLayers();
-      geoJsonLayer.addData(clusters);
-    };
-
-
-    /**
-     * @function generateClusterIcon
-     * @param  {object} feature geoJSON feature
-     * @param  {object} latlng  latidude/longitude position
-     */
-    const generateClusterIcon = (options, feature, latlng) => {
-      if (feature.properties.cluster) {
-        // if is a cluster, render circle with count
-        const count = feature.properties.point_count;
-        const size = count < 100 ? 'small' : (count < 1000) ? 'medium' : 'large';
-        const icon = L.divIcon({
-          html: `<div><span>${  feature.properties.point_count_abbreviated  }</span></div>`,
-          className: `marker-cluster marker-cluster-${  size}`,
-          iconSize: L.point(40, 40)
-        });
-        return L.marker(latlng, {icon});
-      } else {
-        // if single point, render marker icon with proper color
-        const icon = L.AwesomeMarkers.icon({
-            icon: options.pinIcon,
-            prefix: 'icon',
-            markerColor: 'red',
-            markerColor: feature.properties.pin.color,
-            extraClasses: options.pinIcon
-        });
-        return L.marker(latlng, { icon }).on('popupopen', openModal);
-      }
-    };
-
-    /**
-     * @function manageClusterPopup
-     * @param  {object} feature geoJSON feature
-     * @param  {object} layer   current layer
-     */
-    const manageClusterPopup = (feature, layer) => {
-      if (!feature.properties.cluster) {
-        popupGenerator(feature, layer);
-      }
-    };
-
     function loadData(options) {
         $.ajax({
             type:'GET',
@@ -162,8 +91,6 @@ $(function() {
 
                 t_geo = performance.now();
 
-
-
                 // adaptive in range [10 - 150]
                 const radius = options.noCluster ? 0 : dataPoints.mapVal(600, 15000, 10, 150);
                 clustersIndex = new Supercluster({ radius });
@@ -174,13 +101,13 @@ $(function() {
                 console.log(`load ${dataPoints} dataPoints in supercluster took ${t2 - t1}ms`);
 
                 markersLayer = L.geoJSON(null, {
-                  onEachFeature : manageClusterPopup,
-                  pointToLayer  : (feature, latlng) => generateClusterIcon(options, feature, latlng)
+                  onEachFeature : managePopup,
+                  pointToLayer  : (feature, latlng) => generateMarkerIcon(options.pinIcon, feature, latlng)
                 }).addTo(window.map);
 
                 window.map.on('moveend', () => updateClusters(markersLayer, clustersIndex));
 
-                updateClusters(markersLayer, clustersIndex)
+                updateClusters(markersLayer, clustersIndex);
 
                 t_datamap = performance.now();
 
@@ -215,87 +142,13 @@ $(function() {
 
     function loadLegenda() {
 
-        // define custom control
-        L.Control.CustomControl = L.Control.extend({
-
-            listenedElements: [],
-
-            onAdd: function(map) {
-              this.container           = L.DomUtil.create('div', 'control-container');
-              this.container.id        = this.options.id;
-              this.container.title     = this.options.title;
-              this.container.className = this.options.classes;
-
-              // create outer container
-              const section    = L.DomUtil.create('section', 'controls-section');
-              const controls   = L.DomUtil.create('div', 'leaflet-control-layers-overlays');
-              // controls.className = '';
-
-              this.options.labels.forEach(label => {
-                // create label container
-                const lbl = L.DomUtil.create('label', 'control-layers-labels');
-                const div = L.DomUtil.create('div', 'control-layers-lbl-div');
-
-                // create input checkbox element
-                const input = L.DomUtil.create('input', 'leaflet-control-layers-selector');
-                input.type = 'checkbox';
-                input.checked = true;
-                input.dataset.color = label.color;
-
-                const action = e => {
-                  const color = e.currentTarget.dataset.color;
-                  const checked = e.currentTarget.checked;
-                  filterMapData({ color, checked });
-                };
-
-                // set onchange listener
-                L.DomEvent.on(input, 'change', action);
-
-                // keep track of element with listeners so we can remove them onRemove
-                this.listenedElements.push({
-                  el     : input,
-                  event  : 'change',
-                  action : action
-                });
-
-                // create span element with correct html
-                const span  = L.DomUtil.create('span');
-                span.innerHTML = label.html;
-
-                // compose DOM element
-                div.appendChild(input);
-                div.appendChild(span);
-                lbl.appendChild(div);
-
-                // append to outer contanier
-                controls.appendChild(lbl);
-              });
-
-              // compose final control DOM element
-              section.appendChild(controls);
-              this.container.appendChild(section);
-
-              // prevent click events propagation to map
-              L.DomEvent.disableClickPropagation(this.container);
-
-              // return element
-              return this.container;
-            },
-
-            onRemove: function(map) {
-              // remove all event listeners
-              this.listenedElements.forEach(item => L.DomEvent.off(item.el, item.event, item.action));
-            }
-        });
-
-        L.control.customControl = (opts) => new L.Control.CustomControl(opts);
-
         const controlOptions = {
-          position : 'topright',
-          id       : 'filter-points-control',
-          title    : 'Filter Layers',
-          classes  : 'leaflet-control-layers', // use control-layers style
-          labels   : layersLabels
+          position     : 'topright',
+          id           : 'filter-points-control',
+          title        : 'Filter Layers',
+          classes      : 'leaflet-control-layers', // use control-layers style
+          labels       : layersLabels,
+          filterAction : filterMapData
         };
 
         // add control
@@ -308,6 +161,7 @@ $(function() {
             window.map.off();
             window.map.remove();
         }
+
         if (!parsedOptions.tile) {
             // abort, no style selected
             return;
@@ -323,7 +177,13 @@ $(function() {
           return L.divIcon({ html: '<b style="font-size: 50px;">' + cluster.getChildCount() + '</b>' });
         } **/
         const options = {
-          cluster: {
+          pinIcon   : parsedOptions.pinIcon,
+          sparql    : parsedOptions.query,
+          map       : parsedOptions.map,
+          noCluster : parsedOptions.noCluster,
+          autoZoom  : parsedOptions.autoZoom,
+          pins      : {},
+          cluster   : {
               // When you mouse over a cluster it shows the bounds of its markers.
               showCoverageOnHover: false,
               // The maximum radius that a cluster will cover from the central
@@ -334,13 +194,7 @@ $(function() {
               maxClusterRadius: parsedOptions.maxClusterRadius,
               chunkedLoading: true  //  Boolean to split the addLayers processing in to small intervals so that the page does not freeze.
               // autoPan: false
-          },
-          pinIcon: parsedOptions.pinIcon,
-          sparql: parsedOptions.query,
-          map: parsedOptions.map,
-          noCluster: parsedOptions.noCluster,
-          autoZoom: parsedOptions.autoZoom,
-          pins: {}
+          }
         };
         ////////////////////////////////////////////////////////////////////////////////
         /**
@@ -368,22 +222,23 @@ $(function() {
             // maxWidth : 540,
             autoPan: true
         };
-        var basemap = new L.TileLayer(parsedOptions.tile, {
-            maxZoom: parsedOptions.maxZoom,
-            minZoom: parsedOptions.minZoom,
-            attribution: mapOptions.baseAttribution,
-            subdomains: mapOptions.subdomains,
-            opacity: opacity
+
+        const basemap = new L.TileLayer(parsedOptions.tile, {
+            maxZoom     : parsedOptions.maxZoom,
+            minZoom     : parsedOptions.minZoom,
+            attribution : mapOptions.baseAttribution,
+            subdomains  : mapOptions.subdomains,
+            opacity     : opacity
         });
 
         // carica la mappa nel div #wmap
         window.map = new L.Map('wmap', {
-            center: new L.LatLng(parsedOptions.startLat, parsedOptions.startLng),
-            fullscreenControl: true,
-            zoom: parsedOptions.zoom,
-            maxZoom: parsedOptions.maxZoom,
-            minZoom: parsedOptions.minZoom,
-            layers: [basemap]
+            center            : new L.LatLng(parsedOptions.startLat, parsedOptions.startLng),
+            fullscreenControl : true,
+            zoom              : parsedOptions.zoom,
+            maxZoom           : parsedOptions.maxZoom,
+            minZoom           : parsedOptions.minZoom,
+            layers            : [basemap]
         });
 
         // load controls
