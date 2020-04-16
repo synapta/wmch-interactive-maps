@@ -227,6 +227,45 @@ module.exports = function(app, apicache) {
     });
 
     /**
+     * Get an array of timestamps for the given map.
+     */
+    app.get('/api/timestamp', function (req, res) {
+        let dbMeta = new db.Database(localconfig.database);
+        const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
+        History.belongsTo(Map);  // new property named "map" for each record
+
+        // make query for old results on History
+        var historyWhere = { mapId: req.query.id };
+        if (localconfig.historyOnlyDiff) {
+            historyWhere['diff'] = true;
+        }
+        History.findAll({
+          attributes: ['createdAt'],
+          where: historyWhere,
+          include: [{
+              model: Map,
+              where: {
+                published: true
+              }
+            }
+          ],
+          order: [
+            ['createdAt', 'ASC']
+          ],
+        }).then(hists => {
+            const timestamp = [];
+            for (let hist of hists) {
+                timestamp.push(new Date(hist.createdAt).getTime());
+            }
+            res.send(timestamp);
+        }).catch(err => {
+            res.status(400).send(err);
+        });
+    });
+
+    /**
      * GeoJSON Features from Wikidata, with properties.time to be consumed
      * by Leaflet TimeDimension to display a timeline.
      * @param  {Express request} req
