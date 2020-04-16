@@ -485,13 +485,67 @@ module.exports = function(app, apicache) {
     });
 
     /**
-     * Real-time results.
+     * Almost real-time results.
      * @param  {Express request} req
      * @param  {Express response} res
      * @return {GeoJSON string}
      */
-    app.get('/api/data', apicache('24 hours'), async function (req, res) {
-        let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
+    app.get('/api/data', apicache('12 hours'), async function (req, res) {
+        let sparql;
+
+        if (req.query.id) {
+            let dbMeta = new db.Database(localconfig.database);
+            const Map = dbMeta.db.define('map', models.Map);
+            const History = dbMeta.db.define('history', models.History);
+            Map.hasMany(History); // 1 : N
+            History.belongsTo(Map);  // new property named "map" for each record
+
+            const hists = await History.findAll({
+            where: { mapId: req.query.id },
+            include: [{
+                model: Map,
+                where: {
+                    published: true
+                }
+                }
+            ],
+            order: [
+            ['createdAt', 'DESC']
+            ],
+            limit: 5
+            });
+
+            // Try to find a cached map
+            for (let hist of hists) {
+                const payload = JSON.parse(hist.json);
+                // If valid send this cached map
+                if (!payload.error) {
+                    res.send(payload.data);
+                    return;
+                }
+            }
+
+            // Get the SPARQL query
+            const map = await Map.findOne({
+                where: { id: req.query.id },
+                });
+
+            if (map) {
+                let ob = models.mapargsParse(map);
+                sparql = ob.query;
+            } else {
+                // Requested an invalid id
+                res.status(400).send("Invalid id");
+                return;
+            }
+        } else if (req.query.q) {
+            sparql = req.query.q;
+        } else {
+            res.status(400).send("Invalid query");
+            return;
+        }
+
+        let sparqlJsonResult = await data.getJSONfromQuery(sparql, "urls.js");
         if (sparqlJsonResult.error) {
             // error
             console.log('error:', sparqlJsonResult.errormsg); // Print the error if one occurred
