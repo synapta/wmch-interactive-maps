@@ -1,5 +1,5 @@
 // Client rendering and functions for frontend (Real-time)
-var isTimeline = false;
+const isTimeline = false;
 
 $(function() {
 
@@ -27,26 +27,24 @@ $(function() {
 
     const mobileDesktopLegenda = function() {
       if (isMobile()) {
-          // mobile
-          $('.leaflet-control-layers').removeClass('leaflet-control-layers-expanded');
+        // mobile
+        $('.leaflet-control-layers').removeClass('leaflet-control-layers-expanded');
       } else {
-          // desktop
-          // Legenda sempre visibile su Desktop
-          $('.leaflet-control-layers').addClass('leaflet-control-layers-expanded');
+        // desktop
+        // Legenda sempre visibile su Desktop
+        $('.leaflet-control-layers').addClass('leaflet-control-layers-expanded');
       }
     };
 
-    const legendaUpdate = function(data, pinIcon) {
+    const updateLegenda = pinIcon => {
         // get elements count for each color
         const counts = colors.map(color => newJson.filter(feature => feature.properties.pin.color === color).length);
-        $('.legenda-label').each(function(index) {
+        $('.legenda-label').each((index, el) => {
             // l'ordine di visualizzazione della legenda è il medesimo dell'ordine dei dati nell'array colors
-            const newText = $(this).text().replace(/(0)/g, counts[index].toString());
-            $(this).text(newText);
+            const newText = $(el).text().replace(/(0)/g, counts[index].toString());
+            $(el).text(newText);
         });
-        $('.leaflet-control-layers-overlays .icon').each(function (index) {
-          $(this).addClass(pinIcon);
-        });
+        $('.leaflet-control-layers-overlays .icon').each((index, el) => $(el).addClass(pinIcon));
     };
 
     /**
@@ -112,7 +110,7 @@ $(function() {
                 t_datamap = performance.now();
 
                 // Aggiungi i contatori alla mappa
-                legendaUpdate(newJson, options.pinIcon);
+                updateLegenda(options.pinIcon);
                 fancyUI();
 
                 MAP_READY = true;
