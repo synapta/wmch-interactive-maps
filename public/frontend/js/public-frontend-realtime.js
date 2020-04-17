@@ -79,10 +79,10 @@ $(function() {
 
     function loadData(options) {
         $.ajax({
-            type:'GET',
-            url: "/api/data?q=" + encodeURIComponent(options.sparql),
-            error: e => console.warn('Error retrieving data'),
-            success: json => {
+            type    :'GET',
+            url     : `/api/data?id=${encodeURIComponent(options.id)}`,
+            error   : e => console.warn('Error retrieving data'),
+            success : json => {
                 // enrich feature
                 newJson = enrichFeatures(json);
 
@@ -177,6 +177,7 @@ $(function() {
           return L.divIcon({ html: '<b style="font-size: 50px;">' + cluster.getChildCount() + '</b>' });
         } **/
         const options = {
+          id        : parsedOptions.id,
           pinIcon   : parsedOptions.pinIcon,
           sparql    : parsedOptions.query,
           map       : parsedOptions.map,
@@ -250,7 +251,9 @@ $(function() {
         $(window).resize(function() {
             mobileDesktopLegenda();
         });
+
         mobileDesktopLegenda();
+
         // load data
         t_basemap = performance.now();
         loadData(options);
