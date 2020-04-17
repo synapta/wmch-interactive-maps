@@ -201,6 +201,11 @@
   float: right;
 }
 /* XXX disable non working control on realtime */
-.map-realtime #leaflet-control-layers-overlays-x {
+#leaflet-control-layers-overlays-x {
     display: none;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: .5;
 }

@@ -129,3 +129,21 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //Il max è escluso e il min è incluso
 }
+
+/**
+ * @function createNode create DOM Node with attributes
+ * @param  {string} node
+ * @param  {object} attributes
+ * @return {node}
+ */
+const createNode = (node, attributes) => {
+    const el = document.createElement(node);
+    for (let key in attributes) {
+        el.setAttribute(key, attributes[key]);
+    }
+    return el;
+};
+
+Number.prototype.mapVal = function(x1, x2, y1, y2) {
+  return (this - x1) * (y2 - y1) / (x2 - x1) + y1;
+};

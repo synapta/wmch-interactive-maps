@@ -227,6 +227,45 @@ module.exports = function(app, apicache) {
     });
 
     /**
+     * Get an array of timestamps for the given map.
+     */
+    app.get('/api/timestamp', apicache('12 hours'), function (req, res) {
+        let dbMeta = new db.Database(localconfig.database);
+        const Map = dbMeta.db.define('map', models.Map);
+        const History = dbMeta.db.define('history', models.History);
+        Map.hasMany(History); // 1 : N
+        History.belongsTo(Map);  // new property named "map" for each record
+
+        // make query for old results on History
+        var historyWhere = { mapId: req.query.id };
+        if (localconfig.historyOnlyDiff) {
+            historyWhere['diff'] = true;
+        }
+        History.findAll({
+          attributes: ['createdAt'],
+          where: historyWhere,
+          include: [{
+              model: Map,
+              where: {
+                published: true
+              }
+            }
+          ],
+          order: [
+            ['createdAt', 'ASC']
+          ],
+        }).then(hists => {
+            const timestamp = [];
+            for (let hist of hists) {
+                timestamp.push(new Date(hist.createdAt).getTime());
+            }
+            res.send(timestamp);
+        }).catch(err => {
+            res.status(400).send(err);
+        });
+    });
+
+    /**
      * GeoJSON Features from Wikidata, with properties.time to be consumed
      * by Leaflet TimeDimension to display a timeline.
      * @param  {Express request} req
@@ -234,8 +273,7 @@ module.exports = function(app, apicache) {
      * @return {GeoJSON string}     send JSON of past results merged with direct
      * Wikidata query results, inverse order (direct query before, past after)
      */
-    // apicache('30 minutes'),
-    app.get('/api/timedata', async function (req, res) {
+    app.get('/api/timedata', apicache('12 hours'), async function (req, res) {
         // all results from all timeshot and real-time, merged together
         let sparqlResultsArray = [];
         let sparqlResultsFirstShotArray = [];
@@ -253,6 +291,9 @@ module.exports = function(app, apicache) {
 
         // make query for old results on History
         var historyWhere = { mapId: req.query.id };
+        if (req.query.timestamp) {
+            historyWhere.createdAt = new Date(+(req.query.timestamp)); 
+        }
         if (localconfig.historyOnlyDiff) {
             historyWhere['diff'] = true;
         }
@@ -264,13 +305,13 @@ module.exports = function(app, apicache) {
                 published: true
               }
             }
-          ],
-          order: [
-            ['createdAt', 'ASC']
-          ],
-          // offset: ???,
-          limit: localconfig.historyTimelineLimit
-        }).then(async hists => {
+        ],
+        order: [
+          ['createdAt', 'ASC']
+        ],
+        // offset: ???,
+        limit: localconfig.historyTimelineLimit
+            }).then(async hists => {
             /**
              * Get only the times an element isn't changed.
              * It's used to avoid duplicates pin when element change and to display
@@ -443,13 +484,67 @@ module.exports = function(app, apicache) {
     });
 
     /**
-     * Real-time results.
+     * Almost real-time results.
      * @param  {Express request} req
      * @param  {Express response} res
      * @return {GeoJSON string}
      */
-    app.get('/api/data', apicache('5 minutes'), async function (req, res) {
-        let sparqlJsonResult = await data.getJSONfromQuery(req.query.q, "urls.js");
+    app.get('/api/data', apicache('12 hours'), async function (req, res) {
+        let sparql;
+
+        if (req.query.id) {
+            let dbMeta = new db.Database(localconfig.database);
+            const Map = dbMeta.db.define('map', models.Map);
+            const History = dbMeta.db.define('history', models.History);
+            Map.hasMany(History); // 1 : N
+            History.belongsTo(Map);  // new property named "map" for each record
+
+            const hists = await History.findAll({
+            where: { mapId: req.query.id },
+            include: [{
+                model: Map,
+                where: {
+                    published: true
+                }
+                }
+            ],
+            order: [
+            ['createdAt', 'DESC']
+            ],
+            limit: 5
+            });
+
+            // Try to find a cached map
+            for (let hist of hists) {
+                const payload = JSON.parse(hist.json);
+                // If valid send this cached map
+                if (!payload.error) {
+                    res.send(payload.data);
+                    return;
+                }
+            }
+
+            // Get the SPARQL query
+            const map = await Map.findOne({
+                where: { id: req.query.id },
+                });
+
+            if (map) {
+                let ob = models.mapargsParse(map);
+                sparql = ob.query;
+            } else {
+                // Requested an invalid id
+                res.status(400).send("Invalid id");
+                return;
+            }
+        } else if (req.query.q) {
+            sparql = req.query.q;
+        } else {
+            res.status(400).send("Invalid query");
+            return;
+        }
+
+        let sparqlJsonResult = await data.getJSONfromQuery(sparql, "urls.js");
         if (sparqlJsonResult.error) {
             // error
             console.log('error:', sparqlJsonResult.errormsg); // Print the error if one occurred
