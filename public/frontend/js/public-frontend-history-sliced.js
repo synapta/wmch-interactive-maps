@@ -51,8 +51,6 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
       radius: this._noCluster ? 0 : 90 // default value (to be updated when got data)
     });
 
-    window.clustersIndex = this._clustersIndex;
-
     const clustersLayer = L.geoJSON(null, {
       onEachFeature : managePopup,
       pointToLayer  : (feature, latlng) => generateMarkerIcon(this._pinIcon, feature, latlng)
@@ -92,18 +90,24 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
   },
 
   _update: function() {
-
-    // perform clustering
+    // filter out data to update legend
     const staticData = this._currentTimeData.filter(el => !Boolean(el.postProcess));
-    this._clustersIndex.load(staticData);
-
-    updateClusters(this._baseLayer, this._clustersIndex);
     updateLegenda(staticData);
 
-    // manage other pins
-    this._updateDiffPinLayer(this._currentTimeData);
+    const activeCheckboxes = Array.from(document.querySelectorAll('.leaflet-control-layers-selector:checked'));
+    if (activeCheckboxes.length < 4) {
+      // filtering needed
+      this.filterMapData(null, activeCheckboxes);
+    } else {
+      // filtering not needed
 
-    this._mapReady = true;
+      // update clustering
+      this._clustersIndex.load(staticData);
+      updateClusters(this._baseLayer, this._clustersIndex);
+
+      // manage diff pins
+      this._updateDiffPinLayer(this._currentTimeData);
+    }
 
     return true;
   },
@@ -132,11 +136,12 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
 
     // get data
     $.getJSON(url, json => {
-
       if (this._firstLoad) {
         // update cluster radius
         const radius = this._noCluster ? 0 : json.length.mapVal(600, 15000, 10, 150);
         this._clustersIndex.options.radius = radius;
+
+        this._mapReady = true;
       }
 
       this._currentTimeData   = enrichFeatures(json);
@@ -157,20 +162,17 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
     }).fail(err => console.warn('Error getting data', url, err));
   },
 
-  filterMapData: function(e) {
+  filterMapData: function(e, checkboxes) {
     if (this._mapReady && this._currentTimeData) {
-      
+
       // prevent other user interactions
       const labels = document.querySelectorAll('.control-layers-labels');
       labels.forEach(lbl => lbl.classList.add('disabled'));
 
       // perform filtering
-      const activeCheckboxes = Array.from(document.querySelectorAll('.leaflet-control-layers-selector:checked'));
+      const activeCheckboxes = checkboxes ? checkboxes : Array.from(document.querySelectorAll('.leaflet-control-layers-selector:checked'));
       const activeColors = activeCheckboxes.map(input => input.dataset.color);
       const filteredData = filterByColors(this._currentTimeData, activeColors);
-
-      // update pins
-      this._updateDiffPinLayer(filteredData);
 
       // update clusters
       const newStaticData = filteredData.filter(el => !Boolean(el.postProcess));
@@ -180,6 +182,8 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
       // improves UX because it allows to set buttons as disabled
       // @link https://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful/4575011#4575011
       setTimeout(() => {
+        // update diff pins
+        this._updateDiffPinLayer(filteredData);
         // redraw clusters
         updateClusters(this._baseLayer, this._clustersIndex);
         // restore interaction
