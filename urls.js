@@ -229,7 +229,7 @@ module.exports = function(app, apicache) {
     /**
      * Get an array of timestamps for the given map.
      */
-    app.get('/api/timestamp', function (req, res) {
+    app.get('/api/timestamp', apicache('12 hours'), function (req, res) {
         let dbMeta = new db.Database(localconfig.database);
         const Map = dbMeta.db.define('map', models.Map);
         const History = dbMeta.db.define('history', models.History);
@@ -273,8 +273,7 @@ module.exports = function(app, apicache) {
      * @return {GeoJSON string}     send JSON of past results merged with direct
      * Wikidata query results, inverse order (direct query before, past after)
      */
-    // apicache('30 minutes'),
-    app.get('/api/timedata', async function (req, res) {
+    app.get('/api/timedata', apicache('12 hours'), async function (req, res) {
         // all results from all timeshot and real-time, merged together
         let sparqlResultsArray = [];
         let sparqlResultsFirstShotArray = [];
