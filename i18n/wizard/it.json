@@ -60,8 +60,9 @@
       "label": "Longitudine"
     },
     "maxClusterRadius": {
-      "label": "Raggio di aggregazione massimo",
-      "help": "Più alto sarà il valore, più le coordinate vicine verranno rappresentate come un singolo gruppo navigabile."
+      "label": "Aggregazione",
+      "help": "Aggrega marker adiacenti in singoli gruppi navigabili, al fine di migliorare la leggibilità e le performance.",
+      "warning" : "ATTENZIONE: è altamente raccomandato mantenere attiva l'aggregazione. Senza aggregazione la mappa potrebbe avere performance molto scarse. Valuta questa opzione solo per mappe molto piccole e con pochi dati."
     }
   },
   "actions": {

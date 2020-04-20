@@ -60,8 +60,9 @@
       "label": "Longitude"
     },
     "maxClusterRadius": {
-      "label": "Max cluster radius",
-      "help": "The higher the value, the more the nearby coordinates will be grouped into browsable clusters."
+      "label": "Clusters",
+      "help": "Aggregate adjacent markers into browsable clusters to improve readability and performances",
+      "warning": "WARNING: Clustering is highly recommended. No clustering can lead to very poor performances. Turn clusters off only for very small maps, with few markers"
     }
   },
   "actions": {

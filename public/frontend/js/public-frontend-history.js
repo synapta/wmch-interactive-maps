@@ -147,7 +147,7 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
 
       if (this._firstLoad) {
         // update cluster radius
-        const radius = this._noCluster ? 0 : json.length.mapVal(600, 15000, 10, 150);
+        const radius = this._noCluster ? 0 : json.length.toClusterRadius();
         this._clustersIndex.options.radius = radius;
 
         this._mapReady = true;

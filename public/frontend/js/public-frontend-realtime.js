@@ -90,7 +90,7 @@ $(function() {
                 t_geo = performance.now();
 
                 // adaptive in range [10 - 150]
-                const radius = options.noCluster ? 0 : dataPoints.mapVal(600, 15000, 10, 150);
+                const radius = options.noCluster ? 0 : dataPoints.toClusterRadius();
                 clustersIndex = new Supercluster({ radius });
 
                 const t1 = performance.now();
@@ -181,19 +181,7 @@ $(function() {
           map       : parsedOptions.map,
           noCluster : parsedOptions.noCluster,
           autoZoom  : parsedOptions.autoZoom,
-          pins      : {},
-          cluster   : {
-              // When you mouse over a cluster it shows the bounds of its markers.
-              showCoverageOnHover: false,
-              // The maximum radius that a cluster will cover from the central
-              // marker (in pixels). Default 80. Decreasing will make more,
-              // smaller clusters. You can also use a function that accepts the
-              // current map zoom and returns the maximum cluster radius
-              // in pixels.
-              maxClusterRadius: parsedOptions.maxClusterRadius,
-              chunkedLoading: true  //  Boolean to split the addLayers processing in to small intervals so that the page does not freeze.
-              // autoPan: false
-          }
+          pins      : {}
         };
         ////////////////////////////////////////////////////////////////////////////////
         /**
