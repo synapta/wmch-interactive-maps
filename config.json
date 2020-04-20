@@ -16,37 +16,17 @@
   "screenshotPattern": "/p/%s",
   "sparql": "SELECT ?item ?itemLabel ?coord ?commons ?website ?img ?lang ?langcode\n            WHERE {\n                ?item wdt:P31/wdt:P279* wd:Q33506 .\n                ?item wdt:P17 wd:Q39 .\n                ?item wdt:P625 ?coord\n                OPTIONAL { ?item wdt:P373 ?commons }\n                OPTIONAL { ?item wdt:P856 ?website }\n                OPTIONAL { ?item wdt:P18 ?img }\n                OPTIONAL {\n                  ?art schema:about ?item ;\n                  schema:inLanguage ?langcode .\n                  BIND(IF(?langcode in ('en', 'it', 'fr', 'de'),?art,?langcode) AS ?lang)\n                }\n                SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,de,fr,it\". }\n            }\n            ORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord) ASC(?commons) DESC(?website) ASC(?img)",
   "map": {
-    "style": "Carto",
+    "style": "OSM Bright",
     "styles": [
       {
-        "name": "Wikimedia Maps",
-        "tile": "//maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png",
-        "attribution": "<a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\">CC-BY-SA</a>"
+        "name": "OSM Bright",
+        "tile": "//tile.synapta.io/styles/osm-bright/{z}/{x}/{y}.png",
+        "attribution": "<a href=\"https://openmaptiles.org/\" target=\"_blank\">© OpenMapTiles</a>, <a href=\"https://www.openstreetmap.org/\" target=\"_blank\">© OpenStreetMap</a> contributors"
       },
       {
-        "name": "Humanitarian map style",
-        "tile": "//a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
-        "attribution": "<a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\">CC-BY-SA</a>"
-      },
-      {
-        "name": "Carto",
-        "tile": "//cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
-        "attribution": "Map tiles by Carto, under CC BY 3.0. Data by <a href=\"https://www.openstreetmap.org/copyright\">© OpenStreetMap contributors</a>, under ODbL."
-      },
-      {
-        "name": "OpenRailwayMap",
-        "tile": "//a.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png",
-        "attribution": "Data <a href=\"https://www.openstreetmap.org/copyright\">© OpenStreetMap contributors</a>, Style: <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA 2.0</a> <a href=\"http://www.openrailwaymap.org/\">OpenRailwayMap</a> and OpenStreetMap"
-      },
-      {
-        "name": "OpenStreetMap Black & White",
-        "tile": "//tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png",
-        "attribution": "<a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\">CC-BY-SA</a>"
-      },
-      {
-        "name": "OpenTopoMap",
-        "tile": "//c.tile.opentopomap.org/{z}/{x}/{y}.png",
-        "attribution": "<a href=\"http://www.openstreetmap.org/\" target=\"_blank\">OpenStreetMap</a> contributors Style: <a href=\"https://opentopomap.org/\" target=\"_blank\">opentopomap.org</a> <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\" target=\"_blank\">CC-BY-SA</a>"
+        "name": "Klokantech Basic",
+        "tile": "//tile.synapta.io/styles/klokantech-basic/{z}/{x}/{y}.png",
+        "attribution": "<a href=\"https://openmaptiles.org/\" target=\"_blank\">© OpenMapTiles</a>, <a href=\"https://www.openstreetmap.org/\" target=\"_blank\">© OpenStreetMap</a> contributors"
       }
     ],
     "minZoom": 2,

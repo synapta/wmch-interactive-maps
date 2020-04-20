@@ -144,6 +144,22 @@ const createNode = (node, attributes) => {
     return el;
 };
 
+const CLUSTER_RADIUS_RANGE = {
+  DATA_LENGTH_MIN    : 500,
+  DATA_LENGTH_MAX    : 15000,
+  CLUSTER_RADIUS_MIN : 10,
+  CLUSTER_RADIUS_MAX : 150
+};
+
 Number.prototype.mapVal = function(x1, x2, y1, y2) {
   return (this - x1) * (y2 - y1) / (x2 - x1) + y1;
+};
+
+Number.prototype.toClusterRadius = function() {
+  return this.mapVal(
+    CLUSTER_RADIUS_RANGE.DATA_LENGTH_MIN,
+    CLUSTER_RADIUS_RANGE.DATA_LENGTH_MAX,
+    CLUSTER_RADIUS_RANGE.CLUSTER_RADIUS_MIN,
+    CLUSTER_RADIUS_RANGE.CLUSTER_RADIUS_MAX
+  );
 };

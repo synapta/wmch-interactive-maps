@@ -215,7 +215,8 @@ $(function() {
         parsedOptions.minZoom = parseInt($('#minzoom').val());
         parsedOptions.maxZoom = parseInt($('#maxzoom').val());
         parsedOptions.autoZoom = $('#autozoom-auto').is('.active');
-        parsedOptions.maxClusterRadius = parseFloat($('#maxclusterradius').val());
+        // parsedOptions.maxClusterRadius = parseFloat($('#maxclusterradius').val());
+        parsedOptions.noCluster = !$('#clustersToggle')[0].checked;
         parsedOptions.pinIcon = $('#pinicon').val();
         parsedOptions.query = $('#map-query').val();
         // derived
@@ -233,6 +234,7 @@ $(function() {
         // }
         // options
         var parsedOptions = parseOptions();
+        // console.log('parsedOptions from UI', parsedOptions);
         var mapOptions = {};
         mapOptions.baseAttribution = window.attribution;
         mapOptions.subdomains = '1234';
@@ -242,15 +244,10 @@ $(function() {
           return L.divIcon({ html: '<b style="font-size: 50px;">' + cluster.getChildCount() + '</b>' });
         } **/
         var options = {
+          noCluster: parsedOptions.noCluster,
           cluster: {
               // When you mouse over a cluster it shows the bounds of its markers.
               showCoverageOnHover: false,
-              // The maximum radius that a cluster will cover from the central
-              // marker (in pixels). Default 80. Decreasing will make more,
-              // smaller clusters. You can also use a function that accepts the
-              // current map zoom and returns the maximum cluster radius
-              // in pixels.
-              maxClusterRadius: parsedOptions.maxClusterRadius,
               chunkedLoading: true  //  Boolean to split the addLayers processing in to small intervals so that the page does not freeze.
               // autoPan: false
           },
@@ -399,8 +396,20 @@ $(function() {
             },
             success: function(json) {
                 $("#map-query").data('valid', 1);
-                var newJson = enrichFeatures(json);
-                var markers = new L.MarkerClusterGroup(options.cluster);
+
+                const newJson = enrichFeatures(json);
+
+                // The maximum radius that a cluster will cover from the central
+                // marker (in pixels). Default 80. Decreasing will make more,
+                // smaller clusters. You can also use a function that accepts the
+                // current map zoom and returns the maximum cluster radius
+                // in pixels.
+                options.cluster.maxClusterRadius = options.noCluster ? NaN : newJson.length.toClusterRadius();
+
+                // console.log(options.cluster.maxClusterRadius);
+
+                const markers = new L.MarkerClusterGroup(options.cluster);
+
                 addMarkers(newJson, window.map, markers, options, autozoom);
                 // Aggiungi i contatori alla mappa
                 // legendaUpdate(newJson);
@@ -444,6 +453,7 @@ $(function() {
             loadmap();
         }
     });
+
     // set current coords
     $("#center").on("click", function (e) {
         e.preventDefault();
@@ -457,7 +467,7 @@ $(function() {
         if (!$(this).hasClass("clicked")) {
             $(this).toggleClass("clicked");
             var msg = $(this).data('help');
-            $(this).parent('.field').append('<div class="wizard-help-text ui pointing label">' + msg + '</div>');
+            $(this).parent('.field').append('<div class="wizard-help-text ui label">' + msg + '</div>');
         }
         else {
             $(this).toggleClass("clicked");
@@ -504,7 +514,14 @@ $(function() {
     $('#zoom').on("click", loadmapifchanged);
     $('#lat').on("click", loadmapifchanged);
     $('#long').on("click", loadmapifchanged);
-    $('#maxclusterradius').keyup(loadmapifchanged);
+    // $('#maxclusterradius').keyup(loadmapifchanged);
+    $('#clustersToggle').on('change', e => {
+      // shoiw/hide warning
+      e.currentTarget.checked ? $('#clusters-warning').hide() : $('#clusters-warning').show();
+      // load map
+      loadmapifchanged();
+    });
+
 
     // Load search icons
     $.ajax ({

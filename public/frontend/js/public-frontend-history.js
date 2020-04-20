@@ -147,7 +147,7 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
 
       if (this._firstLoad) {
         // update cluster radius
-        const radius = this._noCluster ? 0 : json.length.mapVal(600, 15000, 10, 150);
+        const radius = this._noCluster ? 0 : json.length.toClusterRadius();
         this._clustersIndex.options.radius = radius;
 
         this._mapReady = true;
@@ -275,7 +275,7 @@ $(function() {
         console.log(`Request to /api/timestamp?id=${mapOpts.id} took [ ${t3 - t2}ms ]`);
 
         // setup base map
-        const basemap = new L.TileLayer(mapOpts.tile, {
+        const basemap = new L.TileLayer(mapOpts.currentStyle.tile, {
           maxZoom     : mapOpts.maxZoom,
           minZoom     : mapOpts.minZoom,
           attribution : mapOpts.baseAttribution,
