@@ -97,23 +97,20 @@ module.exports = function(app, apicache) {
      */
     function querystring2json (res, enrichedQuery) {
         models.booleanize(enrichedQuery);
-        enrichedQuery.currentStyle = false;
-        for (style of config.map.styles) {
-            if (style.tile === enrichedQuery.tile) {
-                // util.log("Tile exists and its attibution is: %s", enrichedQuery.currentStyle.attribution);
-                enrichedQuery.currentStyle = style;
-            }
-        }
-        if (enrichedQuery.currentStyle) {
-            // TEMP - hard code Synapta tile server
-            // enrichedQuery.tile = "//tile.synapta.io/styles/klokantech-basic/{z}/{x}/{y}.png";
-            enrichedQuery.tile = "//tile.synapta.io/styles/osm-bright/{z}/{x}/{y}.png";
-            res.send(JSON.stringify(enrichedQuery, null, ''));
-        }
-        else {
-            // tile doesn't exists in accepted styles, error
-            res.status(400).send('Bad request');
-        }
+        // define fallback default style
+        const fallBackStyle =   {
+          "name": "OSM Bright",
+          "tile": "//tile.synapta.io/styles/osm-bright/{z}/{x}/{y}.png",
+          "attribution": "<a href=\"https://openmaptiles.org/\" target=\"_blank\">© OpenMapTiles</a>, <a href=\"https://www.openstreetmap.org/\" target=\"_blank\">© OpenStreetMap</a> contributors"
+        };
+        // find requested style in config styles list
+        const style = config.map.styles.find(el => el.tile === enrichedQuery.tile);
+        // if found add style to query otherwise add fallback style
+        enrichedQuery.currentStyle = style ? style : fallBackStyle;
+        // TODO - check if this property is not used anymore and remove
+        enrichedQuery.tile = enrichedQuery.currentStyle.tile;
+        // stringify rend response
+        res.send(JSON.stringify(enrichedQuery, null, ''));
     }
 
     // javascript for wizard frontend

@@ -275,7 +275,7 @@ $(function() {
         console.log(`Request to /api/timestamp?id=${mapOpts.id} took [ ${t3 - t2}ms ]`);
 
         // setup base map
-        const basemap = new L.TileLayer(mapOpts.tile, {
+        const basemap = new L.TileLayer(mapOpts.currentStyle.tile, {
           maxZoom     : mapOpts.maxZoom,
           minZoom     : mapOpts.minZoom,
           attribution : mapOpts.baseAttribution,

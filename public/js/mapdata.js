@@ -222,7 +222,6 @@ var popupGenerator = function(feature, layer) {
 
 
 function addMarkers(json, map, markers, options, autozoom) {
-    console.log('add markers');
     map.removeLayer(markers);
     options.pins.museumBlack.clearLayers();
     options.pins.museumRed.clearLayers();

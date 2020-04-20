@@ -160,7 +160,7 @@ $(function() {
             window.map.remove();
         }
 
-        if (!parsedOptions.tile) {
+        if (!parsedOptions.currentStyle.tile) {
             // abort, no style selected
             return;
         }
@@ -210,7 +210,7 @@ $(function() {
             autoPan: true
         };
 
-        const basemap = new L.TileLayer(parsedOptions.tile, {
+        const basemap = new L.TileLayer(parsedOptions.currentStyle.tile, {
             maxZoom     : parsedOptions.maxZoom,
             minZoom     : parsedOptions.minZoom,
             attribution : mapOptions.baseAttribution,
