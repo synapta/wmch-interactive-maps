@@ -82,7 +82,10 @@ $(function() {
             error   : e => console.warn('Error retrieving data'),
             success : json => {
                 // enrich feature
-                newJson = enrichFeatures(json);
+                const richJson = enrichFeatures(json);
+
+                // remove post processed items (no meaning in realtime map)
+                newJson = richJson.filter(el => el.postProcess === undefined);
 
                 // count data points
                 const dataPoints = newJson.length;
