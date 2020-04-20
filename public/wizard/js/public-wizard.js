@@ -234,7 +234,7 @@ $(function() {
         // }
         // options
         var parsedOptions = parseOptions();
-        console.log('parsedOptions from UI', parsedOptions);
+        // console.log('parsedOptions from UI', parsedOptions);
         var mapOptions = {};
         mapOptions.baseAttribution = window.attribution;
         mapOptions.subdomains = '1234';
@@ -406,7 +406,7 @@ $(function() {
                 // in pixels.
                 options.cluster.maxClusterRadius = options.noCluster ? NaN : newJson.length.toClusterRadius();
 
-                console.log(options.cluster.maxClusterRadius);
+                // console.log(options.cluster.maxClusterRadius);
 
                 const markers = new L.MarkerClusterGroup(options.cluster);
 
