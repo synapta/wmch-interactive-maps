@@ -34,6 +34,9 @@ app.use(morgan('common'));
 // load urls routes
 require('./urls.js')(app, apicache);
 
+// load cache autorequests
+require('./cache');
+
 const server = app.listen(port, function() {
     util.log('Loading database');
     let dbMeta = new db.Database(localconfig.database);
