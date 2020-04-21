@@ -1,13 +1,14 @@
 var confVisibleWikipediaLanguages = ['de', 'en', 'fr', 'it'];
 var confURLPrefixWikidata = "https://www.wikidata.org/wiki/";
 var confURLPrefixWikimediaCommons = "https://commons.wikimedia.org/wiki/Category:";
-var confPopupOpts = {
-    closeOnClick: true,
-    autoClose: false,
-    autoPanPadding: new L.Point(5, 50),
-    minWidth : 540,
-    maxWidth : 540,
-    autoPan: true
+
+const confPopupOpts = {
+  closeOnClick   : true,
+  autoClose      : false,
+  autoPanPadding : new L.Point(5, 50),
+  minWidth       : 540,
+  maxWidth       : 540,
+  autoPan        : true
 };
 
 
@@ -294,13 +295,18 @@ var getVarUrl = function () {
  * @param  {L.geoJSON}    geoJsonLayer  geoJSON layer where to draw clusters
  * @param  {Supercluster} clustersIndex Supercluster instance
  */
-const updateClusters = (geoJsonLayer, clustersIndex) => {
+const updateClusters = (geoJsonLayer, clustersIndex, activePopupID) => {
   const bounds = window.map.getBounds();
   const bbox = [bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()];
   const zoom = window.map.getZoom();
   const clusters = clustersIndex.getClusters(bbox, zoom);
   geoJsonLayer.clearLayers();
   geoJsonLayer.addData(clusters);
+  // if needed, reopen active popup after map update
+  if (activePopupID) {
+    const marker = geoJsonLayer.getLayers().find(lyr => lyr.options.uniqueID === activePopupID);
+    if (marker) marker.openPopup();
+  }
 };
 
 
@@ -309,7 +315,7 @@ const updateClusters = (geoJsonLayer, clustersIndex) => {
  * @param  {object} feature geoJSON feature
  * @param  {object} latlng  latidude/longitude position
  */
-const generateMarkerIcon = (pinIcon, feature, latlng) => {
+const generateMarkerIcon = (pinIcon, feature, latlng, onPopupOpen) => {
   if (feature.properties.cluster) {
     // if is a cluster, render circle with count
     const count = feature.properties.point_count;
@@ -319,7 +325,7 @@ const generateMarkerIcon = (pinIcon, feature, latlng) => {
       className : `marker-cluster marker-cluster-${size}`,
       iconSize  : L.point(40, 40)
     });
-    return L.marker(latlng, {icon});
+    return L.marker(latlng, { icon });
   } else {
     // if post processed feature add 'new-pin-on-time' class for styling
     const extraclasses = Boolean(feature.postProcess) ? `${pinIcon} new-pin-on-time` : pinIcon;
@@ -330,7 +336,9 @@ const generateMarkerIcon = (pinIcon, feature, latlng) => {
         markerColor  : feature.properties.pin.color,
         extraClasses : extraclasses
     });
-    return L.marker(latlng, { icon }).on('popupopen', openModal);
+    
+    const uniqueID = feature.properties.wikidata;
+    return L.marker(latlng, { icon, uniqueID }).on('popupopen', onPopupOpen);
   }
 };
 

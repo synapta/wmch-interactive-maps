@@ -1,6 +1,9 @@
 // Client rendering and functions for Public Map Frontend (History)
 const isTimeline = true;
 
+// keep track of active popups
+let ACTIVE_POPUP_ID = null;
+
 // jQuery map obj
 const $map = $('#wmap');
 // available layer colors
@@ -24,6 +27,13 @@ const updateLegenda = data => {
       $(el).text(newText);
   });
 }
+
+const onPopupOpen = e => {
+  // keep track of active popup so we can open in back after a map update (zoom, pan, filter...)
+  ACTIVE_POPUP_ID = e.target.options.uniqueID;
+  // legenda
+  openModal();
+};
 
 
 L.Control.TimeDimensionCustom = L.Control.TimeDimension.extend({
@@ -53,7 +63,7 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
 
     const clustersLayer = L.geoJSON(null, {
       onEachFeature : managePopup,
-      pointToLayer  : (feature, latlng) => generateMarkerIcon(this._pinIcon, feature, latlng)
+      pointToLayer  : (feature, latlng) => generateMarkerIcon(this._pinIcon, feature, latlng, onPopupOpen)
     });
 
     L.TimeDimension.Layer.prototype.initialize.call(this, clustersLayer, options);
@@ -72,7 +82,7 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
 
     // update clusters on map movements
     window.map.on('moveend', e => {
-      updateClusters(this._baseLayer, this._clustersIndex)
+      updateClusters(this._baseLayer, this._clustersIndex, ACTIVE_POPUP_ID);
     });
 
     if (this._timeDimension) {
@@ -116,7 +126,7 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
     const diffData = data.filter(el => Boolean(el.postProcess));
     const diffPinsLayer = L.geoJson(diffData, {
         onEachFeature : managePopup,
-        pointToLayer  : (feature, latlng) => generateMarkerIcon(this._pinIcon, feature, latlng)
+        pointToLayer  : (feature, latlng) => generateMarkerIcon(this._pinIcon, feature, latlng, onPopupOpen)
     });
 
     if (this._diffPinsLayer) {
@@ -311,6 +321,11 @@ $(function() {
             buffer         : 1,
             minBufferReady : -1
           }
+        });
+
+        window.map.on('popupclose', e => {
+          ACTIVE_POPUP_ID = null;
+          $('.leaflet-control-layers').show();
         });
 
         window.map.addControl(timeDimensionControl);

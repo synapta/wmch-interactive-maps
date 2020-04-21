@@ -1,12 +1,15 @@
 // Client rendering and functions for frontend (Real-time)
 const isTimeline = false;
 
+
+
 $(function() {
 
     t_entry = performance.now();
 
     /******************** GLOBALS (inside document ready) *********************/
     let MAP_READY = false;
+    let ACTIVE_POPUP_ID = null;
     let markersLayer;  // leaflet geoJSON layer
     let clustersIndex; // supercluster instance
     let newJson;       // data retreived from API
@@ -26,6 +29,7 @@ $(function() {
     });
 
     const mobileDesktopLegenda = function() {
+      console.log('mobileDesktopLegenda', mobileDesktopLegenda);
       if (isMobile()) {
         // mobile
         $('.leaflet-control-layers').removeClass('leaflet-control-layers-expanded');
@@ -101,12 +105,22 @@ $(function() {
                 const t2 = performance.now();
                 console.log(`load ${dataPoints} dataPoints in supercluster took ${t2 - t1}ms`);
 
+                const onPopupOpen = e => {
+                  // keep track of active popup so we can open in back after a map update (zoom, pan, filter...)
+                  ACTIVE_POPUP_ID = e.target.options.uniqueID;
+                  // legenda
+                  openModal();
+                };
+
                 markersLayer = L.geoJSON(null, {
                   onEachFeature : managePopup,
-                  pointToLayer  : (feature, latlng) => generateMarkerIcon(options.pinIcon, feature, latlng)
+                  pointToLayer  : (feature, latlng) => generateMarkerIcon(options.pinIcon, feature, latlng, onPopupOpen)
                 }).addTo(window.map);
 
-                window.map.on('moveend', () => updateClusters(markersLayer, clustersIndex));
+                window.map.on('moveend', () => {
+                  // if popup is active, keep track before updating the map (and setting ACTIVE_POPUP_ID to null)
+                  updateClusters(markersLayer, clustersIndex, ACTIVE_POPUP_ID);
+                });
 
                 updateClusters(markersLayer, clustersIndex);
 
@@ -169,56 +183,17 @@ $(function() {
         }
 
         // options
-        var mapOptions = {};
+        const mapOptions = {};
+
         mapOptions.baseAttribution = window.attribution;
         mapOptions.subdomains = '1234';
-        /**
-          @see https://github.com/Leaflet/Leaflet.markercluster#customising-the-clustered-markers
-          iconCreateFunction: function(cluster) {
-          return L.divIcon({ html: '<b style="font-size: 50px;">' + cluster.getChildCount() + '</b>' });
-        } **/
-        const options = {
-          id        : parsedOptions.id,
-          pinIcon   : parsedOptions.pinIcon,
-          sparql    : parsedOptions.query,
-          map       : parsedOptions.map,
-          noCluster : parsedOptions.noCluster,
-          autoZoom  : parsedOptions.autoZoom,
-          pins      : {}
-        };
-        ////////////////////////////////////////////////////////////////////////////////
-        /**
-
-                var pins = [
-                  {color: "black", icon: pinIcon},
-                  {color: "red", icon: pinIcon},
-                  {color: "orange", icon: pinIcon},
-                  {color: "green", icon: pinIcon}
-                ];
-                $.each(pins, function (index, value) {
-                  generatePin(L, pinIcon);
-                });
-
-         **/
-
-        ////////////////////////////////////////////////////////////////////////////////
-        var labelColumn = "title";
-        var opacity = 1.0;
-        var confPopupOpts = {
-            closeOnClick: true,
-            autoClose: false,
-            autoPanPadding: new L.Point(5, 50),
-            // minWidth : 540,
-            // maxWidth : 540,
-            autoPan: true
-        };
 
         const basemap = new L.TileLayer(parsedOptions.currentStyle.tile, {
             maxZoom     : parsedOptions.maxZoom,
             minZoom     : parsedOptions.minZoom,
             attribution : mapOptions.baseAttribution,
             subdomains  : mapOptions.subdomains,
-            opacity     : opacity
+            opacity     : 1
         });
 
         // carica la mappa nel div #wmap
@@ -235,7 +210,10 @@ $(function() {
         loadLegenda();
 
         // display legenda every time a popup is closed
-        window.map.on('popupclose', closePopup);
+        window.map.on('popupclose', e => {
+          ACTIVE_POPUP_ID = null;
+          $('.leaflet-control-layers').show();
+        });
 
         $(window).resize(function() {
             mobileDesktopLegenda();
@@ -245,7 +223,24 @@ $(function() {
 
         // load data
         t_basemap = performance.now();
-        loadData(options);
+        // const options = {
+        //   id        : parsedOptions.id,
+        //   pinIcon   : parsedOptions.pinIcon,
+        //   sparql    : parsedOptions.query,
+        //   map       : parsedOptions.map,
+        //   noCluster : parsedOptions.noCluster,
+        //   autoZoom  : parsedOptions.autoZoom,
+        //   pins      : {}
+        // };
+        loadData({
+          id        : parsedOptions.id,
+          pinIcon   : parsedOptions.pinIcon,
+          sparql    : parsedOptions.query,
+          map       : parsedOptions.map,
+          noCluster : parsedOptions.noCluster,
+          autoZoom  : parsedOptions.autoZoom,
+          pins      : {}
+        });
     }
 
     // default (aliased url)
