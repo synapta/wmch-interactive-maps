@@ -19,6 +19,7 @@ program
   .option('-P, --regeneratepreviews', 'Regenerate preview for all maps (can take a long time)')
   .option('-T, --testdiff <mapId>', 'Test diff between histories on specified map.id')
   .option('-D, --processdiff <mapId>', 'Process diff between on specified map.id')
+  .option('-E, --checkerrors', 'Check errors in histories table')
   .parse(process.argv);
 
 function regenerateMaps (maps) {
@@ -215,4 +216,28 @@ if (program.processdiff)  {
           process.exit(0);
       }
     );
+}
+
+if (program.checkerrors) {
+  (async () => {
+    console.log("Checking errors in histories table");
+    let dbMeta = new db.Database(localconfig.database);
+    const History = dbMeta.db.define('history', models.History);
+    const hists = await History.findAll({
+      attributes: ['id']
+    });
+    for (const hist of hists) {
+      const history = await History.findOne({
+        where: {
+          id: hist.id
+        }
+      });
+      const jsonValue = JSON.parse(history.json);
+      if (jsonValue.error) {
+        console.log("Error found with id " + hist.id);
+        history.error = true;
+        await history.save();
+      }
+    }
+  })();
 }

@@ -86,7 +86,8 @@ const job = new CronJob(localconfig.cronTime, async function() {
 									mapId: record.id,
                   // do not add postProcess if fist element
 									json: JSON.stringify(currentObj),
-									diff: isDifferent
+									diff: isDifferent,
+									error: currentObj.error
 								});
 								// regenerate another after msCronWaitWikidata milliseconds
 								setTimeout(timeshotDo, localconfig.msCronWaitWikidata);
