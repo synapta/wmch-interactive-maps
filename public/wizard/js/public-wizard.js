@@ -411,6 +411,7 @@ $(function() {
                 const markers = new L.MarkerClusterGroup(options.cluster);
 
                 addMarkers(newJson, window.map, markers, options, autozoom);
+
                 // Aggiungi i contatori alla mappa
                 // legendaUpdate(newJson);
                 // window.map.setZoom(zoom);

@@ -46,19 +46,14 @@ var getWikipediaPageName = function (record) {
     }
 };
 
-var openModal = function (ev) {
+var openModal = function(ev) {
     if (window.isMobile != 'undefined') {
         if (window.isMobile()) {
-            openModalOnMobile(ev);
-        }
-        else {
-            $('.leaflet-control-layers').hide();
+          openModalOnMobile(ev);
+        } else {
+          $('.leaflet-control-layers').hide();
         }
     }
-};
-
-var closePopup = function (ev) {
-    $('.leaflet-control-layers').show();
 };
 
 var openModalOnMobile = function (ev) {
