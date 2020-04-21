@@ -1,47 +1,60 @@
-.marker-cluster {
-    filter: grayscale(1);
-}
-.awesome-marker,
-.marker-cluster {
-    cursor: pointer;
-}
 body {
-    font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
+
+.marker-cluster {
+  filter: grayscale(1);
+  cursor: default;
+}
+
+.awesome-marker {
+  cursor: pointer;
+}
+
 #logoonmenu {
-    padding: 10px 0 4px 10px;
+  padding: 10px 0 4px 10px;
 }
+
 .map-history #wmap .awesome-marker {
-    opacity: 0.2;
-    filter: grayscale(30%);
+  opacity: 0.2;
+  filter: grayscale(30%);
 }
+
 .map-history #wmap .new-pin-on-time-marker {
-    opacity: 1;
-    /* background-color: rgba(255,255,0,0.5); */
-    z-index: 900 !important;
-    filter: grayscale(0);
+  opacity: 1;
+  /* background-color: rgba(255,255,0,0.5); */
+  z-index: 900 !important;
+  filter: grayscale(0);
 }
+
 .wikiregular {
     font-weight: 400 !important;
 }
+
 .wikisemibold {
     font-weight: 600 !important;
 }
+
 .wikibold {
     font-weight: 700 !important;
 }
+
 .marginless {
   margin: 0 !important;
 }
+
 .paddingless {
   padding: 0 !important;
 }
+
 .uppercase {
   text-transform: uppercase !important;
 }
+
 .noradius {
   border-radius: 0px !important;
 }
+
 #wmap .leaflet-control-layers:not(.leaflet-control-layers-expanded) {
     border: none;
 }
