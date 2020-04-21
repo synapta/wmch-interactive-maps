@@ -20,7 +20,8 @@ const job = new CronJob('0 12 */6 * * *', async function () {
             [sequelize.fn('MAX', sequelize.col('history.createdAt')), 'maxCreatedAt']
         ],
         where: {
-            diff: true
+            diff: true,
+            error: false
         },
         include: [{
             model: Map,

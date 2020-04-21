@@ -234,7 +234,7 @@ module.exports = function(app, apicache) {
         History.belongsTo(Map);  // new property named "map" for each record
 
         // make query for old results on History
-        var historyWhere = { mapId: req.query.id };
+        var historyWhere = { mapId: req.query.id, error: false };
         if (localconfig.historyOnlyDiff) {
             historyWhere['diff'] = true;
         }
@@ -287,7 +287,7 @@ module.exports = function(app, apicache) {
         let sparqlJsonResultsArray = [];  // all results
 
         // make query for old results on History
-        var historyWhere = { mapId: req.query.id };
+        var historyWhere = { mapId: req.query.id, error: false };
         if (req.query.timestamp) {
             historyWhere.createdAt = new Date(+(req.query.timestamp)); 
         }
@@ -497,7 +497,7 @@ module.exports = function(app, apicache) {
             History.belongsTo(Map);  // new property named "map" for each record
 
             const hists = await History.findAll({
-            where: { mapId: req.query.id },
+            where: { mapId: req.query.id, error: false },
             include: [{
                 model: Map,
                 where: {
