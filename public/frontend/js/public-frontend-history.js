@@ -146,14 +146,8 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
 
     const url = `${this._baseURL}?id=${this._mapId}&timestamp=${time}`;
 
-    const t1 = performance.now();
-
     // get data
     $.getJSON(url, json => {
-
-      const t2 = performance.now();
-
-      console.log(`Request to ${this._baseURL}?id=${this._mapId}&timestamp=${time} took [ ${t2 - t1}ms ]`);
 
       if (this._firstLoad) {
         // update cluster radius
@@ -270,19 +264,11 @@ $(function() {
     error    : err => console.warn('Error retrieving data from url parameters', err),
     success  : mapOpts => {
 
-      const t2 = performance.now();
-
-      console.log(`Request to ${getVarUrl()} took [ ${t2 - t1}ms ]`);
-
       mapOpts.baseAttribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
       mapOpts.subdomains = '1234';
 
       // retrieve available timestaps for current map
       $.get(`/api/timestamp?id=${mapOpts.id}`, timestamps => {
-
-        const t3 = performance.now();
-
-        console.log(`Request to /api/timestamp?id=${mapOpts.id} took [ ${t3 - t2}ms ]`);
 
         // setup base map
         const basemap = new L.TileLayer(mapOpts.currentStyle.tile, {

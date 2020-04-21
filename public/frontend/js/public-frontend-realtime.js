@@ -1,11 +1,7 @@
 // Client rendering and functions for frontend (Real-time)
 const isTimeline = false;
 
-
-
 $(function() {
-
-    t_entry = performance.now();
 
     /******************** GLOBALS (inside document ready) *********************/
     let MAP_READY = false;
@@ -29,7 +25,6 @@ $(function() {
     });
 
     const mobileDesktopLegenda = function() {
-      console.log('mobileDesktopLegenda', mobileDesktopLegenda);
       if (isMobile()) {
         // mobile
         $('.leaflet-control-layers').removeClass('leaflet-control-layers-expanded');
@@ -94,16 +89,10 @@ $(function() {
                 // count data points
                 const dataPoints = newJson.length;
 
-                t_geo = performance.now();
-
                 // adaptive in range [10 - 150]
                 const radius = options.noCluster ? 0 : dataPoints.toClusterRadius();
                 clustersIndex = new Supercluster({ radius });
-
-                const t1 = performance.now();
                 clustersIndex.load(newJson);
-                const t2 = performance.now();
-                console.log(`load ${dataPoints} dataPoints in supercluster took ${t2 - t1}ms`);
 
                 const onPopupOpen = e => {
                   // keep track of active popup so we can open in back after a map update (zoom, pan, filter...)
@@ -124,23 +113,11 @@ $(function() {
 
                 updateClusters(markersLayer, clustersIndex);
 
-                t_datamap = performance.now();
-
                 // Aggiungi i contatori alla mappa
                 updateLegenda(options.pinIcon);
                 fancyUI();
 
                 MAP_READY = true;
-
-                t_uimap = performance.now();
-
-                console.log('******* REAL TIME MAP - PERFORMANCE ************');
-                console.log(`Retrieving map options took ${t_opts - t_entry}ms`);
-                console.log(`Rendering basemap took ${t_basemap - t_opts}ms`);
-                console.log(`Retrieving geo data took ${t_geo - t_basemap}ms`);
-                console.log(`Rendering data on map took ${t_datamap - t_geo}ms`);
-                console.log(`Finalizing map UI took ${t_uimap - t_datamap}ms`);
-                console.log('*********************************************');
 
                 // disable throbbler
                 $('#pagepop').dimmer('hide');
@@ -182,17 +159,12 @@ $(function() {
             return;
         }
 
-        // options
-        const mapOptions = {};
-
-        mapOptions.baseAttribution = window.attribution;
-        mapOptions.subdomains = '1234';
-
+        // basemap
         const basemap = new L.TileLayer(parsedOptions.currentStyle.tile, {
             maxZoom     : parsedOptions.maxZoom,
             minZoom     : parsedOptions.minZoom,
-            attribution : mapOptions.baseAttribution,
-            subdomains  : mapOptions.subdomains,
+            attribution : window.attribution,
+            subdomains  : '1234',
             opacity     : 1
         });
 
@@ -222,16 +194,6 @@ $(function() {
         mobileDesktopLegenda();
 
         // load data
-        t_basemap = performance.now();
-        // const options = {
-        //   id        : parsedOptions.id,
-        //   pinIcon   : parsedOptions.pinIcon,
-        //   sparql    : parsedOptions.query,
-        //   map       : parsedOptions.map,
-        //   noCluster : parsedOptions.noCluster,
-        //   autoZoom  : parsedOptions.autoZoom,
-        //   pins      : {}
-        // };
         loadData({
           id        : parsedOptions.id,
           pinIcon   : parsedOptions.pinIcon,
@@ -258,7 +220,6 @@ $(function() {
         dataType : 'json',
         error    : e => console.warn('Error retrieving data from url parameters'),
         success  : mapOpts => {
-          t_opts = performance.now();
             // mapOpts.collapse = false;  // NW
             window.attribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
             // Load map
