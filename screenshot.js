@@ -1,4 +1,5 @@
 const http = require('http');
+const process = require('process');
 const puppeteer = require('puppeteer');
 // parse command line arguments
 var parseArgs = require('minimist');
@@ -22,7 +23,13 @@ if (argv['nosentry']) {
 
 (async () => {
     // create browser and keep it open
-    const browser = await puppeteer.launch({headless: config.screenshotServer.headless, ignoreHTTPSErrors: true});
+    let browser = await puppeteer.launch({headless: config.screenshotServer.headless, ignoreHTTPSErrors: true});
+
+    process.on('SIGQUIT', async () => {
+      await browser.close();
+      util.log('Now I will exit because of SIGQUIT');
+      process.exit(0);
+    });
 
     server.on('request', async (req, res) => {
       // console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
@@ -31,35 +38,43 @@ if (argv['nosentry']) {
         body.push(chunk);
       }).on('end', async () => {
           res.setHeader('Content-Type','text/plain');
-          let page = await browser.newPage();
-          body = Buffer.concat(body).toString();
-          // body completed
-          let jsonBody = JSON.parse(body);
-          // console.log(jsonBody);
-          // visit map page with internal url
-          let url = util.format('%s%s', localconfigNoDb.internalUrl, jsonBody.mapargs);
-          console.log(url);
-          // pass hidecontrols but not save it
-          await page.goto(
-            util.format("%s%s", url, config.screenshotServer.hideControls ? '&noControls=1' : ''),
-            config.screenshotServer.GOTO_OPTS
-          );
-          var options = {};
-          Object.assign(options, config.screenshotServer.options);
-          // use path instead of full url to be protocol agnostic
-          let urlob = nodeurl.parse(url);
-          options.path = util.format(options.path, hasha(urlob.path));
-          // console.log('~~~~~~~~~~');
-          // console.log(options.path);
-          // console.log('~~~~~~~~~~');
-          // TODO: check if file exists (serve cache)
-          // wait all request to be completed
-          // await page.waitForNavigation({ "waitUntil": ["networkidle0"], "timeout": 0 });
-          await page.screenshot(options);
+          try {
+            if (browser === undefined) {
+              await puppeteer.launch({headless: config.screenshotServer.headless, ignoreHTTPSErrors: true});
+            }
+            let page = await browser.newPage();
+            body = Buffer.concat(body).toString();
+            // body completed
+            let jsonBody = JSON.parse(body);
+            // console.log(jsonBody);
+            // visit map page with internal url
+            let url = util.format('%s%s', localconfigNoDb.internalUrl, jsonBody.mapargs);
+            console.log(url);
+            // pass hidecontrols but not save it
+            await page.goto(
+              util.format("%s%s", url, config.screenshotServer.hideControls ? '&noControls=1' : ''),
+              config.screenshotServer.GOTO_OPTS
+            );
+            var options = {};
+            Object.assign(options, config.screenshotServer.options);
+            // use path instead of full url to be protocol agnostic
+            let urlob = nodeurl.parse(url);
+            options.path = util.format(options.path, hasha(urlob.path));
+            // console.log('~~~~~~~~~~');
+            // console.log(options.path);
+            // console.log('~~~~~~~~~~');
+            // TODO: check if file exists (serve cache)
+            // wait all request to be completed
+            // await page.waitForNavigation({ "waitUntil": ["networkidle0"], "timeout": 0 });
+            await page.screenshot(options);
+            await page.close();
+          } catch (error) {
+            console.log(error);
+            await browser.close();
+            browser = undefined;
+          }
           res.end(JSON.stringify(options, null, ''));
       });
-
-
 
     });
     server.listen(config.screenshotServer.port);
