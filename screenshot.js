@@ -59,8 +59,6 @@ if (argv['nosentry']) {
             // TODO: check if file exists (serve cache)
             // wait all request to be completed
             // await page.waitForNavigation({ "waitUntil": ["networkidle0"], "timeout": 0 });
-            // wait 10 seconds
-            await wait(10000);
             await page.screenshot(options);
           } catch (error) {
             console.log(error);
@@ -74,7 +72,3 @@ if (argv['nosentry']) {
     server.listen(config.screenshotServer.port);
     util.log('Screenshot server listening on port %d', config.screenshotServer.port);
 })();
-
-function wait(milliseconds) {
-  return new Promise(resolve => setTimeout(resolve, milliseconds));
-}

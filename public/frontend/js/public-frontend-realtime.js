@@ -77,7 +77,7 @@ $(function() {
     function loadData(options) {
         $.ajax({
             type    :'GET',
-            url     : `/api/data?id=${encodeURIComponent(options.id)}`,
+            url     : options.id ? `/api/data?id=${encodeURIComponent(options.id)}` : `/api/data?q=${encodeURIComponent(options.sparql)}`,
             error   : e => console.warn('Error retrieving data'),
             success : json => {
                 // enrich feature
