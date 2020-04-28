@@ -1,4 +1,5 @@
 const http = require('http');
+const process = require('process');
 const puppeteer = require('puppeteer');
 // parse command line arguments
 var parseArgs = require('minimist');
@@ -23,6 +24,12 @@ if (argv['nosentry']) {
 (async () => {
     // create browser and keep it open
     let browser = await puppeteer.launch({headless: config.screenshotServer.headless, ignoreHTTPSErrors: true});
+
+    process.on('SIGQUIT', async () => {
+      await browser.close();
+      util.log('Now I will exit because of SIGQUIT');
+      process.exit(0);
+    });
 
     server.on('request', async (req, res) => {
       // console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
