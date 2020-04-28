@@ -60,6 +60,7 @@ if (argv['nosentry']) {
             // wait all request to be completed
             // await page.waitForNavigation({ "waitUntil": ["networkidle0"], "timeout": 0 });
             await page.screenshot(options);
+            await page.close();
           } catch (error) {
             console.log(error);
             await browser.close();
