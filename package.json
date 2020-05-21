@@ -17,6 +17,7 @@
     "nodemon": "^1.18.10",
     "puppeteer": "^1.14.0",
     "raven": "^2.6.4",
+    "request": "^2.88.2",
     "sequelize": "^5.21.3",
     "sharp": "^0.22.0",
     "sqlite3": "^4.0.6"
