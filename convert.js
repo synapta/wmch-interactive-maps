@@ -93,9 +93,7 @@ main = function (conn) {
                             queryParam[k] = queryParam[k].replace(/'/g, "''");
                     }
 
-                    if (json.data[j].postProcess === undefined) {
-                        allParams.push(queryParam);
-                    }
+                    allParams.push(queryParam);
                 }
             }
             //console.log(query(allParams))
