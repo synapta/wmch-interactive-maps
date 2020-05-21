@@ -102,7 +102,7 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
   _update: function() {
     // filter out data to update legend
     const staticData = this._currentTimeData.filter(el => !Boolean(el.postProcess));
-    updateLegenda(staticData);
+    updateLegenda(this._currentTimeData);
 
     const activeCheckboxes = Array.from(document.querySelectorAll('.leaflet-control-layers-selector:checked'));
     if (activeCheckboxes.length < 4) {
