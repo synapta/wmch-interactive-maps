@@ -10,7 +10,7 @@ The user manual is available inside the app along the screenshots at the `/wizar
 
 ## Node version
 
-- Supported node version are 10 and 11 by now (for sharp dependency)
+- Supported node versions are 10, 11, and 12 (for sharp dependency)
 
 ## System dependencies
 
@@ -46,7 +46,7 @@ It contains available map styles based on sources listed on [Tile servers](https
 
 Data can be saved by two different connectors, SQLite and MariaDB.
 
-For multi-user installation, MariaDB is suggsted. SQLite is used primary for development.
+For multi-user installation, MariaDB is suggested. SQLite is used primary for development.
 
 #### SQLite
 ~~~
@@ -84,7 +84,7 @@ Add to localconfig.json:
 
 Port and dialectOptions can be omitted, getting the default values above.
 
-[Reference for MariaDB](http://docs.sequelizejs.com/manual/usage.html#mariadb)
+[Reference for MariaDB](hnode cron.jsttp://docs.sequelizejs.com/manual/usage.html#mariadb)
 
 ## Run the webservice
 
