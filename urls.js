@@ -100,7 +100,7 @@ module.exports = function(app, apicache) {
         // define fallback default style
         const fallBackStyle =   {
           "name": "OSM Bright",
-          "tile": "//tile.synapta.io/styles/osm-bright/{z}/{x}/{y}.png",
+          "tile": "//tile-wmch.synapta.io/styles/osm-bright/{z}/{x}/{y}.png",
           "attribution": "<a href=\"https://openmaptiles.org/\" target=\"_blank\">© OpenMapTiles</a>, <a href=\"https://www.openstreetmap.org/\" target=\"_blank\">© OpenStreetMap</a> contributors"
         };
         // find requested style in config styles list
