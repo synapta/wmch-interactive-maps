@@ -4,6 +4,11 @@ The following URLs can be used on Wikimedia Projects and available through CDNs 
 
 Complete list on https://cdnjs.toolforge.org/.
 
+## html5sortable
+
+- Latest version: 0.13.3
+- Using: 0.9.11
+
 ## Semantic UI 2.4.1
 
 ~~~
@@ -201,3 +206,10 @@ https:/css/lib/leaflet.css
 https:/js/lib/leaflet.js
 https:/js/lib/leaflet.js.map
 ~~~
+
+## foundation
+
+Latest version: 6.7.4
+
+- //tools-static.wmflabs.org/cdnjs/ajax/libs/foundation/6.7.4/css/foundation-float.css
+- ...
