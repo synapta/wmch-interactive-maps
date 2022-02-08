@@ -7,6 +7,22 @@
     "port": 3306,
     "dialectOptions": {"connectTimeout": 1000}
   },
+  "databaseOldProd": {
+    "_description": "Same as database above, used for migrations (as read source)"
+  },
+  "databaseB": {
+    "database": "map-database-here",
+    "username": "map-user-here",
+    "password": "***PASSWORD***",
+    "port": 5432,
+    "host": "localhost",
+    "dialect":"postgres",
+    "dialectOptions": {
+      "connectTimeout": 1000
+    },
+    "logging": false
+  },
+  "createTables": true,
   "renameToLogo": "rename this key to logo to override config.logo",
   "cronTime": "0 */10 * * * *",
   "msCronWaitWikidata": 10000,
