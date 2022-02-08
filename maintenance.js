@@ -3,6 +3,7 @@
 const program = require('commander');
 const request = require('request');
 const config = require('./config');
+const { logger } = require('./units/logger');
 const util = require('util');
 const fs = require('fs');
 const models       = require('./db/models');
@@ -25,7 +26,7 @@ program
 function regenerateMaps (maps) {
     if (maps.length) {
         let record = maps.shift();
-        util.log("Updating preview for id %d - %s", record.id, record.title);
+        logger.info("Updating preview for id %d - %s", record.id, record.title);
         request({
              url: config.screenshotServer.url,
              method: "PUT",
@@ -45,7 +46,7 @@ function regenerateMaps (maps) {
         });
     }
     else {
-        util.log("maps preview updated");
+        logger.info("maps preview updated");
         // exit without errors
         process.exit(0);
     }
@@ -75,7 +76,7 @@ function programProcessdiff(mapId, finalCallback) {
     };
 
     function writeDiff() {
-        util.log("limit %d; offset %d", limit, offset);
+        logger.info(`limit ${limit}; offset ${offset}`);
         History.findAll({
           where: historyWhere,
           include: [{
@@ -198,7 +199,7 @@ if (program.testdiff)  {
       }
       diff.processDeepDiff(elements, function (results) {
           for (r of Object.values(results)) {
-              util.log('----------------------------------------------------');
+              logger.info('----------------------------------------------------');
               console.log(JSON.stringify(r, null, 2));
           }
           process.exit(0);
@@ -212,7 +213,7 @@ if (program.processdiff)  {
       mapId,
       function () {
           // all ok
-          util.log("Diff successfully written on History for Map with map.id = %d", mapId);
+          logger.info("Diff successfully written on History for Map with map.id = %d", mapId);
           process.exit(0);
       }
     );

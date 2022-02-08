@@ -7,6 +7,7 @@ var argv = parseArgs(process.argv, opts={boolean: ['nosentry']});
 const CronJob = require('cron').CronJob;
 // local imports
 const util = require('util');
+const { logger } = require('./units/logger');
 const models = require('./db/models');
 const data = require('./units/data');
 const dbinit = require('./db/init');
@@ -19,16 +20,16 @@ const db = require(util.format('./db/connector/%s', localconfig.database.engine)
 // error reporting
 var Raven = require('raven');
 if (!argv['nosentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
-console.log(argv);
+logger.debug(argv);
 if (argv['nosentry']) {
-  console.log("*** Sentry disabled ***");
+  logger.info("*** Sentry disabled ***");
 }
 
-console.log('Before job instantiation');
+logger.debug('Before job instantiation');
 // @see https://github.com/kelektiv/node-cron/blob/master/examples/every_10_minutes.js
 const job = new CronJob(localconfig.cronTime, async function() {
 		const d = new Date();
-		// console.log('Every 10 Minutes:', d);
+		logger.debug('Every 10 Minutes:', d);
 		// initialize db abstraction via sequelize
 		let dbMeta = new db.Database(localconfig.database);
 		const Map = dbMeta.db.define('map', models.Map);
@@ -94,7 +95,7 @@ const job = new CronJob(localconfig.cronTime, async function() {
 						});
 				}
         else {
-            util.log("*** cron timeshot end ***");
+            logger.info("*** cron timeshot end ***");
         }
 		}
 
@@ -116,9 +117,9 @@ const job = new CronJob(localconfig.cronTime, async function() {
 					timeshot(maps);
 			}
 			else {
-					console.log("No maps found on database, cannot take timeshot");
+					logger.warn("No maps found on database, cannot take timeshot");
 			}
 		});
 });
-console.log('After job instantiation');
+logger.debug('After job instantiation');
 job.start();

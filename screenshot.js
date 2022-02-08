@@ -6,6 +6,7 @@ var parseArgs = require('minimist');
 var argv = parseArgs(process.argv, opts={boolean: ['nosentry']});
 const server = http.createServer();
 const config = require('./config');
+const { logger } = require('./units/logger');
 const util = require('util');
 const hasha = require('hasha');
 const request = require('request');
@@ -27,7 +28,7 @@ if (argv['nosentry']) {
 
     process.on('SIGQUIT', async () => {
       await browser.close();
-      util.log('Now I will exit because of SIGQUIT');
+      logger.info('Now I will exit because of SIGQUIT');
       process.exit(0);
     });
 
@@ -69,14 +70,14 @@ if (argv['nosentry']) {
             await page.screenshot(options);
             await page.close();
           } catch (error) {
-            console.log(error);
-            await browser.close();
-            browser = undefined;
+              logger.error(error);
+              await browser.close();
+              browser = undefined;
           }
           res.end(JSON.stringify(options, null, ''));
       });
 
     });
     server.listen(config.screenshotServer.port);
-    util.log('Screenshot server listening on port %d', config.screenshotServer.port);
+    logger.info('Screenshot server listening on port %d', config.screenshotServer.port);
 })();

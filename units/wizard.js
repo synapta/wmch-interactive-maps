@@ -2,6 +2,7 @@
  *
  **/
 const util = require('util');
+const { logger } = require('./logger');
 const fs = require('fs');
 const i18next = require('i18next');
 const i18n_utils = require('../i18n/utils');
@@ -14,7 +15,6 @@ const Mustache = require('mustache');
 const request = require('request');
 var md = require('markdown-it')();
 const db = require(util.format('../db/connector/%s', localconfig.database.engine));
-const DEBUG = localconfig.debug ? localconfig.debug : false;
 
 /**
  * Check permission against action name and id.
@@ -47,9 +47,7 @@ function getWizardActionPermissionAllowed(action, id) {
  */
 function getWizardPath(req, res, action=null, id=null) {
    // let action = req.params.action ? req.params.action : 'add';
-   if (DEBUG) {
-       console.log('Path', req.originalUrl, 'Action: ', action, "Id:", id);
-   }
+   logger.debug('Path', req.originalUrl, 'Action: ', action, "Id:", id);
    if (getWizardActionPermissionAllowed(action, id)) {
        getWizard(req, res, action, id);
    }
@@ -120,7 +118,7 @@ async function cuMap (req, res, action) {
                  json: {mapargs: req.query.mapargs}
             }, async function (error, response, jsonBody) {
                 if (!jsonBody) {
-                    util.log('******** Screenshot server is down ************');
+                    logger.info('******** Screenshot server is down ************');
                 }
                 switch (action) {
                     case 'add':
@@ -151,7 +149,7 @@ async function cuMap (req, res, action) {
             });
         }
         catch (e) {
-            console.log(e);
+            logger.error(e);
             res.send('<h2>Cannot create!</h2><a href="#" onclick="window.history.go(-1); return false;">Go back</a>');
         }
     }
@@ -174,7 +172,7 @@ function getMapValues(action, id) {
             Object.assign(configMap, configFromDb);
             // add derived values
             currentStyle = configMap.styles.filter(styleRow => { return styleRow.tile === configMap.tile }).pop();
-            if (DEBUG) console.log('§§§§§§§§§§§§§§§§§§§§§§§§§§', configMap.style);
+            logger.debug('§§§§§§§§§§§§§§§§§§§§§§§§§§', configMap.style);
             configMap.style = currentStyle ? currentStyle.name : '';
             // console.log(configMap);
             // Object.assign(configMap, {title: "ciao mondo"});
@@ -225,7 +223,7 @@ function getWizard(req, res, action, id) {
                 // unpublished or removed item
                 res.status(404).send('<h1>Not found</h1>')
              }
-             if (DEBUG) console.log("DEBUG TEMPLATE *****************************************************************", values);
+             logger.debug("DEBUG TEMPLATE *****************************************************************", values);
              var view = {
                shortlang: shortlang,
                langname: i18n_utils.getLangName(config.languages, shortlang),
