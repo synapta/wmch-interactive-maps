@@ -1,7 +1,6 @@
 const util        = require('util');
 const request     = require('request');
-const dbinit      = require('../db/init');
-const localconfig = dbinit.init();
+const localconfig = require('../localconfig');
 
 /**
  * Get values for map, edit or add.

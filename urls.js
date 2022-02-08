@@ -2,27 +2,23 @@ const util = require('util');
 const fs = require('fs');
 //////////////////////////////////
 const express = require('express');
-const Sequelize = require('sequelize');
 const Mustache = require('mustache');
 const i18next = require('i18next');
 const request = require('request');
 // Custom functions for internationalization
 const i18n_utils = require('./i18n/utils');
-const dbinit       = require('./db/init');
-const models       = require('./db/models');
+const {migrate, connection, Map, History} = require("./db/modelsB.js");
 const sharp = require('sharp');
 // Local units
 const wizard = require('./units/wizard');
 const data = require('./units/data');
-const diff = require('./units/diff');
+const dbutils = require('./units/dbutils');
 // Global settings
 const config = require('./config');
 const url = require('url');
+const { logger } = require('./units/logger');
 // load local config and check if is ok (testing db)
-const localconfig = dbinit.init();
-const DEBUG = localconfig.debug ? localconfig.debug : false;
-// connect to db
-const db = require(util.format('./db/connector/%s', localconfig.database.engine));
+const localconfig = require('./localconfig');
 
 module.exports = function(app, apicache) {
 
@@ -96,7 +92,7 @@ module.exports = function(app, apicache) {
      * @return An Express send with the response will be sent.
      */
     function querystring2json (res, enrichedQuery) {
-        models.booleanize(enrichedQuery);
+        dbutils.booleanize(enrichedQuery);
         // define fallback default style
         const fallBackStyle =   {
           "name": "OSM Bright",
@@ -154,10 +150,6 @@ module.exports = function(app, apicache) {
 
     // convert short url (path) to JSON to be served in /m route
     app.get('/s/:path', function (req, res) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
         Map.findOne({
           where: {
             path: req.params.path,
@@ -195,10 +187,6 @@ module.exports = function(app, apicache) {
      * @return {[type]}     [description]
      */
     app.get('/api/all', function (req, res) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
         Map.findAll({
           where: {
             published: true
@@ -213,7 +201,7 @@ module.exports = function(app, apicache) {
           let jsonRes = [];
           if (maps) {
               for (mapr of maps) {
-                  jsonRes.push(exposeMap(models.getMapRecordAsDict(mapr)));
+                  jsonRes.push(exposeMap(dbutils.getMapRecordAsDict(mapr)));
               }
               res.send(jsonRes);
           }
@@ -227,12 +215,6 @@ module.exports = function(app, apicache) {
      * Get an array of timestamps for the given map.
      */
     app.get('/api/timestamp', apicache('12 hours'), function (req, res) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
-        History.belongsTo(Map);  // new property named "map" for each record
-
         // make query for old results on History
         var historyWhere = { mapId: req.query.id, error: false };
         if (localconfig.historyOnlyDiff) {
@@ -277,13 +259,8 @@ module.exports = function(app, apicache) {
         let sparqlResultsChangedDuplicatesArray = [];
         // let now = parseInt(Math.round(new Date().getTime() / 1000));
         let now = new Date().getTime();
-        console.log(now);
+        logger.debug(now);
         // Extract past results from History
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
-        History.belongsTo(Map);  // new property named "map" for each record
         let sparqlJsonResultsArray = [];  // all results
 
         // make query for old results on History
@@ -331,7 +308,7 @@ module.exports = function(app, apicache) {
                     unchangedTimes = allTimes;
                 }
                 // DEBUG
-                // if (DEBUG && elChangedTimes && el.properties.wikidata === 'Q3825655') {
+                // if (process.env.DEBUG && elChangedTimes && el.properties.wikidata === 'Q3825655') {
                 //     console.log('allTimes', allTimes);
                 //     console.log('elChangedTimes', elChangedTimes);
                 //     console.log('unchangedTimes', unchangedTimes);
@@ -404,9 +381,7 @@ module.exports = function(app, apicache) {
                 // Past timeshots //////////////////////////////////////////////
                 for (histInd in hists.slice(n+1)) {
                     let hist = hists[histInd];
-                    if (DEBUG) {
-                        console.log('id', hist.id, 'mapId', hist.mapId, 'published', hist.map.published, 'histInd (array)', histInd);  // DEBUG
-                    }
+                    logger.debug('id', hist.id, 'mapId', hist.mapId, 'published', hist.map.published, 'histInd (array)', histInd);  // DEBUG
                     // Ignore broken records, but keep them in History table
                     if (!hist.error) {
                         let localRes = JSON.parse(hist.json);
@@ -490,12 +465,6 @@ module.exports = function(app, apicache) {
         let sparql;
 
         if (req.query.id) {
-            let dbMeta = new db.Database(localconfig.database);
-            const Map = dbMeta.db.define('map', models.Map);
-            const History = dbMeta.db.define('history', models.History);
-            Map.hasMany(History); // 1 : N
-            History.belongsTo(Map);  // new property named "map" for each record
-
             const hists = await History.findAll({
             where: { mapId: req.query.id, error: false },
             include: [{
@@ -527,7 +496,7 @@ module.exports = function(app, apicache) {
                 });
 
             if (map) {
-                let ob = models.mapargsParse(map);
+                let ob = dbutils.mapargsParse(map);
                 sparql = ob.query;
             } else {
                 // Requested an invalid id
@@ -712,8 +681,6 @@ module.exports = function(app, apicache) {
      * @return Express send HTML.
      */
     app.get('/v/:path', function (req, res) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
         // no history needed here
         Map.findOne({
           where: {
@@ -739,10 +706,6 @@ module.exports = function(app, apicache) {
      * @return Express send HTML.
      */
     app.get('/h/:path', function (req, res) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
         // let path = req.url.substring(1);
         Map.findOne({
           where: {
@@ -796,10 +759,6 @@ module.exports = function(app, apicache) {
 
     function admin_api_action_update (req, res) {
         /** Update multiple records **/
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
         let updateCount = 0;
         // Save all records
         updateRecordList(Map, req.body.records, updateCount, res);
@@ -810,11 +769,7 @@ module.exports = function(app, apicache) {
     }
 
     function admin_api_action_delete (req, res, published=false) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
-        // soft delete (unpublish)
+        // move to Draft
         console.log(req.body);
         Map.update(
             { published: published }, /* set attributes' value */
@@ -860,10 +815,6 @@ module.exports = function(app, apicache) {
               throw err;
             }
             // load all maps data
-            let dbMeta = new db.Database(localconfig.database);
-            const Map = dbMeta.db.define('map', models.Map);
-            const History = dbMeta.db.define('history', models.History);
-            Map.hasMany(History); // 1 : N
             Map.findAll({
               where:  {
                 published: true  // hide "deleted" elements

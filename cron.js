@@ -8,14 +8,12 @@ const CronJob = require('cron').CronJob;
 // local imports
 const util = require('util');
 const { logger } = require('./units/logger');
-const models = require('./db/models');
 const data = require('./units/data');
-const dbinit = require('./db/init');
+const dbutils = require('./unit/dbutils');
 const diff = require('./units/diff');
 // load local config and check if is ok (testing db)
-const localconfig = dbinit.init();
-// connect to db
-const db = require(util.format('./db/connector/%s', localconfig.database.engine));
+const localconfig = require('./localconfig');
+const {migrate, connection, Map, History} = require("../db/modelsB.js");
 
 // error reporting
 var Raven = require('raven');
@@ -30,12 +28,6 @@ logger.debug('Before job instantiation');
 const job = new CronJob(localconfig.cronTime, async function() {
 		const d = new Date();
 		logger.debug('Every 10 Minutes:', d);
-		// initialize db abstraction via sequelize
-		let dbMeta = new db.Database(localconfig.database);
-		const Map = dbMeta.db.define('map', models.Map);
-		const History = dbMeta.db.define('history', models.History);
-		Map.hasMany(History); // 1 : N
-    History.belongsTo(Map);  // new property named "map" for each record
 		//////////////////////////////////////////
 
 		async function timeshot(maps) {
@@ -70,7 +62,7 @@ const job = new CronJob(localconfig.cronTime, async function() {
 							limit: 1
 						}).then(async hists => {
 								let hist = hists.pop();
-								let ob = models.mapargsParse(record);
+								let ob = dbutils.mapargsParse(record);
 								// prepare JSON to be written on database
 								let currentObj = await data.getJSONfromQuery(ob.query, "cron.js");
                 // get from database the last saved record as string, hydrate it to object and remove our metadata postProcess

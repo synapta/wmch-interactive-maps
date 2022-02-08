@@ -1,0 +1,47 @@
+const querystring = require('querystring');
+const { bool } = require('sharp');
+
+function getMapRecordAsDict (record) {
+    return {
+      id: record.get('id'),
+      path: record.get('path'),
+      title: record.get('title'),
+      mapargs: record.get('mapargs'),
+      screenshot: record.get('screenshot'),
+      star: record.get('star')
+    };
+}
+exports.getMapRecordAsDict = getMapRecordAsDict;
+
+function booleanize(obj) {
+  /**
+   *  Alter javascript object to convert 'true' and 'false' into true and false
+   *  @param {object} obj: JavaScript object
+   **/
+    for (key of Object.keys(obj)) {
+        if (typeof(obj[key]) === 'object') {
+            booleanize(obj[key]);
+        }
+        else {
+            obj[key] = ['true', 'false'].indexOf(obj[key]) !== -1 ? eval(obj[key]) : obj[key];
+        }
+    }
+}
+exports.booleanize = booleanize;
+
+function mapargsParse(record) {
+    return querystring.parse(record.get('mapargs').split('/?').slice(1).join());
+}
+exports.mapargsParse = mapargsParse;
+
+function getAllFieldsAsDict(record) {
+    let obj = getMapRecordAsDict(record);
+    Object.assign(obj, mapargsParse(record));
+    // console.log('#@@@@@@@@@@@@@@@@@@@@@@@@@@', obj);
+    // used only on edit
+    obj.lat = obj.startLat;
+    obj.long = obj.startLng;
+    booleanize(obj);
+    return obj
+}
+exports.getAllFieldsAsDict = getAllFieldsAsDict;

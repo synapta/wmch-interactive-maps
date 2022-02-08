@@ -10,13 +10,13 @@ const { logger } = require('./units/logger');
 const util = require('util');
 const hasha = require('hasha');
 const request = require('request');
-const localconfigNoDb = require('./localconfig');
+const localconfig = require('./localconfig');
 const nodeurl = require('url');
 // const express = require('express');
 
 // error reporting
 var Raven = require('raven');
-if (!argv['nosentry'] && typeof localconfigNoDb.raven !== 'undefined') Raven.config(localconfigNoDb.raven.maps.DSN).install();
+if (!argv['nosentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
 console.log(argv);
 if (argv['nosentry']) {
   console.log("*** Sentry disabled ***");
@@ -49,7 +49,7 @@ if (argv['nosentry']) {
             let jsonBody = JSON.parse(body);
             // console.log(jsonBody);
             // visit map page with internal url
-            let url = util.format('%s%s', localconfigNoDb.internalUrl, jsonBody.mapargs);
+            let url = util.format('%s%s', localconfig.internalUrl, jsonBody.mapargs);
             console.log(url);
             // pass hidecontrols but not save it
             await page.goto(
