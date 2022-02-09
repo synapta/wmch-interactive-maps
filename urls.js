@@ -737,7 +737,8 @@ module.exports = function(app, apicache) {
             sequelizeModel.update(
                 {
                   sticky: record.sticky,
-                  star: record.star
+                  star: record.star,
+                  published: record.published
                 }, /* set attributes' value */
                 { where: { id: record.id }} /* where criteria */
             ).then(([affectedCount, affectedRows]) => {
@@ -816,9 +817,6 @@ module.exports = function(app, apicache) {
             }
             // load all maps data
             Map.findAll({
-              where:  {
-                published: true  // hide "deleted" elements
-              },
               order: [
                 ['sticky', 'DESC'],
                 ['createdAt', 'DESC'],

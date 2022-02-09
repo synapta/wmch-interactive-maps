@@ -7,7 +7,7 @@
     "path": "Percorso",
     "order": "Ordine",
     "star": "Preferito",
-    "delete": "Eliminare?"
+    "delete": "Visibilità"
   },
   "actions": {
     "create": {
@@ -20,12 +20,11 @@
       "text": "Aiuto"
     },
     "delete": {
-      "text": "Elimina"
+      "text": "Cambia visibilità"
     },
     "submit": {
       "text": "Salva",
-      "confirm": "Vuoi pubblicare le modifiche?",
-      "confirmDetail": "!changes modifiche e !deletes cancellazioni saranno definitive. Confermi?"
+      "confirm": "Vuoi pubblicare le modifiche?"
     }
   }
 }
