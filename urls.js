@@ -115,7 +115,7 @@ module.exports = function(app, apicache) {
     app.use('/frontend/js',express.static('./public/frontend/js'));
     // js for manual
     app.use('/manual/js',express.static('./public/manual/js'));
-    // images for landing page
+    // images for home page
     app.use('/p/',express.static('./screenshots'));
 
     // translated interfaces for the map wizard
@@ -157,7 +157,7 @@ module.exports = function(app, apicache) {
           }
         }).then(record => {
           if (record) {
-              let enrichedQuery = models.mapargsParse(record);
+              let enrichedQuery = dbutils.mapargsParse(record);
               // add id from database, for check on Edit on public-wizard.js
               enrichedQuery.id = record.id;
               // serve json, enriched with config
@@ -689,7 +689,7 @@ module.exports = function(app, apicache) {
           }
         }).then(record => {
           if (record) {
-              generateMapPage(req, res, models.getMapRecordAsDict(record), false);
+              generateMapPage(req, res, dbutils.getMapRecordAsDict(record), false);
           }
           else {
               res.status(404).send('<h2>Not found</h2>');
@@ -714,7 +714,7 @@ module.exports = function(app, apicache) {
           }
         }).then(record => {
           if (record) {
-              generateMapPage(req, res, models.getMapRecordAsDict(record), true);
+              generateMapPage(req, res, dbutils.getMapRecordAsDict(record), true);
           }
           else {
               res.status(404).send('<h2>Not found</h2>');

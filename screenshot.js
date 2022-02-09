@@ -17,9 +17,9 @@ const nodeurl = require('url');
 // error reporting
 var Raven = require('raven');
 if (!argv['nosentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
-console.log(argv);
+logger.trace(argv);
 if (argv['nosentry']) {
-  console.log("*** Sentry disabled ***");
+  logger.info("*** Sentry disabled ***");
 }
 
 (async () => {
@@ -41,7 +41,7 @@ if (argv['nosentry']) {
           res.setHeader('Content-Type','text/plain');
           try {
             if (browser === undefined) {
-              await puppeteer.launch({headless: config.screenshotServer.headless, ignoreHTTPSErrors: true});
+              browser = await puppeteer.launch({headless: config.screenshotServer.headless, ignoreHTTPSErrors: true});
             }
             let page = await browser.newPage();
             body = Buffer.concat(body).toString();
@@ -50,12 +50,17 @@ if (argv['nosentry']) {
             // console.log(jsonBody);
             // visit map page with internal url
             let url = util.format('%s%s', localconfig.internalUrl, jsonBody.mapargs);
-            console.log(url);
+            logger.debug(url);
             // pass hidecontrols but not save it
             await page.goto(
               util.format("%s%s", url, config.screenshotServer.hideControls ? '&noControls=1' : ''),
               config.screenshotServer.GOTO_OPTS
             );
+            // Wait until loader disappear from map
+            await page.waitForFunction(async () => {
+              if (!jQuery) return false;
+              return !jQuery(".massive.loader").is(":visible");
+            })
             var options = {};
             Object.assign(options, config.screenshotServer.options);
             // use path instead of full url to be protocol agnostic

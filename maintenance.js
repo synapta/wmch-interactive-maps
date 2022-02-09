@@ -27,14 +27,21 @@ function regenerateMaps (maps) {
              },
              json: {mapargs: record.mapargs}
         }, async function (error, response, jsonBody) {
-            // console.log(jsonBody);
-            record.screenshot = jsonBody.path;
-            // logger.debug(record.screenshot);
-            // logger.debug(record.screenshot);
-            // update record with the new screenshot
-            record.save().then(() => {
-                regenerateMaps(maps);
-            })
+            if (!error && typeof jsonBody !== "undefined" && typeof jsonBody.path === "string") {
+              // console.log(jsonBody);
+              record.screenshot = jsonBody.path;
+              // logger.debug(record.screenshot);
+              // logger.debug(record.screenshot);
+              // update record with the new screenshot
+              record.save().then(() => {
+                  logger.info("Updated")
+                  regenerateMaps(maps);
+              })
+            }
+            else {
+              logger.error("Cannot regenerate %d - %s", record.id, record.title)
+              regenerateMaps(maps);
+            }
         });
     }
     else {
