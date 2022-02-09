@@ -40,7 +40,7 @@ Map.init({
     screenshot: Sequelize.STRING,
     sticky: { type: Sequelize.INTEGER, defaultValue: 0 },
     mapargs: Sequelize.TEXT,
-    star: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
+    history: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false },
     published: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: false }
   }, {
   // pass the connection instance

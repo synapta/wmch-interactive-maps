@@ -80,7 +80,7 @@ module.exports = function(app, apicache) {
          title: e.title,
          icon: tmpUrl.searchParams.get("pinIcon"),  // get pin icon classes
          screenshot: util.format(config.screenshotPattern, e.screenshot.split('/').pop()),
-         star: e.star
+         star: false  // legacy favourite
        };
     }
 
@@ -737,7 +737,7 @@ module.exports = function(app, apicache) {
             sequelizeModel.update(
                 {
                   sticky: record.sticky,
-                  star: record.star,
+                  history: record.history,
                   published: record.published
                 }, /* set attributes' value */
                 { where: { id: record.id }} /* where criteria */

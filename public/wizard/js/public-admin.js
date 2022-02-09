@@ -32,7 +32,7 @@ $(function() {
             if (newdata.sticky !== $(this).data('sticky')) {
                 $(this).data('changed', 1);
             }
-            if (newdata.star !== $(this).data('star')) {
+            if (newdata.history !== $(this).data('history')) {
                 $(this).data('changed', 1);
             }
             if (newdata.published !== $(this).data('published')) {
@@ -44,23 +44,24 @@ $(function() {
     function getRecordData (el) {
         var data = {};
         data.id = $(el).data('id');
-        data.star = $(el).is('.starred') ? 1 : 0;
+        data.history = $(el).is('.history') ? 1 : 0;
         data.sticky = parseInt($(el).find('.order').val());
         data.published = $(el).is('.published') ? 1 : 0;
         return data;
     }
 
-    $('.change-star').on('click', function (ev) {
+    $('.change-history').on('click', function (ev) {
         ev.preventDefault();
+        var styleClasses = ["pause", "play"];
         var el = $(this).parents('tr');
-        if (el.is('.starred')) {
-            el.removeClass('starred');
+        if (el.is('.history')) {
+            el.removeClass('history');
         }
         else {
-            el.addClass('starred');
+            el.addClass('history');
         }
         // show icon graphically changed
-        $(this).find('i').toggleClass('outline grey yellow');
+        $(this).find('i').toggleClass(styleClasses);
     });
 
     $('button.savechanged').on("click", function (ev) {

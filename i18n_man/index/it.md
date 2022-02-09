@@ -93,15 +93,15 @@ Il cruscotto di amministrazione è raggiungibile all'indirizzo:
 
 Tramite il cruscotto di amministrazione è possibile:
 
-1. elencare le mappe pubblicate sul sito
-2. modificare le singole mappe
-3. riordinare l'ordine di apparizione delle mappe nella pagina principale
-4. aggiungere l'icona "preferito" (stella) ad una mappa
-5. cancellare le mappe
+1. elencare le mappe pubblicate sul sito;
+2. modificare le singole mappe;
+3. riordinare l'ordine di apparizione delle mappe nella pagina principale;
+4. abilitare la funzionalità cronologia;
+5. pubblicare o togliere dalla pubblicazione le mappe;
 
 Al click sul titolo della mappa si verrà rimandati alla pagina di modifica.
 
-Selezionando le operazioni di cancellazione o l'assegnazione preferito / non preferito bisognerà premere uno dei pulsanti Salva.
+Dopo aver modificato gli elementi bisognerà premere uno dei pulsanti Salva.
 
 ## Modificare una mappa
 

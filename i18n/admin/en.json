@@ -6,7 +6,7 @@
     "title": "Title",
     "path": "Path",
     "order": "Order",
-    "star": "Starred",
+    "history": "History",
     "delete": "Visibility"
   },
   "actions": {

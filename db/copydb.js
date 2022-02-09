@@ -46,6 +46,10 @@ const legacyDb = async function() {
     console.log("Importing maps...")
     for (const record of maps) {
         const data = record.dataValues
+        // do not run history on unpublished maps
+        data.history = data.published
+        // drop legacy field
+        delete data.star
         await Map.create(data)
     }
     console.log("Importing histories...")

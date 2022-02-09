@@ -96,12 +96,12 @@ In the admin dashboard you can:
 1. List the published maps on the site;
 2. Edit the single map;
 3. Choose the order of the map appearance in the landing page; 
-4. Add the “favorite” icon (star) to a map;
-5. Delete maps
+4. Enable the history feature;
+5. Publish or unpublish maps;
 
 Once you click on a map title you will be sent back to the edit page.
 
-Whether you choose to delete or add an element to the favorites, you always need to click on the save button. 
+Whether you change any of the statuses above, you always need to click on the save button. 
 
 ## Edit a map
 

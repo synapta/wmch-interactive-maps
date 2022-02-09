@@ -8,7 +8,7 @@ function getMapRecordAsDict (record) {
       title: record.get('title'),
       mapargs: record.get('mapargs'),
       screenshot: record.get('screenshot'),
-      star: record.get('star')
+      history: record.get('history')
     };
 }
 exports.getMapRecordAsDict = getMapRecordAsDict;

@@ -6,7 +6,7 @@
     "title": "Titolo",
     "path": "Percorso",
     "order": "Ordine",
-    "star": "Preferito",
+    "history": "Cronologia",
     "delete": "Visibilità"
   },
   "actions": {

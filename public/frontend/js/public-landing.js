@@ -11,8 +11,8 @@ $(function() {
         return map.sticky > 0;
     }
 
-    function isStarred (map) {
-        return map.star;
+    function isHistoryEnabled (map) {
+        return map.history;
     }
 
     var colors = [
@@ -55,9 +55,8 @@ $(function() {
                         // skip last element
                         // map.href + userDefinedLangQuery
                         var mapIcon = mapIconTemplate.replace(/@/g, map.icon);
-                        var thisIsStarred = isStarred(map) ? starIcon : '';
                         $('#infinite').append('<div class="column"><div class="ui raised segment">'
-                        + thisIsStarred
+                        + isHistoryEnabled(map) ? starIcon : ''
                         + '<div class="landing-square landingmapimage" style="background-image: url(' + map.screenshot + ');">'
                         + '<a title="' + (map.title.length > 30 ? map.title : '') + '" href="' + map.href + userDefinedLangQuery + '" class="ui bottom left attached label wikiblue wikisemibold">'
                             // icon
