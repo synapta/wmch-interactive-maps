@@ -53,8 +53,11 @@ Map.init({
   timestamps: true
 });
 
+// Relationships
 Map.hasMany(History)
+History.belongsTo(Map)
 
+// expose and prepare for migration
 allModels.push(Map)
 exports.Map = Map
 
