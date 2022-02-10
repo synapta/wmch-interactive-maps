@@ -62,7 +62,7 @@
               <tr>
                 <th>{{#i18n}}headers.title{{/i18n}}</th>
                 <th>{{#i18n}}headers.path{{/i18n}}</th>
-                <th>{{#i18n}}headers.order{{/i18n}}</th>
+                <th class="donotdisplay">{{#i18n}}headers.order{{/i18n}}</th>
                 <th>{{#i18n}}headers.history{{/i18n}}</th>
                 <th>{{#i18n}}headers.delete{{/i18n}}</th>
               </tr>
@@ -79,7 +79,7 @@
                     data-history="{{#history}}1{{/history}}{{^history}}0{{/history}}">
                     <td><i class="sort icon grey"></i><a href="/admin/edit/{{id}}">{{title}}</a> <sub>{{^published}}(Draft){{/published}}</sub></td>
                     <td>{{path}}</td>
-                    <th><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
+                    <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
                     <th><a class="change-history" href="#"><i class="toggle big {{#history}}on green{{/history}} {{^history}}off grey{{/history}} icon"></i></a></th>
                     <th><a class="change-visibility" href="#"><i class="toggle big eye {{^published}}slash grey{{/published}} {{#published}}green{{/published}} icon"></i></a></th>
                   </tr>
