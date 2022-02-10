@@ -11,20 +11,6 @@ $(function() {
         }
     });
 
-    $('.map-record-change-visibility').on("click", function (e) {
-        if ($(this).parents("tr").hasClass("published")) {
-            // from Published to Draft
-            $(this).parents("tr").toggleClass("negative");
-            $(this).toggleClass(["grey", "red"]);
-        }
-        else {
-            // from Draft to Published
-            $(this).parents("tr").toggleClass("positive");
-            $(this).toggleClass(["grey", "green"]);
-        }
-        $(this).parents("tr").toggleClass("published");
-    });
-
 
     function setChanged() {
         $('.map-record').each(function () {
@@ -52,13 +38,27 @@ $(function() {
 
     $('.change-history').on('click', function (ev) {
         ev.preventDefault();
-        var styleClasses = ["pause", "play"];
+        var styleClasses = ["off", "on", "green", "grey"];
         var el = $(this).parents('tr');
         if (el.is('.history')) {
             el.removeClass('history');
         }
         else {
             el.addClass('history');
+        }
+        // show icon graphically changed
+        $(this).find('i').toggleClass(styleClasses);
+    });
+
+    $('.change-visibility').on('click', function (ev) {
+        ev.preventDefault();
+        var styleClasses = ["slash", "green", "grey"];
+        var el = $(this).parents('tr');
+        if (el.is('.published')) {
+            el.removeClass('published');
+        }
+        else {
+            el.addClass('published');
         }
         // show icon graphically changed
         $(this).find('i').toggleClass(styleClasses);
