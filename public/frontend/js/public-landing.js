@@ -4,7 +4,6 @@ $(function() {
     var globLimit = 20;  // 2 elements x 10 rows
     var globOffset = globLimit;
     // icon to display on pinned / favourite maps
-    var starIcon = '<span class="ui right corner label wikiblue"><i class="star icon wikigold"></i></span>';
     var mapIconTemplate = '<i class="icon @ icon-white"></i>';
 
     function isSticky (map) {
@@ -56,7 +55,6 @@ $(function() {
                         // map.href + userDefinedLangQuery
                         var mapIcon = mapIconTemplate.replace(/@/g, map.icon);
                         $('#infinite').append('<div class="column"><div class="ui raised segment">'
-                        + isHistoryEnabled(map) ? starIcon : ''
                         + '<div class="landing-square landingmapimage" style="background-image: url(' + map.screenshot + ');">'
                         + '<a title="' + (map.title.length > 30 ? map.title : '') + '" href="' + map.href + userDefinedLangQuery + '" class="ui bottom left attached label wikiblue wikisemibold">'
                             // icon
