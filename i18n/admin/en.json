@@ -9,6 +9,17 @@
     "history": "History",
     "delete": "Visibility"
   },
+  "category": {
+    "create": {
+      "text": "Add a new category"
+    },
+    "empty": {
+      "text": "Give a name to the new category"
+    },
+    "delete": {
+      "text": "Delete category"
+    }
+  },
   "actions": {
     "create": {
       "text": "Add a new map"

@@ -9,6 +9,17 @@
     "history": "Cronologia",
     "delete": "Visibilità"
   },
+  "category": {
+    "create": {
+      "text": "Aggiungi una nuova categoria"
+    },
+    "empty": {
+      "text": "Scegli un nome per la nuova categoria"
+    },
+    "delete": {
+      "text": "Cancella categoria"
+    }
+  },
   "actions": {
     "create": {
       "text": "Aggiungi una nuova mappa"

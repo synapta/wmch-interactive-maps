@@ -79,11 +79,26 @@
                     data-history="{{#history}}1{{/history}}{{^history}}0{{/history}}">
                     <td><i class="sort icon grey"></i><a href="/admin/edit/{{id}}">{{title}}</a> <sub>{{^published}}(Draft){{/published}}</sub></td>
                     <td>{{path}}</td>
-                    <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
                     <th><a class="change-history" href="#"><i class="toggle big {{#history}}on green{{/history}} {{^history}}off grey{{/history}} icon"></i></a></th>
                     <th><a class="change-visibility" href="#"><i class="toggle big eye {{^published}}slash grey{{/published}} {{#published}}green{{/published}} icon"></i></a></th>
+                    <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
                   </tr>
                 {{/maps}}
+                <tr class="map-category">
+                  <td colspan="4">
+                    <div class="ui fluid input">
+                      <input id="createcategory" type="text" placeholder="{{#i18n}}category.create.text{{/i18n}}">
+                    </div>
+                    <div id="createcategory_empty" class="ui pointing red basic label hidden">
+                      {{#i18n}}category.empty.text{{/i18n}}
+                    </div>
+                  </td>
+                  <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
+                </tr>
+                <!--tr class="map-category">  TODO: already saved category
+                  <td colspan="4">{{#i18n}}category.create.text{{/i18n}}</td>
+                  <th class="donotdisplay-2"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
+                </tr-->
               </tbody>
             </table>
             <button class="ui button savechanged blue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>

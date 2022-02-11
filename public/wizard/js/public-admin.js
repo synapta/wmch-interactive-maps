@@ -36,6 +36,30 @@ $(function() {
         return data;
     }
 
+    $('#createcategory').keyup(function (event) {
+        var categoryName = $('#createcategory').val().trim();
+        switch (event.which) {
+            case 13:
+                if (categoryName.length > 0) {
+                    // create a new category
+                    $('button.savechanged').trigger("click");
+                }
+                else {
+                    // empty string
+                    $("#createcategory_empty").removeClass("hidden");
+                    setTimeout(function () {
+                        $("#createcategory_empty").addClass("hidden");
+                    }, 5000)
+                }
+            break;
+            default:
+                if (!$("#createcategory_empty").hasClass("hidden")) {
+                    $("#createcategory_empty").addClass("hidden");
+                }
+            break;
+        }
+    });
+
     $('.change-history').on('click', function (ev) {
         ev.preventDefault();
         var styleClasses = ["off", "on", "green", "grey"];
