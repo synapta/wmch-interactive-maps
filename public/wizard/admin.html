@@ -69,7 +69,7 @@
             </thead>
                 <tbody>
                 {{#maps}}
-                  <tr class="map-record {{#history}}history{{/history}} {{#published}}published{{/published}}"
+                  <tr class="map-record {{#history}}history{{/history}} {{#published}}published{{/published}} table-sort-element"
                     data-id="{{id}}"
                     data-changed="0"
                     data-published="{{#published}}1{{/published}}{{^published}}0{{/published}}"
@@ -84,7 +84,7 @@
                     <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
                   </tr>
                 {{/maps}}
-                <tr class="map-category">
+                  <tr class="map-category table-sort-element">
                   <td colspan="4">
                     <div class="ui fluid input">
                       <input id="createcategory" type="text" placeholder="{{#i18n}}category.create.text{{/i18n}}">

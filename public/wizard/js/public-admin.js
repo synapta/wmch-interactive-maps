@@ -150,7 +150,7 @@ $(function() {
 
     function tableSortUpdated () {
         var els = [];
-        $('.map-record').each(function () {
+        $('.table-sort-element').each(function () {
               var newdata = getRecordData(this);
               els.push(newdata.sticky);
         });
@@ -159,7 +159,7 @@ $(function() {
             els[j] = els[j-1] - 1;
         }
         var j = 0;
-        $('.map-record').each(function () {
+        $('.table-sort-element').each(function () {
             $(this).find('.order').val(els[j]);
             j++;
         });
