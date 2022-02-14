@@ -1,3 +1,7 @@
+// Environment variables ///////////////////////////////////////////////////////
+require('dotenv').config({
+  path: ".env"
+})
 const { logger } = require('./units/logger');
 // database 
 const {migrate, connection, Map, History} = require("./db/modelsB.js");

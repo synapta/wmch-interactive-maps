@@ -1,3 +1,7 @@
+// Environment variables ///////////////////////////////////////////////////////
+require('dotenv').config({
+  path: ".env"
+})
 const http = require('http');
 const process = require('process');
 const puppeteer = require('puppeteer');

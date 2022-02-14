@@ -1,3 +1,7 @@
+// Environment variables ///////////////////////////////////////////////////////
+require('dotenv').config({
+	path: ".env"
+});
 // Global settings
 const config = require('./config');
 // parse command line arguments

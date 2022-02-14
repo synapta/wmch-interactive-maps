@@ -4,7 +4,6 @@ const localconfig = dbinit.init();
 const assert = require('assert').strict;
 const deepd  = require('deep-diff');
 const util   = require('util');
-const DEBUG = localconfig.debug ? localconfig.debug : false;
 
 /**
  * Apply after.data[recordKey].postProcess['diff'] to all stored objects.
@@ -162,11 +161,9 @@ function processDeepDiff(jsons, finalCallback, passedResults) {
             processDeepDiff(jsons, finalCallback, results);
     }
     else {
-        if (DEBUG) {
-            util.debug("deep diff ok");
-            for (r of results) {
-                console.log(r);
-            }
+        logger.trace("deep diff ok");
+        for (r of results) {
+            logger.trace(JSON.stringify(r, null, 2));
         }
         finalCallback(wddiff2obj(results));
     }

@@ -104,6 +104,8 @@ Enable verbose logging with debug mode:
 
 or set DEBUG=1 as environment variable elsewhere (DEBUG=2 for trace, DEBUG=0 or not set for production).
 
+You can set all the environment variables on `.env` file.
+
 ### Run the screenshot server
 
 The screenshot server is used to take a screenshot of the map just before a map is saved to the database.
