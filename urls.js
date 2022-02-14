@@ -7,7 +7,7 @@ const i18next = require('i18next');
 const request = require('request');
 // Custom functions for internationalization
 const i18n_utils = require('./i18n/utils');
-const {migrate, connection, Map, History} = require("./db/modelsB.js");
+const {migrate, connection, Map, History, Category} = require("./db/modelsB.js");
 const sharp = require('sharp');
 // Local units
 const wizard = require('./units/wizard');
@@ -731,7 +731,7 @@ module.exports = function(app, apicache) {
      * @param  {Express response} res            response object from Express
      * @return Express send the outcome (an Object with updateNumer: COUNT)
      */
-    function updateRecordList(sequelizeModel, records, count, res) {
+    async function updateRecordList(sequelizeModel, records, count, res) {
         let record = records.pop();
         if (record) {
             sequelizeModel.update(
@@ -751,18 +751,65 @@ module.exports = function(app, apicache) {
                   updateRecordList(sequelizeModel, records, count, res);
               }
               else {
-                  // last element
-                  res.send({error: false, updateNumber: count});
+                // last element
+                return {error: false, updateNumber: count};
               }
             });
         }
     }
 
-    function admin_api_action_update (req, res) {
-        /** Update multiple records **/
+    /**
+     * 
+     * @param {Array} records 
+     * @return {Object} Express object to send the outcome (an Object with updateNumer: COUNT)
+     */
+     async function updateOrAddCategories(records) {      
+        let errors = 0;
+        let count = 0;
+        for (const record of records) {
+            if (typeof record.name === "string" && record.name.length > 0) {
+                try {
+                    await Category.create({
+                        "name": record.name
+                    });
+                    count++;
+                }
+                catch(e) {
+                    errors++;
+                }
+            }
+        }
+        return {error: errors > 0, updateNumber: count};
+    }
+
+    /**
+     * 
+     * @param {Array} records Array of records from admin UI
+     * @param {String} modelName modelname
+     */
+    function getRecordsForModel(records, modelName) {
+        return records.filter(record => record.model === modelName)
+    }
+
+    /**
+     * Update multiple records.
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
+    async function admin_api_action_update (req, res) {
+        /** Save all Map records **/
+        const mapRecords = getRecordsForModel(req.body.records, 'map');
         let updateCount = 0;
-        // Save all records
-        updateRecordList(Map, req.body.records, updateCount, res);
+        const updatedRecordsMessage = updateRecordList(Map, mapRecords, updateCount, res);
+        /** Save all Category records **/
+        const categoryRecords = getRecordsForModel(req.body.records, 'category');
+        const updatedCategoriesMessage = await updateOrAddCategories(categoryRecords);
+        /** merge errors on response **/
+        res.send({
+            error: updatedRecordsMessage.error || updatedCategoriesMessage.error, 
+            updateNumber: updatedRecordsMessage.count + updatedCategoriesMessage.count
+        });
     }
 
     function admin_api_action_undelete (req, res, published=true) {

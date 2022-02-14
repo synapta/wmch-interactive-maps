@@ -123,7 +123,7 @@ function getLangName (languages, shortlang) {
 function geti18nOptions(shortlang) {
     return {
       lng: shortlang,
-      debug: localconfig.debug ? localconfig.debug : false,
+      debug: parseInt(process.env.DEBUG) > 1,  // show only on trace
       resources: {}
     };
 }

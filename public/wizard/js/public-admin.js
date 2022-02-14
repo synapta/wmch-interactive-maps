@@ -29,11 +29,21 @@ $(function() {
 
     function getRecordData (el) {
         var data = {};
+        data.model = 'map';
         data.id = $(el).data('id');
         data.history = $(el).is('.history') ? 1 : 0;
         data.sticky = parseInt($(el).find('.order').val());
         data.published = $(el).is('.published') ? 1 : 0;
         return data;
+    }
+
+    /**
+     * 
+     * @returns {String} or null
+     */
+    function getNewCategoryName () {
+        var newCategoryValue = $("#createcategory").val().trim();
+        return newCategoryValue.length > 0 ? newCategoryValue : null;
     }
 
     $('#createcategory').keyup(function (event) {
@@ -99,6 +109,12 @@ $(function() {
                 toChange.push(getRecordData(this));
             }
         });
+        if (getNewCategoryName() !== null) {
+            toChange.push({
+                model: 'category',
+                name: getNewCategoryName()
+            });
+        }
         // Confirmation message
         var confirmMessage = $('section').data('confirm');
         if (window.confirm(confirmMessage)) {
