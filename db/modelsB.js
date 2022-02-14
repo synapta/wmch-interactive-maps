@@ -59,6 +59,7 @@ Category.init({
   // Model attributes are defined here
   id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
   name: Sequelize.STRING,
+  sticky: { type: Sequelize.INTEGER, defaultValue: 0 },
   path: { type: Sequelize.STRING, allowNull: true, defaultValue: null }
 }, {
   // pass the connection instance
