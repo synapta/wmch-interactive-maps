@@ -5,6 +5,55 @@ $(function() {
       element.data('changed', 1);
     }
 
+    function save() {
+        setChanged();
+        var toChange = [];
+        $('.map-record').each(function () {
+            var id = $(this).data('id');
+            // Save changed
+            if ($(this).data('changed')) {
+                toChange.push(getRecordData(this));
+            }
+        });
+        if (getNewCategoryName() !== null) {
+            toChange.push({
+                model: 'category',
+                name: getNewCategoryName()
+            });
+        }
+        // Confirmation message
+        var confirmMessage = $('section').data('confirm');
+        if (window.confirm(confirmMessage)) {
+              // scroll on top
+              window.scrollTo(0, 0);
+              // show loader dimmer
+              $("#updating").addClass('active');
+              // Update records
+              if (toChange.length) {
+                    $.ajax ({
+                        type: "PUT",
+                        url: "/admin/api/update",
+                        contentType: "application/json",
+                        dataType: 'json',
+                        data: JSON.stringify({records: toChange}),
+                        error: function(e) {
+                            console.warn('Error on update');
+                        },
+                        success: function(json) {
+                            window.setTimeout(function () {
+                                // reload without #anchor
+                                // automatically remove dimmer
+                                window.location.href = window.location.pathname;
+                            }, 1800);
+                        }
+                    });
+              }
+              else {
+                window.location.href = window.location.pathname;
+              }
+        }
+    }
+
     $('#languages').dropdown({
         onChange: function (value) {
             window.location.href = "/admin/?l=" + value;
@@ -46,13 +95,15 @@ $(function() {
         return newCategoryValue.length > 0 ? newCategoryValue : null;
     }
 
+    
     $('#createcategory').keyup(function (event) {
+        event.preventDefault();
         var categoryName = $('#createcategory').val().trim();
         switch (event.which) {
             case 13:
                 if (categoryName.length > 0) {
                     // create a new category
-                    $('button.savechanged').trigger("click");
+                    save();
                 }
                 else {
                     // empty string
@@ -100,52 +151,7 @@ $(function() {
 
     $('button.savechanged').on("click", function (ev) {
         ev.preventDefault();
-        setChanged();
-        var toChange = [];
-        $('.map-record').each(function () {
-            var id = $(this).data('id');
-            // Save changed
-            if ($(this).data('changed')) {
-                toChange.push(getRecordData(this));
-            }
-        });
-        if (getNewCategoryName() !== null) {
-            toChange.push({
-                model: 'category',
-                name: getNewCategoryName()
-            });
-        }
-        // Confirmation message
-        var confirmMessage = $('section').data('confirm');
-        if (window.confirm(confirmMessage)) {
-              // scroll on top
-              window.scrollTo(0, 0);
-              // show loader dimmer
-              $("#updating").addClass('active');
-              // Update records
-              if (toChange.length) {
-                    $.ajax ({
-                        type: "PUT",
-                        url: "/admin/api/update",
-                        contentType: "application/json",
-                        dataType: 'json',
-                        data: JSON.stringify({records: toChange}),
-                        error: function(e) {
-                            console.warn('Error on update');
-                        },
-                        success: function(json) {
-                            window.setTimeout(function () {
-                                // reload without #anchor
-                                // automatically remove dimmer
-                                window.location.href = window.location.pathname;
-                            }, 1800);
-                        }
-                    });
-              }
-              else {
-                window.location.href = window.location.pathname;
-              }
-        }
+        save();
     });
 
     function tableSortUpdated () {
@@ -168,7 +174,7 @@ $(function() {
     // Add sortable capabilities to rendered table
     // No jquery here
     sortable('table.sortable-admin tbody', {
-      items: "tr",
+      items: "tr.table-sort-element",
       forcePlaceholderSize: true,
       placeholderClass: 'placeholder sort-placeholder',
     });

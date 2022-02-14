@@ -93,17 +93,16 @@
                     <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
                   </tr>
                 {{/categories}}
-                <tr class="map-category table-sort-element">
-                  <td colspan="4">
-                    <i class="plus icon grey"></i>
-                    <div class="ui input">
-                      <input id="createcategory" type="text" placeholder="{{#i18n}}category.create.text{{/i18n}}">
+                <tr class="map-category">
+                  <td colspan="5">
+                    <div class="ui left icon grey input fluid">
+                      <input type="text" id="createcategory" placeholder="{{#i18n}}category.create.text{{/i18n}}">
+                      <i class="plus icon"></i>
                     </div>
                     <div id="createcategory_empty" class="ui pointing red basic label hidden">
                       {{#i18n}}category.empty.text{{/i18n}}
                     </div>
                   </td>
-                  <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
                 </tr>
                 <!--tr class="map-category">  TODO: already saved category
                   <td colspan="4">{{#i18n}}category.create.text{{/i18n}}</td>
