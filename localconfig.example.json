@@ -28,7 +28,6 @@
   "msCronWaitWikidata": 10000,
   "historyTimelineLimit": 52,
   "historyOnlyDiff": true,
-  "debug": false,
   "url": "http://example.org",
   "internalUrl": "http://localhost:9089"
 }
