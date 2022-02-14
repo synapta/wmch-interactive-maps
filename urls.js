@@ -854,14 +854,20 @@ module.exports = function(app, apicache) {
      * @param  {Express response} res
      * @return Express send of HTML.
      */
-    app.get('/admin', async function (req, res) {
+    app.get('/admin', function (req, res) {
         // [ 'it', 'it-IT', 'en-US', 'en' ]
         // console.log(req.acceptsLanguages()[0]);
-        fs.readFile(util.format('%s/public/wizard/admin.html', __dirname), function (err, fileData) {
+        fs.readFile(util.format('%s/public/wizard/admin.html', __dirname), async function (err, fileData) {
             // cannot read template?
             if (err) {
               throw err;
             }
+            // load categories
+            const categories = await Category.findAll({
+                order: [
+                  ['sticky', 'DESC']
+                ]
+            });
             // load all maps data
             Map.findAll({
               order: [
@@ -890,6 +896,7 @@ module.exports = function(app, apicache) {
                         credits: config.map.author,
                         logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                         maps: maps,
+                        categories: categories,
                         i18n: function () {
                           return function (text, render) {
                               i18next.changeLanguage(shortlang);

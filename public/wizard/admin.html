@@ -84,9 +84,19 @@
                     <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
                   </tr>
                 {{/maps}}
+                {{#categories}}
                   <tr class="map-category table-sort-element">
+                    <td colspan="4">
+                      <i class="sort icon grey"></i>
+                      <strong>{{name}}</strong>
+                    </td>
+                    <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
+                  </tr>
+                {{/categories}}
+                <tr class="map-category table-sort-element">
                   <td colspan="4">
-                    <div class="ui fluid input">
+                    <i class="plus icon grey"></i>
+                    <div class="ui input">
                       <input id="createcategory" type="text" placeholder="{{#i18n}}category.create.text{{/i18n}}">
                     </div>
                     <div id="createcategory_empty" class="ui pointing red basic label hidden">
