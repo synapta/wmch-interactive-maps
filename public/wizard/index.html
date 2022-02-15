@@ -291,17 +291,15 @@
         <!-- step 4 *********************************************************************************************************************** -->
         <div class="ui segment step-4 step-content hidestep">
           <div class="field">
-            <div class="field">
-              <div class="ui search right labeled left icon input category-wrapper">
-                <i class="tag icon"></i>
-                <input class="prompt" type="text" placeholder="{{#i18n}}actions.category.text{{/i18n}}" id="category-select" size="26" value="{{#map.category}}{{{map.category}}}{{/map.category}}" data-valid="0">
-                <input type="hidden" value="{{map.category}}" id="category">
-                <div class="results"></div>
-              </div>
-              <div id="category-error" class="ui pointing red basic label" style="display: none;">
-                <div class="header">{{#i18n}}actions.category.error{{/i18n}}</div>
-              </div>
+            <div class="ui search right labeled left icon input category-wrapper">
+              <i class="tag icon"></i>
+              <input class="prompt" type="text" placeholder="{{#i18n}}actions.category.text{{/i18n}}" id="category-select" size="26" value="{{#map.category}}{{{map.category}}}{{/map.category}}" data-valid="0">
+              <input type="hidden" value="{{map.category}}" id="category">
+              <div class="results"></div>
             </div>
+          </div>
+          <div id="category-error" class="ui pointing red basic label" style="display: none;">
+            <div class="header">{{#i18n}}actions.category.error{{/i18n}}</div>
           </div>
           <div class="fields">
             <div class="inline field">

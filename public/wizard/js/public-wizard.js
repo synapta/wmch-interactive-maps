@@ -53,7 +53,7 @@ $(function() {
     };
 
     var formIsValid = function () {
-        if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid') && $('#map-query').data('valid') && $('input#category-select').data('valid')) {
+        if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid') && $('#map-query').data('valid') && $('#category-select').data('valid')) {
             // form is valid
             return true;
         }
@@ -570,15 +570,20 @@ $(function() {
               source: json,
               fullTextSearch: true,
               onSelect: function(result, response) {
-                $('#category').data('touched', 1);
                 // set hidden field value
                 $("#category").val(result.id);
-                console.log(`Category ${result.id} selected`);
-                // $('#category-error').show();
+                $('#category-select').data('valid', 1);
+                console.log(`Category ${result.id} selected`);  // DEBUG
+                // Display the category
+                $(".category-wrapper").parents('.field').eq(0).after(`<div class="field"><a class="ui label purple inline">
+                ${result.title}
+                <i class="delete icon" id="category-delete"></i>
+              </a></div>`);
               }
             });
         }
     });
+
 
     // Prevent accidental submit
     $('form').on('submit', function (ev) {
