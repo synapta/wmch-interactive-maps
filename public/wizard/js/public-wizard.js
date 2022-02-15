@@ -573,12 +573,14 @@ $(function() {
                 // set hidden field value
                 $("#category").val(result.id);
                 $('#category-select').data('valid', 1);
-                console.log(`Category ${result.id} selected`);  // DEBUG
+                // Drop other category
+                $('.category-label').remove();
                 // Display the category
-                $(".category-wrapper").parents('.field').eq(0).after(`<div class="field"><a class="ui label purple inline">
+                $(".category-wrapper").parents('.field').eq(0).after(`<div class="field category-label"><a class="ui label purple inline">
                 ${result.title}
-                <i class="delete icon" id="category-delete"></i>
+                <i class="delete icon delete-category"></i>
               </a></div>`);
+                console.log(`Category ${result.id} selected`);  // DEBUG
               }
             });
         }
