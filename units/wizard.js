@@ -3,7 +3,7 @@
  **/
 const util = require('util');
 const { logger } = require('./logger');
-const {migrate, connection, Map, History} = require("../db/modelsB.js");
+const {migrate, connection, Map, History, MapCategory} = require("../db/modelsB.js");
 const fs = require('fs');
 const dbutils = require('../units/dbutils');
 const i18next = require('i18next');
@@ -103,15 +103,20 @@ async function cuMap (req, res, action) {
           if (!jsonBody) {
               logger.info('******** Screenshot server is down ************');
           }
+          console.log(req.query);
           switch (action) {
               case 'add':
                   // add a new record to Map table via ORM
-                  await Map.create({
+                  const map = await Map.create({
                     title: req.query.title,
                     path: req.query.path,
                     mapargs: req.query.mapargs,
                     screenshot: jsonBody.path,
                     published: true
+                  });
+                  await MapCategory.create({
+                    mapId: map.id,
+                    categoryId: req.query.category
                   });
               break;
               case 'edit':
@@ -123,6 +128,10 @@ async function cuMap (req, res, action) {
                         mapargs: req.query.mapargs,
                         screenshot: jsonBody.path,
                         published: true
+                      });
+                      await MapCategory.create({
+                        mapId: editedMap.id,
+                        categoryId: req.query.category
                       });
                   });
                   // add a new record to Map table via ORM

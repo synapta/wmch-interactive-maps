@@ -572,7 +572,7 @@ $(function() {
               fullTextSearch: true,
               onSelect: function(result, response) {
                 // set hidden field value
-                $("#category").val(result.id);
+                $("input[name='category']").val(result.id);
                 $('#category-select').data('valid', 1);
                 // Drop other category
                 $('.category-label').remove();
