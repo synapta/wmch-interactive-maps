@@ -53,7 +53,7 @@ $(function() {
     };
 
     var formIsValid = function () {
-        if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid') && $('#map-query').data('valid')) {
+        if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid') && $('#map-query').data('valid') && $('input#category-select').data('valid')) {
             // form is valid
             return true;
         }
@@ -553,6 +553,30 @@ $(function() {
                 }
               }
           });
+        }
+    });
+
+    // Select Category
+    $.ajax ({
+        type:'GET',
+        dataType: 'json',
+        url: "/admin/api/get/categories",
+        error: function(e) {
+            console.warn('Error retrieving categories');
+        },
+        success: function (json) {
+            $('.ui.search.category-wrapper')
+            .search({
+              source: json,
+              fullTextSearch: true,
+              onSelect: function(result, response) {
+                $('#category').data('touched', 1);
+                // set hidden field value
+                $("#category").val(result.id);
+                console.log(`Category ${result.id} selected`);
+                // $('#category-error').show();
+              }
+            });
         }
     });
 

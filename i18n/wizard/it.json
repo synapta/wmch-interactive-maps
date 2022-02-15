@@ -15,6 +15,10 @@
       "title": "Aspetto",
       "description": "Scegli uno stile per la mappa"
     },
+    "category": {
+      "title": "Categoria",
+      "description": "La mappa apparirà in home page sotto questa categoria"
+    },
     "url": {
       "title": "URL",
       "description": "Genera l'url e lo snippet per la mappa",
@@ -100,6 +104,10 @@
     },
     "edit": {
       "text": "Modifica"
+    },
+    "category": {
+      "text": "Scegli la categoria",
+      "error": "Devi scegliere una categoria per questa mappa"
     },
     "icon": {
       "text": "Scegli l'icona dei pin"

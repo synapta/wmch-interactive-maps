@@ -25,6 +25,9 @@
 .step:nth-child(4):before {
     content: "4";
 }
+.step:nth-child(5):before {
+    content: "5";
+}
 #languages *,
 #languagesmobile * {
     cursor: pointer;

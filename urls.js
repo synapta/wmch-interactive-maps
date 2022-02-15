@@ -791,6 +791,17 @@ module.exports = function(app, apicache) {
         return records.filter(record => record.model === modelName)
     }
 
+    async function admin_api_get_categories (req, res) {
+        /** Get all Category records **/
+        const categories = await Category.findAll({
+            order: [
+                ['sticky', 'DESC']
+            ]
+        });
+        /** Remap to consume on wizard category search */
+        res.send(categories.map(category => new Object({"title": category.name, "id": category.id})));
+    }
+
     /**
      * Update multiple records.
      * 
@@ -831,13 +842,25 @@ module.exports = function(app, apicache) {
     // Enable json for express (to get req.body to work)
     app.use(express.json());
 
+
+    app.get('/admin/api/get/:name', function (req, res) {
+        let fun = eval('admin_api_get_' + req.params.name);
+        try {
+            fun(req, res);
+        }
+        catch (e) {
+            // Function not found, pass
+            res.send("Error")
+        }
+    });
+
     /**
      * Internal admin API to C-U- (not Read, not real Delete) maps.
      * @param  {Express request} req
      * @param  {Express response} res
      * @return {[type]}     [description]
      */
-    app.put('/admin/api/:action', function (req, res) {
+     app.put('/admin/api/:action', function (req, res) {
         let fun = eval('admin_api_action_' + req.params.action);
         try {
             fun(req, res);
