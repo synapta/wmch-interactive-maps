@@ -1,6 +1,7 @@
 // Client rendering and functions for Map Wizard
 var isTimeline = false;
 
+
 $(function() {
     var confMobileThresold = 641;
 
@@ -576,16 +577,15 @@ $(function() {
                 // Drop other category
                 $('.category-label').remove();
                 // Display the category
-                $(".category-wrapper").parents('.field').eq(0).after(`<div class="field category-label"><a class="ui label purple inline">
-                ${result.title}
-                <i class="delete icon delete-category"></i>
+                $(".category-wrapper").parents('.field').eq(0).after(`<div class="field category-label"><a class="ui label purple">
+                <i class="tag icon"></i> ${result.title}
               </a></div>`);
                 console.log(`Category ${result.id} selected`);  // DEBUG
+                // $('.ui.search.category-wrapper').search("set value", "");  // TODO
               }
             });
         }
     });
-
 
     // Prevent accidental submit
     $('form').on('submit', function (ev) {
@@ -610,6 +610,5 @@ $(function() {
     // add arrow to #languages dropdown
     $("#languages .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
     $("#languagesmobile .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
-
 
 });
