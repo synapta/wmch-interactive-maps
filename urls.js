@@ -821,7 +821,7 @@ module.exports = function(app, apicache) {
               throw err;
             }
             // load categories
-            const categoriesWithMaps = await query.categoriesWithPublishedMaps();
+            const categoriesWithMaps = await query.categoriesWithMaps();
             // load all maps data
             let jsonRes = [];
             if (categoriesWithMaps.length) {

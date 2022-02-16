@@ -35,11 +35,13 @@ exports.getAllCategories = () => Category.findAll({
     ]
 });
 
-exports.categoriesWithPublishedMaps = () => Category.findAll({
+/** published and unpublished, for admin UI **/
+exports.categoriesWithMaps = () => Category.findAll({
     include: [{
         model: Map,
-        where: { published: true },
-        order: ['sticky', 'DESC']
+        order: [
+            ['sticky', 'DESC']
+        ]
     }],
     // where: {id: 10},  // DEBUG
     order: [
@@ -63,7 +65,7 @@ exports.historiesForMap = (mapId, limit) => History.findAll({
         }
     ],
     order: [
-    ['createdAt', 'DESC']
+        ['createdAt', 'DESC']
     ],
     limit: limit
 });
