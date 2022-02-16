@@ -237,28 +237,7 @@ module.exports = function(app, apicache) {
         let sparqlJsonResultsArray = [];  // all results
 
         // make query for old results on History
-        var historyWhere = { mapId: req.query.id, error: false };
-        if (req.query.timestamp) {
-            historyWhere.createdAt = new Date(+(req.query.timestamp)); 
-        }
-        if (localconfig.historyOnlyDiff) {
-            historyWhere['diff'] = true;
-        }
-        History.findAll({
-          where: historyWhere,
-          include: [{
-              model: Map,
-              where: {
-                published: true
-              }
-            }
-        ],
-        order: [
-          ['createdAt', 'ASC']
-        ],
-        // offset: ???,
-        limit: localconfig.historyTimelineLimit
-            }).then(async hists => {
+        query.timedata(req.query.id, localconfig.historyTimelineLimit).then(async hists => {
             /**
              * Get only the times an element isn't changed.
              * It's used to avoid duplicates pin when element change and to display

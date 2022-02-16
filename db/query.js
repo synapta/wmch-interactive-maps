@@ -83,3 +83,32 @@ exports.historiesTimestamps = (mapId, historyOnlyDiff) => {
         ],
     });
 };
+
+/**
+ * 
+ * @param {String|Number} mapId 
+ * @param {Number} limit 
+ * @returns {Promise}
+ */
+exports.timedata = (mapId, limit) => {
+    var historyWhere = { mapId: mapId, error: false };
+    if (req.query.timestamp) {
+        historyWhere.createdAt = new Date(+(req.query.timestamp)); 
+    }
+    if (localconfig.historyOnlyDiff) {
+        historyWhere['diff'] = true;
+    }
+    return History.findAll({
+      where: historyWhere,
+      include: [{
+        model: Map,
+        where: {
+        published: true
+        }
+      }],
+      order: [
+        ['createdAt', 'ASC']
+      ],
+      limit: limit
+    });
+};
