@@ -1,6 +1,23 @@
 const querystring = require('querystring');
 const { bool } = require('sharp');
 
+function getCategoryWithMapsAsDict (category) {
+    return {
+        id: category.get('id'),
+        name: category.get('name'),
+        maps: category.get('maps').map(record => {
+            return {
+                title: record.get("title"),
+                path: record.get('path'),
+                history: record.get('history'),
+                published: record.get('published'),
+                sticky: record.get('sticky')
+            }
+        })
+    };
+}
+exports.getCategoryWithMapsAsDict = getCategoryWithMapsAsDict;
+
 function getMapRecordAsDict (record) {
     return {
       id: record.get('id'),

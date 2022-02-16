@@ -20,7 +20,7 @@ exports.publishedMaps = (limit, offset) => Map.findAll({
     limit: limit
 });
 
-/** Internal use only, display maps **/
+/** Internal use only, display maps (obsolete) **/
 exports.publishedAndDraftMaps = () => Map.findAll({
     order: [
       ['sticky', 'DESC'],
@@ -28,8 +28,20 @@ exports.publishedAndDraftMaps = () => Map.findAll({
     ]
 });
 
- /** Get all Category records **/
+ /** Get all Category records (obsolete) **/
 exports.getAllCategories = () => Category.findAll({
+    order: [
+        ['sticky', 'DESC']
+    ]
+});
+
+exports.categoriesWithPublishedMaps = () => Category.findAll({
+    include: [{
+        model: Map,
+        where: { published: true },
+        order: ['sticky', 'DESC']
+    }],
+    // where: {id: 10},  // DEBUG
     order: [
         ['sticky', 'DESC']
     ]

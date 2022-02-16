@@ -821,47 +821,44 @@ module.exports = function(app, apicache) {
               throw err;
             }
             // load categories
-            const categories = await query.getAllCategories();
+            const categoriesWithMaps = await query.categoriesWithPublishedMaps();
             // load all maps data
-            query.publishedAndDraftMaps().then(maps => {
-              let jsonRes = [];
-              if (maps) {
-                  // maps found, continue
-                  // get template content, server-side
-                  let template = fileData.toString();
-                  let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'admin');
-                  let i18nOptions = i18n_utils.geti18nOptions(shortlang);
-                  i18nOptions.resources[shortlang] = {translation: translationData};
-                  // console.log(i18nOptions);
-                  // load i18n
-                  i18next.init(i18nOptions, function(err, t) {
-                      // i18n initialized and ready to go!
-                      // document.getElementById('output').innerHTML = i18next.t('key');
-                      // variables to pass to Mustache to populate template
-                      var view = {
-                        shortlang: shortlang,
-                        langname: i18n_utils.getLangName(config.languages, shortlang),
-                        languages: config.languages,
-                        credits: config.map.author,
-                        logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
-                        maps: maps,
-                        categories: categories,
-                        i18n: function () {
-                          return function (text, render) {
-                              i18next.changeLanguage(shortlang);
-                              return i18next.t(text);
-                          }
+            let jsonRes = [];
+            if (categoriesWithMaps.length) {
+                // maps found, continue
+                // get template content, server-side
+                let template = fileData.toString();
+                let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'admin');
+                let i18nOptions = i18n_utils.geti18nOptions(shortlang);
+                i18nOptions.resources[shortlang] = {translation: translationData};
+                // console.log(i18nOptions);
+                // load i18n
+                i18next.init(i18nOptions, function(err, t) {
+                    // i18n initialized and ready to go!
+                    // document.getElementById('output').innerHTML = i18next.t('key');
+                    // variables to pass to Mustache to populate template
+                    var view = {
+                    shortlang: shortlang,
+                    langname: i18n_utils.getLangName(config.languages, shortlang),
+                    languages: config.languages,
+                    credits: config.map.author,
+                    logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                    categories: categoriesWithMaps.map(categoryWithMaps => dbutils.getCategoryWithMapsAsDict(categoryWithMaps)),  // testing
+                    i18n: function () {
+                        return function (text, render) {
+                            i18next.changeLanguage(shortlang);
+                            return i18next.t(text);
                         }
-                      };
-                      // console.log(view);
-                      var output = Mustache.render(template, view);
-                      res.send(output);
-                  });
-              }
-              else {
-                  res.status(404).send('<h2>Cannot edit an empty Map table, add at least one map to continue</h2>');
-              }
-            });
+                    }
+                    };
+                    // console.log(view);
+                    var output = Mustache.render(template, view);
+                    res.send(output);
+                });
+            }
+            else {
+                res.status(404).send('<h2>Cannot edit an empty Map table, add at least one map to continue</h2>');
+            }
         });
     });
 
