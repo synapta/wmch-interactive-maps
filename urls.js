@@ -8,6 +8,7 @@ const request = require('request');
 // Custom functions for internationalization
 const i18n_utils = require('./i18n/utils');
 const {migrate, connection, Map, History, Category} = require("./db/modelsB.js");
+const query = require("./db/query.js");
 const sharp = require('sharp');
 // Local units
 const wizard = require('./units/wizard');
@@ -186,29 +187,18 @@ module.exports = function(app, apicache) {
      * @param  {Express response} res
      * @return {[type]}     [description]
      */
-    app.get('/api/all', function (req, res) {
-        Map.findAll({
-          where: {
-            published: true
-          },
-          order: [
-            ['sticky', 'DESC'],
-            ['createdAt', 'DESC'],
-          ],
-          offset: parseInt(req.query.offset),
-          limit: parseInt(req.query.limit)
-        }).then(maps => {
-          let jsonRes = [];
-          if (maps) {
-              for (mapr of maps) {
-                  jsonRes.push(exposeMap(dbutils.getMapRecordAsDict(mapr)));
-              }
-              res.send(jsonRes);
-          }
-          else {
-              res.status(404).send('<h2>Not found</h2>');
-          }
-        });
+    app.get('/api/all', async function (req, res) {
+        const maps = await query.publishedMaps(parseInt(req.query.limit), parseInt(req.query.offset));
+        let jsonRes = [];
+        if (maps) {
+            for (mapr of maps) {
+                jsonRes.push(exposeMap(dbutils.getMapRecordAsDict(mapr)));
+            }
+            res.send(jsonRes);
+        }
+        else {
+            res.status(404).send('<h2>Not found</h2>');
+        }
     });
 
     /**
@@ -793,11 +783,7 @@ module.exports = function(app, apicache) {
 
     async function admin_api_get_categories (req, res) {
         /** Get all Category records **/
-        const categories = await Category.findAll({
-            order: [
-                ['sticky', 'DESC']
-            ]
-        });
+        const categories = await query.getAllCategories();
         /** Remap to consume on wizard category search */
         res.send(categories.map(category => new Object({"title": category.name, "id": category.id})));
     }
@@ -886,18 +872,9 @@ module.exports = function(app, apicache) {
               throw err;
             }
             // load categories
-            const categories = await Category.findAll({
-                order: [
-                  ['sticky', 'DESC']
-                ]
-            });
+            const categories = await query.getAllCategories();
             // load all maps data
-            Map.findAll({
-              order: [
-                ['sticky', 'DESC'],
-                ['createdAt', 'DESC'],
-              ]
-            }).then(maps => {
+            query.publishedAndDraftMaps().then(maps => {
               let jsonRes = [];
               if (maps) {
                   // maps found, continue
