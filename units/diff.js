@@ -3,7 +3,7 @@ const dbinit       = require('../db/init');
 const localconfig = dbinit.init();
 const assert = require('assert').strict;
 const deepd  = require('deep-diff');
-const util   = require('util');
+const { logger }  = require('./logger');
 
 /**
  * Apply after.data[recordKey].postProcess['diff'] to all stored objects.

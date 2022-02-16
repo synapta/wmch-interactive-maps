@@ -265,3 +265,8 @@ Then expand and copy object to get a JSON array.
 Semantic UI Icons are available on wizard searching by class name.
 
 These steps are useful when the Semantic UI version is changed.
+
+## Troubleshooting
+
+- Issue: Validation error on a Unique Constraint after a migration, e.g. on histories
+- Fix with: `ALTER SEQUENCE histories_id_seq RESTART WITH 20` where 20 is the nextval you need, higher than last value for that sequence.

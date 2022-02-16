@@ -13,11 +13,11 @@ const CronJob = require('cron').CronJob;
 const util = require('util');
 const { logger } = require('./units/logger');
 const data = require('./units/data');
-const dbutils = require('./unit/dbutils');
+const dbutils = require('./units/dbutils');
 const diff = require('./units/diff');
 // load local config and check if is ok (testing db)
 const localconfig = require('./localconfig');
-const {migrate, connection, Map, History} = require("../db/modelsB.js");
+const { migrate, connection, Map, History } = require("./db/modelsB.js");
 
 // error reporting
 var Raven = require('raven');
