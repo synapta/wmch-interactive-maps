@@ -3,7 +3,7 @@
  **/
 const util = require('util');
 const { logger } = require('./logger');
-const {migrate, connection, Map, History, MapCategory} = require("../db/modelsB.js");
+const {migrate, connection, Map, History, MapCategory, Category} = require("../db/modelsB.js");
 const fs = require('fs');
 const dbutils = require('../units/dbutils');
 const i18next = require('i18next');
@@ -60,10 +60,10 @@ function getWizardPath(req, res, action=null, id=null) {
  * @param  {integer} id Map primary key on database, numeric integer.
  * @return {Promise}    Promise of a database record of Map. Empty object on error.
  */
-function getMapConfigFromDb (id) {
-    console.log(id);
+async function getMapConfigFromDb (id) {
     return new Promise((resolve, reject) => {
         Map.findOne({
+          include: Category,
           where: {
             id: id,
             published: true  // disallow edit for unpublished
@@ -103,7 +103,6 @@ async function cuMap (req, res, action) {
           if (!jsonBody) {
               logger.info('******** Screenshot server is down ************');
           }
-          console.log(req.query);
           switch (action) {
               case 'add':
                   // add a new record to Map table via ORM
@@ -129,6 +128,9 @@ async function cuMap (req, res, action) {
                         screenshot: jsonBody.path,
                         published: true
                       });
+                      // delete old map categories
+                      await MapCategory.destroy({where: {mapId: editedMap.id}});
+                      // create new map categories
                       await MapCategory.create({
                         mapId: editedMap.id,
                         categoryId: req.query.category
@@ -155,7 +157,7 @@ async function cuMap (req, res, action) {
 function getMapValues(action, id) {
     return new Promise((resolve, reject) => {
         if (action === 'edit') {
-          getMapConfigFromDb(id).then(configFromDb => {
+          getMapConfigFromDb(id).then(async (configFromDb) => {
             let configMap = {};
             // clone, doesn't alter, config.map
             Object.assign(configMap, config.map);
