@@ -171,6 +171,24 @@ $(function() {
         });
     }
 
+    function sortStart(e) {
+        var className = "map-category";
+        if (e.detail.item.classList.contains(className)) {
+            // hide "childrens"
+            console.log("sort start " + new Date());  // DEBUG
+            $(e.detail.item).nextUntil(".map-category").addClass("moving");
+            $(".moving").hide();
+        }
+    }
+
+    function sortStop(e) {
+        var className = "map-category";
+        if (e.detail.item.classList.contains(className)) {
+            // show "childrens"
+            $(".moving").show().removeClass("moving");
+        }
+    }
+
     // Add sortable capabilities to rendered table
     // No jquery here
     sortable('table.sortable-admin tbody', {
@@ -178,6 +196,9 @@ $(function() {
       forcePlaceholderSize: true,
       placeholderClass: 'placeholder sort-placeholder',
     });
+
+    sortable('table.sortable-admin tbody')[0].addEventListener('sortstart', sortStart);
+    sortable('table.sortable-admin tbody')[0].addEventListener('sortstop', sortStop);
 
     // @see https://github.com/lukasoppermann/html5sortable#sortupdate
     sortable('table.sortable-admin tbody')[0].addEventListener('sortupdate', function(e) {
