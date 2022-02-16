@@ -52,6 +52,7 @@ module.exports = function(app, apicache) {
                   logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                   sparql: config.sparql,
                   languages: config.languages,
+                  showHistory: dbMap.history,
                   isHistory: isHistory, // serve history or current page?
                   dbMap: dbMap,
                   // queryJsonStr: JSON.stringify(req.query, null, '  '),
@@ -205,25 +206,7 @@ module.exports = function(app, apicache) {
      * Get an array of timestamps for the given map.
      */
     app.get('/api/timestamp', apicache('12 hours'), function (req, res) {
-        // make query for old results on History
-        var historyWhere = { mapId: req.query.id, error: false };
-        if (localconfig.historyOnlyDiff) {
-            historyWhere['diff'] = true;
-        }
-        History.findAll({
-          attributes: ['createdAt'],
-          where: historyWhere,
-          include: [{
-              model: Map,
-              where: {
-                published: true
-              }
-            }
-          ],
-          order: [
-            ['createdAt', 'ASC']
-          ],
-        }).then(hists => {
+        query.historiesTimestamps(req.query.id, localconfig.historyOnlyDiff).then(hists => {
             const timestamp = [];
             for (let hist of hists) {
                 timestamp.push(new Date(hist.createdAt).getTime());
@@ -455,20 +438,7 @@ module.exports = function(app, apicache) {
         let sparql;
 
         if (req.query.id) {
-            const hists = await History.findAll({
-            where: { mapId: req.query.id, error: false },
-            include: [{
-                model: Map,
-                where: {
-                    published: true
-                }
-                }
-            ],
-            order: [
-            ['createdAt', 'DESC']
-            ],
-            limit: 5
-            });
+            const hists = await query.historiesForMap(req.query.id, 5);
 
             // Try to find a cached map
             for (let hist of hists) {

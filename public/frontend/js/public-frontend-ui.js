@@ -11,29 +11,34 @@ if (window.location.search.indexOf('noControls=1') !== -1) {
 function fancyUI () {
   // Execute at the very end ///////////////////////////
   var gitHubLink = '<a class="internal-githublink leaflet-control" title="wmch-interactive-maps@github" href="https://github.com/synapta/wmch-interactive-maps" target="_blank"><i class="ui grey icon large github"></i></a>';
+  var backLink = '<button class="ui right labeled icon button"><i class="left arrow icon"></i>&laquo;</button>';
   // add fancy icon and text to legenda placeholder
   $(".leaflet-control-layers-toggle").html('<div class="ui grid"><div class="row"><div class="three wide column">' + svgClipArt.layers + '</div><div class="ten wide column"><span class="overlays-header">Wikipedia</span></div><div class="three wide column">' + svgClipArt.arrow_down.replace('#ffffff', '#636466') + '</div></div></div>');
   // Wikipedia title inside Legenda
   $(".leaflet-control-layers-overlays label:first").before("<span class=\"overlays-header\">Wikipedia</<span><a href=\"#\" id=\"leaflet-control-layers-overlays-x\">" + svgClipArt.x.replace(/\#ffffff/g, '#636466')) + "</a>";
-  if ($("#wmap").data('isHistory')) {
-      // History version ///////////////////////////////////////////////////////
-      // Switch between timeline / real time
-      $(".timecontrol-backward").before('<button class="ui active button grey" id="realtime">\
-        <i class=""></i>\
-        ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
-      </button>');
-      $(".leaflet-bottom:first").append(gitHubLink);
+  if ($("#wmap").data('isHistory') && $("#wmap").data('showHistory')) {
+        // History version ///////////////////////////////////////////////////////
+        // Switch between timeline / real time
+        $(".timecontrol-backward").before('<button class="ui active button grey" id="realtime">\
+            <i class=""></i>\
+            ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
+        </button>');
+        $(".leaflet-bottom:first").append(gitHubLink);
   }
   else {
-      // Real time version  ////////////////////////////////////////////////////
-      // Switch between timeline / real time (Real time version)
-      $(".leaflet-control-attribution").parent().addClass("large-mapfooter");
-      $(".leaflet-control-attribution").parent().prepend('<button class="leaflet-control ui active button grey" id="history">\
+        // Real time version  ////////////////////////////////////////////////////
+        // Switch between timeline / real time (Real time version)
+        $(".leaflet-control-attribution").parent().addClass("large-mapfooter");
+        var footbuttons = backLink + gitHubLink;
+        var historyButton = '<button class="leaflet-control ui active button grey" id="history">\
         <i class=""></i>\
         ' + ( $("#wmap").data('isHistory') ? $("#wmap").data("realtime-text") : $("#wmap").data("history-text") ) + '\
-      </button>' + gitHubLink);
+    </button>';
+        if ($("#wmap").data('showHistory')) {
+            footbuttons = backLink + historyButton + gitHubLink;
+        }
+        $(".leaflet-control-attribution").parent().prepend(footbuttons);
   }
-
   // hide leaflet controls (used for screenshots)
   if (window.location.search.indexOf('noControls=1') !== -1) {
       hideLeafletControls();
