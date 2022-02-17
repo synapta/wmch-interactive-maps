@@ -190,8 +190,8 @@ $(function() {
             console.log("sort start " + new Date());  // DEBUG
             $(element).nextUntil(".map-category").addClass("moving");
             $(".moving").hide();
+            categoryIconChange(element, false);
         }
-        categoryIconChange(element, false);
     }
 
     function sortStop(e) {
@@ -210,8 +210,8 @@ $(function() {
             })
             // show "childrens"
             $(".moving").show().removeClass("moving");
+            categoryIconChange(element, true);
         }
-        categoryIconChange(element, true);
     }
 
     // Add sortable capabilities to rendered table
