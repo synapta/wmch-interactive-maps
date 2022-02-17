@@ -693,15 +693,30 @@ module.exports = function(app, apicache) {
         let errors = 0;
         let count = 0;
         for (const record of records) {
-            if (typeof record.name === "string" && record.name.length > 0) {
-                try {
-                    await Category.create({
-                        "name": record.name
-                    });
-                    count++;
-                }
-                catch(e) {
-                    errors++;
+            if (record.hasOwnProperty('id')) {
+                // Update
+                await Category.update({
+                        sticky: record.sticky
+                        // name: record.name
+                    }, {
+                    where: {
+                        id: record.id
+                    }
+                });
+                count++;
+            }
+            else {
+                // Create
+                if (typeof record.name === "string" && record.name.length > 0) {
+                    try {
+                        await Category.create({
+                            "name": record.name
+                        });
+                        count++;
+                    }
+                    catch(e) {
+                        errors++;
+                    }
                 }
             }
         }

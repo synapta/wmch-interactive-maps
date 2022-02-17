@@ -21,6 +21,12 @@ $(function() {
                 name: getNewCategoryName()
             });
         }
+        $('.map-category:not(".new-category")').each(function () {
+            if ($(this).data('changed')) {
+                // $(this).css("background", "lime");
+                toChange.push(getCategoryData(this));
+            }
+        });
         // Confirmation message
         var confirmMessage = $('section').data('confirm');
         if (window.confirm(confirmMessage)) {
@@ -74,6 +80,15 @@ $(function() {
                 $(this).data('changed', 1);
             }
         });
+        $('.map-category').each(function () {
+            var newdata = getCategoryData(this);
+            if (newdata.sticky !== $(this).data('sticky')) {
+                $(this).data('changed', 1);
+            }
+            /** if (newdata.name !== $(this).data('name')) {  TODO
+                $(this).data('changed', 1);
+            } **/
+        });
     }
 
     function getRecordData (el) {
@@ -83,6 +98,16 @@ $(function() {
         data.history = $(el).is('.history') ? 1 : 0;
         data.sticky = parseInt($(el).find('.order').val());
         data.published = $(el).is('.published') ? 1 : 0;
+        return data;
+    }
+
+
+    function getCategoryData (el) {
+        // console.log("getCategoryData")  // DEBUG
+        var data = {};
+        data.model = 'category';
+        data.id = $(el).data('id');
+        data.sticky = parseInt($(el).find('.order').val());
         return data;
     }
 
