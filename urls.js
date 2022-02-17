@@ -696,8 +696,8 @@ module.exports = function(app, apicache) {
             if (record.hasOwnProperty('id')) {
                 // Update
                 await Category.update({
-                        sticky: record.sticky
-                        // name: record.name
+                        sticky: record.sticky,
+                        name: record.name
                     }, {
                     where: {
                         id: record.id

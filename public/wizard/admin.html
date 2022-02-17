@@ -72,10 +72,13 @@
                     <tr class="map-category table-sort-element" 
                     data-id="{{id}}"
                     data-sticky="{{sticky}}"
+                    data-name="{{name}}"
                     data-changed="0">
                       <td colspan="4">
                         <i class="caret down large icon grey"></i>
-                        <strong>{{name}}</strong>
+                        <div class="ui input">
+                          <input type="text" class="name" value="{{name}}" placeholder="" />
+                        </div>
                       </td>
                       <th class="donotdisplayz"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
                     </tr>

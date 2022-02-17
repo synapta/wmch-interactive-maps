@@ -27,6 +27,7 @@ $(function() {
                 toChange.push(getCategoryData(this));
             }
         });
+        // console.log(toChange.filter(m => m.model === 'category'));  // DEBUG
         // Confirmation message
         var confirmMessage = $('section').data('confirm');
         if (window.confirm(confirmMessage)) {
@@ -68,6 +69,7 @@ $(function() {
 
 
     function setChanged() {
+        // for Map
         $('.map-record').each(function () {
             var newdata = getRecordData(this);
             if (newdata.sticky !== $(this).data('sticky')) {
@@ -80,14 +82,15 @@ $(function() {
                 $(this).data('changed', 1);
             }
         });
+        // for Category
         $('.map-category').each(function () {
             var newdata = getCategoryData(this);
             if (newdata.sticky !== $(this).data('sticky')) {
                 $(this).data('changed', 1);
             }
-            /** if (newdata.name !== $(this).data('name')) {  TODO
+            if (newdata.name !== $(this).data('name')) {
                 $(this).data('changed', 1);
-            } **/
+            }
         });
     }
 
@@ -107,6 +110,7 @@ $(function() {
         var data = {};
         data.model = 'category';
         data.id = $(el).data('id');
+        data.name = $(el).find('.name').val();
         data.sticky = parseInt($(el).find('.order').val());
         return data;
     }
