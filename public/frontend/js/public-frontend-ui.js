@@ -11,7 +11,7 @@ if (window.location.search.indexOf('noControls=1') !== -1) {
 function fancyUI () {
   // Execute at the very end ///////////////////////////
   var gitHubLink = '<a class="internal-githublink leaflet-control" title="wmch-interactive-maps@github" href="https://github.com/synapta/wmch-interactive-maps" target="_blank"><i class="ui grey icon large github"></i></a>';
-  var backLink = '<button class="ui right labeled icon button"><i class="left arrow icon"></i>&laquo;</button>';
+  var backLink = '<button class="ui right labeled icon button" style="visibility: hidden; title="placeholder for footer style"><i class="left arrow icon"></i>&laquo;</button>';
   // add fancy icon and text to legenda placeholder
   $(".leaflet-control-layers-toggle").html('<div class="ui grid"><div class="row"><div class="three wide column">' + svgClipArt.layers + '</div><div class="ten wide column"><span class="overlays-header">Wikipedia</span></div><div class="three wide column">' + svgClipArt.arrow_down.replace('#ffffff', '#636466') + '</div></div></div>');
   // Wikipedia title inside Legenda
