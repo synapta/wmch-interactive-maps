@@ -7,6 +7,7 @@ function getCategoryWithMapsAsDict (category) {
         name: category.get('name'),
         maps: category.get('maps').map(record => {
             return {
+                id: record.get('id'),
                 title: record.get("title"),
                 path: record.get('path'),
                 history: record.get('history'),

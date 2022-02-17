@@ -666,35 +666,22 @@ module.exports = function(app, apicache) {
      * Then send a response with the outcome.
      * @param  {object} sequelizeModel sequelize model
      * @param  {array} records        list of records
-     * @param  {integer} count          updated record count
-     * @param  {Express response} res            response object from Express
      * @return Express send the outcome (an Object with updateNumer: COUNT)
      */
-    async function updateRecordList(sequelizeModel, records, count, res) {
-        let record = records.pop();
-        if (record) {
-            sequelizeModel.update(
+    async function updateRecordList(sequelizeModel, records) {
+        let count = 0
+        for (const record of records) {
+            const [affectedCount, affectedRows] = await sequelizeModel.update(
                 {
                   sticky: record.sticky,
                   history: record.history,
                   published: record.published
                 }, /* set attributes' value */
                 { where: { id: record.id }} /* where criteria */
-            ).then(([affectedCount, affectedRows]) => {
-              // Notice that affectedRows will only be defined in dialects which support returning: true
-              // affectedCount will be n
-              // update changed records count
-              count += affectedCount;
-              if (records.length) {
-                  // next element if any
-                  updateRecordList(sequelizeModel, records, count, res);
-              }
-              else {
-                // last element
-                return {error: false, updateNumber: count};
-              }
-            });
+            );
+            count += affectedCount;
         }
+        return {error: false, updateNumber: count};
     }
 
     /**
@@ -746,10 +733,11 @@ module.exports = function(app, apicache) {
     async function admin_api_action_update (req, res) {
         /** Save all Map records **/
         const mapRecords = getRecordsForModel(req.body.records, 'map');
-        let updateCount = 0;
-        const updatedRecordsMessage = updateRecordList(Map, mapRecords, updateCount, res);
+        // console.log(mapRecords);  // DEBUG
+        const updatedRecordsMessage = await updateRecordList(Map, mapRecords);
         /** Save all Category records **/
         const categoryRecords = getRecordsForModel(req.body.records, 'category');
+        // console.log(categoryRecords);  // DEBUG
         const updatedCategoriesMessage = await updateOrAddCategories(categoryRecords);
         /** merge errors on response **/
         res.send({
