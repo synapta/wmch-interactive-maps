@@ -171,22 +171,47 @@ $(function() {
         });
     }
 
+    /**
+     * change icon as expanded or change icon as closed.
+     * @param {HTMLElement} element 
+     * @param {Boolean} open 
+     */
+    function categoryIconChange(element, open) {
+        var switchClasses = ['right', 'down'];  // from open to close
+        if (open) switchClasses.reverse();  // from close to open
+        $(element).find('i.icon:first').addClass(switchClasses[0]).removeClass(switchClasses[1]);
+    }
+
     function sortStart(e) {
         var className = "map-category";
-        if (e.detail.item.classList.contains(className)) {
+        var element = e.detail.item;
+        if (element.classList.contains(className)) {
             // hide "childrens"
             console.log("sort start " + new Date());  // DEBUG
-            $(e.detail.item).nextUntil(".map-category").addClass("moving");
+            $(element).nextUntil(".map-category").addClass("moving");
             $(".moving").hide();
         }
+        categoryIconChange(element, false);
     }
 
     function sortStop(e) {
         var className = "map-category";
-        if (e.detail.item.classList.contains(className)) {
+        var element = e.detail.item;
+        var lastEl = null;
+        if (element.classList.contains(className)) {
+            $(".moving").each(function (i, el) {
+                if (i === 0) {
+                    $(element).after(el);
+                }
+                else {
+                    $(lastEl).after(el);
+                }
+                lastEl = el;
+            })
             // show "childrens"
             $(".moving").show().removeClass("moving");
         }
+        categoryIconChange(element, true);
     }
 
     // Add sortable capabilities to rendered table
