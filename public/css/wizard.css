@@ -71,3 +71,9 @@ input.inverted {
 #adminui .button {
     background-color: transparent;
 }
+#adminui .ui.input input {
+    border-width: 0px;
+}
+#adminui .ui.input input:focus {
+    border-width: 1px;
+}
