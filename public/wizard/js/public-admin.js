@@ -27,7 +27,7 @@ $(function() {
                 toChange.push(getCategoryData(this));
             }
         });
-        // console.log(toChange.filter(m => m.model === 'category'));  // DEBUG
+        // console.log(toChange.filter(m => m.model === 'map'));  // DEBUG
         // Confirmation message
         var confirmMessage = $('section').data('confirm');
         if (window.confirm(confirmMessage)) {
@@ -81,6 +81,14 @@ $(function() {
             if (newdata.published !== $(this).data('published')) {
                 $(this).data('changed', 1);
             }
+            // is this children assigned to another category? live changed
+            if (newdata.category !== $(this).data('category')) {
+                $(this).data('changed', 1);
+            }
+            else {
+                // save only new categories
+                $(this).removeData('category');
+            }
         });
         // for Category
         $('.map-category').each(function () {
@@ -101,6 +109,10 @@ $(function() {
         data.history = $(el).is('.history') ? 1 : 0;
         data.sticky = parseInt($(el).find('.order').val());
         data.published = $(el).is('.published') ? 1 : 0;
+        // extra (from relationships)
+        if (typeof $(el).data('newcategory') !== "undefined") {
+            data.category = $(el).data('newcategory');  // data('category') store the original category instead
+        }
         return data;
     }
 
@@ -183,7 +195,7 @@ $(function() {
         save();
     });
 
-    function tableSortUpdated () {
+    function newOrder () {
         var els = [];
         $('.table-sort-element').each(function () {
               var newdata = getRecordData(this);
@@ -192,11 +204,36 @@ $(function() {
         els[0] = els.length;
         for (var j=1; j < els.length; j++) {
             els[j] = els[j-1] - 1;
-        }
+        }   
         var j = 0;
         $('.table-sort-element').each(function () {
             $(this).find('.order').val(els[j]);
             j++;
+        });
+    }
+
+    /**
+     * 
+     */
+    function assignMapToCategories () {
+        $('.map-record').each(function (index, element) {
+            // var newdata = getRecordData(this);
+            var newCategoryElement = null;
+            if ($(element).prev().is(".map-category")) {
+                newCategoryElement = $(element).prev();
+            }
+            else {
+                newCategoryElement = $(element).prevUntil(".map-category").prev();
+            }
+            if (newCategoryElement) {
+                $(newCategoryElement).css("background", "lime");
+                var newCategoryId = $(newCategoryElement).data("id");
+                $(element).data('newcategory', newCategoryId);
+                console.log("ecco la nuova categoria " + newCategoryId)
+            }
+            // var newCategoryId = $(newCategoryElement).data("category");
+            // var newCategoryName = $(newCategoryElement).val();
+            // console.log(`${newCategoryId} ${newCategoryName}`);
         });
     }
 
@@ -224,6 +261,7 @@ $(function() {
     }
 
     function sortStop(e) {
+        console.log("stop");
         var className = "map-category";
         var element = e.detail.item;
         var lastEl = null;
@@ -241,6 +279,7 @@ $(function() {
             $(".moving").show().removeClass("moving");
             categoryIconChange(element, true);
         }
+        assignMapToCategories();
     }
 
     // Add sortable capabilities to rendered table
@@ -255,31 +294,32 @@ $(function() {
     sortable('table.sortable-admin tbody')[0].addEventListener('sortstop', sortStop);
 
     // @see https://github.com/lukasoppermann/html5sortable#sortupdate
-    sortable('table.sortable-admin tbody')[0].addEventListener('sortupdate', function(e) {
+    sortable('table.sortable-admin tbody')[0].addEventListener('sortupdate', 
+        /**
+            This event is triggered when the user stopped sorting and the DOM position has changed.
 
-        //// console.log(e.detail);
-        tableSortUpdated();
+            e.detail.item - {HTMLElement} dragged element
 
-        /*
-        This event is triggered when the user stopped sorting and the DOM position has changed.
+            Origin Container Data
+            e.detail.origin.index - {Integer} Index of the element within Sortable Items Only
+            e.detail.origin.elementIndex - {Integer} Index of the element in all elements in the Sortable Container
+            e.detail.origin.container - {HTMLElement} Sortable Container that element was moved out of (or copied from)
+            e.detail.origin.itemsBeforeUpdate - {Array} Sortable Items before the move
+            e.detail.origin.items - {Array} Sortable Items after the move
 
-        e.detail.item - {HTMLElement} dragged element
-
-        Origin Container Data
-        e.detail.origin.index - {Integer} Index of the element within Sortable Items Only
-        e.detail.origin.elementIndex - {Integer} Index of the element in all elements in the Sortable Container
-        e.detail.origin.container - {HTMLElement} Sortable Container that element was moved out of (or copied from)
-        e.detail.origin.itemsBeforeUpdate - {Array} Sortable Items before the move
-        e.detail.origin.items - {Array} Sortable Items after the move
-
-        Destination Container Data
-        e.detail.destination.index - {Integer} Index of the element within Sortable Items Only
-        e.detail.destination.elementIndex - {Integer} Index of the element in all elements in the Sortable Container
-        e.detail.destination.container - {HTMLElement} Sortable Container that element was moved out of (or copied from)
-        e.detail.destination.itemsBeforeUpdate - {Array} Sortable Items before the move
-        e.detail.destination.items - {Array} Sortable Items after the move
-        */
-    });
+            Destination Container Data
+            e.detail.destination.index - {Integer} Index of the element within Sortable Items Only
+            e.detail.destination.elementIndex - {Integer} Index of the element in all elements in the Sortable Container
+            e.detail.destination.container - {HTMLElement} Sortable Container that element was moved out of (or copied from)
+            e.detail.destination.itemsBeforeUpdate - {Array} Sortable Items before the move
+            e.detail.destination.items - {Array} Sortable Items after the move
+         * @param {*} e 
+         */
+        function (e) {
+            console.log("update");
+            // assign new order to items
+            newOrder();
+        });
 
 
     // add arrow to #languages dropdown

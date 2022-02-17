@@ -679,6 +679,11 @@ module.exports = function(app, apicache) {
                 }, /* set attributes' value */
                 { where: { id: record.id }} /* where criteria */
             );
+            // Reassign categories for this map
+            if (record.hasOwnProperty('category')) {
+                console.log(`${record.id} ${record.category}`)
+                await query.setMapCategory(record.id, record.category);
+            }
             count += affectedCount;
         }
         return {error: false, updateNumber: count};
@@ -694,7 +699,7 @@ module.exports = function(app, apicache) {
         let count = 0;
         for (const record of records) {
             if (record.hasOwnProperty('id')) {
-                // Update
+                // Update existing
                 await Category.update({
                         sticky: record.sticky,
                         name: record.name
@@ -706,7 +711,7 @@ module.exports = function(app, apicache) {
                 count++;
             }
             else {
-                // Create
+                // Create new
                 if (typeof record.name === "string" && record.name.length > 0) {
                     try {
                         await Category.create({
