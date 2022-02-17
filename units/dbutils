@@ -13,7 +13,9 @@ function getCategoryWithMapsAsDict (category) {
                 path: record.get('path'),
                 history: record.get('history'),
                 published: record.get('published'),
-                sticky: record.get('sticky')
+                sticky: record.get('sticky'),
+                // extra
+                categoryId: category.get('id')  // needed for mustache
             }
         })
     };

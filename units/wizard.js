@@ -13,6 +13,7 @@ const config = require('../config');
 const localconfig = require('../localconfig');
 const Mustache = require('mustache');
 const request = require('request');
+const query = require('../db/query');
 var md = require('markdown-it')();
 
 /**
@@ -128,13 +129,7 @@ async function cuMap (req, res, action) {
                         screenshot: jsonBody.path,
                         published: true
                       });
-                      // delete old map categories
-                      await MapCategory.destroy({where: {mapId: editedMap.id}});
-                      // create new map categories
-                      await MapCategory.create({
-                        mapId: editedMap.id,
-                        categoryId: req.query.category
-                      });
+                      await query.setMapCategory(editedMap.id, req.query.category);
                   });
                   // add a new record to Map table via ORM
               break;

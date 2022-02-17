@@ -1,6 +1,6 @@
 "use strict";
 const localconfig = require('../localconfig');
-const {migrate, connection, Map, History, Category} = require("./modelsB.js");
+const {migrate, connection, Map, History, Category, MapCategory} = require("./modelsB.js");
 
 /**
  * 
@@ -116,3 +116,13 @@ exports.timedata = (mapId, limit) => {
       limit: limit
     });
 };
+
+exports.setMapCategory = async (mapId, categoryId) => {
+    // delete old map categories
+    await MapCategory.destroy({where: {mapId: mapId}});
+    // create new map categories
+    await MapCategory.create({
+        mapId: mapId,
+        categoryId: categoryId
+    });
+}
