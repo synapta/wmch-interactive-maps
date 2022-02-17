@@ -57,7 +57,7 @@
     <div class="ui padded grid">
         <section data-confirm="{{#i18n}}actions.submit.confirm{{/i18n}}">
           <button class="ui button savechanged blue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
-          <table class="ui table compact celled sortable-admin">
+          <table class="ui table compact celled sortable-admin" id="adminui">
             <thead class="full-width">
               <tr>
                 <th>{{#i18n}}headers.title{{/i18n}}</th>
@@ -85,7 +85,7 @@
                       data-path="{{path}}"
                       data-sticky="{{sticky}}"
                       data-history="{{#history}}1{{/history}}{{^history}}0{{/history}}">
-                      <td><i class="sort icon grey"></i><a href="/admin/edit/{{id}}">{{title}}</a> <sub>{{^published}}(Draft){{/published}}</sub></td>
+                      <td class="map-record-title"><i class="sort icon grey"></i><a href="/admin/edit/{{id}}">{{title}}</a> <sub>{{^published}}(Draft){{/published}}</sub></td>
                       <td>{{path}}</td>
                       <th><a class="change-history" href="#"><i class="toggle big {{#history}}on green{{/history}} {{^history}}off grey{{/history}} icon"></i></a></th>
                       <th><a class="change-visibility" href="#"><i class="toggle big eye {{^published}}slash grey{{/published}} {{#published}}green{{/published}} icon"></i></a></th>

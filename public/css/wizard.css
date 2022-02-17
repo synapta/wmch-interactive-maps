@@ -65,3 +65,6 @@ input.inverted {
 	z-index: 996;
 	left: 40%;
 }
+#adminui td.map-record-title {
+    padding-left: 2em;
+}
