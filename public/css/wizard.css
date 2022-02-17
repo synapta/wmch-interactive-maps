@@ -68,3 +68,6 @@ input.inverted {
 #adminui td.map-record-title {
     padding-left: 2em;
 }
+#adminui .button {
+    background-color: transparent;
+}
