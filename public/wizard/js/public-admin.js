@@ -194,6 +194,10 @@ $(function() {
         save();
     });
 
+    $("input.name").on("click", function () {
+        $(this).select();
+    });
+
     function newOrder () {
         var els = [];
         $('.table-sort-element').each(function () {

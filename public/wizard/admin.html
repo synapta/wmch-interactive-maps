@@ -61,7 +61,6 @@
             <thead class="full-width">
               <tr>
                 <th>{{#i18n}}headers.title{{/i18n}}</th>
-                <th>{{#i18n}}headers.path{{/i18n}}</th>
                 <th class="donotdisplay">{{#i18n}}headers.order{{/i18n}}</th>
                 <th>{{#i18n}}headers.history{{/i18n}}</th>
                 <th>{{#i18n}}headers.delete{{/i18n}}</th>
@@ -74,10 +73,10 @@
                     data-sticky="{{sticky}}"
                     data-name="{{name}}"
                     data-changed="0">
-                      <td colspan="4">
+                      <td colspan="3">
                         <i class="caret down large icon grey"></i>
                         <div class="ui input">
-                          <input type="text" class="name" value="{{name}}" placeholder="" />
+                          <input type="text" class="name" value="{{name}}" />
                         </div>
                       </td>
                       <th class="donotdisplayz"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
@@ -89,11 +88,9 @@
                       data-changed="0"
                       data-published="{{#published}}1{{/published}}{{^published}}0{{/published}}"
                       data-title="{{title}}"
-                      data-path="{{path}}"
                       data-sticky="{{sticky}}"
                       data-history="{{#history}}1{{/history}}{{^history}}0{{/history}}">
                         <td class="map-record-title"><i class="sort icon grey"></i><a href="/admin/edit/{{id}}">{{title}}</a> <sub>{{^published}}(Draft){{/published}}</sub></td>
-                        <td>{{path}}</td>
                         <th><a class="ui button change-history {{^published}}disabled{{/published}} transparent" href="#"><i class="toggle big {{#history}}on green{{/history}} {{^history}}off grey{{/history}} icon"></i></a></th>
                         <th><a class="change-visibility" href="#"><i class="toggle big eye {{^published}}slash grey{{/published}} {{#published}}green{{/published}} icon"></i></a></th>
                         <th class="donotdisplayz"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
@@ -101,7 +98,7 @@
                   {{/maps}}
                 {{/categories}}
                 <tr class="map-category new-category">
-                  <td colspan="5">
+                  <td colspan="4">
                     <div class="ui left icon grey input fluid">
                       <input type="text" id="createcategory" placeholder="{{#i18n}}category.create.text{{/i18n}}">
                       <i class="plus icon"></i>
