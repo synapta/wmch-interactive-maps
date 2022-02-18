@@ -177,8 +177,21 @@ $(function() {
 
     $('.change-visibility').on('click', function (ev) {
         ev.preventDefault();
-        var styleClasses = ["slash", "green", "grey"];
         var el = $(this).parents('tr');
+        // history off on unpublish
+        var historySwitch = $(this).parents('tr').eq(0).find('.change-history i');
+        if (historySwitch.is('.green') && el.is('.published')) {
+            historySwitch.trigger('click');
+        }
+        // disable history on unpublish
+        if (el.is('.published')) {
+            historySwitch.addClass('disabled');
+        }
+        else {
+            historySwitch.removeClass('disabled');
+        }
+        // change styles
+        var styleClasses = ["slash", "green", "grey"];
         if (el.is('.published')) {
             el.removeClass('published');
         }
