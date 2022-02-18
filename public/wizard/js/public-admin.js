@@ -23,7 +23,6 @@ $(function() {
         }
         $('.map-category:not(".new-category")').each(function () {
             if ($(this).data('changed')) {
-                // $(this).css("background", "lime");
                 toChange.push(getCategoryData(this));
             }
         });
@@ -226,10 +225,8 @@ $(function() {
                 newCategoryElement = $(element).prevUntil(".map-category").prev();
             }
             if (newCategoryElement) {
-                $(newCategoryElement).css("background", "lime");
                 var newCategoryId = $(newCategoryElement).data("id");
                 $(element).data('newcategory', newCategoryId);
-                console.log("ecco la nuova categoria " + newCategoryId)
             }
             // var newCategoryId = $(newCategoryElement).data("category");
             // var newCategoryName = $(newCategoryElement).val();
@@ -261,7 +258,6 @@ $(function() {
     }
 
     function sortStop(e) {
-        console.log("stop");
         var className = "map-category";
         var element = e.detail.item;
         var lastEl = null;
@@ -316,7 +312,6 @@ $(function() {
          * @param {*} e 
          */
         function (e) {
-            console.log("update");
             // assign new order to items
             newOrder();
         });
