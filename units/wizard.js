@@ -112,7 +112,7 @@ async function cuMap (req, res, action) {
                     path: req.query.path,
                     mapargs: req.query.mapargs,
                     screenshot: jsonBody.path,
-                    published: true
+                    published: true  // TODO: switch to FORM element req.query.published
                   });
                   await MapCategory.create({
                     mapId: map.id,
@@ -211,27 +211,29 @@ function getWizard(req, res, action, id) {
                 // unpublished or removed item
                 res.status(404).send('<h1>Not found</h1>')
              }
-             logger.debug("DEBUG TEMPLATE *****************************************************************", values);
-             var view = {
-               shortlang: shortlang,
-               langname: i18n_utils.getLangName(config.languages, shortlang),
-               map: values,
-               logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
-               baseurl: localconfig.url + "/",
-               sparql: config.sparql,
-               languages: config.languages,
-               formAction: formActions[action],
-               formActionName: action,
-               i18n: function () {
-                 return function (text, render) {
-                     i18next.changeLanguage(shortlang);
-                     return i18next.t(text);
-                 }
-               }
-             };
-             // console.log(view);
-             var output = Mustache.render(template, view);
-             res.send(output);
+             else {
+              logger.debug("DEBUG TEMPLATE *****************************************************************", values);
+              var view = {
+                shortlang: shortlang,
+                langname: i18n_utils.getLangName(config.languages, shortlang),
+                map: values,
+                logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                baseurl: localconfig.url + "/",
+                sparql: config.sparql,
+                languages: config.languages,
+                formAction: formActions[action],
+                formActionName: action,
+                i18n: function () {
+                  return function (text, render) {
+                      i18next.changeLanguage(shortlang);
+                      return i18next.t(text);
+                  }
+                }
+              };
+              // console.log(view);
+              var output = Mustache.render(template, view);
+              res.send(output);
+             }
            });
        });
    });
