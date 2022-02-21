@@ -109,33 +109,24 @@ $(function() {
         $.ajax ({
             type:'GET',
             dataType: 'json',
-            url: "/s/" + $(this).val(),
+            url: "/admin/api/get/map/?path=" + $(this).val() + "&id=" + $('form').data('map-id'),
             error: function(e) {
                 $("#path-found").hide();
                 $("#path-not-found").show();
                 $("input[name='path']").data('valid', 1);
             },
             success: function(json) {
-                var action = $('form').data('action-name');
+                var action = json.exists ? 'pathExists' : $('form').data('action-name');
                 switch (action) {
                     case 'edit':
-                        // console.log(json.id);
-                        if (json.id == $('form').data('map-id')) {
-                            // can overwrite path on the same record
-                            $("#path-found").hide();
-                            $("#path-not-found").show();
-                            $("input[name='path']").data('valid', 1);
-                        }
-                        else {
-                            // already used
-                            $("#path-found").show();
-                            $("#path-not-found").hide();
-                            $("input[name='path']").data('valid', 0);
-                        }
+                        // can overwrite path on the same record
+                        $("#path-found").hide();
+                        $("#path-not-found").show();
+                        $("input[name='path']").data('valid', 1);
                     break;
-                    case 'add':
+                    case 'add':  // invalid by default
+                    case 'pathExists':
                     default:
-                        // invalid by default
                         $("#path-found").show();
                         $("#path-not-found").hide();
                         $("input[name='path']").data('valid', 0);

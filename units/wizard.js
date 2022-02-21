@@ -62,23 +62,16 @@ function getWizardPath(req, res, action=null, id=null) {
  * @return {Promise}    Promise of a database record of Map. Empty object on error.
  */
 async function getMapConfigFromDb (id) {
-    return new Promise((resolve, reject) => {
-        Map.findOne({
-          include: Category,
-          where: {
-            id: id,
-            published: true  // disallow edit for unpublished
-          }
-        }).then(mapRecord => {
-          if (mapRecord) {
-              resolve(dbutils.getAllFieldsAsDict(mapRecord));
-          }
-          else {
-              // console.log('resolved emp');
-              resolve({});
-          }
-        });
-    });
+  const mapRecord = await Map.findOne({
+    include: Category,
+    where: {
+      id: id
+    }
+  });
+  if (mapRecord) {
+    return dbutils.getAllFieldsAsDict(mapRecord);
+  }
+  return {};
 }
 
 /**

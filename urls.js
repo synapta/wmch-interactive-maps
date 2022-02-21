@@ -737,6 +737,24 @@ module.exports = function(app, apicache) {
         return records.filter(record => record.model === modelName)
     }
 
+    /**
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     * @returns {Object} with exists flag, or a message 
+     */
+    async function admin_api_get_map (req, res) {
+        if (req.query.path) {
+            const map = await query.mapByPath(req.query.path, req.query.id);
+            res.send({
+                "exists": map ? true : false
+            });
+        }
+        else {
+            res.status(400).send({"message": "Invalid request"})
+        }
+    }
+
     async function admin_api_get_categories (req, res) {
         /** Get all Category records **/
         const categories = await query.getAllCategories();

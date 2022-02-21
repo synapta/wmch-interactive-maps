@@ -2,7 +2,9 @@
 const util = require('util');
 const localconfig = require('../localconfig.json');
 
-const { Sequelize, DataTypes, Model, Deferrable } = require('sequelize');
+const { Sequelize, DataTypes, Model, Deferrable, Op } = require('sequelize');
+
+exports.Op = Op
 
 // connect to db
 const connection = new Sequelize(localconfig.databaseB);

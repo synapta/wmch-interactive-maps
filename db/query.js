@@ -1,6 +1,6 @@
 "use strict";
 const localconfig = require('../localconfig');
-const {migrate, connection, Map, History, Category, MapCategory} = require("./modelsB.js");
+const {migrate, connection, Map, History, Category, MapCategory, Op} = require("./modelsB.js");
 
 /**
  * 
@@ -18,6 +18,21 @@ exports.publishedMaps = (limit, offset) => Map.findAll({
     ],
     offset: offset,
     limit: limit
+});
+
+/**
+ * 
+ * @param {String} path 
+ * @param  {String|Number} excludeId can accept multiple ids as arguments, string or numbers
+ * @returns 
+ */
+ exports.mapByPath = (path, excludeId) => Map.findOne({
+    where: {
+      path: path,
+      id: {
+        [Op.ne]: parseInt(excludeId)
+      }
+    }
 });
 
  /** Get all Category records **/
