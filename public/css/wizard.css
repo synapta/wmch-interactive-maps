@@ -77,3 +77,6 @@ input.inverted {
 #adminui .ui.input input:focus {
     border-width: 1px;
 }
+.strikethrough {
+    text-decoration: line-through;
+}

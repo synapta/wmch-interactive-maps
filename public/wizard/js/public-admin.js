@@ -211,6 +211,15 @@ $(function() {
         $(this).select();
     });
 
+    $('.delete-category').on("click", function () {
+        $(this).find('i').eq(0).toggleClass(["red", "grey"]);
+        var row = $(this).parents('tr').eq(0);
+        var nameElement = row.find('.input > .name');
+        nameElement.parent().toggleClass('disabled');
+        nameElement.toggleClass('strikethrough');
+        row.toggleClass('negative');
+    })
+
     function newOrder () {
         var els = [];
         $('.table-sort-element').each(function () {
