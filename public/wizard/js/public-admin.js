@@ -26,7 +26,8 @@ $(function() {
                 toChange.push(getCategoryData(this));
             }
         });
-        // console.log(toChange.filter(m => m.model === 'map'));  // DEBUG
+        // console.log(toChange.filter(m => m.model === 'category'));  // DEBUG
+        // return;
         // Confirmation message
         var confirmMessage = $('section').data('confirm');
         if (window.confirm(confirmMessage)) {
@@ -123,6 +124,8 @@ $(function() {
         data.id = $(el).data('id');
         data.name = $(el).find('.name').val();
         data.sticky = parseInt($(el).find('.order').val());
+        // additional
+        data.delete = $(el).hasClass('deleted');
         return data;
     }
 
@@ -211,9 +214,22 @@ $(function() {
         $(this).select();
     });
 
-    $('.delete-category').on("click", function () {
+    function toggleTrash () {
+        if (!$(this).is(".deleted")) {
+            $(this).find('.delete-category').toggleClass('donotdisplay');
+        }
+    }
+
+    $('#adminui tr.deletable').on("mouseover", toggleTrash);
+
+    $('#adminui tr.deletable').on("mouseout", toggleTrash);
+
+
+    $('.delete-category').on("click", function (ev) {
+        ev.preventDefault();
         $(this).find('i').eq(0).toggleClass(["red", "grey"]);
         var row = $(this).parents('tr').eq(0);
+        row.toggleClass('deleted');
         var nameElement = row.find('.input > .name');
         nameElement.parent().toggleClass('disabled');
         nameElement.toggleClass('strikethrough');

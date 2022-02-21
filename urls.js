@@ -697,7 +697,7 @@ module.exports = function(app, apicache) {
      async function updateOrAddCategories(records) {      
         let errors = 0;
         let count = 0;
-        for (const record of records) {
+        for (const record of records.filter(record => !record.delete)) {
             if (record.hasOwnProperty('id')) {
                 // Update existing
                 await Category.update({
@@ -725,7 +725,9 @@ module.exports = function(app, apicache) {
                 }
             }
         }
-        return {error: errors > 0, updateNumber: count};
+        const idsToDelete = records.filter(record => record.delete === true).map(record => record.id);
+        await query.deleteCategory(...idsToDelete);
+        return {error: errors > 0, updateNumber: count, deleteNumber: idsToDelete.length};
     }
 
     /**

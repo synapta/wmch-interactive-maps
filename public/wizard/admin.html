@@ -68,7 +68,7 @@
             </thead>
                 <tbody>
                 {{#categories}}
-                    <tr class="map-category table-sort-element" 
+                    <tr class="map-category table-sort-element {{^maps}}deletable{{/maps}}" 
                     data-id="{{id}}"
                     data-sticky="{{sticky}}"
                     data-name="{{name}}"
@@ -79,7 +79,7 @@
                           <input type="text" class="name" value="{{name}}" />
                         </div>
                       </td>
-                      <td {{#maps}}class="donotdisplay"{{/maps}}><a class="delete-category" href="#"><i class="trash big grey icon"></i></a></td>
+                      <td><a class="delete-category donotdisplay" href="#"><i class="trash big grey icon"></i></a></td>
                       <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
                     </tr>
                     {{#maps}}

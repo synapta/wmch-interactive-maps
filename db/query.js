@@ -141,3 +141,18 @@ exports.setMapCategory = async (mapId, categoryId) => {
         categoryId: categoryId
     });
 }
+
+/**
+ * Delete selected categories.
+ * @param  {...Number} ids of category to delete, can be one or more. 
+ * If multiple parameters are specified, then delete all specified.
+ */
+exports.deleteCategory = async (...ids) => {
+    await Category.destroy({
+      where: {
+        id: {
+          [Op.in]: ids
+        }
+      }
+    });
+}
