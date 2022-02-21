@@ -215,14 +215,14 @@ $(function() {
     });
 
     function toggleTrash () {
-        if (!$(this).is(".deleted")) {
+        if (!$(this).is(".deleted") && $(this).is('.deletable')) {
             $(this).find('.delete-category').toggleClass('donotdisplay');
         }
     }
 
-    $('#adminui tr.deletable').on("mouseover", toggleTrash);
+    $('#adminui tr').on("mouseover", toggleTrash);
 
-    $('#adminui tr.deletable').on("mouseout", toggleTrash);
+    $('#adminui tr').on("mouseout", toggleTrash);
 
 
     $('.delete-category').on("click", function (ev) {
@@ -270,9 +270,16 @@ $(function() {
                 var newCategoryId = $(newCategoryElement).data("id");
                 $(element).data('newcategory', newCategoryId);
             }
-            // var newCategoryId = $(newCategoryElement).data("category");
-            // var newCategoryName = $(newCategoryElement).val();
-            // console.log(`${newCategoryId} ${newCategoryName}`);
+        });
+    }
+
+    function assignTrashBin () {
+        $('.map-category.deletable').each(function (index, element) {
+            // and with at least one child map
+            if ($(element).next() && $(element).next().is('.map-record')) {
+                $(element).removeClass('deletable');
+                $(element).toggleClass(["down", "right"]);
+            }
         });
     }
 
@@ -315,9 +322,10 @@ $(function() {
             })
             // show "childrens"
             $(".moving").show().removeClass("moving");
-            categoryIconChange(element, true);
+            categoryIconChange(element, !$(element).is('.deletable'));
         }
         assignMapToCategories();
+        assignTrashBin();
     }
 
     // Add sortable capabilities to rendered table
