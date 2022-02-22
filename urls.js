@@ -835,6 +835,44 @@ module.exports = function(app, apicache) {
     });
 
     /**
+     * Display Landing page
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return Express send with HTML.
+     */
+     app.get('/your-map', function (req, res) {
+        fs.readFile(util.format('%s/public/frontend/mailmap.html', __dirname), function (err, fileData) {
+            if (err) {
+              throw err;
+            }
+            // get template content, server-side
+            let template = fileData.toString();
+            let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'mailmap');
+            let i18nOptions = i18n_utils.geti18nOptions(shortlang);
+            i18nOptions.resources[shortlang] = {translation: translationData};
+            i18next.init(i18nOptions, function(err, t) {
+                // variables to pass to Mustache to populate template
+                var view = {
+                  shortlang: shortlang,
+                  logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                  langname: i18n_utils.getLangName(config.languages, shortlang),
+                  baseurl: localconfig.url + "/your-map",
+                  languages: config.languages,
+                  author: config.map.author,
+                  i18n: function () {
+                    return function (text, render) {
+                        i18next.changeLanguage(shortlang);
+                        return i18next.t(text);
+                    }
+                  }
+                };
+                var output = Mustache.render(template, view);
+                res.send(output);
+            });
+        });
+    });
+
+    /**
      * Admin pages, listing all available maps.
      * @param  {Express request} req
      * @param  {Express response} res
