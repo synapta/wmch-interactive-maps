@@ -1,0 +1,47 @@
+<!doctype html>
+<html class="no-js" lang="{{shortlang}}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{#i18n}}page.title{{/i18n}}</title>
+    <link rel="stylesheet" href="/css/lib/foundation-6.7.4/foundation.css" />
+  </head>
+  <body>
+    <h1>{{#i18n}}page.title{{/i18n}}</h1>
+
+    <div class="grid-x grid-padding-x">
+      <fieldset class="cell">
+        <legend>What kind of map you want to ask?</legend>
+        <input type="radio" name="asktype" value="New" id="asknewmap" required><label for="asknewmap">{{#i18n}}asktype.asknewmap{{/i18n}}</label>
+        <input type="radio" name="asktype" value="Change existing map" id="askchangemap"><label for="askchangemap">{{#i18n}}asktype.askchangemap{{/i18n}}</label>
+        <input type="radio" name="asktype" value="Other request" id="askother"><label for="askother">{{#i18n}}asktype.askother{{/i18n}}</label>
+      </fieldset>
+      <fieldset class="cell">
+        <legend></legend>
+        <label>
+          {{#i18n}}comment.label{{/i18n}}
+          <textarea name="comment" rows="3" placeholder="{{#i18n}}comment.placeholder{{/i18n}}" aria-describedby="commentHelpText"></textarea>
+        </label>
+        <p class="help-text" id="commentHelpText">{{#i18n}}comment.help{{/i18n}}</p>
+      </fieldset>
+      <fieldset class="cell">
+        <legend></legend>
+        <label>
+          {{#i18n}}sparql.label{{/i18n}}
+          <textarea name="sparql" rows="5" placeholder="{{#i18n}}sparql.label{{/i18n}}" aria-describedby="sparqlHelpText"></textarea>
+        </label>
+        <p class="help-text" id="sparqlHelpText">{{#i18n}}sparql.help{{/i18n}}</p>
+        <input type="submit" class="button" value="Submit">
+      </fieldset>
+    </div>
+
+    <script src="/js/lib/foundation-6.7.4/vendor/jquery.js"></script>
+    <script src="/js/lib/foundation-6.7.4/vendor/what-input.js"></script>
+    <script src="/js/lib/foundation-6.7.4/vendor/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+
+  </body>
+</html>
