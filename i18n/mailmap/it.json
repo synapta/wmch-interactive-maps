@@ -1,0 +1,21 @@
+{
+  "page": {
+    "title": "Richiedi la tua mappa",
+    "subtitle": ""
+  },
+  "asktype": {
+    "asknewmap": "Nuova mappa",
+    "askchangemap": "Modifica mappa esistente",
+    "askother": "Richiesta di altro tipo"
+  },
+  "comment": {
+    "label": "Facci sapere quale mappa vorresti",
+    "placeholder": "Nessuna",
+    "help": "Sii costruttivo ed educato e fornisci più dettagli possibili per costruire la mappa che desideri."
+  },
+  "sparql": {
+    "label": "La query SPARQL che suggerisci",
+    "placeholder": "Inserisci la query SPARQL che vorresti vedere trasformata in mappa",
+    "help": "Dandoci una query SPARQL completamente funzionante ci aiuterai a velocizzare la scelta della tua mappa. Prima di inviare prova su <a href=\"https://query.wikidata.org/\" target=\"_blank\">query.wikidata.org</a>."
+  }
+}
