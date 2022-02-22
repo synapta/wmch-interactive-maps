@@ -6,40 +6,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{#i18n}}page.title{{/i18n}}</title>
     <link rel="stylesheet" href="/css/lib/foundation-6.7.4/foundation.css" />
+    <link rel="stylesheet" href="/css/mailmap.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/codemirror.css">
   </head>
   <body>
-    <h1>{{#i18n}}page.title{{/i18n}}</h1>
-
-    <div class="grid-x grid-padding-x">
-      <fieldset class="cell">
-        <legend>What kind of map you want to ask?</legend>
-        <input type="radio" name="asktype" value="New" id="asknewmap" required><label for="asknewmap">{{#i18n}}asktype.asknewmap{{/i18n}}</label>
-        <input type="radio" name="asktype" value="Change existing map" id="askchangemap"><label for="askchangemap">{{#i18n}}asktype.askchangemap{{/i18n}}</label>
-        <input type="radio" name="asktype" value="Other request" id="askother"><label for="askother">{{#i18n}}asktype.askother{{/i18n}}</label>
-      </fieldset>
-      <fieldset class="cell">
-        <legend></legend>
-        <label>
-          {{#i18n}}comment.label{{/i18n}}
-          <textarea name="comment" rows="3" placeholder="{{#i18n}}comment.placeholder{{/i18n}}" aria-describedby="commentHelpText"></textarea>
-        </label>
-        <p class="help-text" id="commentHelpText">{{#i18n}}comment.help{{/i18n}}</p>
-      </fieldset>
-      <fieldset class="cell">
-        <legend></legend>
-        <label>
-          {{#i18n}}sparql.label{{/i18n}}
-          <textarea name="sparql" rows="5" placeholder="{{#i18n}}sparql.label{{/i18n}}" aria-describedby="sparqlHelpText"></textarea>
-        </label>
-        <p class="help-text" id="sparqlHelpText">{{#i18n}}sparql.help{{/i18n}}</p>
-        <input type="submit" class="button" value="Submit">
-      </fieldset>
+    <div class="grid-container">
+      <div class="grid-x grid-margin-x">
+          <h1 class="cell">{{#i18n}}page.title{{/i18n}}</h1>
+          <form class="cell" id="askmap" action="/your-map" method="get">
+            <fieldset class="cell">
+              <legend>{{#i18n}}asktype.legend{{/i18n}}</legend>
+              <input type="radio" name="asktype" value="New" id="asknewmap" required><label for="asknewmap">{{#i18n}}asktype.asknewmap{{/i18n}}</label>
+              <input type="radio" name="asktype" value="Change existing map" id="askchangemap"><label for="askchangemap">{{#i18n}}asktype.askchangemap{{/i18n}}</label>
+              <input type="radio" name="asktype" value="Other request" id="askother"><label for="askother">{{#i18n}}asktype.askother{{/i18n}}</label>
+            </fieldset>
+            <fieldset class="cell">
+              <legend></legend>
+              <label>
+                {{#i18n}}comment.label{{/i18n}}
+                <textarea name="comment" rows="3" placeholder="{{#i18n}}comment.placeholder{{/i18n}}" aria-describedby="commentHelpText"></textarea>
+              </label>
+              <p class="help-text" id="commentHelpText">{{#i18n}}comment.help{{/i18n}}</p>
+            </fieldset>
+            <fieldset class="cell">
+              <legend>{{#i18n}}ihavesparql.legend{{/i18n}}</legend>
+              <input type="radio" name="ihavesparql" value="N" id="sparqlno" required><label for="sparqlno">{{#i18n}}ihavesparql.sparqlno{{/i18n}}</label>
+              <input type="radio" name="ihavesparql" value="Y" id="sparqlyes"><label for="sparqlyes">{{#i18n}}ihavesparql.sparqlyes{{/i18n}}</label>
+            </fieldset>
+            <fieldset class="cell" id="sparql-container" style="display: none;">
+              <legend></legend>
+              <label>
+                {{#i18n}}sparql.label{{/i18n}}
+                <textarea name="sparql" rows="14" placeholder="{{#i18n}}sparql.label{{/i18n}}" aria-describedby="sparqlHelpText"></textarea>
+              </label>
+            </fieldset>
+            <br/>
+            <p class="cell help-text" id="sparqlHelpText">{{#i18n}}sparql.help{{/i18n}}</p>
+            <input type="submit" class="button" value="{{#i18n}}submit{{/i18n}}">
+          </div>
+        </form>
+      </div>
     </div>
 
     <script src="/js/lib/foundation-6.7.4/vendor/jquery.js"></script>
     <script src="/js/lib/foundation-6.7.4/vendor/what-input.js"></script>
     <script src="/js/lib/foundation-6.7.4/vendor/foundation.min.js"></script>
+
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/codemirror.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/mode/sparql/sparql.js"></script>
     <script>
+      var sparqlQueryExample = `# Example query: keep the name and the use identical to these ones
+SELECT ?item ?itemLabel ?coord ?commons ?website ?img ?lang ?langcode
+WHERE {
+  ?item wdt:P31/wdt:P279* wd:Q6581615 .
+  ?item wdt:P625 ?coord
+        OPTIONAL { ?item wdt:P373 ?commons }
+        OPTIONAL { ?item wdt:P856 ?website }
+        OPTIONAL { ?item wdt:P18 ?img }
+        OPTIONAL {
+          ?art schema:about ?item ;
+          schema:inLanguage ?langcode .
+          BIND(IF(?langcode in ('en', 'it', 'fr', 'de'),?art,?langcode) AS ?lang)
+        }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en,de,fr,it". }
+}
+ORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord) ASC(?commons) DESC(?website) ASC(?img)`;
+
+      function loadCodeEditor () {
+        var textarea = document.getElementsByName("sparql")[0];
+        var myCodeMirror = CodeMirror(function(elt) {
+          textarea.parentNode.replaceChild(elt, textarea);
+        }, {
+          value: textarea.value,
+          mode: "sparql", 
+          dragDrop: false,
+          lineNumbers: true,
+          value: sparqlQueryExample
+        });
+      }
+
+      $('form input[type=radio]').on('click', function() {
+        if ($(this).attr('name') === 'ihavesparql') {
+          if ($(this).val() === 'Y') {
+            $("fieldset#sparql-container").show();
+            if (!$("body").hasClass('code-editor-loaded')) {
+              loadCodeEditor();
+            }
+            $("body").addClass('code-editor-loaded');
+          }
+          else {
+            $("fieldset#sparql-container").hide();
+          }
+        }
+      });
       $(document).foundation();
     </script>
 

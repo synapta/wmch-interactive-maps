@@ -4,6 +4,7 @@
     "subtitle": ""
   },
   "asktype": {
+    "legend": "What kind of map you want to ask?",
     "asknewmap": "New map",
     "askchangemap": "Change existing map",
     "askother": "Other request"
@@ -13,9 +14,15 @@
     "placeholder": "None",
     "help": "Please be polite and constructive and give us as many details to build the map you miss."
   },
+  "ihavesparql": {
+    "legend": "Have you a SPARQL query to suggest?",
+    "sparqlno": "No",
+    "sparqlyes": "Yes"
+  },
   "sparql": {
     "label": "Your SPARQL query suggestion",
     "placeholder": "Enter here the SPARQL query you want to go live as a map",
     "help": "Giving a fully-working SPARQL query will help to boost your map selection! Try on <a href=\"https://query.wikidata.org/\" target=\"_blank\">query.wikidata.org</a> before submit."
-  }
+  },
+  "submit": "Submit"
 }

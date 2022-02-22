@@ -4,6 +4,7 @@
     "subtitle": ""
   },
   "asktype": {
+    "legend": "Che tipo di mappa hai in mente?",
     "asknewmap": "Nuova mappa",
     "askchangemap": "Modifica mappa esistente",
     "askother": "Richiesta di altro tipo"
@@ -13,9 +14,15 @@
     "placeholder": "Nessuna",
     "help": "Sii costruttivo ed educato e fornisci più dettagli possibili per costruire la mappa che desideri."
   },
+  "ihavesparql": {
+    "legend": "Hai già una query SPARQL da proporre?",
+    "sparqlno": "No",
+    "sparqlyes": "Sì"
+  },
   "sparql": {
     "label": "La query SPARQL che suggerisci",
     "placeholder": "Inserisci la query SPARQL che vorresti vedere trasformata in mappa",
     "help": "Dandoci una query SPARQL completamente funzionante ci aiuterai a velocizzare la scelta della tua mappa. Prima di inviare prova su <a href=\"https://query.wikidata.org/\" target=\"_blank\">query.wikidata.org</a>."
-  }
+  },
+  "submit": "Invia"
 }

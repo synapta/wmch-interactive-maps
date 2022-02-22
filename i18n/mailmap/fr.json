@@ -4,6 +4,7 @@
     "subtitle": ""
   },
   "asktype": {
+    "legend": "Quel type de carte avez-vous en tête ?",
     "asknewmap": "Nouvelle carte",
     "askchangemap": "Modifier la carte existante",
     "askother": "Requête d'un autre type"
@@ -13,9 +14,15 @@
     "placeholder": "Rien",
     "help": "Soyez constructif et poli et fournissez autant de détails que possible pour construire la carte que vous souhaitez."
   },
+  "ihavesparql": {
+    "legend": "Vous avez déjà une requête SPARQL à proposer ?",
+    "sparqlno": "Non",
+    "sparqlyes": "Oui"
+  },
   "sparql": {
     "label": "La requête SPARQL que vous suggérez",
     "placeholder": "Saisissez la requête SPARQL que vous souhaitez voir transformée en carte",
     "help": "Donner une requête SPARQL entièrement fonctionnelle vous aidera à booster votre sélection de cartes ! Essayez sur <a href=\"https://query.wikidata.org/\" target=\"_blank\"> query.wikidata.org </a> avant de soumettre."
-  }
+  },
+  "submit": "Soumettre"
 }
