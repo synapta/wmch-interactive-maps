@@ -1,0 +1,21 @@
+{
+  "page": {
+    "title": "Fragen Sie Ihre Karte",
+    "subtitle": ""
+  },
+  "asktype": {
+    "asknewmap": "Neue Karte",
+    "askchangemap": "Change existing map",
+    "askother": "Vorhandene Karte ändern"
+  },
+  "comment": {
+    "label": "Bitte teilen Sie uns mit, welche Karte Sie vermissen",
+    "placeholder": "Keiner",
+    "help": "Bitte seien Sie höflich und konstruktiv und geben Sie uns so viele Details, um die Karte zu erstellen, die Sie vermissen."
+  },
+  "sparql": {
+    "label": "Ihr Vorschlag für eine SPARQL-Abfrage",
+    "placeholder": "Geben Sie hier die SPARQL-Abfrage ein, die Sie als Karte live schalten wollen",
+    "help": "Wenn Sie eine voll funktionsfähige SPARQL-Abfrage angeben, können Sie Ihre Kartenauswahl verbessern! Probieren Sie <a href=\"https://query.wikidata.org/\" target=\"_blank\">query.wikidata.org</a> aus, bevor Sie sie absenden."
+  }
+}
