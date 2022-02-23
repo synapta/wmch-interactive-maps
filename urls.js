@@ -460,6 +460,8 @@ module.exports = function(app, apicache) {
         }
     });
     // serve JS common to frontend and backend
+    app.use('/themes/wmch-interactive-maps-v3-theme/css/',express.static('./themes/wmch-interactive-maps-v3-theme/css'));
+    app.use('/themes/wmch-interactive-maps-v3-theme/js/',express.static('./themes/wmch-interactive-maps-v3-theme/js'));
     app.use('/css/',express.static('./public/css'));
     app.use('/images/',express.static('./public/images'));
     app.use('/js/',express.static('./public/js'));

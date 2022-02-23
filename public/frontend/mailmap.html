@@ -5,53 +5,87 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{#i18n}}page.title{{/i18n}}</title>
-    <link rel="stylesheet" href="/css/lib/foundation-6.7.4/foundation.css" />
+    <link rel="stylesheet" href="/themes/wmch-interactive-maps-v3-theme/css/app.css" />
     <link rel="stylesheet" href="/css/mailmap.css" />
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/codemirror.css">
   </head>
   <body>
-    <div class="grid-container">
-      <div class="grid-x grid-margin-x">
-          <h1 class="cell">{{#i18n}}page.title{{/i18n}}</h1>
-          <form class="cell" id="askmap" action="/your-map" method="get">
-            <fieldset class="cell">
-              <legend>{{#i18n}}asktype.legend{{/i18n}}</legend>
-              <input type="radio" name="asktype" value="New" id="asknewmap" required><label for="asknewmap">{{#i18n}}asktype.asknewmap{{/i18n}}</label>
-              <input type="radio" name="asktype" value="Change existing map" id="askchangemap"><label for="askchangemap">{{#i18n}}asktype.askchangemap{{/i18n}}</label>
-              <input type="radio" name="asktype" value="Other request" id="askother"><label for="askother">{{#i18n}}asktype.askother{{/i18n}}</label>
-            </fieldset>
-            <fieldset class="cell">
-              <legend></legend>
-              <label>
-                {{#i18n}}comment.label{{/i18n}}
-                <textarea name="comment" rows="3" placeholder="{{#i18n}}comment.placeholder{{/i18n}}" aria-describedby="commentHelpText"></textarea>
-              </label>
-              <p class="help-text" id="commentHelpText">{{#i18n}}comment.help{{/i18n}}</p>
-            </fieldset>
-            <fieldset class="cell">
-              <legend>{{#i18n}}ihavesparql.legend{{/i18n}}</legend>
-              <input type="radio" name="ihavesparql" value="N" id="sparqlno" required><label for="sparqlno">{{#i18n}}ihavesparql.sparqlno{{/i18n}}</label>
-              <input type="radio" name="ihavesparql" value="Y" id="sparqlyes"><label for="sparqlyes">{{#i18n}}ihavesparql.sparqlyes{{/i18n}}</label>
-            </fieldset>
-            <fieldset class="cell" id="sparql-container" style="display: none;">
-              <legend></legend>
-              <label>
-                {{#i18n}}sparql.label{{/i18n}}
-                <textarea name="sparql" rows="14" placeholder="{{#i18n}}sparql.label{{/i18n}}" aria-describedby="sparqlHelpText"></textarea>
-              </label>
-            </fieldset>
-            <br/>
-            <p class="cell help-text" id="sparqlHelpText">{{#i18n}}sparql.help{{/i18n}}</p>
-            <input type="submit" class="button" value="{{#i18n}}submit{{/i18n}}">
-          </div>
-        </form>
+    <div class="grid-container full">
+      <div class="grid-x">
+        <div class="cell margin-bottom-2">
+                              <div class="grid-container">
+                                <div class="grid-x grid-padding-x small-padding-collapse">
+                                    <div class="cell">
+                                      <a href="#" class="text-hide">
+                                        <img src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}}>
+                                        Wikimedia CH <!-- Logo Text  -->
+                                      </a>
+                                    </div>        
+                                </div>
+                              </div>
+        </div>
+        <div class="header-your-map cell margin-bottom-1 padding-top-2 padding-bottom-2">
+                              <div class="grid-container">
+                                <div class="grid-x">
+                                  <div class="cell">
+                                    <h1 class="h3">{{#i18n}}page.title{{/i18n}}</h1>
+                                    <p>{{#i18n}}comment.label{{/i18n}}</p>
+                                  </div>
+                                </div>
+                              </div>
+        </div>
+        <div class="cell">
+                              <div class="grid-container">
+                                <form class="grid-x" id="askmap" action="/your-map" method="get">
+                                  <fieldset class="cell">
+                                    <legend>{{#i18n}}asktype.legend{{/i18n}}</legend>
+                                    <input type="radio" name="asktype" value="New" id="asknewmap" required><label for="asknewmap">{{#i18n}}asktype.asknewmap{{/i18n}}</label>
+                                    <input type="radio" name="asktype" value="Change existing map" id="askchangemap"><label for="askchangemap">{{#i18n}}asktype.askchangemap{{/i18n}}</label>
+                                    <input type="radio" name="asktype" value="Other request" id="askother"><label for="askother">{{#i18n}}asktype.askother{{/i18n}}</label>
+                                  </fieldset>
+                                  <fieldset class="cell">
+                                    <legend></legend>
+                                    <label>
+                                      {{#i18n}}comment.label{{/i18n}}
+                                      <textarea name="comment" rows="3" placeholder="{{#i18n}}comment.placeholder{{/i18n}}" aria-describedby="commentHelpText"></textarea>
+                                    </label>
+                                    <p class="help-text" id="commentHelpText">{{#i18n}}comment.help{{/i18n}}</p>
+                                  </fieldset>
+                                  <fieldset class="cell">
+                                    <legend>{{#i18n}}ihavesparql.legend{{/i18n}}</legend>
+                                    <input type="radio" name="ihavesparql" value="N" id="sparqlno" required><label for="sparqlno">{{#i18n}}ihavesparql.sparqlno{{/i18n}}</label>
+                                    <input type="radio" name="ihavesparql" value="Y" id="sparqlyes"><label for="sparqlyes">{{#i18n}}ihavesparql.sparqlyes{{/i18n}}</label>
+                                  </fieldset>
+                                  <fieldset class="cell" id="sparql-container" style="display: none;">
+                                    <legend></legend>
+                                    <label>
+                                      {{#i18n}}sparql.label{{/i18n}}
+                                      <textarea name="sparql" rows="14" placeholder="{{#i18n}}sparql.label{{/i18n}}" aria-describedby="sparqlHelpText"></textarea>
+                                    </label>
+                                  </fieldset>
+                                  <br/>
+                                  <p class="cell help-text" id="sparqlHelpText">{{#i18n}}sparql.help{{/i18n}}</p>
+                                  <input type="submit" class="button" value="{{#i18n}}submit{{/i18n}}">
+                              </form>
+                              </div>
+        </div>
+        <div class="cell ov-footer margin-top-2">
+                              <div class="grid-container">
+                                <div class="grid-x grid-padding-y">
+                                    <div class="cell text-right">
+                                      {{#author}}
+                                        {{{author}}}
+                                      {{/author}}
+                                      <a title="wmch-interactive-maps@github" href="https://github.com/synapta/wmch-interactive-maps" target="_blank"><i class="ui grey icon large github">Github</i></a>
+                                    </div>          
+                                </div>
+                              </div>
+        </div>
       </div>
     </div>
-
-    <script src="/js/lib/foundation-6.7.4/vendor/jquery.js"></script>
-    <script src="/js/lib/foundation-6.7.4/vendor/what-input.js"></script>
-    <script src="/js/lib/foundation-6.7.4/vendor/foundation.min.js"></script>
-
+    
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/themes/wmch-interactive-maps-v3-theme/js/app.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/codemirror.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/mode/sparql/sparql.js"></script>
     <script>
@@ -85,21 +119,21 @@ ORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord) ASC(?commons) DESC(?websit
         });
       }
 
-      $('form input[type=radio]').on('click', function() {
-        if ($(this).attr('name') === 'ihavesparql') {
-          if ($(this).val() === 'Y') {
-            $("fieldset#sparql-container").show();
-            if (!$("body").hasClass('code-editor-loaded')) {
-              loadCodeEditor();
-            }
-            $("body").addClass('code-editor-loaded');
+      function showOrHideCodeEditor () {
+        if ($("#sparqlyes").is(":checked")) {
+          $("fieldset#sparql-container").show();
+          if (!$("body").hasClass('code-editor-loaded')) {
+            loadCodeEditor();
           }
-          else {
-            $("fieldset#sparql-container").hide();
-          }
+          $("body").addClass('code-editor-loaded');
         }
-      });
-      $(document).foundation();
+        else {
+          $("fieldset#sparql-container").hide();
+        }
+      }
+
+      $(document).ready(showOrHideCodeEditor)
+      $('form input[type=radio]').on('click', showOrHideCodeEditor);
     </script>
 
   </body>
