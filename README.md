@@ -94,13 +94,13 @@ The webservice app exposes the website locally on the specified port using [Expr
 
 15 Mar 10:46:25 - WMCH Interactive maps listening at http://:::8080
 
-`node app.js --port 9089`
+`node app.js --port 9030`
 
 15 Mar 10:46:31 - WMCH Interactive maps listening at http://:::9089
 
 Enable verbose logging with debug mode:
 
-`DEBUG=1 node app.js --port 9089`
+`DEBUG=1 node app.js --port 9030`
 
 or set DEBUG=1 as environment variable elsewhere (DEBUG=2 for trace, DEBUG=0 or not set for production).
 
