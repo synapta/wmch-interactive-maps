@@ -1,3 +1,15 @@
+## feature/homecats
+
+- New category system for maps
+- Renewed Admin UI allowing more actions
+- PostgreSQL DBMS replace MariaDB
+
+## v2.3.0
+
+- Supercluster on map
+- Boost performance on history
+- Rely on custom tile server
+
 ## 2.2
 
 - A new History table is added
