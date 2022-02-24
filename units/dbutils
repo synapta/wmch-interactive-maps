@@ -1,12 +1,24 @@
+"use strict";
 const querystring = require('querystring');
 const { bool } = require('sharp');
+
+/**
+ * 
+ * @param querystr {String}
+ * @param parameter {String}
+ * @returns 
+ */
+function getParameterFromQuery (querystr, parameter) {
+    const tmpUrl = new URL(querystr, 'http://localhost');
+    return tmpUrl.searchParams.get(parameter);
+}
 
 function getCategoryWithMapsAsDict (category) {
     return {
         id: category.get('id'),
         name: category.get('name'),
         sticky: category.get('sticky'),
-        maps: category.get('maps').map(record => {
+        maps: category.get('maps').map(record => {  
             return {
                 id: record.get('id'),
                 title: record.get("title"),
@@ -14,12 +26,19 @@ function getCategoryWithMapsAsDict (category) {
                 history: record.get('history'),
                 published: record.get('published'),
                 sticky: record.get('sticky'),
+                screenshot: record.get('screenshot'),
                 // extra
-                categoryId: category.get('id')  // needed for mustache
+                categoryId: category.get('id'),  // needed for mustache
+                screenshotUrl: `/p/${record.screenshot.split('/').pop()}`,
+                absolutePath: `/v/${record.get('path')}/`,
+                icon: getParameterFromQuery(record.get('mapargs'), 'pinIcon'),
+                // legacy
+                star: false  // was favourite
             }
         })
     };
 }
+
 exports.getCategoryWithMapsAsDict = getCategoryWithMapsAsDict;
 
 function getMapRecordAsDict (record) {
@@ -39,7 +58,7 @@ function booleanize(obj) {
    *  Alter javascript object to convert 'true' and 'false' into true and false
    *  @param {object} obj: JavaScript object
    **/
-    for (key of Object.keys(obj)) {
+    for (const key of Object.keys(obj)) {
         if (typeof(obj[key]) === 'object') {
             booleanize(obj[key]);
         }

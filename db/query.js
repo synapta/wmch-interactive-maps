@@ -54,6 +54,18 @@ exports.categoriesWithMaps = () => Category.findAll({
     ]
 });
 
+/** published, for home **/
+exports.categoriesWithPublishedMaps = () => Category.findAll({
+  include: [{
+      model: Map,
+      where: { published: true },
+  }],
+  order: [
+      ['sticky', 'DESC'],
+      [Map, 'sticky', 'DESC']
+  ]
+});
+
 /**
  * 
  * @param {String|Number} mapId 

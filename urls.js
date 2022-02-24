@@ -75,7 +75,7 @@ module.exports = function(app, apicache) {
      * @param  {Object} e JavaScript object from JSON
      * @return {Object}   JavaScript object of derived fields.
      */
-    function exposeMap(e) {
+    function exposeMap(e) {  // TODO legacy, to drop, replaced by dbutils.getCategoryWithMapsAsDict()
        let tmpUrl = new URL(e.mapargs, 'http://localhost');
        return {
          href: util.format(config.mapPattern, e.path),
@@ -485,16 +485,21 @@ module.exports = function(app, apicache) {
             i18nOptions.resources[shortlang] = {translation: translationData};
             // console.log(i18nOptions);
             // load i18n
-            i18next.init(i18nOptions, function(err, t) {
+            i18next.init(i18nOptions, async function(err, t) {
                 // i18n initialized and ready to go!
                 // document.getElementById('output').innerHTML = i18next.t('key');
+                // load categories
+                const categoriesWithPublishedMaps = await query.categoriesWithPublishedMaps();
+                // load published maps data
                 // variables to pass to Mustache to populate template
                 var view = {
                   shortlang: shortlang,
                   logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                  categories: categoriesWithPublishedMaps.map(category => dbutils.getCategoryWithMapsAsDict(category)),
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/",
                   languages: config.languages,
+                  // TODO add maps
                   author: config.map.author,
                   i18n: function () {
                     return function (text, render) {
@@ -911,7 +916,7 @@ module.exports = function(app, apicache) {
                     languages: config.languages,
                     credits: config.map.author,
                     logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
-                    categories: categoriesWithMaps.map(categoryWithMaps => dbutils.getCategoryWithMapsAsDict(categoryWithMaps)),  // testing
+                    categories: categoriesWithMaps.map(categoryWithMaps => dbutils.getCategoryWithMapsAsDict(categoryWithMaps)),
                     i18n: function () {
                         return function (text, render) {
                             i18next.changeLanguage(shortlang);
