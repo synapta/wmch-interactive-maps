@@ -5,22 +5,37 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{#i18n}}page.title{{/i18n}}</title>
+    <link rel="stylesheet" href="/css/fonts.css" />
+
     <link rel="stylesheet" href="/themes/wmch-interactive-maps-v3-theme/css/app.css" />
     <link rel="stylesheet" href="/css/mailmap.css" />
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/codemirror.css">
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/font-awesome/6.0.0/css/brands.min.css">
   </head>
   <body>
     <div class="grid-container full">
       <div class="grid-x">
-        <div class="cell margin-bottom-2">
+        <div class="cell margin-bottom-1 padding-top-1">
                               <div class="grid-container">
                                 <div class="grid-x grid-padding-x small-padding-collapse">
-                                    <div class="cell">
+                                    <div class="cell medium-6 large-4">
                                       <a href="#" class="text-hide">
                                         <img src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}}>
                                         Wikimedia CH <!-- Logo Text  -->
                                       </a>
-                                    </div>        
+                                    </div>
+                                    <div class="cell medium-6 large-8">
+                                      <ul class="menu dropdown align-right" data-dropdown-menu>
+                                        <li>
+                                          <a class="rounded primary dropdown button padding-right-2 padding-left-2" href="#">{{{langname}}}</a>
+                                          <ul class="menu">
+                                            {{#languages}}
+                                            <li><a data-value="{{code}}" href="?l={{code}}">{{name}}</a></li>
+                                            {{/languages}}
+                                          </ul>
+                                        </li>
+                                      </ul>
+                                    </div>
                                 </div>
                               </div>
         </div>
@@ -56,14 +71,13 @@
                                     <input type="radio" name="ihavesparql" value="N" id="sparqlno" required><label for="sparqlno">{{#i18n}}ihavesparql.sparqlno{{/i18n}}</label>
                                     <input type="radio" name="ihavesparql" value="Y" id="sparqlyes"><label for="sparqlyes">{{#i18n}}ihavesparql.sparqlyes{{/i18n}}</label>
                                   </fieldset>
-                                  <fieldset class="cell" id="sparql-container" style="display: none;">
+                                  <fieldset class="cell padding-bottom-2" id="sparql-container" style="display: none;">
                                     <legend></legend>
                                     <label>
                                       {{#i18n}}sparql.label{{/i18n}}
                                       <textarea name="sparql" rows="14" placeholder="{{#i18n}}sparql.label{{/i18n}}" aria-describedby="sparqlHelpText"></textarea>
                                     </label>
                                   </fieldset>
-                                  <br/>
                                   <p class="cell help-text" id="sparqlHelpText">{{#i18n}}sparql.help{{/i18n}}</p>
                                   <input type="submit" class="button" value="{{#i18n}}submit{{/i18n}}">
                               </form>
@@ -72,11 +86,11 @@
         <div class="cell ov-footer margin-top-2">
                               <div class="grid-container">
                                 <div class="grid-x grid-padding-y">
-                                    <div class="cell text-right">
+                                    <div class="cell text-right medium-11 large-11">
                                       {{#author}}
                                         {{{author}}}
                                       {{/author}}
-                                      <a title="wmch-interactive-maps@github" href="https://github.com/synapta/wmch-interactive-maps" target="_blank"><i class="ui grey icon large github">Github</i></a>
+                                      <a title="wmch-interactive-maps@github" class="clear large button secondary margin-bottom-0 padding-0" href="https://github.com/synapta/wmch-interactive-maps" target="_blank"><span aria-hidden="true"><span class="show-for-sr">Fork me on GitHub</span><span class="fa-brands fa-github"></span></a>
                                     </div>          
                                 </div>
                               </div>
@@ -85,6 +99,8 @@
     </div>
     
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/foundation/6.7.4/js/foundation.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/foundation/6.7.4/js/foundation.dropdown.min.js"></script>
     <script src="/themes/wmch-interactive-maps-v3-theme/js/app.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/codemirror.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/mode/sparql/sparql.js"></script>
