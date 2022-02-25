@@ -11,7 +11,7 @@
   },
   "comment": {
     "label": "Please let us know what map you miss",
-    "placeholder": "None",
+    "placeholder": "Enter your message here",
     "help": "Please be polite and constructive and give us as many details to build the map you miss."
   },
   "ihavesparql": {
