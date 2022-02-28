@@ -207,6 +207,7 @@ function getWizard(req, res, action, id) {
              else {
               logger.debug("DEBUG TEMPLATE *****************************************************************", values);
               var view = {
+                isWizardPage: true,
                 shortlang: shortlang,
                 langname: i18n_utils.getLangName(config.languages, shortlang),
                 map: values,

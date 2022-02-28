@@ -544,6 +544,7 @@ module.exports = function(app, apicache) {
                       // document.getElementById('output').innerHTML = i18next.t('key');
                       // variables to pass to Mustache to populate template
                       var view = {
+                        isHelpPage: true,
                         shortlang: shortlang,
                         logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                         langname: i18n_utils.getLangName(config.languages, shortlang),
@@ -922,6 +923,7 @@ module.exports = function(app, apicache) {
                     // document.getElementById('output').innerHTML = i18next.t('key');
                     // variables to pass to Mustache to populate template
                     var view = {
+                    isAdminPage: true,
                     shortlang: shortlang,
                     langname: i18n_utils.getLangName(config.languages, shortlang),
                     languages: config.languages,
