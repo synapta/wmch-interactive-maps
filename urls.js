@@ -184,26 +184,6 @@ module.exports = function(app, apicache) {
     });
 
     /**
-     * Used for landing page, limited elements per load, offset passed by url.
-     * @param  {Express request} req
-     * @param  {Express response} res
-     * @return {[type]}     [description]
-     */
-    app.get('/api/all', async function (req, res) {
-        const maps = await query.publishedMaps(parseInt(req.query.limit), parseInt(req.query.offset));
-        let jsonRes = [];
-        if (maps) {
-            for (mapr of maps) {
-                jsonRes.push(exposeMap(dbutils.getMapRecordAsDict(mapr)));
-            }
-            res.send(jsonRes);
-        }
-        else {
-            res.status(404).send('<h2>Not found</h2>');
-        }
-    });
-
-    /**
      * Get an array of timestamps for the given map.
      */
     app.get('/api/timestamp', apicache('12 hours'), function (req, res) {
