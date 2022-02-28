@@ -21,42 +21,10 @@
     </style>
 </head>
 <body>
-  <!-- *** begin menu **************************************** -->
-  <div class="ui menu borderless">
-    <div class="item marginless" id="logoonmenu">
-      <a href="/"><img class="logo" src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
-    </div>
-    <div class="item">
-      <h1 class="ui header medium">{{#i18n}}page.title{{/i18n}}</h1>
-    </div>
-    <div class="right menu">
-          <div class="item">
-            <a class="ui button small green" href="/wizard?l={{shortlang}}"><i class="plus icon"></i> {{#i18n}}actions.create.text{{/i18n}}</a>
-          </div>
-          <div class="item">
-            <a class="ui button small orange" href="/wizard/man/index?l={{shortlang}}" target="_blank"><i class="help icon"></i> {{#i18n}}actions.help.text{{/i18n}}</a>
-          </div>
-          <div class="item">
-              <div class="ui dropdown labeled search icon button wikiblue" id="languages">
-                <i class="language large icon"></i>
-                <span class="text">{{langname}}</span>
-                <div class="menu">
-                  {{#languages}}
-                  <div class="item" data-value="{{code}}">{{name}}</div>
-                  {{/languages}}
-                </div>
-              </div>
-          </div>
-          <!-- Icon to identify current section -->
-          <div class="item">
-            <a title="{{#i18n}}actions.back.text{{/i18n}}" href="/?l={{shortlang}}"><i class="ui grey icon large home"></i></a>
-          </div>
-    </div>
-  </div>
-  <!-- *** end menu **************************************** -->
+    {{> menu}}
     <div class="ui padded grid">
         <section data-confirm="{{#i18n}}actions.submit.confirm{{/i18n}}">
-          <button class="ui button savechanged blue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
+          <button class="ui button savechanged wikiblue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
           <table class="ui table compact sortable-admin" id="adminui">
             <thead class="full-width">
               <tr>
@@ -111,7 +79,7 @@
                 </tr>
               </tbody>
             </table>
-            <button class="ui button savechanged blue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
+            <button class="ui button savechanged wikiblue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
         </section>
         <footer class="sixteen wide column ui items center aligned">
           <div id="author">{{{credits}}}</div>

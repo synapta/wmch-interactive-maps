@@ -27,6 +27,9 @@
     "back": {
       "text": "Torna indietro"
     },
+    "admin": {
+      "text": "Amministra contenuti"
+    },
     "help": {
       "text": "Aiuto"
     },

@@ -1,5 +1,6 @@
 const util = require('util');
 const fs = require('fs');
+const { promises: fsa } = require("fs");
 //////////////////////////////////
 const express = require('express');
 const Mustache = require('mustache');
@@ -517,6 +518,13 @@ module.exports = function(app, apicache) {
 
     app.use('/wizard/man/_media/',express.static('./i18n_man/_media/'));
 
+    async function readMustachePartials (key) {
+        let fileData = await fsa.readFile(`${__dirname}/${key}`);
+        // get template content, server-side
+        let template = fileData.toString();
+        return template;
+    }
+
     app.get('/wizard/man/:manpage', function (req, res) {
         fs.readFile(util.format('%s/public/manual/manual.html', __dirname), function (err, fileData) {
             if (err) {
@@ -531,7 +539,7 @@ module.exports = function(app, apicache) {
             // load i18n
             i18next.init(i18nOptions, function(err, t) {
                 // read MarkDown file
-                fs.readFile(util.format('%s/i18n_man/%s/%s.md', __dirname, req.params.manpage, shortlang), function (manerror, fileData) {
+                fs.readFile(util.format('%s/i18n_man/%s/%s.md', __dirname, req.params.manpage, shortlang), async function (manerror, fileData) {
                       // i18n initialized and ready to go!
                       // document.getElementById('output').innerHTML = i18next.t('key');
                       // variables to pass to Mustache to populate template
@@ -543,6 +551,7 @@ module.exports = function(app, apicache) {
                         languages: config.languages,
                         credits: config.map.author,
                         manual: manerror ? i18next.t('page.notFound') : wizard.manRender(fileData),
+                        // translations
                         i18n: function () {
                           return function (text, render) {
                               i18next.changeLanguage(shortlang);
@@ -551,7 +560,9 @@ module.exports = function(app, apicache) {
                         }
                       };
                       // console.log(view);
-                      var output = Mustache.render(template, view);
+                      const menuTemplate = await readMustachePartials('public/wizard/menu.mustache');
+                      const partials = {menu: menuTemplate};
+                      var output = Mustache.render(template, view, partials);
                       res.send(output);
                 });
             });
@@ -906,7 +917,7 @@ module.exports = function(app, apicache) {
                 i18nOptions.resources[shortlang] = {translation: translationData};
                 // console.log(i18nOptions);
                 // load i18n
-                i18next.init(i18nOptions, function(err, t) {
+                i18next.init(i18nOptions, async function(err, t) {
                     // i18n initialized and ready to go!
                     // document.getElementById('output').innerHTML = i18next.t('key');
                     // variables to pass to Mustache to populate template
@@ -925,7 +936,9 @@ module.exports = function(app, apicache) {
                     }
                     };
                     // console.log(view);
-                    var output = Mustache.render(template, view);
+                    const menuTemplate = await readMustachePartials('public/wizard/menu.mustache');
+                    const partials = {menu: menuTemplate};
+                    var output = Mustache.render(template, view, partials);
                     res.send(output);
                 });
             }

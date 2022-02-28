@@ -25,7 +25,10 @@
       "text": "Add a new map"
     },
     "back": {
-      "text": "Back to home"
+      "text": "Back"
+    },
+    "admin": {
+      "text": "Manage contents"
     },
     "help": {
       "text": "Help"
