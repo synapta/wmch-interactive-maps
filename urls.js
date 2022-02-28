@@ -1,6 +1,5 @@
 const util = require('util');
 const fs = require('fs');
-const { promises: fsa } = require("fs");
 //////////////////////////////////
 const express = require('express');
 const Mustache = require('mustache');
@@ -14,7 +13,8 @@ const sharp = require('sharp');
 // Local units
 const wizard = require('./units/wizard');
 const data = require('./units/data');
-const dbutils = require('./units/dbutils');
+const dbutils = require('./units/dbutils.js');
+const templateutils = require('./units/templateutils.js');
 // Global settings
 const config = require('./config');
 const url = require('url');
@@ -498,13 +498,6 @@ module.exports = function(app, apicache) {
 
     app.use('/wizard/man/_media/',express.static('./i18n_man/_media/'));
 
-    async function readMustachePartials (key) {
-        let fileData = await fsa.readFile(`${__dirname}/${key}`);
-        // get template content, server-side
-        let template = fileData.toString();
-        return template;
-    }
-
     app.get('/wizard/man/:manpage', function (req, res) {
         fs.readFile(util.format('%s/public/manual/manual.html', __dirname), function (err, fileData) {
             if (err) {
@@ -541,7 +534,7 @@ module.exports = function(app, apicache) {
                         }
                       };
                       // console.log(view);
-                      const menuTemplate = await readMustachePartials('public/wizard/menu.mustache');
+                      const menuTemplate = await templateutils.readMustachePartials('public/wizard/menu.mustache');
                       const partials = {menu: menuTemplate};
                       var output = Mustache.render(template, view, partials);
                       res.send(output);
@@ -918,7 +911,7 @@ module.exports = function(app, apicache) {
                     }
                     };
                     // console.log(view);
-                    const menuTemplate = await readMustachePartials('public/wizard/menu.mustache');
+                    const menuTemplate = await templateutils.readMustachePartials('public/wizard/menu.mustache');
                     const partials = {menu: menuTemplate};
                     var output = Mustache.render(template, view, partials);
                     res.send(output);

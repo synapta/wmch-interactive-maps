@@ -5,7 +5,8 @@ const util = require('util');
 const { logger } = require('./logger');
 const {migrate, connection, Map, History, MapCategory, Category} = require("../db/modelsB.js");
 const fs = require('fs');
-const dbutils = require('../units/dbutils');
+const dbutils = require('./dbutils.js');
+const templateutils = require('./templateutils.js');
 const i18next = require('i18next');
 const i18n_utils = require('../i18n/utils');
 // Global settings
@@ -199,18 +200,20 @@ function getWizard(req, res, action, id) {
            // i18n initialized and ready to go!
            // document.getElementById('output').innerHTML = i18next.t('key');
            // variables to pass to Mustache to populate template
-           getMapValues(action, id).then(values => {
+           getMapValues(action, id).then(async (values) => {
              if (!values.id && action !== 'add') {
                 // unpublished or removed item
                 res.status(404).send('<h1>Not found</h1>')
              }
              else {
               logger.debug("DEBUG TEMPLATE *****************************************************************", values);
+              i18next.changeLanguage(shortlang);
               var view = {
                 isWizardPage: true,
                 shortlang: shortlang,
                 langname: i18n_utils.getLangName(config.languages, shortlang),
                 map: values,
+                title: !values.hasOwnProperty('title') ? null : `${i18next.t('actions.edit.text')} ${values.title}`,
                 logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                 baseurl: localconfig.url + "/",
                 sparql: config.sparql,
@@ -225,7 +228,9 @@ function getWizard(req, res, action, id) {
                 }
               };
               // console.log(view);
-              var output = Mustache.render(template, view);
+              const menuTemplate = await templateutils.readMustachePartials('public/wizard/menu.mustache');
+              const partials = {menu: menuTemplate};
+              var output = Mustache.render(template, view, partials);
               res.send(output);
              }
            });

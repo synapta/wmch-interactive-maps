@@ -70,8 +70,14 @@
     }
   },
   "actions": {
+    "create": {
+      "text": "Aggiungi una nuova mappa"
+    },
     "back": {
-      "text": "Torna al cruscotto"
+      "text": "Torna indietro"
+    },
+    "admin": {
+      "text": "Amministra contenuti"
     },
     "help": {
       "text": "Aiuto"
