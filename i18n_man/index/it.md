@@ -1,46 +1,58 @@
-# Manuale utente delle mappe interattive WMCH
+# Manuale utente
 
-Questo manuale esplora l'uso dell'interfaccia di amministrazione delle mappe interattive.
+Questo manuale esplora l'uso dell'interfaccia di amministrazione delle mappe interattive WMCH.
 
-## Accessi
+## Accesso
 
 I percorsi amministrativi sono protetti da una coppia nome utente / password.
 
-Il frontend è invece esposto e visibile a chiunque.
+Le mappe pubblicate sono invece visibili a tutti, mentre quelle non pubblicate appariranno solo in modifica.
 
 ## Creare una mappa
 
-È possibile creare una mappa visitando il path:
+È possibile creare una mappa visitando il percorso:
 
 - [map.wikimedia.swiss/wizard](https://map.wikimedia.swiss/wizard)
 
-Verrà visualizzato un modulo diviso in vari passaggi in cui è possibile:
+Verrà visualizzato un modulo diviso nei seguenti passaggi.
 
-### 1. Scegliere un titolo ed un percorso nel quale verrà visualizzata la mappa, es. /v/nome-percorso
+### 1. Nome
 
-![Passo 1](/wizard/man/_media/wizard-01.png)
+- Titolo: il titolo della mappa
+- Percorso: il percorso che apparirà nell'url nella forma /v/il-mio-percorso. La /v/ iniziale viene aggiunta automaticamente e non va specificata.
 
-### 2. Inserire la query SPARQL che popolerà la mappa
+### 2. Categoria
 
-![Passo 2](/wizard/man/_media/wizard-02.png)
+È necessario assegnare ogni mappa ad una categoria.
 
-### 3. Scegliere l'aspetto della mappa
+Le categorie hanno sempre nomi in lingua inglese su modello di Wikimedia Commons.
 
-![Passo 3](/wizard/man/_media/wizard-03.png)
+### 3. Dati
+
+La query SPARQL che popolerà la mappa va inserita qui.
+
+### 4. Aspetto
 
 I dati della query SPARQL sono visualizzati in anteprima. Da qui è possibile scegliere:
 
-- Lo stile della mappa
-- L'icona del segnaposto
-- Le coordinate
-- Le modalità di raggruppamento
-- I livelli di zoom
+4.1. Lo stile della mappa
+4.2. L'icona del segnaposto
+4.3. Modalità e livelli di zoom
+4.4. Le coordinate selezionabili da latitudine e longitudine
+4.5. L'interruttore per disabilitare l'aggregazione (facoltativi)
+4.6. Valori minimi e massimi di zoom (facoltativi)
+4.7. Le coordinate tramite una mappa
 
-#### Icona segnaposto
 
-È possibile scegliere l'icona da visualizzare in cima al segnaposto che comparirà sulla mappa digitando il nome in inglese dell'icona da visualizzare. Digitando ad esempio *university* verrà visualizzata la relativa icona, digitando *arrow* verranno visualizzate diverse icone freccia fra cui scegliere.
+#### 4.2. Icona segnaposto
 
-#### Zoom e coordinate
+È possibile scegliere l'icona da visualizzare in cima al segnaposto che comparirà sulla mappa digitando il nome in inglese dell'icona da visualizzare. 
+
+Digitando ad esempio *university* verrà visualizzata la relativa icona, digitando *arrow* verranno visualizzate diverse icone freccia fra cui scegliere.
+
+L'elenco completo delle icone è su https://semantic-ui.com/elements/icon.html.
+
+#### 4.2 e 4.7 Coordinate
 
 Usando il campo zoom o i pulsanti `+` e `-` sulla mappa si potrà visualizzare una porzione specifica di territorio.
 
@@ -48,9 +60,9 @@ Premendo il pulsante *Coordinate sulla posizione attuale* in cima alla mappa la 
 
 Considerare che l'anteprima ha una cornice ristretta rispetto alla mappa che verrà pubblicata a tutto schermo per cui è consigliabile mantenere un livello di zoom un po' più alto tenendo gli elementi a margine anche lievemente fuori dalla cornice dell'anteprima.
 
-#### Auto vs. Manual
+#### 4.3 Modalità e livelli di zoom
 
-Si può evitare di specificare un livello di zoom selezionando la modalità *Auto*.
+Si può specificare un livello di zoom (fra 1 e 18) o si può evitare selezionando la modalità *Auto* .
 
 In questa modalità la mappa verrà zoomata e centrata in base a tutti i dati ricevuti.
 
@@ -63,49 +75,45 @@ Tuttavia, la modalità Auto può anche essere usata per prendere una sola porzio
 A questo punto si potrà usare lo zoom e trascinare la mappa usando sempre *Coordinate sulla posizione attuale* quando si vedrà la porzione desiderata.
 
 
-#### Raggruppamento
+#### 4.5 Interruttore per disabilitare l'aggregazione
 
-Il campo *raggio di aggregazione massimo* può essere usato per raggruppare insieme elementi geograficamente adiacenti. Maggiore è il valore inserito, maggiori saranno il numero di elementi raggruppati insieme.
+Selezionando un gruppo la mappa si porterà al livello di zoom tale da comprendere tutti gli elementi del gruppo.
 
-In visualizzazione, selezionando un gruppo la mappa si porterà al livello di zoom tale da comprendere tutti gli elementi del gruppo.
+È caldamente consigliato lasciare armato l'interruttore. Una volta disarmato l'interruttore ci sarà un degrado sensibile delle prestazioni della mappa interattiva.
 
 
-#### Zoom minimo e massimo
+#### 4.7 Valori minimi e massimi di zoom
 
 Questi parametri solitamente si possono lasciare inalterati e stabiliscono quanto l'utente può zoomare indietro (zoom minimo) e quanto avanti (zoom massimo).
 
-I valori devono essere interi ed è preferibile non superare i valori che compaiono come predefiniti (massimo 18 e almeno 1).
+I valori devono essere interi ed è preferibile non superare i valori che compaiono come predefiniti.
 
 
-### 4. Rivedere quanto fatto e modificare la mappa prima di pubblicare
-
-![Passo 4](/wizard/man/_media/wizard-04.png)
+### 5 Rivedere quanto fatto e modificare la mappa prima di pubblicare
 
 Non possono esserci due mappe con lo stesso percorso e ne verrà suggerito uno, modificabile, basato sul titolo.
 
-## Cruscotto di amministrazione
+## Amministra contenuti
 
-Il cruscotto di amministrazione è raggiungibile all'indirizzo:
+La schermata *amministra contenuti* è raggiungibile all'indirizzo:
 
 - [map.wikimedia.swiss/admin](https://map.wikimedia.swiss/admin)
 
-![Il cruscotto di amministrazione](/wizard/man/_media/admin-01.png)
+Tramite la quale è possibile:
 
-Tramite il cruscotto di amministrazione è possibile:
+1. Elencare, aggiungere, modificare le categorie;
+2. Elencare le mappe pubblicate sul sito;
+3. Modificare le singole mappe tramite il titolo;
+4. Riordinare l'ordine di apparizione delle mappe e delle categorie nella pagina principale tramite trascinamento;
+5. Abilitare la funzionalità cronologia;
+6. Pubblicare o togliere dalla pubblicazione le mappe;
 
-1. elencare le mappe pubblicate sul sito;
-2. modificare le singole mappe;
-3. riordinare l'ordine di apparizione delle mappe nella pagina principale;
-4. abilitare la funzionalità cronologia;
-5. pubblicare o togliere dalla pubblicazione le mappe;
-
-Al click sul titolo della mappa si verrà rimandati alla pagina di modifica.
-
-Dopo aver modificato gli elementi bisognerà premere uno dei pulsanti Salva.
+Dopo aver modificato gli elementi bisognerà premere Salva.
 
 ## Modificare una mappa
 
 Nella schermata di modifica della singola mappa è possibile cambiare quanto già inserito nella mappa.
 
-Verrà riproposto il modulo wizard già spiegato in *Creare una mappa*. Si potranno cambiare sia la query che i parametri di visualizzazione della mappa.
+Verrà riproposto il configuratore già spiegato in *Creare una mappa*. Si potranno cambiare sia la query che i parametri di visualizzazione della mappa.
 
+Eventualmente si può rimuovere dalla pubblicazione una mappa già pubblicata.
