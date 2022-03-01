@@ -42,6 +42,7 @@ I dati della query SPARQL sono visualizzati in anteprima. Da qui è possibile sc
 4.5. L'interruttore per disabilitare l'aggregazione (facoltativi)
 4.6. Valori minimi e massimi di zoom (facoltativi)
 4.7. Le coordinate tramite una mappa
+4.5. Pubblica o salva bozza 
 
 
 #### 4.2. Icona segnaposto
@@ -52,7 +53,7 @@ Digitando ad esempio *university* verrà visualizzata la relativa icona, digitan
 
 L'elenco completo delle icone è su https://semantic-ui.com/elements/icon.html.
 
-#### 4.2 e 4.7 Coordinate
+#### 4.4 e 4.7. Coordinate
 
 Usando il campo zoom o i pulsanti `+` e `-` sulla mappa si potrà visualizzare una porzione specifica di territorio.
 
@@ -60,11 +61,11 @@ Premendo il pulsante *Coordinate sulla posizione attuale* in cima alla mappa la 
 
 Considerare che l'anteprima ha una cornice ristretta rispetto alla mappa che verrà pubblicata a tutto schermo per cui è consigliabile mantenere un livello di zoom un po' più alto tenendo gli elementi a margine anche lievemente fuori dalla cornice dell'anteprima.
 
-#### 4.3 Modalità e livelli di zoom
+#### 4.3. Modalità e livelli di zoom
 
-Si può specificare un livello di zoom (fra 1 e 18) o si può evitare selezionando la modalità *Auto* .
+Si può specificare un livello di zoom (fra 1 e 18) o si può evitare scegliendo la modalità *Auto* .
 
-In questa modalità la mappa verrà zoomata e centrata in base a tutti i dati ricevuti.
+In questa modalità la mappa verrà zoomata e centrata per far vedere tutti i segnaposto.
 
 Tuttavia, la modalità Auto può anche essere usata per prendere una sola porzione di mappa dopo averla vista tutta o per centrare la mappa sui dati per scegliere poi un livello di zoom differente seguendo questi passaggi:
 
@@ -74,24 +75,26 @@ Tuttavia, la modalità Auto può anche essere usata per prendere una sola porzio
 
 A questo punto si potrà usare lo zoom e trascinare la mappa usando sempre *Coordinate sulla posizione attuale* quando si vedrà la porzione desiderata.
 
-
-#### 4.5 Interruttore per disabilitare l'aggregazione
+#### 4.5. Interruttore per disabilitare l'aggregazione
 
 Selezionando un gruppo la mappa si porterà al livello di zoom tale da comprendere tutti gli elementi del gruppo.
 
 È caldamente consigliato lasciare armato l'interruttore. Una volta disarmato l'interruttore ci sarà un degrado sensibile delle prestazioni della mappa interattiva.
 
 
-#### 4.7 Valori minimi e massimi di zoom
+#### 4.7. Valori minimi e massimi di zoom
 
 Questi parametri solitamente si possono lasciare inalterati e stabiliscono quanto l'utente può zoomare indietro (zoom minimo) e quanto avanti (zoom massimo).
 
 I valori devono essere interi ed è preferibile non superare i valori che compaiono come predefiniti.
 
+#### 5. Pubblica o salva bozza
 
-### 5 Rivedere quanto fatto e modificare la mappa prima di pubblicare
+Premendo il pulsante Pubblica la mappa verrà immediatamente resa visibile a tutti.
 
-Non possono esserci due mappe con lo stesso percorso e ne verrà suggerito uno, modificabile, basato sul titolo.
+Salvando come bozza, la mappa potrà essere ancora modificata in seguito senza renderla visibile.
+
+Se si esce dal configuratore prima di aver salvato o pubblicato, il lavoro andrà perso.
 
 ## Amministra contenuti
 
