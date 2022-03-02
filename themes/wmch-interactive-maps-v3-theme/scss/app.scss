@@ -71,14 +71,20 @@
     line-height: rem-calc(18);
 }
 
+.header-not-found .cell {
+    background-color: #0065A4;
+}
+
 .header-not-found {
-    color: black;
+    color:aliceblue;
     background-color: white;
     background-attachment: scroll;
     background-repeat: no-repeat;
     background-position: center bottom;
+    background-size: contain;
     padding-bottom: 14rem;
-    
+    background-image: url(/images/not-found-humaans-cc0.svg);
+
     h1 {
         text-transform: uppercase;
     }
