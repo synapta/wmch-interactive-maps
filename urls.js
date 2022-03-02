@@ -618,12 +618,12 @@ module.exports = function(app, apicache) {
             path: req.params.path,
             published: true
           }
-        }).then(record => {
+        }).then(async (record) => {
           if (record) {
               generateMapPage(req, res, dbutils.getMapRecordAsDict(record), false);
           }
           else {
-              res.status(404).send('<h2>Not found</h2>');
+              res.status(404).send(await templateutils.notFound(req));
           }
         });
     });
@@ -643,12 +643,12 @@ module.exports = function(app, apicache) {
             path: req.params.path,
             published: true
           }
-        }).then(record => {
+        }).then(async (record) => {
           if (record) {
               generateMapPage(req, res, dbutils.getMapRecordAsDict(record), true);
           }
           else {
-              res.status(404).send('<h2>Not found</h2>');
+              res.status(404).send(await templateutils.notFound(req));
           }
         });
     });
@@ -822,7 +822,7 @@ module.exports = function(app, apicache) {
         }
         catch (e) {
             // Function not found, pass
-            res.send("Error")
+            res.send("Error");
         }
     });
 
@@ -918,11 +918,13 @@ module.exports = function(app, apicache) {
                 });
             }
             else {
-                res.status(404).send('<h2>Cannot edit an empty Map table, add at least one map to continue</h2>');
+                res.status(404).send(await templateutils.notFound(req, 'Cannot edit an empty Map table, add at least one map to continue'));
             }
         });
     });
 
-
+    app.get('/*', async function (req, res) {
+        res.status(404).send(await templateutils.notFound(req))
+    });
 
 }

@@ -9,4 +9,6 @@ exports.readMustachePartials = async (key) => {
     return template;
 };
 
-
+exports.notFound = async (context, message) => {
+    return `<h2>${message ? message : "Not Found"}</h2>`;
+}
