@@ -42,7 +42,7 @@ I dati della query SPARQL sono visualizzati in anteprima. Da qui è possibile sc
 4.5. L'interruttore per disabilitare l'aggregazione (facoltativi)
 4.6. Valori minimi e massimi di zoom (facoltativi)
 4.7. Le coordinate tramite una mappa
-4.5. Pubblica o salva bozza 
+4.8. Pubblica o salva bozza 
 
 
 #### 4.2. Icona segnaposto
@@ -82,15 +82,15 @@ Selezionando un gruppo la mappa si porterà al livello di zoom tale da comprende
 È caldamente consigliato lasciare armato l'interruttore. Una volta disarmato l'interruttore ci sarà un degrado sensibile delle prestazioni della mappa interattiva.
 
 
-#### 4.7. Valori minimi e massimi di zoom
+#### 4.6. Valori minimi e massimi di zoom
 
 Questi parametri solitamente si possono lasciare inalterati e stabiliscono quanto l'utente può zoomare indietro (zoom minimo) e quanto avanti (zoom massimo).
 
-I valori devono essere interi ed è preferibile non superare i valori che compaiono come predefiniti.
+I valori devono essere interi ed è preferibile non superare i valori che compaiono come predefiniti (minimo 1, massimo 18).
 
 #### 5. Pubblica o salva bozza
 
-Premendo il pulsante Pubblica la mappa verrà immediatamente resa visibile a tutti.
+Pubblicando la mappa verrà immediatamente resa visibile a tutti.
 
 Salvando come bozza, la mappa potrà essere ancora modificata in seguito senza renderla visibile.
 
@@ -109,7 +109,7 @@ Tramite la quale è possibile:
 3. Modificare le singole mappe tramite il titolo;
 4. Riordinare l'ordine di apparizione delle mappe e delle categorie nella pagina principale tramite trascinamento;
 5. Abilitare la funzionalità cronologia;
-6. Pubblicare o togliere dalla pubblicazione le mappe;
+6. Pubblicare o togliere dalla pubblicazione le mappe.
 
 Dopo aver modificato gli elementi bisognerà premere Salva.
 
