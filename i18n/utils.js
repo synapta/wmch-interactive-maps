@@ -48,31 +48,6 @@ function languageWalker(candidateLangsReversed, req, fallbackLanguage, section) 
     return [shortlang, translationData];
 }
 
-/////////////////////////////////
-// OLD VERSION
-function languageWalkerOLD(candidateLangsReversed, req, fallbackLanguage, section) {
-    if (candidateLangsReversed.length) {
-        let candidateLang = candidateLangsReversed.pop();
-        let shortlang = getShortlang(req.query.l ? req.query.l : candidateLang);
-        // console.log("shortLang is", shortLang);
-        try {
-            let translationData = loadTranslationFile(section, shortlang);
-            return [shortlang, translationData];
-        }
-        catch (e) {
-            // not found in local translation, continue
-            languageWalker(candidateLangsReversed, req, fallbackLanguage, section);
-            return [shortlang, translationData];
-        }
-    }
-    else {
-        // none match use fallback language
-        shortlang = fallbackLanguage;
-        translationData = loadTranslationFile(section, fallbackLanguage);
-        return [shortlang, translationData];
-    }
-}
-
 /**
  *  Detect user language
  *  @param {object} req: request to use to find user language
