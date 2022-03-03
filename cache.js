@@ -1,20 +1,11 @@
-const util = require('util');
-const dbinit = require('./db/init');
-const models = require('./db/models');
-const localconfig = dbinit.init();
-const db = require(util.format('./db/connector/%s', localconfig.database.engine));
+const {migrate, connection, Map, History} = require("./db/modelsB.js");
 
 const CronJob = require('cron').CronJob;
 const sequelize = require('sequelize');
 const got = require('got');
 
 const job = new CronJob('0 12 */6 * * *', async function () {
-    console.log('hello');
-    let dbMeta = new db.Database(localconfig.database);
-    const Map = dbMeta.db.define('map', models.Map);
-    const History = dbMeta.db.define('history', models.History);
-    Map.hasMany(History);
-    History.belongsTo(Map);
+    console.log('start');
     const histories = await History.findAll({
         attributes: [
             [sequelize.fn('MAX', sequelize.col('history.createdAt')), 'maxCreatedAt']

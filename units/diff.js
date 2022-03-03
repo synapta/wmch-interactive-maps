@@ -1,6 +1,4 @@
 // Database connection
-const dbinit       = require('../db/init');
-const localconfig = dbinit.init();
 const assert = require('assert').strict;
 const deepd  = require('deep-diff');
 const { logger }  = require('./logger');

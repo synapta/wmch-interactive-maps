@@ -3,8 +3,7 @@
  * Usage: node copydb.js
  */
 /** old database */
-const dbinit       = require('./init');
-const localconfig = dbinit.init();
+const localconfig = require('../localconfig');
 
 const oldModels = require('./models');
 const oldDb = require(`./connector/${localconfig.databaseOldProd.engine}`);

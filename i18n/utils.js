@@ -4,8 +4,6 @@
  */
 
 const util = require('util');
-const dbinit       = require('../db/init');
-const localconfig = dbinit.init();
 
 /**
  *  Load language into a javascript object.
