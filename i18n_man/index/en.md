@@ -97,8 +97,6 @@ You can find the admin dashboard at:
 
 - [map.wikimedia.swiss/admin](https://map.wikimedia.swiss/admin)
 
-![Admin dashboard](/wizard/man/_media/admin-01.png)
-
 In the admin dashboard you can:
 
 1. List, add, change categories on the site;
