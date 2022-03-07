@@ -1,5 +1,5 @@
 <!-- *** begin menu **************************************** -->
-<div class="ui menu borderless">
+<div id="menutemplate" class="ui menu borderless">
   <div class="item marginless" id="logoonmenu">
     <a href="/"><img class="logo" src="{{logo.src}}" alt="{{logo.alt}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
   </div>
@@ -17,13 +17,15 @@
       <a class="" href="/wizard/man/index?l={{shortlang}}"><i class="help icon"></i> {{#i18n}}actions.help.text{{/i18n}}</a>
     </div>
     <div class="item">
-      <div class="ui dropdown labeled search icon button wikiblue" id="languages">
+      <div class="ui dropdown labeled" id="languages">
+        <i class="language icon"></i>
         <span class="text">{{langname}}</span>
         <div class="menu">
           {{#languages}}
           <div class="item" data-value="{{code}}">{{name}}</div>
           {{/languages}}
         </div>
+        <i class="angle down icon"></i>
       </div>
     </div>
     <div class="item">

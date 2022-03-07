@@ -39,9 +39,5 @@ $(function() {
       $('#man-modal img').attr('src', src);
       $('#man-modal').modal('show');
   });
-    
-    // add arrow to #languages dropdown
-    $("#languages .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
-    $("#languagesmobile .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
 
 });

@@ -74,14 +74,14 @@ $(function() {
   };
 
   // select language
-  $('#languages').dropdown({
+  $('#languages, #languageslegacy').dropdown({
       onChange: function (value) {
           if (window.location.pathname.indexOf('/v/') === 0 || window.location.pathname.indexOf('/h/') === 0) {
               window.location.href = window.location.pathname + '?l=' + value;
           }
       }
   });
-  $('#languagesmobile').dropdown({
+  $('#languagesmobile, #languagesmobilelegacy').dropdown({
       onChange: function (value) {
           if (window.location.pathname.indexOf('/v/') === 0 || window.location.pathname.indexOf('/h/') === 0) {
               window.location.href = window.location.pathname + '?l=' + value;
@@ -133,7 +133,7 @@ $(function() {
   });
 
   // add arrow to #languages dropdown
-  $("#languages .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
-  $("#languagesmobile .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
+  $("#languageslegacy .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
+  $("#languagesmobilelegacy .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
 
 });
