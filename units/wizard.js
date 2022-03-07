@@ -47,7 +47,6 @@ function getWizardActionPermissionAllowed(action, id) {
  * @return {undefined}             None. A res.send() must be set to expose output. An HTTP error 400 bad request instead.
  */
 function getWizardPath(req, res, action=null, id=null) {
-   // let action = req.params.action ? req.params.action : 'add';
    logger.debug('Path', req.originalUrl, 'Action: ', action, "Id:", id);
    if (getWizardActionPermissionAllowed(action, id)) {
        getWizard(req, res, action, id);
@@ -85,7 +84,6 @@ async function getMapConfigFromDb (id) {
 async function cuMap (req, res, action) {
   // add a new record
   try {
-      // let url = util.format("%s/%s", config.screenshotServer.url, req.query.mapargs);
       // make a request to screenshot server. Get the screenshot path.
       request({
             url: config.screenshotServer.url,
@@ -116,6 +114,7 @@ async function cuMap (req, res, action) {
               case 'edit':
                   let currentId = parseInt(req.params.id);
                   await Map.findByPk(currentId).then(async (editedMap) => {
+                    console.log(jsonBody)
                       await editedMap.update({
                         title: req.query.title,
                         path: req.query.path,
@@ -156,14 +155,10 @@ function getMapValues(action, id) {
             currentStyle = configMap.styles.filter(styleRow => { return styleRow.tile === configMap.tile }).pop();
             logger.debug('§§§§§§§§§§§§§§§§§§§§§§§§§§', configMap.style);
             configMap.style = currentStyle ? currentStyle.name : '';
-            // console.log(configMap);
-            // Object.assign(configMap, {title: "ciao mondo"});
-            // console.log(configMap);
             resolve(configMap);
           });
         }
         else {
-          // action == 'add' & co.
           resolve(config.map);
         }
     });
@@ -178,13 +173,10 @@ function getMapValues(action, id) {
  *  @return None. A res.send() must be set to expose output.
  **/
 function getWizard(req, res, action, id) {
-   // throw Error('should broke here');  // error reporting test
    const formActions = {
      'add': '/wizard/generate',
      'edit': util.format('/admin/edit/%d/save', id)
    };
-   // [ 'it', 'it-IT', 'en-US', 'en' ]
-   // console.log(req.acceptsLanguages()[0]);
    fs.readFile(util.format('%s/../public/wizard/index.html', __dirname), function (err, fileData) {
        if (err) {
          throw err;
@@ -194,11 +186,8 @@ function getWizard(req, res, action, id) {
        let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'wizard');
        let i18nOptions = i18n_utils.geti18nOptions(shortlang);
        i18nOptions.resources[shortlang] = {translation: translationData};
-       // console.log(i18nOptions);
        // load i18n
        i18next.init(i18nOptions, function(err, t) {
-           // i18n initialized and ready to go!
-           // document.getElementById('output').innerHTML = i18next.t('key');
            // variables to pass to Mustache to populate template
            getMapValues(action, id).then(async (values) => {
              if (!values.id && action !== 'add') {
@@ -227,7 +216,6 @@ function getWizard(req, res, action, id) {
                   }
                 }
               };
-              // console.log(view);
               const menuTemplate = await templateutils.readMustachePartials('public/wizard/menu.mustache');
               const partials = {menu: menuTemplate};
               var output = Mustache.render(template, view, partials);

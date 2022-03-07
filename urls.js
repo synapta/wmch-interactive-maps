@@ -490,7 +490,6 @@ module.exports = function(app, apicache) {
                     }
                   }
                 };
-                // console.log(view);
                 var output = Mustache.render(template, view);
                 res.send(output);
             });
@@ -509,7 +508,6 @@ module.exports = function(app, apicache) {
             let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'manual');
             let i18nOptions = i18n_utils.geti18nOptions(shortlang);
             i18nOptions.resources[shortlang] = {translation: translationData};
-            // console.log(i18nOptions);
             // load i18n
             i18next.init(i18nOptions, function(err, t) {
                 // read MarkDown file

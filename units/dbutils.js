@@ -77,7 +77,6 @@ exports.mapargsParse = mapargsParse;
 function getAllFieldsAsDict(record) {
     let obj = getMapRecordAsDict(record);
     Object.assign(obj, mapargsParse(record));
-    // console.log('#@@@@@@@@@@@@@@@@@@@@@@@@@@', obj);
     // used only on edit
     obj.lat = obj.startLat;
     obj.long = obj.startLng;
