@@ -1,4 +1,5 @@
 const {migrate, connection, Map, History} = require("./db/modelsB.js");
+const localconfig = require('./localconfig');
 
 const CronJob = require('cron').CronJob;
 const sequelize = require('sequelize');
