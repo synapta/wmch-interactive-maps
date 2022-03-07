@@ -24,6 +24,11 @@
     {{> menu}}
     <div class="ui padded grid two columns doubling">
         <section data-confirm="{{#i18n}}actions.submit.confirm{{/i18n}}" class="column centered">
+          <div class="ui red message column centered hidden msg-update-error">
+            <div class="header">{{#i18n}}message.updateError.title{{/i18n}}</div>
+            <p>{{#i18n}}message.updateError.text{{/i18n}}</p>
+          </div>
+          <div class="ui green message column centered hidden msg-update-success">Successfully updated</div>
           <button class="ui button savechanged wikiblue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
           <table class="ui table compact sortable-admin" id="adminui">
             <thead class="full-width">

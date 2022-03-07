@@ -2,6 +2,12 @@
   "page": {
     "title": "Interfaccia di amministrazione del servizio mappe WMCH"
   },
+  "message": {
+    "updateError": {
+      "title": "Errore durante l'aggiornamento!",
+      "text": "Ricarica la pagina e riprova"
+    }
+  },
   "headers": {
     "title": "Titolo",
     "path": "Percorso",

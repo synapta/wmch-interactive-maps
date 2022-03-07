@@ -1,5 +1,6 @@
 // Admin UI on /admin
 $(function() {
+
     function change(element) {
       // element is changed
       element.data('changed', 1);
@@ -44,7 +45,11 @@ $(function() {
                         dataType: 'json',
                         data: JSON.stringify({records: toChange}),
                         error: function(e) {
-                            console.warn('Error on update');
+                            console.error('Error on update');
+                            window.setTimeout(function () {
+                                $("#updating").removeClass('active');
+                                $(".msg-update-error").removeClass("hidden");
+                            }, 1000);
                         },
                         success: function(json) {
                             window.setTimeout(function () {
@@ -365,12 +370,5 @@ $(function() {
             // assign new order to items
             newOrder();
         });
-
-
-    // add arrow to #languages dropdown
-    $("#languages .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
-    $("#languagesmobile .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
-
-
 
 });

@@ -2,6 +2,12 @@
   "page": {
     "title": "Admin interface for WMCH map service"
   },
+  "message": {
+    "updateError": {
+      "title": "Error on update!",
+      "text": "Reload this page and retry"
+    }
+  },
   "headers": {
     "title": "Title",
     "path": "Path",
