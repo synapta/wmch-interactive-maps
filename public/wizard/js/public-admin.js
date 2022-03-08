@@ -52,6 +52,8 @@ $(function() {
                             }, 1000);
                         },
                         success: function(json) {
+                            $("#updating").removeClass('active');
+                            $(".msg-update-ok").removeClass("hidden");
                             window.setTimeout(function () {
                                 // reload without #anchor
                                 // automatically remove dimmer

@@ -121,10 +121,10 @@ exports.historiesTimestamps = (mapId, historyOnlyDiff) => {
  * @param {Number} limit 
  * @returns {Promise}
  */
-exports.timedata = (mapId, limit) => {
+exports.timedata = (mapId, limit, timestamp) => {
     var historyWhere = { mapId: mapId, error: false };
-    if (req.query.timestamp) {
-        historyWhere.createdAt = new Date(+(req.query.timestamp)); 
+    if (timestamp) {
+        historyWhere.createdAt = new Date(+(timestamp)); 
     }
     if (localconfig.historyOnlyDiff) {
         historyWhere['diff'] = true;

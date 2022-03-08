@@ -6,6 +6,9 @@
     "updateError": {
       "title": "Errore durante l'aggiornamento!",
       "text": "Ricarica la pagina e riprova"
+    },
+    "updateOk": {
+      "text": "Aggiornamento completato. La pagina verrà ricaricata."
     }
   },
   "headers": {

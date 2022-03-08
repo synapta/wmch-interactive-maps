@@ -6,6 +6,9 @@
     "updateError": {
       "title": "Error on update!",
       "text": "Reload this page and retry"
+    },
+    "updateOk": {
+      "text": "Update successful. Page will be reloaded."
     }
   },
   "headers": {
