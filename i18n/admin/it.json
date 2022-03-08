@@ -30,6 +30,9 @@
     "create": {
       "text": "Aggiungi una nuova mappa"
     },
+    "edit": {
+      "text": "Modifica mappa"
+    },
     "back": {
       "text": "Torna indietro"
     },

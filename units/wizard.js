@@ -198,7 +198,8 @@ function getWizard(req, res, action, id) {
               logger.debug("DEBUG TEMPLATE *****************************************************************", values);
               i18next.changeLanguage(shortlang);
               var view = {
-                isWizardPage: true,
+                isWizardPage: action === "add",
+                isEditPage: action === "edit",
                 shortlang: shortlang,
                 langname: i18n_utils.getLangName(config.languages, shortlang),
                 map: values,

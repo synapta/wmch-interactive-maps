@@ -37,7 +37,7 @@ if (argv['nosentry']) {
     });
 
     server.on('request', async (req, res) => {
-      // console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+      logger.trace(`${new Date().toISOString()} - ${req.method} ${req.url}`);
       let body = [];
       req.on('data', (chunk) => {
         body.push(chunk);
@@ -51,7 +51,7 @@ if (argv['nosentry']) {
             body = Buffer.concat(body).toString();
             // body completed
             let jsonBody = JSON.parse(body);
-            // console.log(jsonBody);
+            logger.trace(jsonBody);
             // visit map page with internal url
             let url = util.format('%s%s', localconfig.internalUrl, jsonBody.mapargs);
             logger.debug(url);
@@ -70,12 +70,6 @@ if (argv['nosentry']) {
             // use path instead of full url to be protocol agnostic
             let urlob = nodeurl.parse(url);
             options.path = util.format(options.path, hasha(urlob.path));
-            // console.log('~~~~~~~~~~');
-            // console.log(options.path);
-            // console.log('~~~~~~~~~~');
-            // TODO: check if file exists (serve cache)
-            // wait all request to be completed
-            // await page.waitForNavigation({ "waitUntil": ["networkidle0"], "timeout": 0 });
             await page.screenshot(options);
             await page.close();
           } catch (error) {

@@ -7,6 +7,11 @@
     <h1 class="ui header medium">{{^title}}{{#i18n}}page.title{{/i18n}}{{/title}}{{#title}}{{title}}{{/title}}</h1>
   </div>
   <div class="ui secondary pointing menu right">
+    {{#isEditPage}}
+    <div class="item active">
+      <i class="plus icon"></i> {{#i18n}}actions.edit.text{{/i18n}}
+    </div>
+    {{/isEditPage}}
     <div class="item {{#isWizardPage}}active{{/isWizardPage}}">
       <a class="" href="/wizard?l={{shortlang}}"><i class="plus icon"></i> {{#i18n}}actions.create.text{{/i18n}}</a>
     </div>

@@ -30,6 +30,9 @@
     "create": {
       "text": "Add a new map"
     },
+    "edit": {
+      "text": "Edit map"
+    },
     "back": {
       "text": "Back"
     },
