@@ -219,7 +219,7 @@ module.exports = function(app, apicache) {
         let sparqlJsonResultsArray = [];  // all results
 
         // make query for old results on History
-        query.timedata(req.query.id, localconfig.historyTimelineLimit).then(async hists => {
+        query.timedata(req.query.id, localconfig.historyTimelineLimit, req.query.timestamp).then(async hists => {
             /**
              * Get only the times an element isn't changed.
              * It's used to avoid duplicates pin when element change and to display
@@ -655,14 +655,13 @@ module.exports = function(app, apicache) {
     /**
      * Update a list of records an pop one after another until it's consumed.
      * Then send a response with the outcome.
-     * @param  {object} sequelizeModel sequelize model
      * @param  {array} records        list of records
      * @return Express send the outcome (an Object with updateNumer: COUNT)
      */
-    async function updateRecordList(sequelizeModel, records) {
+    async function updateMapsList(records) {
         let count = 0
         for (const record of records) {
-            const [affectedCount, affectedRows] = await sequelizeModel.update(
+            const [affectedCount, affectedRows] = await Map.update(
                 {
                   sticky: record.sticky,
                   history: record.history,
@@ -671,10 +670,10 @@ module.exports = function(app, apicache) {
                 { where: { id: record.id }} /* where criteria */
             );
             // Reassign categories for this map
-            if (record.hasOwnProperty('category')) {
+            /** if (record.hasOwnProperty('category')) {
                 console.log(`${record.id} ${record.category}`)
                 await query.setMapCategory(record.id, record.category);
-            }
+            } **/
             count += affectedCount;
         }
         return {error: false, updateNumber: count};
@@ -688,7 +687,19 @@ module.exports = function(app, apicache) {
      async function updateOrAddCategories(records) {      
         let errors = 0;
         let count = 0;
+        console.log("Da aggiornare / aggiungere")
         for (const record of records.filter(record => !record.delete)) {
+            console.log(record)
+        }
+        console.log("Da cancellare")
+        for (const record of records.filter(record => record.delete)) {
+            console.log(record)
+        }
+        /** const [instance, created] = await MyModel.upsert({
+            // your new row data here
+        }); **/
+
+        /** for (const record of records.filter(record => !record.delete)) {
             if (record.hasOwnProperty('id')) {
                 // Update existing
                 await Category.update({
@@ -717,8 +728,9 @@ module.exports = function(app, apicache) {
             }
         }
         const idsToDelete = records.filter(record => record.delete === true).map(record => record.id);
-        await query.deleteCategory(...idsToDelete);
-        return {error: errors > 0, updateNumber: count, deleteNumber: idsToDelete.length};
+        await query.deleteCategory(...idsToDelete); **/
+        // return {error: errors > 0, updateNumber: count, deleteNumber: idsToDelete.length};
+        return {error: errors > 0};
     }
 
     /**
