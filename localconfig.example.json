@@ -22,6 +22,15 @@
     },
     "logging": false
   },
+  "mailgun": {
+    "auth": {
+      "api_key": "***SECRETS***",
+      "domain": "example.org"
+    },
+    "host": "api.eu.mailgun.net",
+    "mailFrom": "maps-noreply@example.org",
+    "mailTo": "collector@example.com"
+  },
   "createTables": true,
   "renameToLogo": "rename this key to logo to override config.logo",
   "cronTime": "0 */10 * * * *",
