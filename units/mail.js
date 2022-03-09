@@ -35,12 +35,6 @@ ${config.appname} / Ask Your Map
 exports.sendMail = sendMail;
 
 const test = () => {
-    const data = {
-        contactMail: "emanuele@synapta.it",
-        contactName: "emanuele",
-        comment: "Ciao mondo",
-        sparql: "Query qui"
-    }
-    sendMail(data)
+    sendMail(localconfig.exampleMail)
 }
-test();
+// test();
