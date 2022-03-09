@@ -24,5 +24,10 @@
     "placeholder": "Inserisci la query SPARQL che vorresti vedere trasformata in mappa",
     "help": "Dandoci una query SPARQL completamente funzionante ci aiuterai a velocizzare la scelta della tua mappa. Prima di inviare prova su <a href=\"https://query.wikidata.org/\" target=\"_blank\">query.wikidata.org</a>."
   },
+  "message": {
+    "sent": "La tua richiesta è stata inoltrata, grazie!"
+  },
+  "another": "Altra richiesta",
+  "home": "Torna alla pagina principale",
   "submit": "Invia"
 }

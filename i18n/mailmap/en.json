@@ -24,5 +24,10 @@
     "placeholder": "Enter here the SPARQL query you want to go live as a map",
     "help": "Giving a fully-working SPARQL query will help to boost your map selection! Try on <a href=\"https://query.wikidata.org/\" target=\"_blank\">query.wikidata.org</a> before submit."
   },
+  "message": {
+    "sent": "Request sent, thank you!"
+  },
+  "another": "Another request",
+  "home": "Back to home",
   "submit": "Submit"
 }

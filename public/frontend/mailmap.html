@@ -52,7 +52,16 @@
         </div>
         <div class="cell">
                               <div class="grid-container">
-                                <form class="grid-x" id="askmap" action="/your-map" method="get">
+                              {{#hasMessageSent}}
+                                <div class="callout success">
+                                  <p>{{#i18n}}message.sent{{/i18n}}</p>
+                                </div>
+                                <p class="padding-top-1"><a href="{{path}}" class="button">{{#i18n}}another{{/i18n}}</a></p>
+                                <p><a href="/">{{#i18n}}home{{/i18n}}</a></p>
+                              {{/hasMessageSent}}
+                              {{^hasMessageSent}}
+                                <form class="grid-x" id="askmap" action="{{path}}" method="post">
+                                  <input type="hidden" name="shortlang" value="{{shortlang}}">
                                   <fieldset class="cell">
                                     <legend>{{#i18n}}asktype.legend{{/i18n}}</legend>
                                     <input type="radio" name="asktype" value="New" id="asknewmap" required><label for="asknewmap">{{#i18n}}asktype.asknewmap{{/i18n}}</label>
@@ -63,7 +72,7 @@
                                     <legend></legend>
                                     <label>
                                       {{#i18n}}comment.label{{/i18n}}
-                                      <textarea name="comment" rows="3" placeholder="{{#i18n}}comment.placeholder{{/i18n}}" aria-describedby="commentHelpText"></textarea>
+                                      <textarea id="comment" name="comment" rows="3" placeholder="{{#i18n}}comment.placeholder{{/i18n}}" aria-describedby="commentHelpText"></textarea>
                                     </label>
                                     <p class="help-text" id="commentHelpText">{{#i18n}}comment.help{{/i18n}}</p>
                                   </fieldset>
@@ -76,12 +85,13 @@
                                     <legend></legend>
                                     <label>
                                       {{#i18n}}sparql.label{{/i18n}}
-                                      <textarea name="sparql" rows="14" placeholder="{{#i18n}}sparql.label{{/i18n}}" aria-describedby="sparqlHelpText"></textarea>
+                                      <textarea id="sparql" name="sparql" rows="14" placeholder="{{#i18n}}sparql.label{{/i18n}}" aria-describedby="sparqlHelpText"></textarea>
                                     </label>
                                   </fieldset>
                                   <p class="cell help-text" id="sparqlHelpText">{{#i18n}}sparql.help{{/i18n}}</p>
                                   <input type="submit" class="button" value="{{#i18n}}submit{{/i18n}}">
                               </form>
+                              {{/hasMessageSent}}
                               </div>
         </div>
         <div class="cell ov-footer margin-top-2">

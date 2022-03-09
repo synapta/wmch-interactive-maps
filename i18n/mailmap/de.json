@@ -24,5 +24,10 @@
     "placeholder": "Geben Sie hier die SPARQL-Abfrage ein, die Sie als Karte live schalten wollen",
     "help": "Wenn Sie eine voll funktionsfähige SPARQL-Abfrage angeben, können Sie Ihre Kartenauswahl verbessern! Probieren Sie <a href=\"https://query.wikidata.org/\" target=\"_blank\">query.wikidata.org</a> aus, bevor Sie sie absenden."
   },
+  "message": {
+    "sent": "Anfrage gesendet, danke!"
+  },
+  "another": "Andere Anfrage",
+  "home": "Zurück zur Hauptseite",
   "submit": "Absenden"
 }

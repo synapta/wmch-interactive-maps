@@ -16,12 +16,14 @@ const wizard = require('./units/wizard');
 const data = require('./units/data');
 const dbutils = require('./units/dbutils.js');
 const templateutils = require('./units/templateutils.js');
+const mail = require('./units/mail');
 // Global settings
 const config = require('./config');
 const url = require('url');
 const { logger } = require('./units/logger');
 // load local config and check if is ok (testing db)
 const localconfig = require('./localconfig');
+const bodyParser = require('body-parser');
 
 module.exports = function(app, apicache) {
 
@@ -113,6 +115,7 @@ module.exports = function(app, apicache) {
         res.send(JSON.stringify(enrichedQuery, null, ''));
     }
 
+    
     // javascript for wizard frontend
     app.use('/wizard/js',express.static('./public/wizard/js'));
     // javascript for frontend
@@ -655,6 +658,8 @@ module.exports = function(app, apicache) {
     // Enable json for express (to get req.body to work)
     app.use(express.json());
 
+    app.use(bodyParser.urlencoded({ extended: true }));
+
 
     app.get('/admin/api/get/:name', dbapi.adminApiGetName);
 
@@ -664,15 +669,21 @@ module.exports = function(app, apicache) {
      * @param  {Express response} res
      * @return {[type]}     [description]
      */
-     app.put('/admin/api/:action', dbapi.adminApiAction);
+    app.put('/admin/api/:action', dbapi.adminApiAction);
 
+    const yourMapPath = '/your-map';
+    
+    app.post(yourMapPath, function (req, res) {
+        logger.debug(req.body)
+        res.redirect(302, `${yourMapPath}?message=sent&l=${req.body.shortlang}`)
+    })
     /**
      * Display Landing page
      * @param  {Express request} req
      * @param  {Express response} res
      * @return Express send with HTML.
      */
-     app.get('/your-map', function (req, res) {
+     app.get(yourMapPath, function (req, res) {
         fs.readFile(util.format('%s/public/frontend/mailmap.html', __dirname), function (err, fileData) {
             if (err) {
               throw err;
@@ -686,11 +697,13 @@ module.exports = function(app, apicache) {
                 // variables to pass to Mustache to populate template
                 var view = {
                   shortlang: shortlang,
+                  path: yourMapPath,
                   logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/your-map",
                   languages: config.languages,
                   author: config.map.author,
+                  hasMessageSent: req.query.message === "sent",  // ?message=sent
                   i18n: function () {
                     return function (text, render) {
                         i18next.changeLanguage(shortlang);

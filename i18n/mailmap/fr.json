@@ -24,5 +24,10 @@
     "placeholder": "Saisissez la requête SPARQL que vous souhaitez voir transformée en carte",
     "help": "Donner une requête SPARQL entièrement fonctionnelle vous aidera à booster votre sélection de cartes ! Essayez sur <a href=\"https://query.wikidata.org/\" target=\"_blank\"> query.wikidata.org </a> avant de soumettre."
   },
+  "message": {
+    "sent": "Demande envoyée, merci !"
+  },
+  "another" : "Autre demande",
+  "home" : "Retour à la page principale",
   "submit": "Soumettre"
 }
