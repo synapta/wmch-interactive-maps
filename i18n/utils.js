@@ -76,7 +76,7 @@ function seekLang (req, fallbackLanguage, section) {
  *  Get languages list.
  *  @param {string} languages: array of languages (code, name)
  *  @param {string} shortlang: ISO 639-1 code
- *  @return {array}: language name by configuration
+ *  @return {string}: language name by configuration
  **/
 function getLangName (languages, shortlang) {
     let langname = false;

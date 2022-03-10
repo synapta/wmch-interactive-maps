@@ -166,10 +166,13 @@ ORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord) ASC(?commons) DESC(?websit
         }
         document.getElementById("sparql").value = sparqlQueryExample;
       }
-      function hideCodeEditor () {
+      function hideCodeEditor (e) {
         var confirmMessage = "Your changes will be lost, are you sure?";
         if (window.confirm(confirmMessage)) {
           myCodeMirror.setValue("");
+        }
+        else {
+          e.preventDefault();
         }
       }
 

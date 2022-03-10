@@ -675,6 +675,7 @@ module.exports = function(app, apicache) {
     
     app.post(yourMapPath, function (req, res) {
         logger.debug(req.body)
+        mail.sendMail(req.body)
         res.redirect(302, `${yourMapPath}?message=sent&l=${req.body.shortlang}`)
     })
     /**

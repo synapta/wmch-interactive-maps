@@ -27,6 +27,11 @@
   "message": {
     "sent": "Anfrage gesendet, danke!"
   },
+  "contact": {
+    "legend": "Helfen Sie uns, Sie zu kontaktieren",
+    "mail": "Ihre E-Mail",
+    "name": "Ihr Name"
+  },
   "another": "Andere Anfrage",
   "home": "Zurück zur Hauptseite",
   "submit": "Absenden"

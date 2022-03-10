@@ -32,6 +32,9 @@
     "mailTo": "collector@example.com"
   },
   "exampleMail": {
+    "shortlang": "en",
+    "ihavesparql": "Y",
+    "asktype": "Change existing map",
     "contactmail": "bajor@example.org",
     "contactname": "Nana Visitor",
     "comment": "Hello World",

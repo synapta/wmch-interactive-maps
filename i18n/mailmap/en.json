@@ -27,6 +27,11 @@
   "message": {
     "sent": "Request sent, thank you!"
   },
+  "contact": {
+    "legend": "Help us contact you",
+    "mail": "Your email",
+    "name": "Your name"
+  },
   "another": "Another request",
   "home": "Back to home",
   "submit": "Submit"

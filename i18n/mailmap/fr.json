@@ -27,6 +27,11 @@
   "message": {
     "sent": "Demande envoyée, merci !"
   },
+  "contact" : {
+    "legend" : "Aidez-nous à vous contacter",
+    "mail" : "Votre email",
+    "name" : "Votre nom"
+  },
   "another" : "Autre demande",
   "home" : "Retour à la page principale",
   "submit": "Soumettre"
