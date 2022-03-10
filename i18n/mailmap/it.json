@@ -27,6 +27,11 @@
   "message": {
     "sent": "La tua richiesta è stata inoltrata, grazie!"
   },
+  "contact": {
+    "legend": "Aiutaci a contattarti",
+    "mail": "La tua e-mail",
+    "name": "Il tuo nome"
+  },
   "another": "Altra richiesta",
   "home": "Torna alla pagina principale",
   "submit": "Invia"

@@ -11,10 +11,10 @@ if (typeof localconfig.mailgun !== "undefined") {
 
 const sendMail = function (data) {
     const message = {
-        from: `${data.contactName} <${localconfig.mailgun.mailFrom}>`,
-        'h:Reply-To': `${data.contactName} <${data.contactMail}>`,
+        from: `${data.contactname} <${localconfig.mailgun.mailFrom}>`,
+        'h:Reply-To': `${data.contactname} <${data.contactmail}>`,
         to: localconfig.mailgun.mailTo,
-        subject: `[${config.appname}] ${data.contactName} proposed a new map`,
+        subject: `[${config.appname}] ${data.contactname} proposed a new map`,
         text: `Message is: 
 
 ${data.comment}
@@ -22,7 +22,7 @@ ${data.comment}
 
 Query SPARQL is:
 
-${data.sparql}
+${data.sparqlcode}
 
 ~~~
 
