@@ -32,6 +32,11 @@
     "mail": "Ihre E-Mail",
     "name": "Ihr Name"
   },
+  "validate": {
+    "text": "Bitte füllen Sie die Felder aus.",
+    "choice": "Bitte wählen Sie.",
+    "email": "Ungültige E-Mail"
+  },
   "another": "Andere Anfrage",
   "home": "Zurück zur Hauptseite",
   "submit": "Absenden"

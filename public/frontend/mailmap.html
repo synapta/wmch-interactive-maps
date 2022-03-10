@@ -69,7 +69,7 @@
                                     <input type="radio" name="asktype" value="Change existing map" id="askchangemap"><label for="askchangemap">{{#i18n}}asktype.askchangemap{{/i18n}}</label>
                                     <input type="radio" name="asktype" value="Other request" id="askother"><label for="askother">{{#i18n}}asktype.askother{{/i18n}}</label>
                                     <span class="form-error" data-form-error-on="required">
-                                      Please choose.
+                                      {{#i18n}}validate.choice{{/i18n}}
                                     </span>
                                   </fieldset>
                                   <fieldset class="cell">
@@ -78,7 +78,7 @@
                                       {{#i18n}}comment.label{{/i18n}}
                                       <textarea id="comment" name="comment" rows="3" placeholder="{{#i18n}}comment.placeholder{{/i18n}}" aria-describedby="commentHelpText" required></textarea>
                                       <span class="form-error" data-form-error-on="required">
-                                        Please fill fields.
+                                        {{#i18n}}validate.text{{/i18n}}
                                       </span>
                                     </label>
                                     <p class="help-text" id="commentHelpText">{{#i18n}}comment.help{{/i18n}}</p>
@@ -88,10 +88,10 @@
                                     <input type="text" name="contactname" value="" placeholder="{{#i18n}}contact.name{{/i18n}}" id="contactname" required>
                                     <input type="text" name="contactmail" pattern="email" value="" placeholder="{{#i18n}}contact.mail{{/i18n}}" id="contactmail" required>
                                     <span class="form-error" data-form-error-on="required">
-                                      Please fill fields.
+                                      {{#i18n}}validate.text{{/i18n}}
                                     </span>
                                     <span class="form-error" data-form-error-on="pattern">
-                                      Invalid Email
+                                      {{#i18n}}validate.email{{/i18n}}
                                     </span>
                                   </fieldset>
                                   <fieldset class="cell">
@@ -99,7 +99,7 @@
                                     <input type="radio" name="ihavesparql" value="N" id="sparqlno" required><label for="sparqlno">{{#i18n}}ihavesparql.sparqlno{{/i18n}}</label>
                                     <input type="radio" name="ihavesparql" value="Y" id="sparqlyes"><label for="sparqlyes">{{#i18n}}ihavesparql.sparqlyes{{/i18n}}</label>
                                     <span class="form-error" data-form-error-on="required">
-                                      Please choose.
+                                      {{#i18n}}validate.choice{{/i18n}}
                                     </span>
                                   </fieldset>
                                   <fieldset class="cell padding-bottom-2" id="sparql-container">

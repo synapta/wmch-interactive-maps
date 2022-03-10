@@ -32,6 +32,11 @@
     "mail": "La tua e-mail",
     "name": "Il tuo nome"
   },
+  "validate": {
+    "text": "Compila i campi.",
+    "choice": "Fai una scelta.",
+    "email": "E-mail non valida"
+  },
   "another": "Altra richiesta",
   "home": "Torna alla pagina principale",
   "submit": "Invia"

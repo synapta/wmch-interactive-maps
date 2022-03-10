@@ -32,6 +32,11 @@
     "mail": "Your email",
     "name": "Your name"
   },
+  "validate": {
+    "text": "Please fill fields.",
+    "choice": "Please choose.",
+    "email": "Invalid e-mail"
+  },
   "another": "Another request",
   "home": "Back to home",
   "submit": "Submit"

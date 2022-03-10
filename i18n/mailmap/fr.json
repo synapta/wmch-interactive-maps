@@ -32,6 +32,11 @@
     "mail" : "Votre email",
     "name" : "Votre nom"
   },
+  "validate" : {
+    "text" : "Remplir les champs.",
+    "choice" : "Faire un choix",
+    "email " : "Invalid email"
+  },
   "another" : "Autre demande",
   "home" : "Retour à la page principale",
   "submit": "Soumettre"
