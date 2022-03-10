@@ -62,7 +62,7 @@
                               {{^hasMessageSent}}
                                 <form class="grid-x" id="askmap" action="{{path}}" method="post">
                                   <input type="hidden" name="shortlang" value="{{shortlang}}">
-                                  <input type="hidden" name="sparqlcode" value="SPARQL query from code editor here">
+                                  <input type="hidden" name="sparqlcode" id="sparqlcode" value="">
                                   <fieldset class="cell">
                                     <legend>{{#i18n}}asktype.legend{{/i18n}}</legend>
                                     <input type="radio" name="asktype" value="New" id="asknewmap" required><label for="asknewmap">{{#i18n}}asktype.asknewmap{{/i18n}}</label>
@@ -151,30 +151,33 @@ ORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord) ASC(?commons) DESC(?websit
           lineNumbers: true,
           value: sparqlQueryExample
         });
+      
+        myCodeMirror.on("change", function () {
+          document.getElementById("sparqlcode").value = myCodeMirror.getValue();
+        });
       }
 
       function showCodeEditor () {
-        if (document.getElementById("sparql").value.trim().length === 0) {
-          document.getElementById("sparql").value = sparqlQueryExample;
+        if (myCodeMirror === null) {
+          loadCodeEditor();
         }
-        // loadCodeEditor();
+        else {
+          myCodeMirror.setValue(sparqlQueryExample);
+        }
+        document.getElementById("sparql").value = sparqlQueryExample;
       }
       function hideCodeEditor () {
-        if (document.getElementById("sparql") && document.getElementById("sparql").value.trim().length === 0 || document.getElementById("sparql").value === sparqlQueryExample) {
-          document.getElementById("sparql").value = "";
+        var confirmMessage = "Your changes will be lost, are you sure?";
+        if (window.confirm(confirmMessage)) {
+          myCodeMirror.setValue("");
         }
       }
 
       document.getElementById("sparqlyes").addEventListener("click", showCodeEditor); 
       document.getElementById("sparqlno").addEventListener("click", hideCodeEditor); 
 
-      /** document.getElementById("form").addEventListener("submit", function () {
-        var value = window.myCodeMirror.getValue();
-        alert(value);
-      });  **/
-      
       if (document.getElementById("sparqlyes").checked) {
-        // loadCodeEditor();
+        loadCodeEditor();
       }
 
     </script>
