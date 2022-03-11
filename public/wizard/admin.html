@@ -43,6 +43,17 @@
               </tr>
             </thead>
                 <tbody>
+                <tr class="map-category new-category">
+                  <td colspan="4">
+                    <div class="ui left icon grey input fluid">
+                      <input type="text" id="createcategory" placeholder="{{#i18n}}category.create.text{{/i18n}}">
+                      <i class="plus icon"></i>
+                    </div>
+                    <div id="createcategory_empty" class="ui pointing red basic label hidden">
+                      {{#i18n}}category.empty.text{{/i18n}}
+                    </div>
+                  </td>
+                </tr>
                 {{#categories}}
                     <tr class="map-category table-sort-element {{^maps}}deletable{{/maps}}" 
                     data-id="{{id}}"
@@ -74,17 +85,6 @@
                     </tr>
                   {{/maps}}
                 {{/categories}}
-                <tr class="map-category new-category">
-                  <td colspan="4">
-                    <div class="ui left icon grey input fluid">
-                      <input type="text" id="createcategory" placeholder="{{#i18n}}category.create.text{{/i18n}}">
-                      <i class="plus icon"></i>
-                    </div>
-                    <div id="createcategory_empty" class="ui pointing red basic label hidden">
-                      {{#i18n}}category.empty.text{{/i18n}}
-                    </div>
-                  </td>
-                </tr>
               </tbody>
             </table>
             <button class="ui button savechanged wikiblue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
