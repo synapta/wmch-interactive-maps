@@ -17,7 +17,8 @@
   "ihavesparql": {
     "legend": "Vous avez déjà une requête SPARQL à proposer ?",
     "sparqlno": "Non",
-    "sparqlyes": "Oui"
+    "sparqlyes": "Oui",
+    "confirm": "Êtes-vous sûr que ce que vous avez écrit jusqu'à présent vous manque ?"
   },
   "sparql": {
     "label": "La requête SPARQL que vous suggérez",

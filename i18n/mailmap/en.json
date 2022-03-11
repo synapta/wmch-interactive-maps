@@ -17,7 +17,8 @@
   "ihavesparql": {
     "legend": "Have you a SPARQL query to suggest?",
     "sparqlno": "No",
-    "sparqlyes": "Yes"
+    "sparqlyes": "Yes",
+    "confirm": "Your changes will be lost, are you sure?"
   },
   "sparql": {
     "label": "Your SPARQL query suggestion",

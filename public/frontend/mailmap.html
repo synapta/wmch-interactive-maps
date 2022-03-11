@@ -183,7 +183,7 @@ ORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord) ASC(?commons) DESC(?websit
         document.getElementById("sparql").value = sparqlQueryExample;
       }
       function hideCodeEditor (e) {
-        var confirmMessage = "Your changes will be lost, are you sure?";
+        var confirmMessage = `{{#i18n}}ihavesparql.confirm{{/i18n}}`;
         if (window.confirm(confirmMessage)) {
           myCodeMirror.setValue("");
         }
