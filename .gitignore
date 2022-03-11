@@ -69,5 +69,3 @@ local/
 # Local configuration
 localconfig.json
 
-# ignore package-lock
-package-lock.json
