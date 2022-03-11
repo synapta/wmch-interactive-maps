@@ -3,7 +3,7 @@
  * API for Express
  */
 const fs = require('fs');
-const {migrate, connection, Map, History, Category} = require("./modelsB.js");
+const {migrate, connection, Map, History, Category, MapCategory} = require("./modelsB.js");
 const query = require("./query.js");
 const { logger } = require('../units/logger');
 
@@ -85,60 +85,92 @@ exports.adminApiGetName = (req, res) => {
     return records.filter(record => record.model === modelName)
 }
 
-
-    /**
-     * 
-     * @param {Array} records 
-     * @return {Object} Express object to send the outcome (an Object with updateNumer: COUNT)
-     */
-     async function updateOrAddCategories(records) {      
-        let errors = 0;
-        let count = 0;
-        console.log("Da aggiornare / aggiungere")
-        for (const record of records.filter(record => !record.delete)) {
-            console.log(record)
-        }
-        console.log("Da cancellare")
-        for (const record of records.filter(record => record.delete)) {
-            console.log(record)
-        }
-        /** const [instance, created] = await MyModel.upsert({
-            // your new row data here
-        }); **/
-
-        /** for (const record of records.filter(record => !record.delete)) {
-            if (record.hasOwnProperty('id')) {
-                // Update existing
-                await Category.update({
-                        sticky: record.sticky,
-                        name: record.name
-                    }, {
-                    where: {
-                        id: record.id
-                    }
-                });
-                count++;
-            }
-            else {
-                // Create new
-                if (typeof record.name === "string" && record.name.length > 0) {
-                    try {
-                        await Category.create({
-                            "name": record.name
-                        });
-                        count++;
-                    }
-                    catch(e) {
-                        errors++;
-                    }
-                }
-            }
-        }
-        const idsToDelete = records.filter(record => record.delete === true).map(record => record.id);
-        await query.deleteCategory(...idsToDelete); **/
-        // return {error: errors > 0, updateNumber: count, deleteNumber: idsToDelete.length};
-        return {error: errors > 0};
+/**
+ * 
+ * @param {Array} records 
+ * @return {Object}
+ */
+async function deleteCategories(records) {  
+    let errors = 0;    
+    let idsToDelete = records.filter(record => record.delete).map(record => record.id)
+    try {
+        query.deleteCategory(...idsToDelete);
     }
+    catch(e) {
+        errors++;
+    }
+    return {error: errors > 0};
+}
+
+
+/**
+ * 
+ * @param {Array} records 
+ * @return {Object}
+ */
+async function addCategories(records) {  
+    let errors = 0;    
+    let recordsToAdd = records.filter(record => !record.delete && !record.hasOwnProperty('id'))
+    for (const record of recordsToAdd) {
+        try {
+            await Category.create({
+                "name": record.name
+            });
+            count++;
+        }
+        catch(e) {
+            errors++;
+        }
+    }
+    return {error: errors > 0};
+}
+
+
+/**
+ * 
+ * @param {Array} records 
+ * @return {Object}
+ */
+ async function updateCategories(records) {  
+    let errors = 0; 
+    let count = 0;   
+    let recordsToUpdate = records.filter(record => !record.delete && record.hasOwnProperty('id'))
+    for (const record of recordsToUpdate) {
+        try {
+            await Category.update({
+                "name": record.name
+            }, {
+                "where": {"id": record.id}
+            });
+            count++;
+        }
+        catch(e) {
+            errors++;
+        }
+    }
+    return {error: errors > 0};
+}
+
+
+/**
+ * 
+ * @param {Array} records 
+ * @return {Object}
+ */
+ async function updateMapCategory(records) {
+     // TODO: non ha record.category assegnato
+    await MapCategory.truncate({ cascade: false });
+    for (const record of records) {
+        if (record.id && record.category) {
+            await query.setMapCategory(record.id, record.category);
+        }
+        else {
+            logger.debug("Prevent empty error on updateMapCategory, record is:");
+            logger.debug(records);
+        }
+    }
+}
+
 
 /**
  * Update multiple records.
@@ -147,33 +179,34 @@ exports.adminApiGetName = (req, res) => {
  * @param {*} res 
  */
  async function admin_api_action_update (req, res) {
-    let hasErrors = true;
-    let updateNumber = 0;
+    let hasErrors = false;
     try {
         /** Save all Category records **/
         const categoryRecords = getRecordsForModel(req.body.records, 'category');
         /** Save all Map records **/
         const mapRecords = getRecordsForModel(req.body.records, 'map');
-        // console.log(mapRecords);  // DEBUG
-        const updatedRecordsMessage = await updateMapsList(mapRecords);
-        // console.log(categoryRecords);  // DEBUG
-        const updatedCategoriesMessage = await updateOrAddCategories(categoryRecords);
+        let msgCat1 = await deleteCategories(categoryRecords);
+        let msgCat2 = await addCategories(categoryRecords);
+        let msgCat3 = await updateCategories(categoryRecords);
+        
+        let msgMap1 = await updateMapsList(mapRecords);
+
+        // let msgMap2 = await updateMapCategory(mapRecords);
+
         /** merge errors on response **/
-        hasErrors = updatedRecordsMessage.error || updatedCategoriesMessage.error;
-        updateNumber = updatedRecordsMessage.count + updatedCategoriesMessage.count;
+        hasErrors = msgCat1.error || msgCat2.error || msgCat3.error || msgMap1.error //|| msgMap2.error;
         if (hasErrors) {
+            logger.debug(msgCat1.error,msgCat2.error,msgCat3.error, msgMap1.error)
             throw `errors on update`;
         }
         res.send({
-            error: hasErrors, 
-            updateNumber: updateNumber
+            error: hasErrors
         });
     }
     catch (e) {
         logger.debug(e)
         res.status(500).send({
-            error: hasErrors, 
-            updateNumber: updateNumber
+            error: true
         });
     }
 }

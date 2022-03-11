@@ -145,8 +145,6 @@ exports.timedata = (mapId, limit, timestamp) => {
 };
 
 exports.setMapCategory = async (mapId, categoryId) => {
-    // delete old map categories
-    await MapCategory.destroy({where: {mapId: mapId}});
     // create new map categories
     await MapCategory.create({
         mapId: mapId,
