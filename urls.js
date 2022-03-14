@@ -524,7 +524,7 @@ module.exports = function(app, apicache) {
                         logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         baseurl: localconfig.url + "/",
-                        languages: config.languages,
+                        languages: config.adminLanguages,
                         credits: config.map.author,
                         manual: manerror ? i18next.t('page.notFound') : wizard.manRender(fileData),
                         // translations
@@ -753,7 +753,7 @@ module.exports = function(app, apicache) {
                     isAdminPage: true,
                     shortlang: shortlang,
                     langname: i18n_utils.getLangName(config.languages, shortlang),
-                    languages: config.languages,
+                    languages: config.adminLanguages,
                     credits: config.map.author,
                     logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                     categories: categoriesWithMaps.map(categoryWithMaps => dbutils.getCategoryWithMapsAsDict(categoryWithMaps)),

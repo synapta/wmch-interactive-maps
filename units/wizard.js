@@ -207,7 +207,7 @@ function getWizard(req, res, action, id) {
                 logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                 baseurl: localconfig.url + "/",
                 sparql: config.sparql,
-                languages: config.languages,
+                languages: config.adminLanguages,
                 formAction: formActions[action],
                 formActionName: action,
                 i18n: function () {
