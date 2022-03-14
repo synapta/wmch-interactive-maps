@@ -177,7 +177,7 @@ function getWizard(req, res, action, id) {
      'add': '/wizard/generate',
      'edit': util.format('/admin/edit/%d/save', id)
    };
-   fs.readFile(util.format('%s/../public/wizard/index.html', __dirname), function (err, fileData) {
+   fs.readFile(util.format('%s/../public/wizard/index.mustache', __dirname), function (err, fileData) {
        if (err) {
          throw err;
        }

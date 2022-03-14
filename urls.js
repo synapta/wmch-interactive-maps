@@ -34,7 +34,7 @@ module.exports = function(app, apicache) {
          *  @param {object} res: express response
          *  @param {object} dbMap: dictionary containing all relevant Map columns, used for template (only on aliased version)
          **/
-        fs.readFile(util.format('%s/public/frontend/map.html', __dirname), function (err, fileData) {
+        fs.readFile(util.format('%s/public/frontend/map.mustache', __dirname), function (err, fileData) {
             if (err) {
               throw err;
             }
@@ -459,7 +459,7 @@ module.exports = function(app, apicache) {
      * @return Express send with HTML.
      */
     app.get('/', async function (req, res) {
-        fs.readFile(util.format('%s/public/frontend/index.html', __dirname), function (err, fileData) {
+        fs.readFile(util.format('%s/public/frontend/index.mustache', __dirname), function (err, fileData) {
             if (err) {
               throw err;
             }
@@ -504,7 +504,7 @@ module.exports = function(app, apicache) {
     app.use('/wizard/man/_media/',express.static('./i18n_man/_media/'));
 
     app.get('/wizard/man/:manpage', function (req, res) {
-        fs.readFile(util.format('%s/public/manual/manual.html', __dirname), function (err, fileData) {
+        fs.readFile(util.format('%s/public/manual/manual.mustache', __dirname), function (err, fileData) {
             if (err) {
               throw err;
             }
@@ -687,7 +687,7 @@ module.exports = function(app, apicache) {
      * @return Express send with HTML.
      */
      app.get(yourMapPath, async function (req, res) {
-        fs.readFile(util.format('%s/public/frontend/mailmap.html', __dirname), function (err, fileData) {
+        fs.readFile(util.format('%s/public/frontend/mailmap.mustache', __dirname), function (err, fileData) {
             if (err) {
               throw err;
             }
@@ -731,7 +731,7 @@ module.exports = function(app, apicache) {
     app.get('/admin', async function (req, res) {
         // [ 'it', 'it-IT', 'en-US', 'en' ]
         // console.log(req.acceptsLanguages()[0]);
-        fs.readFile(util.format('%s/public/wizard/admin.html', __dirname), async function (err, fileData) {
+        fs.readFile(util.format('%s/public/wizard/admin.mustache', __dirname), async function (err, fileData) {
             // cannot read template?
             if (err) {
               throw err;
