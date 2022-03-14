@@ -53,7 +53,7 @@ module.exports = function(app, apicache) {
                   shortlang: shortlang,
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   map: config.map,
-                  logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                  logo: templateutils.logo(),
                   sparql: config.sparql,
                   languages: config.languages,
                   showHistory: dbMap.history,
@@ -458,7 +458,7 @@ module.exports = function(app, apicache) {
      * @param  {Express response} res
      * @return Express send with HTML.
      */
-    app.get('/', function (req, res) {
+    app.get('/', async function (req, res) {
         fs.readFile(util.format('%s/public/frontend/index.html', __dirname), function (err, fileData) {
             if (err) {
               throw err;
@@ -479,7 +479,7 @@ module.exports = function(app, apicache) {
                 // variables to pass to Mustache to populate template
                 var view = {
                   shortlang: shortlang,
-                  logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                  logo: templateutils.logo(),
                   categories: categoriesWithPublishedMaps.map(category => dbutils.getCategoryWithMapsAsDict(category)),
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/",
@@ -493,7 +493,9 @@ module.exports = function(app, apicache) {
                     }
                   }
                 };
-                var output = Mustache.render(template, view);
+                const menuTemplate = await templateutils.readMustachePartials('public/frontend/menu.mustache');
+                const partials = {menu: menuTemplate};
+                var output = Mustache.render(template, view, partials);
                 res.send(output);
             });
         });
@@ -521,7 +523,7 @@ module.exports = function(app, apicache) {
                       var view = {
                         isHelpPage: true,
                         shortlang: shortlang,
-                        logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                        logo: templateutils.logo(),
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         baseurl: localconfig.url + "/",
                         languages: config.adminLanguages,
@@ -684,7 +686,7 @@ module.exports = function(app, apicache) {
      * @param  {Express response} res
      * @return Express send with HTML.
      */
-     app.get(yourMapPath, function (req, res) {
+     app.get(yourMapPath, async function (req, res) {
         fs.readFile(util.format('%s/public/frontend/mailmap.html', __dirname), function (err, fileData) {
             if (err) {
               throw err;
@@ -694,12 +696,12 @@ module.exports = function(app, apicache) {
             let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'mailmap');
             let i18nOptions = i18n_utils.geti18nOptions(shortlang);
             i18nOptions.resources[shortlang] = {translation: translationData};
-            i18next.init(i18nOptions, function(err, t) {
+            i18next.init(i18nOptions, async function(err, t) {
                 // variables to pass to Mustache to populate template
                 var view = {
                   shortlang: shortlang,
                   path: yourMapPath,
-                  logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                  logo: templateutils.logo(),
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/your-map",
                   languages: config.languages,
@@ -712,7 +714,9 @@ module.exports = function(app, apicache) {
                     }
                   }
                 };
-                var output = Mustache.render(template, view);
+                const menuTemplate = await templateutils.readMustachePartials('public/frontend/menu.mustache');
+                const partials = {menu: menuTemplate};
+                var output = Mustache.render(template, view, partials);
                 res.send(output);
             });
         });
@@ -724,7 +728,7 @@ module.exports = function(app, apicache) {
      * @param  {Express response} res
      * @return Express send of HTML.
      */
-    app.get('/admin', function (req, res) {
+    app.get('/admin', async function (req, res) {
         // [ 'it', 'it-IT', 'en-US', 'en' ]
         // console.log(req.acceptsLanguages()[0]);
         fs.readFile(util.format('%s/public/wizard/admin.html', __dirname), async function (err, fileData) {
@@ -755,7 +759,7 @@ module.exports = function(app, apicache) {
                     langname: i18n_utils.getLangName(config.languages, shortlang),
                     languages: config.adminLanguages,
                     credits: config.map.author,
-                    logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                    logo: templateutils.logo(),
                     categories: categoriesWithMaps.map(categoryWithMaps => dbutils.getCategoryWithMapsAsDict(categoryWithMaps)),
                     i18n: function () {
                         return function (text, render) {

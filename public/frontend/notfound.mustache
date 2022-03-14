@@ -13,30 +13,7 @@
 
     <div class="grid-container full">
       <div class="grid-x">
-        <div class="cell margin-bottom-1 padding-top-1">
-                              <div class="grid-container">
-                                <div class="grid-x grid-padding-x small-padding-collapse">
-                                    <div class="cell medium-6 large-4">
-                                      <a href="/" class="text-hide">
-                                        <img src="{{logo.src}}" alt="{{logo.alt}}" id="logo" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}}>
-                                        Wikimedia CH <!-- Logo Text  -->
-                                      </a>
-                                    </div>
-                                    <div class="cell medium-6 large-8">
-                                      <ul class="menu dropdown align-right" data-dropdown-menu>
-                                        <li>
-                                          <a class="rounded primary dropdown button padding-right-2 padding-left-2" href="#">{{{langname}}}</a>
-                                          <ul class="menu">
-                                            {{#languages}}
-                                            <li><a data-value="{{code}}" href="?l={{code}}">{{name}}</a></li>
-                                            {{/languages}}
-                                          </ul>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                </div>
-                              </div>
-        </div>
+        {{>menu}}
         <div class="header-not-found cell margin-bottom-0 padding-top-3">
                               <div class="grid-container">
                                 <div class="grid-x">

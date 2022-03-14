@@ -69,7 +69,8 @@ body {
   line-height: 1.3em;
 }
 #languages .menu,
-#languagesmobile .menu {
+#languagesmobile .menu,
+#languageslegacy .menu {
   z-index: 999;
 }
 /* Legenda ****************************************************************** */

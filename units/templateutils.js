@@ -15,6 +15,9 @@ const readMustachePartials = async (key) => {
 };
 exports.readMustachePartials = readMustachePartials;
 
+const logo = () => typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo;
+exports.logo = logo;
+
 /**
  * 
  * @param {Object} resource from Express
@@ -30,15 +33,18 @@ exports.notFound = async (request, text) => {
     try {
         let template = await fs.readFile(templatePath)
         let [shortlang, translationData] = i18n_utils.seekLang(request, config.fallbackLanguage, 'frontend')
+        const menuTemplate = await readMustachePartials('public/frontend/menu.mustache')
+        const partials = {menu: menuTemplate}
         output = Mustache.render(template.toString(), { 
             message: message, 
             comment: comment,
+            logo: logo(),
             langname: i18n_utils.getLangName(config.languages, shortlang),
             // common
             baseurl: localconfig.url + "/",
             languages: config.languages,
             author: config.map.author 
-        })
+        }, partials)
     }
     catch (e) {
         // pass to error handling
