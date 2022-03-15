@@ -22,10 +22,8 @@ $(function() {
                 name: getNewCategoryName()
             });
         }
-        $('.map-category:not(".new-category")').each(function () {
-            if ($(this).data('changed')) {
-                toChange.push(getCategoryData(this));
-            }
+        $('.category:not(".new-category")').each(function () {
+            toChange.push(getCategoryData(this));
         });
         // console.log(toChange.filter(m => m.model === 'category'));  // DEBUG
         // return;
@@ -86,24 +84,6 @@ $(function() {
                 $(this).data('changed', 1);
             }
             if (newdata.published !== $(this).data('published')) {
-                $(this).data('changed', 1);
-            }
-            // is this children assigned to another category? live changed
-            if (newdata.category !== $(this).data('category')) {
-                $(this).data('changed', 1);
-            }
-            else {
-                // save only new categories
-                $(this).removeData('category');
-            }
-        });
-        // for Category
-        $('.map-category').each(function () {
-            var newdata = getCategoryData(this);
-            if (newdata.sticky !== $(this).data('sticky')) {
-                $(this).data('changed', 1);
-            }
-            if (newdata.name !== $(this).data('name')) {
                 $(this).data('changed', 1);
             }
         });
@@ -267,11 +247,11 @@ $(function() {
         $('.map-record').each(function (index, element) {
             // var newdata = getRecordData(this);
             var newCategoryElement = null;
-            if ($(element).prev().is(".map-category")) {
+            if ($(element).prev().is(".category")) {
                 newCategoryElement = $(element).prev();
             }
             else {
-                newCategoryElement = $(element).prevUntil(".map-category").prev();
+                newCategoryElement = $(element).prevUntil(".category").prev();
             }
             if (newCategoryElement) {
                 var newCategoryId = $(newCategoryElement).data("id");
@@ -281,7 +261,7 @@ $(function() {
     }
 
     function assignTrashBin () {
-        $('.map-category.deletable').each(function (index, element) {
+        $('.category.deletable').each(function (index, element) {
             // and with at least one child map
             if ($(element).next() && $(element).next().is('.map-record')) {
                 $(element).removeClass('deletable');
@@ -302,19 +282,19 @@ $(function() {
     }
 
     function sortStart(e) {
-        var className = "map-category";
+        var className = "category";
         var element = e.detail.item;
         if (element.classList.contains(className)) {
             // hide "childrens"
             console.log("sort start " + new Date());  // DEBUG
-            $(element).nextUntil(".map-category").addClass("moving");
+            $(element).nextUntil(".category").addClass("moving");
             $(".moving").hide();
             categoryIconChange(element, false);
         }
     }
 
     function sortStop(e) {
-        var className = "map-category";
+        var className = "category";
         var element = e.detail.item;
         var lastEl = null;
         if (element.classList.contains(className)) {

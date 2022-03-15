@@ -94,7 +94,7 @@ async function deleteCategories(records) {
     let errors = 0;    
     let idsToDelete = records.filter(record => record.delete).map(record => record.id)
     try {
-        query.deleteCategory(...idsToDelete);
+        await query.deleteCategory(...idsToDelete);
     }
     catch(e) {
         errors++;
@@ -109,7 +109,8 @@ async function deleteCategories(records) {
  * @return {Object}
  */
 async function addCategories(records) {  
-    let errors = 0;    
+    let errors = 0;
+    let count = 0;       
     let recordsToAdd = records.filter(record => !record.delete && !record.hasOwnProperty('id'))
     for (const record of recordsToAdd) {
         try {
@@ -138,7 +139,8 @@ async function addCategories(records) {
     for (const record of recordsToUpdate) {
         try {
             await Category.update({
-                "name": record.name
+                "name": record.name,
+                "sticky": record.sticky
             }, {
                 "where": {"id": record.id}
             });
@@ -181,6 +183,7 @@ async function addCategories(records) {
  async function admin_api_action_update (req, res) {
     let hasErrors = false;
     try {
+        console.log(req.body.records)
         /** Save all Category records **/
         const categoryRecords = getRecordsForModel(req.body.records, 'category');
         /** Save all Map records **/
@@ -197,6 +200,8 @@ async function addCategories(records) {
         hasErrors = msgCat1.error || msgCat2.error || msgCat3.error || msgMap1.error //|| msgMap2.error;
         if (hasErrors) {
             logger.debug(msgCat1.error,msgCat2.error,msgCat3.error, msgMap1.error)
+            // TODO: nuova categoria
+            // false true false false
             throw `errors on update`;
         }
         res.send({
