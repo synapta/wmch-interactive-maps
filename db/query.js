@@ -144,11 +144,17 @@ exports.timedata = (mapId, limit, timestamp) => {
     });
 };
 
+/**
+ * Assign a Map to a Category.
+ * Implicit 1:N (Category:Map) and not N:N relationship here.
+ * @param {Number} mapId 
+ * @param {Number} categoryId 
+ */
 exports.setMapCategory = async (mapId, categoryId) => {
-    // create new map categories
-    await MapCategory.create({
-        mapId: mapId,
-        categoryId: categoryId
+    await MapCategory.update({
+      "categoryId": categoryId
+    }, {
+        "where": {"mapId": mapId}
     });
 }
 

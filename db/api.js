@@ -55,7 +55,7 @@ exports.adminApiGetName = (req, res) => {
  * @param  {array} records        list of records
  * @return Express send the outcome (an Object with updateNumer: COUNT)
  */
-    async function updateMapsList(records) {
+    async function updateMaps(records) {
     let count = 0
     for (const record of records) {
         const [affectedCount, affectedRows] = await Map.update(
@@ -66,11 +66,6 @@ exports.adminApiGetName = (req, res) => {
             }, /* set attributes' value */
             { where: { id: record.id }} /* where criteria */
         );
-        // Reassign categories for this map
-        /** if (record.hasOwnProperty('category')) {
-            console.log(`${record.id} ${record.category}`)
-            await query.setMapCategory(record.id, record.category);
-        } **/
         count += affectedCount;
     }
     return {error: false, updateNumber: count};
@@ -160,8 +155,6 @@ async function addCategories(records) {
  * @return {Object}
  */
  async function updateMapCategory(records) {
-     // TODO: non ha record.category assegnato
-    await MapCategory.truncate({ cascade: false });
     for (const record of records) {
         if (record.id && record.category) {
             await query.setMapCategory(record.id, record.category);
@@ -184,17 +177,14 @@ async function addCategories(records) {
     let hasErrors = false;
     try {
         console.log(req.body.records)
-        /** Save all Category records **/
         const categoryRecords = getRecordsForModel(req.body.records, 'category');
-        /** Save all Map records **/
         const mapRecords = getRecordsForModel(req.body.records, 'map');
+
         let msgCat1 = await deleteCategories(categoryRecords);
         let msgCat2 = await addCategories(categoryRecords);
         let msgCat3 = await updateCategories(categoryRecords);
         
-        let msgMap1 = await updateMapsList(mapRecords);
-
-        // let msgMap2 = await updateMapCategory(mapRecords);
+        let msgMap1 = await updateMaps(mapRecords);
 
         /** merge errors on response **/
         hasErrors = msgCat1.error || msgCat2.error || msgCat3.error || msgMap1.error //|| msgMap2.error;
