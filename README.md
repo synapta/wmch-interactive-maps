@@ -2,91 +2,9 @@
 
 A configurable backend to generate and show interactive maps on top of Wikidata.
 
-## User manual
+Read [installation instructions](INSTALL.md).
 
-User manual in multiple languages is loaded on [i18n_man/index](https://github.com/synapta/wmch-interactive-maps/tree/master/i18n_man/index)
-
-The user manual is available inside the app along the screenshots at the `/wizard/man/index` path.
-
-## Node version
-
-- Supported node versions are 10, 11, and 12 (for sharp dependency)
-
-## System dependencies
-
-To run screenshot server, these dependencies are needed (Debian-based):
-
-`sudo apt-get install gconf-service libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget libgbm-dev`
-
-Updated dependencies [for Debian-based Linux and other OS are here](https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix).
-
-## Installation
-
-Create `screenshots` and `local` directories:
-
-`mkdir -p screenshots && mkdir -p local`
-
-Screenshots directory will contains preview files for maps, local directory could contain the sqlite database and other development data.
-
-### Add localconfig.json
-
-***TL;DR: Copy localconfig.example.json to localconfig.json. Change data as needed.***
-
-Local settings like database name and authentication data are available in the git ignored `localconfig.json` in the following formats.
-
-On localconfig.json, set the url to the production url. It will be used to expose the path to the user, something like https://example.org/.
-
-### config.js
-
-A global base configuration file is available on `config.js`.
-
-It contains available map styles based on sources listed on [Tile servers](https://wiki.openstreetmap.org/wiki/Tile_servers) page on OpenStreetMap.
-
-### Set up database
-
-Data can be saved by two different connectors, SQLite and MariaDB.
-
-For multi-user installation, MariaDB is suggested. SQLite is used primary for development.
-
-#### SQLite
-~~~
-{
-  "database": {
-    "engine": "sqlite",
-    "name": "local/testing.db"
-  }
-}
-~~~
-
-#### MariaDB
-
-Create database and grant privileges like this:
-
-~~~
-CREATE DATABASE interactivemaps;
-GRANT ALL PRIVILEGES ON interactivemaps.* TO mapuser@localhost IDENTIFIED BY "***PASSWORD_HERE***";
-~~~
-
-Add to localconfig.json:
-~~~
-{
-  "database": {
-    "engine": "mariadb",
-    "name": "interactivemap",
-    "username": "mapuser",
-    "password": "***PASSWORD_HERE***",
-    "port": 3306,
-    "dialectOptions": {"connectTimeout": 1000}
-  }
-}
-
-~~~
-
-Port and dialectOptions can be omitted, getting the default values above.
-
-[Reference for MariaDB](hnode cron.jsttp://docs.sequelizejs.com/manual/usage.html#mariadb)
-
-## Run the webservice
+## Service 1/3: app
 
 The webservice app exposes the website locally on the specified port using [Express](https://expressjs.com/).
 
@@ -96,7 +14,7 @@ The webservice app exposes the website locally on the specified port using [Expr
 
 `node app.js --port 9030`
 
-15 Mar 10:46:31 - WMCH Interactive maps listening at http://:::9089
+15 Mar 10:46:31 - WMCH Interactive maps listening at http://:::9030
 
 Enable verbose logging with debug mode:
 
@@ -106,7 +24,7 @@ or set DEBUG=1 as environment variable elsewhere (DEBUG=2 for trace, DEBUG=0 or 
 
 You can set all the environment variables on `.env` file.
 
-### Run the screenshot server
+## Service 2/3: screenshot
 
 The screenshot server is used to take a screenshot of the map just before a map is saved to the database.
 
@@ -116,7 +34,7 @@ Port and url are specified on config.json.
 
 Both the app.js and screenshot.js must be running at the same time.
 
-### Run the cron service
+## Service 3/3: cron
 
 The cron service will periodically save the results from Wikidata queries of available maps.
 
@@ -124,7 +42,7 @@ The cron service will periodically save the results from Wikidata queries of ava
 
  These snapshots will be displayed on a [timeline](http://apps.socib.es/Leaflet.TimeDimension/examples/).
 
-#### Change schedule
+### Change schedule
 
 Change localconfig.json as you need adding these parameters:
 
@@ -135,72 +53,24 @@ Change localconfig.json as you need adding these parameters:
 
 Examples how to set these values are on `localconfig.example.json`.
 
-### Auto-update and keep running
-
-To auto-update and keep running the node servers in development environment on changes, you can use:
-
-`nodemon MYSERVERSCRIPT.js --port MYPORT`
-
-In this case nodemon must be installed globally.
-
-On production, use something like [supervisor](http://supervisord.org/) with a script like this:
-
-~~~
-#!/bin/bash
-cd /path/to/my/app;
-exec node app.js --port 9089;
-~~~
-
 ## Languages
-
-The app supports multiple languages.
-
-### Language negotiation
 
 The website will auto-detect the user language based on browser settings.
 
 To force a particular language in the format using the url use the `l` parameter:
 
-- http://localhost:9089/wizard/?l=it
-- http://localhost:9089/wizard/?l=it-CH
+- http://localhost:9030/wizard/?l=it
+- http://localhost:9030/wizard/?l=it-CH
 
-A dropdown to change language is provided on both backend and frontend.
-
-### Translations
-
-All translations are key-based and hosted in JSON file named after the [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) code under the i18n folder.
-
-Directory structure is associated with the respective section.
-
-~~~
-i18n
-|-- admin
-|   |-- en.json
-|   `-- it.json
-|-- frontend
-|   |-- en.json
-|   `-- it.json
-|-- manual
-|   |-- en.json
-|   `-- it.json
-`-- wizard
-    |-- en.json
-    `-- it.json
-
-~~~
-
-To add a new translation:
-
-1. Add a new ISO 639-1 file to each directory inside `i18n` copying a file like `en.json` and changing the keys.
-2. Edit `config.json` and add a new language code, e.g. `{"code": "ja", "name": "日本語"}`
+You can [contribute](CONTRIBUTE.md) to translate messages in your language.
 
 ## Paths
 
 On development or locally, the main paths are:
 
-- Backend: http://localhost:9089/admin/
-- Wizard (backend and user manual): http://localhost:9089/wizard/
-- Frontend: http://localhost:9089/
+- Frontend: http://localhost:9030/
+- Manage contents: http://localhost:9030/admin/
+- Add new map: (backend and user manual): http://localhost:9030/wizard/
 
 If the edit must be limited, `/admin` and `/wizard` paths can be protected via webserver.
 
@@ -214,9 +84,13 @@ External fonts are loaded via:
 
 - [https://tools.wmflabs.org/fontcdn/](https://tools.wmflabs.org/fontcdn/)
 
-## Special commands
+## Maintenance script
 
-### Maintenance scripts
+Help for all available commands:
+
+`node maintenance.js --help`
+
+### Regenerate screenshots
 
 If a relevant change to the code will affect all maps in the database, screenshots can be regenerated.
 
@@ -224,9 +98,13 @@ To regenerate all preview screenshots:
 
 `node maintenance.js -P`
 
+### Check history
+
 To test comparison between History of a specified map.id (e.g. 10):
 
 `node maintenance.js -T 10`
+
+### Regenerate history
 
 To regenerate diff between History of a specified map.id (e.g. 10) e.g. when changing diff or json on History database:
 
@@ -234,39 +112,8 @@ To regenerate diff between History of a specified map.id (e.g. 10) e.g. when cha
 
 both diff and json will be changed accordingly to diff between nearest siblings.
 
-Help for all available commands:
+## User manual
 
-`node maintenance.js --help`
+User manual in multiple languages is loaded on [i18n_man/index](i18n_man/index)
 
-### Generate a new icon list
-
-Icon list can be selected between [those available on Semantic UI](https://semantic-ui.com/elements/icon.html) and saved on /public/js/icons.json.
-
-However, list of icons can be generated visiting the Icon section of Semantic UI and using this code on browser console:
-
-~~~
-var src = jQuery(".main").find(".icon");
-var myt = [];
-jQuery.each(src, function (icoindex) {
-    myt.push(jQuery(this).attr("class").replace(' icon', ''));
-});
-var uniquet = Array.from(new Set(myt.sort()));
-var myels = [];
-for (u of uniquet) {
-  myels.push({
-    title: u + '<i class="' + u + ' icon"></i>'
-  });
-}
-JSON.stringify(myels, null, ' ');
-~~~
-
-Then expand and copy object to get a JSON array.
-
-Semantic UI Icons are available on wizard searching by class name.
-
-These steps are useful when the Semantic UI version is changed.
-
-## Troubleshooting
-
-- Issue: Validation error on a Unique Constraint after a migration, e.g. on histories
-- Fix with: `ALTER SEQUENCE histories_id_seq RESTART WITH 20` where 20 is the nextval you need, higher than last value for that sequence.
+The user manual is available inside the app along the screenshots at the `/wizard/man/index` path.

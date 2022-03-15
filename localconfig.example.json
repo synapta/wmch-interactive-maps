@@ -47,5 +47,5 @@
   "historyTimelineLimit": 52,
   "historyOnlyDiff": true,
   "url": "http://example.org",
-  "internalUrl": "http://localhost:9089"
+  "internalUrl": "http://localhost:9030"
 }
