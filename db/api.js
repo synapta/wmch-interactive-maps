@@ -185,6 +185,7 @@ async function addCategories(records) {
         let msgCat3 = await updateCategories(categoryRecords);
         
         let msgMap1 = await updateMaps(mapRecords);
+        let msgMap2 = await updateMapCategory(mapRecords);
 
         /** merge errors on response **/
         hasErrors = msgCat1.error || msgCat2.error || msgCat3.error || msgMap1.error //|| msgMap2.error;

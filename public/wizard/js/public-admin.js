@@ -25,8 +25,6 @@ $(function() {
         $('.category:not(".new-category")').each(function () {
             toChange.push(getCategoryData(this));
         });
-        // console.log(toChange.filter(m => m.model === 'category'));  // DEBUG
-        // return;
         // Confirmation message
         var confirmMessage = $('section').data('confirm');
         if (window.confirm(confirmMessage)) {
@@ -244,19 +242,13 @@ $(function() {
      * 
      */
     function assignMapToCategories () {
-        $('.map-record').each(function (index, element) {
-            // var newdata = getRecordData(this);
-            var newCategoryElement = null;
-            if ($(element).prev().is(".category")) {
-                newCategoryElement = $(element).prev();
-            }
-            else {
-                newCategoryElement = $(element).prevUntil(".category").prev();
-            }
-            if (newCategoryElement) {
-                var newCategoryId = $(newCategoryElement).data("id");
-                $(element).data('newcategory', newCategoryId);
-            }
+        let assignments = {};
+        $('.category:not(".new-category")').each(function (categoryIndex, categoryEl) {
+            $(categoryEl).nextUntil('.category').each(function (mapIndex, mapEl) {
+                // var mapId = $(mapEl).data('id');
+                var categoryId = $(categoryEl).data('id');
+                $(mapEl).data('newcategory', categoryId);
+            })
         });
     }
 
@@ -281,12 +273,14 @@ $(function() {
         $(element).find('i.icon:first').addClass(switchClasses[0]).removeClass(switchClasses[1]);
     }
 
+    var sortstopFired = false;  // Semaphore to avoid BUG: fired twice on sortStop
+
     function sortStart(e) {
+        sortstopFired = false;
         var className = "category";
         var element = e.detail.item;
         if (element.classList.contains(className)) {
             // hide "childrens"
-            console.log("sort start " + new Date());  // DEBUG
             $(element).nextUntil(".category").addClass("moving");
             $(".moving").hide();
             categoryIconChange(element, false);
@@ -294,25 +288,29 @@ $(function() {
     }
 
     function sortStop(e) {
-        var className = "category";
-        var element = e.detail.item;
-        var lastEl = null;
-        if (element.classList.contains(className)) {
-            $(".moving").each(function (i, el) {
-                if (i === 0) {
-                    $(element).after(el);
-                }
-                else {
-                    $(lastEl).after(el);
-                }
-                lastEl = el;
-            })
-            // show "childrens"
-            $(".moving").show().removeClass("moving");
-            categoryIconChange(element, !$(element).is('.deletable'));
+        // BUG: fired twice
+        if (!sortstopFired) {
+            var className = "category";
+            var element = e.detail.item;
+            var lastEl = null;
+            if (element.classList.contains(className)) {
+                $(".moving").each(function (i, el) {
+                    if (i === 0) {
+                        $(element).after(el);
+                    }
+                    else {
+                        $(lastEl).after(el);
+                    }
+                    lastEl = el;
+                })
+                // show "childrens"
+                $(".moving").show().removeClass("moving");
+                categoryIconChange(element, !$(element).is('.deletable'));
+            }
+            assignMapToCategories();
+            assignTrashBin();
         }
-        assignMapToCategories();
-        assignTrashBin();
+        sortstopFired = true;
     }
 
     // Add sortable capabilities to rendered table
