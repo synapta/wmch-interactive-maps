@@ -1,6 +1,10 @@
-## PostgreSQL Database
+## Set up database
 
-From postgres user:
+A [PostgreSQL](https://www.postgresql.org/) database is required.
+
+Previous versions used MariaDB, please read [UPGRADE.md](UPGRADE.md).
+
+Create a user and a database, here an example on Linux bash, logged on `postgres` user:
 
 ```
 createuser -Pse USER_NAME_HERE
@@ -69,12 +73,6 @@ On localconfig.json, set the url to the production url. It will be used to expos
 A global base configuration file is available on `config.json`.
 
 It contains available map styles based on sources listed on [Tile servers](https://wiki.openstreetmap.org/wiki/Tile_servers) page on OpenStreetMap.
-
-## Set up database
-
-PostgreSQL database is required.
-
-Previous versions used MariaDB, please read [UPGRADE.md](UPGRADE.md).
 
 ## Go live
 
