@@ -15,10 +15,14 @@
       "title": "Appearance",
       "description": "Choose map style"
     },
+    "category": {
+      "title": "Category",
+      "description": "This map will appear in home page under this category"
+    },
     "url": {
       "title": "Get url",
       "description": "Generate map url and snippet",
-      "help": "You can review your input or Publish to go to your new map."
+      "help": "When published you'll be redirected to the map URL, otherwise you'll back to Manage content screen."
     }
   },
   "fields": {
@@ -59,6 +63,9 @@
     "long": {
       "label": "Longitude"
     },
+    "published": {
+      "label": "Published"
+    },
     "maxClusterRadius": {
       "label": "Clusters",
       "help": "Aggregate adjacent markers into browsable clusters to improve readability and performances",
@@ -66,8 +73,14 @@
     }
   },
   "actions": {
+    "create": {
+      "text": "Add a new map"
+    },
     "back": {
-      "text": "Back to dashboard"
+      "text": "Back"
+    },
+    "admin": {
+      "text": "Manage contents"
     },
     "help": {
       "text": "Help"
@@ -85,7 +98,7 @@
       "text": "Previous"
     },
     "submit": {
-      "text": "Publish"
+      "text": "Save"
     },
     "languages": {
       "text": "Languages"
@@ -100,6 +113,10 @@
     },
     "edit": {
       "text": "Edit"
+    },
+    "category": {
+      "text": "Choose category",
+      "error": "You must select a category for this map"
     },
     "icon": {
       "text": "Select pin icon"

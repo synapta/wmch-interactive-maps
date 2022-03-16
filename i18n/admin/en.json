@@ -2,30 +2,55 @@
   "page": {
     "title": "Admin interface for WMCH map service"
   },
+  "message": {
+    "updateError": {
+      "title": "Error on update!",
+      "text": "Reload this page and retry"
+    },
+    "updateOk": {
+      "text": "Update successful. Page will be reloaded."
+    }
+  },
   "headers": {
     "title": "Title",
     "path": "Path",
     "order": "Order",
-    "star": "Starred",
-    "delete": "Delete?"
+    "history": "History",
+    "delete": "Visibility"
+  },
+  "category": {
+    "create": {
+      "text": "Add a new category"
+    },
+    "empty": {
+      "text": "Give a name to the new category"
+    },
+    "delete": {
+      "text": "Delete category"
+    }
   },
   "actions": {
     "create": {
       "text": "Add a new map"
     },
+    "edit": {
+      "text": "Edit map"
+    },
     "back": {
-      "text": "Back to home"
+      "text": "Back"
+    },
+    "admin": {
+      "text": "Manage contents"
     },
     "help": {
       "text": "Help"
     },
     "delete": {
-      "text": "Delete"
+      "text": "Change visibility"
     },
     "submit": {
       "text": "Save",
-      "confirm": "Are you sure to apply the changes?",
-      "confirm": "!changes changes and !deletes deletion will be applied. Apply the changes?"
+      "confirm": "Are you sure to apply the changes?"
     }
   }
 }

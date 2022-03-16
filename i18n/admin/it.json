@@ -2,30 +2,55 @@
   "page": {
     "title": "Interfaccia di amministrazione del servizio mappe WMCH"
   },
+  "message": {
+    "updateError": {
+      "title": "Errore durante l'aggiornamento!",
+      "text": "Ricarica la pagina e riprova"
+    },
+    "updateOk": {
+      "text": "Aggiornamento completato. La pagina verrà ricaricata."
+    }
+  },
   "headers": {
     "title": "Titolo",
     "path": "Percorso",
     "order": "Ordine",
-    "star": "Preferito",
-    "delete": "Eliminare?"
+    "history": "Cronologia",
+    "delete": "Visibilità"
+  },
+  "category": {
+    "create": {
+      "text": "Aggiungi una nuova categoria"
+    },
+    "empty": {
+      "text": "Scegli un nome per la nuova categoria"
+    },
+    "delete": {
+      "text": "Cancella categoria"
+    }
   },
   "actions": {
     "create": {
       "text": "Aggiungi una nuova mappa"
     },
+    "edit": {
+      "text": "Modifica mappa"
+    },
     "back": {
       "text": "Torna indietro"
+    },
+    "admin": {
+      "text": "Amministra contenuti"
     },
     "help": {
       "text": "Aiuto"
     },
     "delete": {
-      "text": "Elimina"
+      "text": "Cambia visibilità"
     },
     "submit": {
       "text": "Salva",
-      "confirm": "Vuoi pubblicare le modifiche?",
-      "confirmDetail": "!changes modifiche e !deletes cancellazioni saranno definitive. Confermi?"
+      "confirm": "Vuoi pubblicare le modifiche?"
     }
   }
 }

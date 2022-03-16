@@ -1,46 +1,56 @@
-# Interactive WMCH maps user manual
+# User manual
 
 This user manual explores the use of the interactive maps admin backend.
 
-## Accesses
+## Access
 
 Admin paths are protected by user name and password.
 
-The frontend is visible and everyone can see it.
+The frontend is visible and everyone can see it. Not published maps will appear only on edit.
 
-## How to create a map
+## Create a map
 
 You can create a map by visiting the path:
 
 - [map.wikimedia.swiss/wizard](https://map.wikimedia.swiss/wizard)
 
-You will see a form divided into different steps in which you can:
+Form is separated into different steps below:
 
-### 1. Choose a title and a path where the map will be visible, egs. /v/name-path
+### 1. Name
 
-![1st step](/wizard/man/_media/wizard-01.png)
+- Title: map title
+- Path: path used in the url, in the form /v/my-path. The leading /v/ will be automatically added.
 
-### 2. Write the SPARQL query that will populate the map
+### 2. Category
 
-![2nd step](/wizard/man/_media/wizard-02.png)
+Choosing a category for a map is required.
 
-### 3. Choose the map frontend
+### 3. Data
 
-![3rd step](/wizard/man/_media/wizard-03.png)
+SPARQL Query to populate map is here.
 
-SPARQL data are displayed in preview. From the dashboard you can choose:
+### 4. Appearance
 
-- The map style;
-- Pin icon;
-- Coordinates;
-- Clustering;
-- Zoom levels.
+Results from SPARQL query will be displayed as preview. From here you can choose:
 
-#### Pin icon
+4.1. Map style
+4.2. Pin Icon
+4.3. Zoom mode and level
+4.4. Coordinates by latitude and longitude
+4.5. Switch to disable clusters (optional)
+4.6. Minimum and maximum values for the zoom (optional)
+4.7. Coordinates by map
+4.8. Publish or save draft 
 
-You can choose the icon that you want to see on the pin in the map by typing the icon English name you want to see. For example: if you type the word university you will see the related icon, or if you type the word arrow you will see different arrow icons you to choose from. 
+#### 4.2. Pin Icon
 
-#### Zoom and coordinates
+You can choose icon to show on pin searching for the english name of icon.
+
+Typing *university* its icon will be displayed. Typing *arrow* multiple choices will be displayed.
+
+Complete list of icons is on https://semantic-ui.com/elements/icon.html.
+
+#### 4.4 and 4.7. Coordinates
 
 By using the zoom feature or the + or – buttons you will see a specific part of the territory. 
 
@@ -48,9 +58,9 @@ By clicking on the *Coordinates on current position* button on the top of the ma
 
 The preview has a limited framework compared to the map that will be published full screen mode, so it is recommended to use a zoom level a little bit higher so as to take the elements on the sidelines slightly off the preview framework.
 
-#### Auto vs. Manual
+#### 4.3 Zoom mode and zoom level
 
-By selecting the *Auto* mode, you can avoid to specify a zoom level.
+You can pick one zoom level (between 1 and 18) or alternatively select the *Auto* mode.
 
 In this mode the map will be zoomed and centered on the basis of the received data.
 
@@ -62,26 +72,24 @@ However, the Auto mode could be used also to take a portion of the map after you
 
 After that you will be able to use the zoom and drag the map using always the *Coordinates on current position* button until you see the wished portion of map. 
 
+#### 4.5. Switch to disable clusters
 
-#### Clustering
+Choosing a group, map will zoom to include all elements of selected group.
 
-The *clustering* feature could be used to cluster elements geographically adjacent. The higher is the embedded value, the higher will be the number of clustered elements.
+It is strongly advised not to switch off since the interactive map performance will worsen noticeably.
 
-In framing, if you select a clustered group, the map will be zoomed to see all the clustered elements.
-
-
-#### Minimum and maximum zoom
+#### 4.6. Minimum and maximum values for the zoom
 
 These parameters can be unaltered. They establish how much the user can zoom back (minimum zoom) or zoom forward (maximum zoom).
 
 The embedded values must be integer and it is better not to overcome the default values (maximum 18 and at least 1).
 
 
-### 4. Review and edit the map before publishing
+### 5. Publish or save draft
 
-![4th step](/wizard/man/_media/wizard-04.png)
+Publishing the map will be displayed to the public.
 
-There can’t be two maps with the same path, there will be suggested an editable one based on the title.
+Saving the map as draft, map can be edited later without publishing it.
 
 ## Admin dashboard
 
@@ -89,19 +97,15 @@ You can find the admin dashboard at:
 
 - [map.wikimedia.swiss/admin](https://map.wikimedia.swiss/admin)
 
-![Admin dashboard](/wizard/man/_media/admin-01.png)
-
 In the admin dashboard you can:
 
-1. List the published maps on the site;
-2. Edit the single map;
-3. Choose the order of the map appearance in the landing page; 
-4. Add the “favorite” icon (star) to a map;
-5. Delete maps
+1. List, add, change categories on the site;
+2. List map on site;
+3. Edit map through title; 
+4. Chane display order of maps and categories using drag & drop;
+6. Publish or unpublish maps.
 
-Once you click on a map title you will be sent back to the edit page.
-
-Whether you choose to delete or add an element to the favorites, you always need to click on the save button. 
+Press Save to apply the changes.
 
 ## Edit a map
 
@@ -109,3 +113,4 @@ On the edit page of the single map you can change what you’ve already added in
 
 You will see again the wizard form already explained in *How to create a map*. You could edit the query as well as the profile of display the map. 
 
+You can unpublish a previously published map.

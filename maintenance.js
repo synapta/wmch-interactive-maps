@@ -3,16 +3,9 @@
 const program = require('commander');
 const request = require('request');
 const config = require('./config');
-const util = require('util');
-const fs = require('fs');
-const models       = require('./db/models');
-const dbinit       = require('./db/init');
+const { logger } = require('./units/logger');
 const diff = require('./units/diff');
-// load local config and check if is ok (testing db)
-const localconfig = dbinit.init();
-const hasha = require('hasha');
-// connect to db
-const db = require(util.format('./db/connector/%s', localconfig.database.engine));
+const {migrate, connection, Map, History} = require("./db/modelsB.js");
 
 program
   .version('0.0.1')
@@ -25,7 +18,7 @@ program
 function regenerateMaps (maps) {
     if (maps.length) {
         let record = maps.shift();
-        util.log("Updating preview for id %d - %s", record.id, record.title);
+        logger.info("Updating preview for id %d - %s", record.id, record.title);
         request({
              url: config.screenshotServer.url,
              method: "PUT",
@@ -34,18 +27,25 @@ function regenerateMaps (maps) {
              },
              json: {mapargs: record.mapargs}
         }, async function (error, response, jsonBody) {
-            // console.log(jsonBody);
-            record.screenshot = jsonBody.path;
-            // console.log(record.screenshot);
-            // console.log(record.screenshot);
-            // update record with the new screenshot
-            record.save().then(() => {
-                regenerateMaps(maps);
-            })
+            if (!error && typeof jsonBody !== "undefined" && typeof jsonBody.path === "string") {
+              // console.log(jsonBody);
+              record.screenshot = jsonBody.path;
+              // logger.debug(record.screenshot);
+              // logger.debug(record.screenshot);
+              // update record with the new screenshot
+              record.save().then(() => {
+                  logger.info("Updated")
+                  regenerateMaps(maps);
+              })
+            }
+            else {
+              logger.error("Cannot regenerate %d - %s", record.id, record.title)
+              regenerateMaps(maps);
+            }
         });
     }
     else {
-        util.log("maps preview updated");
+        logger.info("maps preview updated");
         // exit without errors
         process.exit(0);
     }
@@ -62,12 +62,6 @@ function programProcessdiff(mapId, finalCallback) {
      **/
     let limit = 2;
     let offset = 0;
-    // init database ORM
-    let dbMeta = new db.Database(localconfig.database);
-    const Map = dbMeta.db.define('map', models.Map);
-    const History = dbMeta.db.define('history', models.History);
-    Map.hasMany(History);  // 1 : N
-    History.belongsTo(Map);  // new property named "map" for each record
     // specify map.id by command line
     let historyWhere = {
       mapId: mapId
@@ -75,7 +69,7 @@ function programProcessdiff(mapId, finalCallback) {
     };
 
     function writeDiff() {
-        util.log("limit %d; offset %d", limit, offset);
+        logger.info(`limit ${limit}; offset ${offset}`);
         History.findAll({
           where: historyWhere,
           include: [{
@@ -149,10 +143,6 @@ function programProcessdiff(mapId, finalCallback) {
 
 if (program.regeneratepreviews)  {
     // Used for landing page, 3 elements per load, offset passed by url
-    let dbMeta = new db.Database(localconfig.database);
-    const Map = dbMeta.db.define('map', models.Map);
-    const History = dbMeta.db.define('history', models.History);
-    Map.hasMany(History); // 1 : N
     Map.findAll({
       where: {
         published: true
@@ -164,16 +154,11 @@ if (program.regeneratepreviews)  {
           regenerateMaps(maps);
       }
       else {
-          console.log("No maps found on database, cannot update");
+          logger.info("No maps found on database, cannot update");
       }
     });
 }
 if (program.testdiff)  {
-    let dbMeta = new db.Database(localconfig.database);
-    const Map = dbMeta.db.define('map', models.Map);
-    const History = dbMeta.db.define('history', models.History);
-    Map.hasMany(History); // 1 : N
-    History.belongsTo(Map);  // new property named "map" for each record
     // specify map.id by command line
     var historyWhere = {mapId:  parseInt(program.testdiff)};
     historyWhere['diff'] = true;
@@ -198,21 +183,21 @@ if (program.testdiff)  {
       }
       diff.processDeepDiff(elements, function (results) {
           for (r of Object.values(results)) {
-              util.log('----------------------------------------------------');
-              console.log(JSON.stringify(r, null, 2));
+              logger.info('----------------------------------------------------');
+              logger.info(JSON.stringify(r, null, 2));
           }
           process.exit(0);
       });
     });
 }
 if (program.processdiff)  {
-    console.log("TODO: process all records for the provided map and regenerate postProcess field");
+    logger.info("TODO: process all records for the provided map and regenerate postProcess field");
     let mapId = parseInt(program.processdiff);
     programProcessdiff(
       mapId,
       function () {
           // all ok
-          util.log("Diff successfully written on History for Map with map.id = %d", mapId);
+          logger.info("Diff successfully written on History for Map with map.id = %d", mapId);
           process.exit(0);
       }
     );
@@ -220,9 +205,7 @@ if (program.processdiff)  {
 
 if (program.checkerrors) {
   (async () => {
-    console.log("Checking errors in histories table");
-    let dbMeta = new db.Database(localconfig.database);
-    const History = dbMeta.db.define('history', models.History);
+    logger.info("Checking errors in histories table");
     const hists = await History.findAll({
       attributes: ['id']
     });
@@ -234,7 +217,7 @@ if (program.checkerrors) {
       });
       const jsonValue = JSON.parse(history.json);
       if (jsonValue.error) {
-        console.log("Error found with id " + hist.id);
+        logger.error("Error found with id " + hist.id);
         history.error = true;
         await history.save();
       }

@@ -1,0 +1,44 @@
+{
+  "page": {
+    "title": "Richiedi la tua mappa",
+    "subtitle": ""
+  },
+  "asktype": {
+    "legend": "Che tipo di mappa hai in mente?",
+    "asknewmap": "Nuova mappa",
+    "askchangemap": "Modifica mappa esistente",
+    "askother": "Richiesta di altro tipo"
+  },
+  "comment": {
+    "label": "Facci sapere quale mappa vorresti",
+    "placeholder": "Inserisci qui il tuo messaggio",
+    "help": "Sii costruttivo ed educato e fornisci più dettagli possibili per costruire la mappa che desideri."
+  },
+  "ihavesparql": {
+    "legend": "Hai già una query SPARQL da proporre?",
+    "sparqlno": "No",
+    "sparqlyes": "Sì",
+    "confirm": "Sei sicuro di perdere quanto scritto finora?"
+  },
+  "sparql": {
+    "label": "La query SPARQL che suggerisci",
+    "placeholder": "Inserisci la query SPARQL che vorresti vedere trasformata in mappa",
+    "help": "Dandoci una query SPARQL completamente funzionante ci aiuterai a velocizzare la scelta della tua mappa. Prima di inviare prova su <a href=\"https://query.wikidata.org/\" target=\"_blank\">query.wikidata.org</a>."
+  },
+  "message": {
+    "sent": "La tua richiesta è stata inoltrata, grazie!"
+  },
+  "contact": {
+    "legend": "Aiutaci a contattarti",
+    "mail": "La tua e-mail",
+    "name": "Il tuo nome"
+  },
+  "validate": {
+    "text": "Compila i campi.",
+    "choice": "Fai una scelta.",
+    "email": "E-mail non valida"
+  },
+  "another": "Altra richiesta",
+  "home": "Torna alla pagina principale",
+  "submit": "Invia"
+}

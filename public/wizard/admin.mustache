@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{#i18n}}page.title{{/i18n}}</title>
+
+    <link rel="stylesheet" href="/css/lib/font-awesome/font-awesome-4.3.0.min.css" />
+    <link rel="stylesheet" href="/css/lib/semantic-2.4.0.min.css" />
+
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/all.css" />
+    <link rel="stylesheet" href="/css/wizard.css" />
+    <link rel="stylesheet" href="/css/override.css" />
+
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    {{> menu}}
+    <div class="ui padded grid two columns doubling">
+        <section data-confirm="{{#i18n}}actions.submit.confirm{{/i18n}}" class="column centered">
+          <div class="ui red message column centered hidden msg-update-error">
+            <div class="header">{{#i18n}}message.updateError.title{{/i18n}}</div>
+            <p>{{#i18n}}message.updateError.text{{/i18n}}</p>
+          </div>
+          <div class="ui green message column centered hidden msg-update-ok">
+            <p>{{#i18n}}message.updateOk.text{{/i18n}}</p>
+          </div>
+          <div class="ui green message column centered hidden msg-update-success">Successfully updated</div>
+          <button class="ui button savechanged wikiblue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
+          <table class="ui table compact sortable-admin" id="adminui">
+            <thead class="full-width">
+              <tr>
+                <th>{{#i18n}}headers.title{{/i18n}}</th>
+                <th class="donotdisplay">{{#i18n}}headers.order{{/i18n}}</th>
+                <th>{{#i18n}}headers.history{{/i18n}}</th>
+                <th>{{#i18n}}headers.delete{{/i18n}}</th>
+              </tr>
+            </thead>
+                <tbody>
+                <tr class="category new-category">
+                  <td colspan="4">
+                    <div class="ui left icon grey input fluid">
+                      <input type="text" id="createcategory" placeholder="{{#i18n}}category.create.text{{/i18n}}">
+                      <i class="plus icon"></i>
+                    </div>
+                    <div id="createcategory_empty" class="ui pointing red basic label hidden">
+                      {{#i18n}}category.empty.text{{/i18n}}
+                    </div>
+                  </td>
+                </tr>
+                {{#categories}}
+                    <tr class="category table-sort-element {{^maps}}deletable{{/maps}}" 
+                    data-id="{{id}}"
+                    data-sticky="{{sticky}}"
+                    data-name="{{name}}"
+                    data-changed="0">
+                      <td colspan="2">
+                        <i class="caret {{#maps}}down {{/maps}} {{^maps}}right{{/maps}} large icon grey"></i>
+                        <div class="ui input">
+                          <input type="text" class="name" value="{{name}}" />
+                        </div>
+                      </td>
+                      <td><a class="delete-category donotdisplay" href="#"><i class="trash big grey icon"></i></a></td>
+                      <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
+                    </tr>
+                    {{#maps}}
+                    <tr class="map-record {{#history}}history{{/history}} {{#published}}published{{/published}} table-sort-element"
+                      data-id="{{id}}"
+                      data-category="{{categoryId}}"
+                      data-changed="0"
+                      data-published="{{#published}}1{{/published}}{{^published}}0{{/published}}"
+                      data-title="{{title}}"
+                      data-sticky="{{sticky}}"
+                      data-history="{{#history}}1{{/history}}{{^history}}0{{/history}}">
+                        <td class="map-record-title"><i class="sort icon grey"></i><a href="/admin/edit/{{id}}">{{title}}</a> <sub>{{^published}}(Draft){{/published}}</sub></td>
+                        <th><a class="ui button change-history {{^published}}disabled{{/published}} transparent" href="#"><i class="toggle big {{#history}}on green{{/history}} {{^history}}off grey{{/history}} icon"></i></a></th>
+                        <th><a class="change-visibility" href="#"><i class="toggle big eye {{^published}}slash grey{{/published}} {{#published}}green{{/published}} icon"></i></a></th>
+                        <th class="donotdisplay"><div class="ui input" ><input type="text" value="{{sticky}}" size="3" class="order" /></div></th>
+                    </tr>
+                  {{/maps}}
+                {{/categories}}
+              </tbody>
+            </table>
+            <button class="ui button savechanged wikiblue" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
+        </section>
+        <footer class="sixteen wide column ui items right aligned">
+          <div id="author">{{{credits}}}</div>
+        </footer>
+    </div>
+    <div id="updating" class="ui inverted dimmer">
+      <div class="ui massive loader"></div>
+    </div>
+
+    <script src="/js/lib/jquery-3.3.1.min.js"></script>
+    <script src="/js/lib/semantic-2.4.1.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/html5sortable/0.9.11/html5sortable.js"></script>
+
+    <script src="/wizard/js/urlify.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/wizard/js/public-admin.js"></script>
+    <script src="/js/svg.js"></script>
+</body>
+</html>

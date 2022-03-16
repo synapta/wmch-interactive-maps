@@ -1,0 +1,44 @@
+{
+  "page": {
+    "title": "Demandez votre carte",
+    "subtitle": ""
+  },
+  "asktype": {
+    "legend": "Quel type de carte avez-vous en tête ?",
+    "asknewmap": "Nouvelle carte",
+    "askchangemap": "Modifier la carte existante",
+    "askother": "Requête d'un autre type"
+  },
+  "comment": {
+    "label": "Faites-nous savoir quelle carte vous souhaitez",
+    "placeholder": "Entrez votre message ici",
+    "help": "Soyez constructif et poli et fournissez autant de détails que possible pour construire la carte que vous souhaitez."
+  },
+  "ihavesparql": {
+    "legend": "Vous avez déjà une requête SPARQL à proposer ?",
+    "sparqlno": "Non",
+    "sparqlyes": "Oui",
+    "confirm": "Êtes-vous sûr que ce que vous avez écrit jusqu'à présent vous manque ?"
+  },
+  "sparql": {
+    "label": "La requête SPARQL que vous suggérez",
+    "placeholder": "Saisissez la requête SPARQL que vous souhaitez voir transformée en carte",
+    "help": "Donner une requête SPARQL entièrement fonctionnelle vous aidera à booster votre sélection de cartes ! Essayez sur <a href=\"https://query.wikidata.org/\" target=\"_blank\"> query.wikidata.org </a> avant de soumettre."
+  },
+  "message": {
+    "sent": "Demande envoyée, merci !"
+  },
+  "contact" : {
+    "legend" : "Aidez-nous à vous contacter",
+    "mail" : "Votre email",
+    "name" : "Votre nom"
+  },
+  "validate" : {
+    "text" : "Remplir les champs.",
+    "choice" : "Faire un choix",
+    "email " : "Invalid email"
+  },
+  "another" : "Autre demande",
+  "home" : "Retour à la page principale",
+  "submit": "Soumettre"
+}

@@ -2,19 +2,20 @@
  *
  **/
 const util = require('util');
+const { logger } = require('./logger');
+const {migrate, connection, Map, History, MapCategory, Category} = require("../db/modelsB.js");
 const fs = require('fs');
+const dbutils = require('./dbutils.js');
+const templateutils = require('./templateutils.js');
 const i18next = require('i18next');
 const i18n_utils = require('../i18n/utils');
 // Global settings
-const dbinit       = require('../db/init');
-const models       = require('../db/models');
 const config = require('../config');
-const localconfig = dbinit.init();
+const localconfig = require('../localconfig');
 const Mustache = require('mustache');
 const request = require('request');
+const query = require('../db/query');
 var md = require('markdown-it')();
-const db = require(util.format('../db/connector/%s', localconfig.database.engine));
-const DEBUG = localconfig.debug ? localconfig.debug : false;
 
 /**
  * Check permission against action name and id.
@@ -46,10 +47,7 @@ function getWizardActionPermissionAllowed(action, id) {
  * @return {undefined}             None. A res.send() must be set to expose output. An HTTP error 400 bad request instead.
  */
 function getWizardPath(req, res, action=null, id=null) {
-   // let action = req.params.action ? req.params.action : 'add';
-   if (DEBUG) {
-       console.log('Path', req.originalUrl, 'Action: ', action, "Id:", id);
-   }
+   logger.debug('Path', req.originalUrl, 'Action: ', action, "Id:", id);
    if (getWizardActionPermissionAllowed(action, id)) {
        getWizard(req, res, action, id);
    }
@@ -63,28 +61,30 @@ function getWizardPath(req, res, action=null, id=null) {
  * @param  {integer} id Map primary key on database, numeric integer.
  * @return {Promise}    Promise of a database record of Map. Empty object on error.
  */
-function getMapConfigFromDb (id) {
-    console.log(id);
-    return new Promise((resolve, reject) => {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
-        Map.findOne({
-          where: {
-            id: id,
-            published: true  // disallow edit for unpublished
-          }
-        }).then(mapRecord => {
-          if (mapRecord) {
-              resolve(models.getAllFieldsAsDict(mapRecord));
-          }
-          else {
-              // console.log('resolved emp');
-              resolve({});
-          }
-        });
-    });
+async function getMapConfigFromDb (id) {
+  const mapRecord = await Map.findOne({
+    include: Category,
+    where: {
+      id: id
+    }
+  });
+  if (mapRecord) {
+    return dbutils.getAllFieldsAsDict(mapRecord);
+  }
+  return {};
+}
+
+/**
+ * 
+ * @param {Object} query from Express
+ * @param {String} fieldName database field and parameter name
+ * @returns published=1 -> true; if absent or published=0 -> false
+ */
+function query2booleanField (query, fieldName) {
+  if (query.hasOwnProperty(fieldName)) {
+    return query[fieldName] == 1;
+  }
+  return false;
 }
 
 /**
@@ -95,66 +95,66 @@ function getMapConfigFromDb (id) {
  * @return {undefined}        None. A res.send() must be set to expose output, redirect to map on success.
  */
 async function cuMap (req, res, action) {
-    // load database from configuration
-    let dbMeta = new db.Database(localconfig.database);
-    // create a connection with Sequelize
-    let [conn, err] = await dbMeta.connect();
-    if (err) {
-        res.send('Cannot connect to db');
-    }
-    else {
-        // models.Map.sync();
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
-        // add a new record
-        try {
-            // let url = util.format("%s/%s", config.screenshotServer.url, req.query.mapargs);
-            // make a request to screenshot server. Get the screenshot path.
-            request({
-                 url: config.screenshotServer.url,
-                 method: "PUT",
-                 headers: {
-                   'Accept': 'application/json'
-                 },
-                 json: {mapargs: req.query.mapargs}
-            }, async function (error, response, jsonBody) {
-                if (!jsonBody) {
-                    util.log('******** Screenshot server is down ************');
-                }
-                switch (action) {
-                    case 'add':
-                        // add a new record to Map table via ORM
-                        await Map.create({
-                          title: req.query.title,
-                          path: req.query.path,
-                          mapargs: req.query.mapargs,
-                          screenshot: jsonBody.path,
-                          published: true
-                        });
-                    break;
-                    case 'edit':
-                        let currentId = parseInt(req.params.id);
-                        await Map.findByPk(currentId).then(async (editedMap) => {
-                            await editedMap.update({
-                              title: req.query.title,
-                              path: req.query.path,
-                              mapargs: req.query.mapargs,
-                              screenshot: jsonBody.path,
-                              published: true
-                            });
-                        });
-                        // add a new record to Map table via ORM
-                    break;
-                }
-                res.redirect(util.format("/v/%s", req.query.path));
-            });
-        }
-        catch (e) {
-            console.log(e);
-            res.send('<h2>Cannot create!</h2><a href="#" onclick="window.history.go(-1); return false;">Go back</a>');
-        }
-    }
+  // add a new record
+  try {
+      // make a request to screenshot server. Get the screenshot path.
+      request({
+            url: config.screenshotServer.url,
+            method: "PUT",
+            headers: {
+              'Accept': 'application/json'
+            },
+            json: {mapargs: req.query.mapargs}
+      }, async function (error, response, jsonBody) {
+          if (!jsonBody) {
+              logger.info('******** Screenshot server is down ************');
+              // add fallback 
+              jsonBody = {path: "./images/placeholder.png"}
+          }
+          const isPublished = query2booleanField(req.query, 'published');
+          switch (action) {
+              case 'add':
+                  // add a new record to Map table via ORM
+                  const map = await Map.create({
+                    title: req.query.title,
+                    path: req.query.path,
+                    mapargs: req.query.mapargs,
+                    screenshot: jsonBody.path,
+                    published: isPublished
+                  });
+                  await MapCategory.create({
+                    mapId: map.id,
+                    categoryId: req.query.category
+                  });
+              break;
+              case 'edit':
+                  let currentId = parseInt(req.params.id);
+                  await Map.findByPk(currentId).then(async (editedMap) => {
+                      await editedMap.update({
+                        title: req.query.title,
+                        path: req.query.path,
+                        mapargs: req.query.mapargs,
+                        screenshot: jsonBody.path,
+                        published: isPublished
+                      });
+                      await query.setMapCategory(editedMap.id, req.query.category);
+                  });
+                  // add a new record to Map table via ORM
+              break;
+          }
+          // res.send(req.query)  // DEBUG
+          if (isPublished) {
+            res.redirect(util.format("/v/%s", req.query.path));
+          }
+          else {
+            res.redirect("/admin");
+          }
+      });
+  }
+  catch (e) {
+      logger.error(e);
+      res.send('<h2>Cannot create!</h2><a href="#" onclick="window.history.go(-1); return false;">Go back</a>');
+  }
 }
 
 /**
@@ -166,7 +166,7 @@ async function cuMap (req, res, action) {
 function getMapValues(action, id) {
     return new Promise((resolve, reject) => {
         if (action === 'edit') {
-          getMapConfigFromDb(id).then(configFromDb => {
+          getMapConfigFromDb(id).then(async (configFromDb) => {
             let configMap = {};
             // clone, doesn't alter, config.map
             Object.assign(configMap, config.map);
@@ -174,16 +174,12 @@ function getMapValues(action, id) {
             Object.assign(configMap, configFromDb);
             // add derived values
             currentStyle = configMap.styles.filter(styleRow => { return styleRow.tile === configMap.tile }).pop();
-            if (DEBUG) console.log('§§§§§§§§§§§§§§§§§§§§§§§§§§', configMap.style);
+            logger.debug('§§§§§§§§§§§§§§§§§§§§§§§§§§', configMap.style);
             configMap.style = currentStyle ? currentStyle.name : '';
-            // console.log(configMap);
-            // Object.assign(configMap, {title: "ciao mondo"});
-            // console.log(configMap);
             resolve(configMap);
           });
         }
         else {
-          // action == 'add' & co.
           resolve(config.map);
         }
     });
@@ -198,14 +194,11 @@ function getMapValues(action, id) {
  *  @return None. A res.send() must be set to expose output.
  **/
 function getWizard(req, res, action, id) {
-   // throw Error('should broke here');  // error reporting test
    const formActions = {
      'add': '/wizard/generate',
      'edit': util.format('/admin/edit/%d/save', id)
    };
-   // [ 'it', 'it-IT', 'en-US', 'en' ]
-   // console.log(req.acceptsLanguages()[0]);
-   fs.readFile(util.format('%s/../public/wizard/index.html', __dirname), function (err, fileData) {
+   fs.readFile(util.format('%s/../public/wizard/index.mustache', __dirname), function (err, fileData) {
        if (err) {
          throw err;
        }
@@ -214,38 +207,42 @@ function getWizard(req, res, action, id) {
        let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'wizard');
        let i18nOptions = i18n_utils.geti18nOptions(shortlang);
        i18nOptions.resources[shortlang] = {translation: translationData};
-       // console.log(i18nOptions);
        // load i18n
        i18next.init(i18nOptions, function(err, t) {
-           // i18n initialized and ready to go!
-           // document.getElementById('output').innerHTML = i18next.t('key');
            // variables to pass to Mustache to populate template
-           getMapValues(action, id).then(values => {
+           getMapValues(action, id).then(async (values) => {
              if (!values.id && action !== 'add') {
                 // unpublished or removed item
                 res.status(404).send('<h1>Not found</h1>')
              }
-             if (DEBUG) console.log("DEBUG TEMPLATE *****************************************************************", values);
-             var view = {
-               shortlang: shortlang,
-               langname: i18n_utils.getLangName(config.languages, shortlang),
-               map: values,
-               logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
-               baseurl: localconfig.url + "/",
-               sparql: config.sparql,
-               languages: config.languages,
-               formAction: formActions[action],
-               formActionName: action,
-               i18n: function () {
-                 return function (text, render) {
-                     i18next.changeLanguage(shortlang);
-                     return i18next.t(text);
-                 }
-               }
-             };
-             // console.log(view);
-             var output = Mustache.render(template, view);
-             res.send(output);
+             else {
+              logger.debug("DEBUG TEMPLATE *****************************************************************", values);
+              i18next.changeLanguage(shortlang);
+              var view = {
+                isWizardPage: action === "add",
+                isEditPage: action === "edit",
+                shortlang: shortlang,
+                langname: i18n_utils.getLangName(config.languages, shortlang),
+                map: values,
+                title: !values.hasOwnProperty('title') ? null : `${i18next.t('actions.edit.text')} ${values.title}`,
+                logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                baseurl: localconfig.url + "/",
+                sparql: config.sparql,
+                languages: config.adminLanguages,
+                formAction: formActions[action],
+                formActionName: action,
+                i18n: function () {
+                  return function (text, render) {
+                      i18next.changeLanguage(shortlang);
+                      return i18next.t(text);
+                  }
+                }
+              };
+              const menuTemplate = await templateutils.readMustachePartials('public/wizard/menu.mustache');
+              const partials = {menu: menuTemplate};
+              var output = Mustache.render(template, view, partials);
+              res.send(output);
+             }
            });
        });
    });

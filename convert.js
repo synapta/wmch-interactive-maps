@@ -1,5 +1,4 @@
-const dbinit = require('./db/init');
-const localconfig = dbinit.init();
+const localconfig = require('./localconfig');
 
 const mariadb = require('mariadb');
 const pool = mariadb.createPool({

@@ -1,6 +1,7 @@
 // Client rendering and functions for Map Wizard
 var isTimeline = false;
 
+
 $(function() {
     var confMobileThresold = 641;
 
@@ -53,7 +54,7 @@ $(function() {
     };
 
     var formIsValid = function () {
-        if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid') && $('#map-query').data('valid')) {
+        if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid') && $('#map-query').data('valid') && $('#category-select').data('valid')) {
             // form is valid
             return true;
         }
@@ -108,33 +109,24 @@ $(function() {
         $.ajax ({
             type:'GET',
             dataType: 'json',
-            url: "/s/" + $(this).val(),
+            url: "/admin/api/get/map/?path=" + $(this).val() + "&id=" + $('form').data('map-id'),
             error: function(e) {
                 $("#path-found").hide();
                 $("#path-not-found").show();
                 $("input[name='path']").data('valid', 1);
             },
             success: function(json) {
-                var action = $('form').data('action-name');
+                var action = json.exists ? 'pathExists' : $('form').data('action-name');
                 switch (action) {
                     case 'edit':
-                        // console.log(json.id);
-                        if (json.id == $('form').data('map-id')) {
-                            // can overwrite path on the same record
-                            $("#path-found").hide();
-                            $("#path-not-found").show();
-                            $("input[name='path']").data('valid', 1);
-                        }
-                        else {
-                            // already used
-                            $("#path-found").show();
-                            $("#path-not-found").hide();
-                            $("input[name='path']").data('valid', 0);
-                        }
+                        // can overwrite path on the same record
+                        $("#path-found").hide();
+                        $("#path-not-found").show();
+                        $("input[name='path']").data('valid', 1);
                     break;
-                    case 'add':
+                    case 'add':  // invalid by default
+                    case 'pathExists':
                     default:
-                        // invalid by default
                         $("#path-found").show();
                         $("#path-not-found").hide();
                         $("input[name='path']").data('valid', 0);
@@ -556,6 +548,36 @@ $(function() {
         }
     });
 
+    // Select Category
+    $.ajax ({
+        type:'GET',
+        dataType: 'json',
+        url: "/admin/api/get/categories",
+        error: function(e) {
+            console.warn('Error retrieving categories');
+        },
+        success: function (json) {
+            $('.ui.search.category-wrapper')
+            .search({
+              source: json,
+              fullTextSearch: true,
+              onSelect: function(result, response) {
+                // set hidden field value
+                $("input[name='category']").val(result.id);
+                $('#category-select').data('valid', 1);
+                // Drop other category
+                $('.category-label').remove();
+                // Display the category
+                $(".category-wrapper").parents('.field').eq(0).after(`<div class="field category-label"><a class="ui label purple">
+                <i class="tag icon"></i> ${result.title}
+              </a></div>`);
+                console.log(`Category ${result.id} selected`);  // DEBUG
+                // $('.ui.search.category-wrapper').search("set value", "");  // TODO
+              }
+            });
+        }
+    });
+
     // Prevent accidental submit
     $('form').on('submit', function (ev) {
         if ($(this).hasClass('not-confirmed')) {
@@ -575,10 +597,5 @@ $(function() {
 
     // First step: trigger keyUp to force path check
     $("input[name='path']").trigger("keyup");
-
-    // add arrow to #languages dropdown
-    $("#languages .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
-    $("#languagesmobile .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
-
 
 });

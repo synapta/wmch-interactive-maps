@@ -4,8 +4,6 @@
  */
 
 const util = require('util');
-const dbinit       = require('../db/init');
-const localconfig = dbinit.init();
 
 /**
  *  Load language into a javascript object.
@@ -50,31 +48,6 @@ function languageWalker(candidateLangsReversed, req, fallbackLanguage, section) 
     return [shortlang, translationData];
 }
 
-/////////////////////////////////
-// OLD VERSION
-function languageWalkerOLD(candidateLangsReversed, req, fallbackLanguage, section) {
-    if (candidateLangsReversed.length) {
-        let candidateLang = candidateLangsReversed.pop();
-        let shortlang = getShortlang(req.query.l ? req.query.l : candidateLang);
-        // console.log("shortLang is", shortLang);
-        try {
-            let translationData = loadTranslationFile(section, shortlang);
-            return [shortlang, translationData];
-        }
-        catch (e) {
-            // not found in local translation, continue
-            languageWalker(candidateLangsReversed, req, fallbackLanguage, section);
-            return [shortlang, translationData];
-        }
-    }
-    else {
-        // none match use fallback language
-        shortlang = fallbackLanguage;
-        translationData = loadTranslationFile(section, fallbackLanguage);
-        return [shortlang, translationData];
-    }
-}
-
 /**
  *  Detect user language
  *  @param {object} req: request to use to find user language
@@ -103,7 +76,7 @@ function seekLang (req, fallbackLanguage, section) {
  *  Get languages list.
  *  @param {string} languages: array of languages (code, name)
  *  @param {string} shortlang: ISO 639-1 code
- *  @return {array}: language name by configuration
+ *  @return {string}: language name by configuration
  **/
 function getLangName (languages, shortlang) {
     let langname = false;
@@ -123,7 +96,7 @@ function getLangName (languages, shortlang) {
 function geti18nOptions(shortlang) {
     return {
       lng: shortlang,
-      debug: localconfig.debug ? localconfig.debug : false,
+      debug: parseInt(process.env.DEBUG) > 1,  // show only on trace
       resources: {}
     };
 }

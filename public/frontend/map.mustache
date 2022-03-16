@@ -58,7 +58,7 @@
           <h1>{{dbMap.title}}</h1>
         </div>
         <div class="three wide column right aligned">
-          <div class="ui wikiblue dropdown search icon button" id="languages">
+          <div class="ui wikiblue dropdown search icon button" id="languageslegacy">
             <span class="text">{{langname}}</span>
             <div class="menu">
               {{#languages}}
@@ -101,6 +101,7 @@
     data-filter-four="{{#i18n}}filter.four{{/i18n}}"
     data-realtime-text="{{#i18n}}actions.realtime.text{{/i18n}}"
     data-history-text="{{#i18n}}actions.history.text{{/i18n}}"
+    data-show-history="{{#showHistory}}1{{/showHistory}}{{^showHistory}}0{{/showHistory}}"
     data-is-history="{{#isHistory}}1{{/isHistory}}{{^isHistory}}0{{/isHistory}}"
     ></div>
 

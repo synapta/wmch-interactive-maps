@@ -14,6 +14,9 @@
     "four": "Four articles"
   },
   "actions": {
+    "askyourmap": {
+      "calltoaction": "Ask your map!"
+    },
     "back": {
       "text": "Back to home"
     },

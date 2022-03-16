@@ -1,0 +1,79 @@
+<!doctype html>
+<html class="no-js" lang="{{shortlang}}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{#i18n}}page.title{{/i18n}}</title>
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/icon.min.css" /><!-- only icons -->
+    <link rel="stylesheet" href="/themes/wmch-interactive-maps-v3-theme/css/app.css" />
+  </head>
+  <body>
+    <div class="grid-container full">
+      <div class="grid-x">
+        {{>menu}}
+        <div class="header-your-map cell margin-bottom-1 padding-top-3 padding-bottom-2">
+                              <div class="grid-container">
+                                <div class="grid-x">
+                                  <div class="cell medium-6 large-6 padding-top-3 padding-bottom-3">
+                                    <h1 class="h3">{{#i18n}}page.title{{/i18n}}</h1>
+                                    <h2 class="h6">{{#i18n}}page.subtitle{{/i18n}}</h2>
+                                    <a href="/your-map" class="warning button large upper-strip text-uppercase margin-top-2">{{#i18n}}actions.askyourmap.calltoaction{{/i18n}}</a>
+                                  </div>
+                                </div>
+                              </div>
+        </div>
+        {{#categories}}
+        <div class="cell">
+          <div class="grid-container">
+            <div class="grid-x">
+              <div class="cell">
+                <h2 class="h4 text-uppercase">{{name}}</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="cell margin-bottom-2">
+                              <div class="grid-container">
+                                <div class="grid-x grid-padding-x small-up-2 medium-up-3 large-up-4">
+                                  {{#maps}}
+                                  <div class="cell">
+                                    <a class="radius bordered shadow card" href="{{absolutePath}}">
+                                      <div class="clear secondary button large position-absolute">
+                                        <i class="icon {{icon}}"></i>
+                                      </div>
+                                      <img src="{{screenshotUrl}}">
+                                      <div class="card-section button primary">
+                                        <h3 class="h5 text-left text-truncate">{{title}}</h3>
+                                      </div>
+                                    </a>
+                                  </div>  
+                                  {{/maps}}
+                                </div>
+                              </div>
+        </div>
+        {{/categories}}
+        <div class="cell ov-footer margin-top-2">
+                              <div class="grid-container">
+                                <div class="grid-x grid-padding-y">
+                                    <div class="cell text-right">
+                                      {{#author}}
+                                        {{{author}}}
+                                      {{/author}}
+                                      <a title="wmch-interactive-maps@github" class="clear large button secondary margin-bottom-0 padding-0" href="https://github.com/synapta/wmch-interactive-maps" target="_blank"><span aria-hidden="true"><span class="show-for-sr">Fork me on GitHub</span><i class="ui grey icon github"></i></a>
+                                    </div>          
+                                </div>
+                              </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/foundation/6.7.4/js/foundation.min.js"></script>
+    <script src="/themes/wmch-interactive-maps-v3-theme/js/app.js"></script>
+    <script>
+    </script>
+
+  </body>
+</html>

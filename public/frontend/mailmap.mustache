@@ -1,0 +1,182 @@
+<!doctype html>
+<html class="no-js" lang="{{shortlang}}">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{#i18n}}page.title{{/i18n}}</title>
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/semantic-ui/2.4.1/components/icon.min.css" /><!-- only icons -->
+
+    <link rel="stylesheet" href="/themes/wmch-interactive-maps-v3-theme/css/app.css" />
+    <link rel="stylesheet" href="/css/mailmap.css" />
+    <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/codemirror.css">
+
+  </head>
+  <body>
+    <div class="grid-container full">
+      <div class="grid-x">
+        {{>menu}}
+        <div class="header-your-map cell margin-bottom-1 padding-top-2 padding-bottom-2">
+                              <div class="grid-container">
+                                <div class="grid-x">
+                                  <div class="cell">
+                                    <h1 class="h3">{{#i18n}}page.title{{/i18n}}</h1>
+                                    <p>{{#i18n}}comment.label{{/i18n}}</p>
+                                  </div>
+                                </div>
+                              </div>
+        </div>
+        <div class="cell">
+                              <div class="grid-container">
+                              {{#hasMessageSent}}
+                                <div class="callout success">
+                                  <p>{{#i18n}}message.sent{{/i18n}}</p>
+                                </div>
+                                <p class="padding-top-1"><a href="{{path}}" class="button">{{#i18n}}another{{/i18n}}</a></p>
+                                <p><a href="/">{{#i18n}}home{{/i18n}}</a></p>
+                              {{/hasMessageSent}}
+                              {{^hasMessageSent}}
+                                <form data-abide class="grid-x" id="askmap" action="{{path}}" method="post">
+                                  <input type="hidden" name="shortlang" value="{{shortlang}}">
+                                  <input type="hidden" name="sparqlcode" id="sparqlcode" value="">
+                                  <fieldset class="cell">
+                                    <legend>{{#i18n}}asktype.legend{{/i18n}}</legend>
+                                    <input type="radio" name="asktype" value="New" id="asknewmap" required><label for="asknewmap">{{#i18n}}asktype.asknewmap{{/i18n}}</label>
+                                    <input type="radio" name="asktype" value="Change existing map" id="askchangemap"><label for="askchangemap">{{#i18n}}asktype.askchangemap{{/i18n}}</label>
+                                    <input type="radio" name="asktype" value="Other request" id="askother"><label for="askother">{{#i18n}}asktype.askother{{/i18n}}</label>
+                                    <span class="form-error" data-form-error-on="required">
+                                      {{#i18n}}validate.choice{{/i18n}}
+                                    </span>
+                                  </fieldset>
+                                  <fieldset class="cell">
+                                    <legend></legend>
+                                    <label>
+                                      {{#i18n}}comment.label{{/i18n}}
+                                      <textarea id="comment" name="comment" rows="3" placeholder="{{#i18n}}comment.placeholder{{/i18n}}" aria-describedby="commentHelpText" required></textarea>
+                                      <span class="form-error" data-form-error-on="required">
+                                        {{#i18n}}validate.text{{/i18n}}
+                                      </span>
+                                    </label>
+                                    <p class="help-text" id="commentHelpText">{{#i18n}}comment.help{{/i18n}}</p>
+                                  </fieldset>
+                                  <fieldset class="cell small-4 medium-4 large-4">
+                                    <legend>{{#i18n}}contact.legend{{/i18n}}</legend>
+                                    <input type="text" name="contactname" value="" placeholder="{{#i18n}}contact.name{{/i18n}}" id="contactname" required>
+                                    <input type="text" name="contactmail" pattern="email" value="" placeholder="{{#i18n}}contact.mail{{/i18n}}" id="contactmail" required>
+                                    <span class="form-error" data-form-error-on="required">
+                                      {{#i18n}}validate.text{{/i18n}}
+                                    </span>
+                                    <span class="form-error" data-form-error-on="pattern">
+                                      {{#i18n}}validate.email{{/i18n}}
+                                    </span>
+                                  </fieldset>
+                                  <fieldset class="cell">
+                                    <legend>{{#i18n}}ihavesparql.legend{{/i18n}}</legend>
+                                    <input type="radio" name="ihavesparql" value="N" id="sparqlno" required checked><label for="sparqlno">{{#i18n}}ihavesparql.sparqlno{{/i18n}}</label>
+                                    <input type="radio" name="ihavesparql" value="Y" id="sparqlyes"><label for="sparqlyes">{{#i18n}}ihavesparql.sparqlyes{{/i18n}}</label>
+                                    <span class="form-error" data-form-error-on="required">
+                                      {{#i18n}}validate.choice{{/i18n}}
+                                    </span>
+                                  </fieldset>
+                                  <fieldset class="cell padding-bottom-2" id="sparql-container">
+                                    <legend></legend>
+                                    <label>
+                                      {{#i18n}}sparql.label{{/i18n}}
+                                      <textarea id="sparql" name="sparql" rows="14" placeholder="{{#i18n}}sparql.label{{/i18n}}" aria-describedby="sparqlHelpText"></textarea>
+                                    </label>
+                                  </fieldset>
+                                  <p class="cell help-text" id="sparqlHelpText">{{#i18n}}sparql.help{{/i18n}}</p>
+                                  <input type="submit" class="button" value="{{#i18n}}submit{{/i18n}}">
+                              </form>
+                              {{/hasMessageSent}}
+                              </div>
+        </div>
+        <div class="cell ov-footer margin-top-2">
+                              <div class="grid-container">
+                                <div class="grid-x grid-padding-y">
+                                    <div class="cell text-right">
+                                      {{#author}}
+                                        {{{author}}}
+                                      {{/author}}
+                                      <a title="wmch-interactive-maps@github" class="clear large button secondary margin-bottom-0 padding-0" href="https://github.com/synapta/wmch-interactive-maps" target="_blank"><span aria-hidden="true"><span class="show-for-sr">Fork me on GitHub</span><i class="ui grey icon github"></i></a>
+                                    </div>          
+                                </div>
+                              </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/foundation/6.7.4/js/foundation.min.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/foundation/6.7.4/js/plugins/foundation.abide.min.js"></script>
+    <script src="/themes/wmch-interactive-maps-v3-theme/js/app.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/codemirror.js"></script>
+    <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/mode/sparql/sparql.js"></script>
+    <script>
+      var sparqlQueryExample = `# Example query: keep the name and the use identical to these ones
+SELECT ?item ?itemLabel ?coord ?commons ?website ?img ?lang ?langcode
+WHERE {
+  ?item wdt:P31/wdt:P279* wd:Q6581615 .
+  ?item wdt:P625 ?coord
+        OPTIONAL { ?item wdt:P373 ?commons }
+        OPTIONAL { ?item wdt:P856 ?website }
+        OPTIONAL { ?item wdt:P18 ?img }
+        OPTIONAL {
+          ?art schema:about ?item ;
+          schema:inLanguage ?langcode .
+          BIND(IF(?langcode in ('en', 'it', 'fr', 'de'),?art,?langcode) AS ?lang)
+        }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en,de,fr,it". }
+}
+ORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord) ASC(?commons) DESC(?website) ASC(?img)`;
+
+      var myCodeMirror = null;
+
+      function loadCodeEditor () {
+        var textarea = document.getElementById("sparql");
+        myCodeMirror = CodeMirror(function(elt) {
+          textarea.parentNode.replaceChild(elt, textarea);
+        }, {
+          value: textarea.value,
+          mode: "sparql", 
+          dragDrop: false,
+          lineNumbers: true,
+          value: sparqlQueryExample
+        });
+      
+        myCodeMirror.on("change", function () {
+          document.getElementById("sparqlcode").value = myCodeMirror.getValue();
+        });
+      }
+
+      function showCodeEditor () {
+        if (myCodeMirror === null) {
+          loadCodeEditor();
+        }
+        else {
+          myCodeMirror.setValue(sparqlQueryExample);
+        }
+        document.getElementById("sparql").value = sparqlQueryExample;
+      }
+      function hideCodeEditor (e) {
+        var confirmMessage = `{{#i18n}}ihavesparql.confirm{{/i18n}}`;
+        if (window.confirm(confirmMessage)) {
+          myCodeMirror.setValue("");
+        }
+        else {
+          e.preventDefault();
+        }
+      }
+
+      document.getElementById("sparqlyes").addEventListener("click", showCodeEditor); 
+      document.getElementById("sparqlno").addEventListener("click", hideCodeEditor); 
+
+      if (document.getElementById("sparqlyes").checked) {
+        loadCodeEditor();
+      }
+
+    </script>
+
+  </body>
+</html>

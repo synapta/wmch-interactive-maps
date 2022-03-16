@@ -12,10 +12,15 @@
     {"code": "fr", "name": "Français"},
     {"code": "de", "name": "Deutsch"}
   ],
+  "adminLanguages": [
+    {"code": "en", "name": "English"},
+    {"code": "it", "name": "Italiano"}
+  ],
   "mapPattern": "/v/%s",
   "screenshotPattern": "/p/%s",
   "sparql": "SELECT ?item ?itemLabel ?coord ?commons ?website ?img ?lang ?langcode\n            WHERE {\n                ?item wdt:P31/wdt:P279* wd:Q33506 .\n                ?item wdt:P17 wd:Q39 .\n                ?item wdt:P625 ?coord\n                OPTIONAL { ?item wdt:P373 ?commons }\n                OPTIONAL { ?item wdt:P856 ?website }\n                OPTIONAL { ?item wdt:P18 ?img }\n                OPTIONAL {\n                  ?art schema:about ?item ;\n                  schema:inLanguage ?langcode .\n                  BIND(IF(?langcode in ('en', 'it', 'fr', 'de'),?art,?langcode) AS ?lang)\n                }\n                SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,de,fr,it\". }\n            }\n            ORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord) ASC(?commons) DESC(?website) ASC(?img)",
   "map": {
+    "published": false,
     "style": "OSM Bright",
     "styles": [
       {
@@ -45,8 +50,8 @@
   },
   "screenshotServer": {
     "GOTO_OPTS": { "waitUntil": ["load","domcontentloaded","networkidle0"], "timeout": 0 },
-    "port": 9057,
-    "url": "http://localhost:9057",
+    "port": 9031,
+    "url": "http://localhost:9031",
     "headless": true,
     "hideControls": true,
     "options": {

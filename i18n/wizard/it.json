@@ -15,10 +15,14 @@
       "title": "Aspetto",
       "description": "Scegli uno stile per la mappa"
     },
+    "category": {
+      "title": "Categoria",
+      "description": "La mappa apparirà in home page sotto questa categoria"
+    },
     "url": {
       "title": "URL",
       "description": "Genera l'url e lo snippet per la mappa",
-      "help": "Puoi rivedere quanto inserito oppure con Pubblica essere rimandato alla tua nuova mappa."
+      "help": "Quando pubblicherai la mappa verrai rimandato alla mappa a schermo intero, altrimenti tornerai ad Amministra contenuti."
     }
   },
   "fields": {
@@ -59,6 +63,9 @@
     "long": {
       "label": "Longitudine"
     },
+    "published": {
+      "label": "Pubblicato"
+    },
     "maxClusterRadius": {
       "label": "Aggregazione",
       "help": "Aggrega marker adiacenti in singoli gruppi navigabili, al fine di migliorare la leggibilità e le performance.",
@@ -66,8 +73,14 @@
     }
   },
   "actions": {
+    "create": {
+      "text": "Aggiungi una nuova mappa"
+    },
     "back": {
-      "text": "Torna al cruscotto"
+      "text": "Torna indietro"
+    },
+    "admin": {
+      "text": "Amministra contenuti"
     },
     "help": {
       "text": "Aiuto"
@@ -85,7 +98,7 @@
       "text": "Precedente"
     },
     "submit": {
-      "text": "Pubblica"
+      "text": "Salva"
     },
     "languages": {
       "text": "In altre lingue"
@@ -100,6 +113,10 @@
     },
     "edit": {
       "text": "Modifica"
+    },
+    "category": {
+      "text": "Scegli la categoria",
+      "error": "Devi scegliere una categoria per questa mappa"
     },
     "icon": {
       "text": "Scegli l'icona dei pin"

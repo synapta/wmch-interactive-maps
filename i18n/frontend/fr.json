@@ -14,6 +14,9 @@
     "four": "Quatre articles sur Wikipédia"
   },
   "actions": {
+    "askyourmap": {
+      "calltoaction": "Demandez votre carte!"
+    },
     "back": {
       "text": "Back to home"
     },

@@ -65,9 +65,12 @@ body {
  float: right;
  cursor: pointer;
 }
-
+#languages .text {
+  line-height: 1.3em;
+}
 #languages .menu,
-#languagesmobile .menu {
+#languagesmobile .menu,
+#languageslegacy .menu {
   z-index: 999;
 }
 /* Legenda ****************************************************************** */
@@ -348,22 +351,15 @@ body {
 }
 #languages,
 #languagesmobile {
-  border-radius: 28px;
-  font-weight: 400;
-  font-size: 1rem;
-  min-width: 184px;
-  line-height: 20px;
   cursor: pointer;
 }
 #languages input,
 #languagesmobile input {
-  color: white;
   cursor: pointer;
 }
 #languages .text,
 #languagesmobile .text {
   cursor: pointer;
-  color: white !important;
 }
 #languagesmobile {
   margin-top: 8px;
@@ -381,4 +377,31 @@ body {
 }
 .leaflet-control-container .button {
   border-radius: 18px;
+}
+#languages {
+  text-decoration: none;
+  color: #4183c4;
+}
+#menutemplate #languages .item {
+  text-decoration: none;
+  color: #4183c4 !important;
+}
+#languageslegacy,
+#languagesmobilelegacy {
+  border-radius: 28px;
+  font-weight: 400;
+  font-size: 1rem;
+  min-width: 184px;
+  line-height: 20px;
+  cursor: pointer;
+}
+#languageslegacy input,
+#languagesmobilelegacy input {
+  color: white;
+  cursor: pointer;
+}
+#languageslegacy .text,
+#languagesmobilelegacy .text {
+  cursor: pointer;
+  color: white !important;
 }

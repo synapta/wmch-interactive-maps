@@ -5,7 +5,16 @@
   },
   "actions": {
     "back": {
-      "text": "Back to dashboard"
+      "text": "Back"
+    },
+    "create": {
+      "text": "Add a new map"
+    },
+    "admin": {
+      "text": "Manage contents"
+    },
+    "help": {
+      "text": "Help"
     }
   }
 }

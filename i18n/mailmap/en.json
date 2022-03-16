@@ -1,0 +1,44 @@
+{
+  "page": {
+    "title": "Ask your map",
+    "subtitle": ""
+  },
+  "asktype": {
+    "legend": "What kind of map you want to ask?",
+    "asknewmap": "New map",
+    "askchangemap": "Change existing map",
+    "askother": "Other request"
+  },
+  "comment": {
+    "label": "Please let us know what map you miss",
+    "placeholder": "Enter your message here",
+    "help": "Please be polite and constructive and give us as many details to build the map you miss."
+  },
+  "ihavesparql": {
+    "legend": "Have you a SPARQL query to suggest?",
+    "sparqlno": "No",
+    "sparqlyes": "Yes",
+    "confirm": "Your changes will be lost, are you sure?"
+  },
+  "sparql": {
+    "label": "Your SPARQL query suggestion",
+    "placeholder": "Enter here the SPARQL query you want to go live as a map",
+    "help": "Giving a fully-working SPARQL query will help to boost your map selection! Try on <a href=\"https://query.wikidata.org/\" target=\"_blank\">query.wikidata.org</a> before submit."
+  },
+  "message": {
+    "sent": "Request sent, thank you!"
+  },
+  "contact": {
+    "legend": "Help us contact you",
+    "mail": "Your email",
+    "name": "Your name"
+  },
+  "validate": {
+    "text": "Please fill fields.",
+    "choice": "Please choose.",
+    "email": "Invalid e-mail"
+  },
+  "another": "Another request",
+  "home": "Back to home",
+  "submit": "Submit"
+}

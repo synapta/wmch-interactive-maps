@@ -2,27 +2,28 @@ const util = require('util');
 const fs = require('fs');
 //////////////////////////////////
 const express = require('express');
-const Sequelize = require('sequelize');
 const Mustache = require('mustache');
 const i18next = require('i18next');
 const request = require('request');
 // Custom functions for internationalization
 const i18n_utils = require('./i18n/utils');
-const dbinit       = require('./db/init');
-const models       = require('./db/models');
+const {migrate, connection, Map, History, Category} = require("./db/modelsB.js");
+const query = require("./db/query.js");
+const dbapi = require("./db/api.js");
 const sharp = require('sharp');
 // Local units
 const wizard = require('./units/wizard');
 const data = require('./units/data');
-const diff = require('./units/diff');
+const dbutils = require('./units/dbutils.js');
+const templateutils = require('./units/templateutils.js');
+const mail = require('./units/mail');
 // Global settings
 const config = require('./config');
 const url = require('url');
+const { logger } = require('./units/logger');
 // load local config and check if is ok (testing db)
-const localconfig = dbinit.init();
-const DEBUG = localconfig.debug ? localconfig.debug : false;
-// connect to db
-const db = require(util.format('./db/connector/%s', localconfig.database.engine));
+const localconfig = require('./localconfig');
+const bodyParser = require('body-parser');
 
 module.exports = function(app, apicache) {
 
@@ -33,7 +34,7 @@ module.exports = function(app, apicache) {
          *  @param {object} res: express response
          *  @param {object} dbMap: dictionary containing all relevant Map columns, used for template (only on aliased version)
          **/
-        fs.readFile(util.format('%s/public/frontend/map.html', __dirname), function (err, fileData) {
+        fs.readFile(util.format('%s/public/frontend/map.mustache', __dirname), function (err, fileData) {
             if (err) {
               throw err;
             }
@@ -52,9 +53,10 @@ module.exports = function(app, apicache) {
                   shortlang: shortlang,
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   map: config.map,
-                  logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                  logo: templateutils.logo(),
                   sparql: config.sparql,
                   languages: config.languages,
+                  showHistory: dbMap.history,
                   isHistory: isHistory, // serve history or current page?
                   dbMap: dbMap,
                   // queryJsonStr: JSON.stringify(req.query, null, '  '),
@@ -77,14 +79,14 @@ module.exports = function(app, apicache) {
      * @param  {Object} e JavaScript object from JSON
      * @return {Object}   JavaScript object of derived fields.
      */
-    function exposeMap(e) {
+    function exposeMap(e) {  // TODO legacy, to drop, replaced by dbutils.getCategoryWithMapsAsDict()
        let tmpUrl = new URL(e.mapargs, 'http://localhost');
        return {
          href: util.format(config.mapPattern, e.path),
          title: e.title,
          icon: tmpUrl.searchParams.get("pinIcon"),  // get pin icon classes
          screenshot: util.format(config.screenshotPattern, e.screenshot.split('/').pop()),
-         star: e.star
+         star: false  // legacy favourite
        };
     }
 
@@ -96,7 +98,7 @@ module.exports = function(app, apicache) {
      * @return An Express send with the response will be sent.
      */
     function querystring2json (res, enrichedQuery) {
-        models.booleanize(enrichedQuery);
+        dbutils.booleanize(enrichedQuery);
         // define fallback default style
         const fallBackStyle =   {
           "name": "OSM Bright",
@@ -113,13 +115,14 @@ module.exports = function(app, apicache) {
         res.send(JSON.stringify(enrichedQuery, null, ''));
     }
 
+    
     // javascript for wizard frontend
     app.use('/wizard/js',express.static('./public/wizard/js'));
     // javascript for frontend
     app.use('/frontend/js',express.static('./public/frontend/js'));
     // js for manual
     app.use('/manual/js',express.static('./public/manual/js'));
-    // images for landing page
+    // images for home page
     app.use('/p/',express.static('./screenshots'));
 
     // translated interfaces for the map wizard
@@ -154,10 +157,6 @@ module.exports = function(app, apicache) {
 
     // convert short url (path) to JSON to be served in /m route
     app.get('/s/:path', function (req, res) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
         Map.findOne({
           where: {
             path: req.params.path,
@@ -165,7 +164,7 @@ module.exports = function(app, apicache) {
           }
         }).then(record => {
           if (record) {
-              let enrichedQuery = models.mapargsParse(record);
+              let enrichedQuery = dbutils.mapargsParse(record);
               // add id from database, for check on Edit on public-wizard.js
               enrichedQuery.id = record.id;
               // serve json, enriched with config
@@ -189,69 +188,10 @@ module.exports = function(app, apicache) {
     });
 
     /**
-     * Used for landing page, limited elements per load, offset passed by url.
-     * @param  {Express request} req
-     * @param  {Express response} res
-     * @return {[type]}     [description]
-     */
-    app.get('/api/all', function (req, res) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
-        Map.findAll({
-          where: {
-            published: true
-          },
-          order: [
-            ['sticky', 'DESC'],
-            ['createdAt', 'DESC'],
-          ],
-          offset: parseInt(req.query.offset),
-          limit: parseInt(req.query.limit)
-        }).then(maps => {
-          let jsonRes = [];
-          if (maps) {
-              for (mapr of maps) {
-                  jsonRes.push(exposeMap(models.getMapRecordAsDict(mapr)));
-              }
-              res.send(jsonRes);
-          }
-          else {
-              res.status(404).send('<h2>Not found</h2>');
-          }
-        });
-    });
-
-    /**
      * Get an array of timestamps for the given map.
      */
     app.get('/api/timestamp', apicache('12 hours'), function (req, res) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
-        History.belongsTo(Map);  // new property named "map" for each record
-
-        // make query for old results on History
-        var historyWhere = { mapId: req.query.id, error: false };
-        if (localconfig.historyOnlyDiff) {
-            historyWhere['diff'] = true;
-        }
-        History.findAll({
-          attributes: ['createdAt'],
-          where: historyWhere,
-          include: [{
-              model: Map,
-              where: {
-                published: true
-              }
-            }
-          ],
-          order: [
-            ['createdAt', 'ASC']
-          ],
-        }).then(hists => {
+        query.historiesTimestamps(req.query.id, localconfig.historyOnlyDiff).then(hists => {
             const timestamp = [];
             for (let hist of hists) {
                 timestamp.push(new Date(hist.createdAt).getTime());
@@ -277,38 +217,12 @@ module.exports = function(app, apicache) {
         let sparqlResultsChangedDuplicatesArray = [];
         // let now = parseInt(Math.round(new Date().getTime() / 1000));
         let now = new Date().getTime();
-        console.log(now);
+        logger.debug(now);
         // Extract past results from History
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
-        History.belongsTo(Map);  // new property named "map" for each record
         let sparqlJsonResultsArray = [];  // all results
 
         // make query for old results on History
-        var historyWhere = { mapId: req.query.id, error: false };
-        if (req.query.timestamp) {
-            historyWhere.createdAt = new Date(+(req.query.timestamp)); 
-        }
-        if (localconfig.historyOnlyDiff) {
-            historyWhere['diff'] = true;
-        }
-        History.findAll({
-          where: historyWhere,
-          include: [{
-              model: Map,
-              where: {
-                published: true
-              }
-            }
-        ],
-        order: [
-          ['createdAt', 'ASC']
-        ],
-        // offset: ???,
-        limit: localconfig.historyTimelineLimit
-            }).then(async hists => {
+        query.timedata(req.query.id, localconfig.historyTimelineLimit, req.query.timestamp).then(async hists => {
             /**
              * Get only the times an element isn't changed.
              * It's used to avoid duplicates pin when element change and to display
@@ -331,7 +245,7 @@ module.exports = function(app, apicache) {
                     unchangedTimes = allTimes;
                 }
                 // DEBUG
-                // if (DEBUG && elChangedTimes && el.properties.wikidata === 'Q3825655') {
+                // if (process.env.DEBUG && elChangedTimes && el.properties.wikidata === 'Q3825655') {
                 //     console.log('allTimes', allTimes);
                 //     console.log('elChangedTimes', elChangedTimes);
                 //     console.log('unchangedTimes', unchangedTimes);
@@ -404,9 +318,7 @@ module.exports = function(app, apicache) {
                 // Past timeshots //////////////////////////////////////////////
                 for (histInd in hists.slice(n+1)) {
                     let hist = hists[histInd];
-                    if (DEBUG) {
-                        console.log('id', hist.id, 'mapId', hist.mapId, 'published', hist.map.published, 'histInd (array)', histInd);  // DEBUG
-                    }
+                    logger.debug('id', hist.id, 'mapId', hist.mapId, 'published', hist.map.published, 'histInd (array)', histInd);  // DEBUG
                     // Ignore broken records, but keep them in History table
                     if (!hist.error) {
                         let localRes = JSON.parse(hist.json);
@@ -490,26 +402,7 @@ module.exports = function(app, apicache) {
         let sparql;
 
         if (req.query.id) {
-            let dbMeta = new db.Database(localconfig.database);
-            const Map = dbMeta.db.define('map', models.Map);
-            const History = dbMeta.db.define('history', models.History);
-            Map.hasMany(History); // 1 : N
-            History.belongsTo(Map);  // new property named "map" for each record
-
-            const hists = await History.findAll({
-            where: { mapId: req.query.id, error: false },
-            include: [{
-                model: Map,
-                where: {
-                    published: true
-                }
-                }
-            ],
-            order: [
-            ['createdAt', 'DESC']
-            ],
-            limit: 5
-            });
+            const hists = await query.historiesForMap(req.query.id, 5);
 
             // Try to find a cached map
             for (let hist of hists) {
@@ -527,7 +420,7 @@ module.exports = function(app, apicache) {
                 });
 
             if (map) {
-                let ob = models.mapargsParse(map);
+                let ob = dbutils.mapargsParse(map);
                 sparql = ob.query;
             } else {
                 // Requested an invalid id
@@ -552,6 +445,8 @@ module.exports = function(app, apicache) {
         }
     });
     // serve JS common to frontend and backend
+    app.use('/themes/wmch-interactive-maps-v3-theme/css/',express.static('./themes/wmch-interactive-maps-v3-theme/css'));
+    app.use('/themes/wmch-interactive-maps-v3-theme/js/',express.static('./themes/wmch-interactive-maps-v3-theme/js'));
     app.use('/css/',express.static('./public/css'));
     app.use('/images/',express.static('./public/images'));
     app.use('/js/',express.static('./public/js'));
@@ -563,8 +458,8 @@ module.exports = function(app, apicache) {
      * @param  {Express response} res
      * @return Express send with HTML.
      */
-    app.get('/', function (req, res) {
-        fs.readFile(util.format('%s/public/frontend/index.html', __dirname), function (err, fileData) {
+    app.get('/', async function (req, res) {
+        fs.readFile(util.format('%s/public/frontend/index.mustache', __dirname), function (err, fileData) {
             if (err) {
               throw err;
             }
@@ -575,16 +470,21 @@ module.exports = function(app, apicache) {
             i18nOptions.resources[shortlang] = {translation: translationData};
             // console.log(i18nOptions);
             // load i18n
-            i18next.init(i18nOptions, function(err, t) {
+            i18next.init(i18nOptions, async function(err, t) {
                 // i18n initialized and ready to go!
                 // document.getElementById('output').innerHTML = i18next.t('key');
+                // load categories
+                const categoriesWithPublishedMaps = await query.categoriesWithPublishedMaps();
+                // load published maps data
                 // variables to pass to Mustache to populate template
                 var view = {
                   shortlang: shortlang,
-                  logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                  logo: templateutils.logo(),
+                  categories: categoriesWithPublishedMaps.map(category => dbutils.getCategoryWithMapsAsDict(category)),
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/",
                   languages: config.languages,
+                  // TODO add maps
                   author: config.map.author,
                   i18n: function () {
                     return function (text, render) {
@@ -593,8 +493,9 @@ module.exports = function(app, apicache) {
                     }
                   }
                 };
-                // console.log(view);
-                var output = Mustache.render(template, view);
+                const menuTemplate = await templateutils.readMustachePartials('public/frontend/menu.mustache');
+                const partials = {menu: menuTemplate};
+                var output = Mustache.render(template, view, partials);
                 res.send(output);
             });
         });
@@ -603,7 +504,7 @@ module.exports = function(app, apicache) {
     app.use('/wizard/man/_media/',express.static('./i18n_man/_media/'));
 
     app.get('/wizard/man/:manpage', function (req, res) {
-        fs.readFile(util.format('%s/public/manual/manual.html', __dirname), function (err, fileData) {
+        fs.readFile(util.format('%s/public/manual/manual.mustache', __dirname), function (err, fileData) {
             if (err) {
               throw err;
             }
@@ -612,22 +513,23 @@ module.exports = function(app, apicache) {
             let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'manual');
             let i18nOptions = i18n_utils.geti18nOptions(shortlang);
             i18nOptions.resources[shortlang] = {translation: translationData};
-            // console.log(i18nOptions);
             // load i18n
             i18next.init(i18nOptions, function(err, t) {
                 // read MarkDown file
-                fs.readFile(util.format('%s/i18n_man/%s/%s.md', __dirname, req.params.manpage, shortlang), function (manerror, fileData) {
+                fs.readFile(util.format('%s/i18n_man/%s/%s.md', __dirname, req.params.manpage, shortlang), async function (manerror, fileData) {
                       // i18n initialized and ready to go!
                       // document.getElementById('output').innerHTML = i18next.t('key');
                       // variables to pass to Mustache to populate template
                       var view = {
+                        isHelpPage: true,
                         shortlang: shortlang,
-                        logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
+                        logo: templateutils.logo(),
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         baseurl: localconfig.url + "/",
-                        languages: config.languages,
+                        languages: config.adminLanguages,
                         credits: config.map.author,
                         manual: manerror ? i18next.t('page.notFound') : wizard.manRender(fileData),
+                        // translations
                         i18n: function () {
                           return function (text, render) {
                               i18next.changeLanguage(shortlang);
@@ -636,7 +538,9 @@ module.exports = function(app, apicache) {
                         }
                       };
                       // console.log(view);
-                      var output = Mustache.render(template, view);
+                      const menuTemplate = await templateutils.readMustachePartials('public/wizard/menu.mustache');
+                      const partials = {menu: menuTemplate};
+                      var output = Mustache.render(template, view, partials);
                       res.send(output);
                 });
             });
@@ -712,20 +616,18 @@ module.exports = function(app, apicache) {
      * @return Express send HTML.
      */
     app.get('/v/:path', function (req, res) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
         // no history needed here
         Map.findOne({
           where: {
             path: req.params.path,
             published: true
           }
-        }).then(record => {
+        }).then(async (record) => {
           if (record) {
-              generateMapPage(req, res, models.getMapRecordAsDict(record), false);
+              generateMapPage(req, res, dbutils.getMapRecordAsDict(record), false);
           }
           else {
-              res.status(404).send('<h2>Not found</h2>');
+              res.status(404).send(await templateutils.notFound(req));
           }
         });
     });
@@ -739,94 +641,29 @@ module.exports = function(app, apicache) {
      * @return Express send HTML.
      */
     app.get('/h/:path', function (req, res) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
         // let path = req.url.substring(1);
         Map.findOne({
           where: {
             path: req.params.path,
             published: true
           }
-        }).then(record => {
+        }).then(async (record) => {
           if (record) {
-              generateMapPage(req, res, models.getMapRecordAsDict(record), true);
+              generateMapPage(req, res, dbutils.getMapRecordAsDict(record), true);
           }
           else {
-              res.status(404).send('<h2>Not found</h2>');
+              res.status(404).send(await templateutils.notFound(req));
           }
         });
     });
 
-    /**
-     * Update a list of records an pop one after another until it's consumed.
-     * Then send a response with the outcome.
-     * @param  {object} sequelizeModel sequelize model
-     * @param  {array} records        list of records
-     * @param  {integer} count          updated record count
-     * @param  {Express response} res            response object from Express
-     * @return Express send the outcome (an Object with updateNumer: COUNT)
-     */
-    function updateRecordList(sequelizeModel, records, count, res) {
-        let record = records.pop();
-        if (record) {
-            sequelizeModel.update(
-                {
-                  sticky: record.sticky,
-                  star: record.star
-                }, /* set attributes' value */
-                { where: { id: record.id }} /* where criteria */
-            ).then(([affectedCount, affectedRows]) => {
-              // Notice that affectedRows will only be defined in dialects which support returning: true
-              // affectedCount will be n
-              // update changed records count
-              count += affectedCount;
-              if (records.length) {
-                  // next element if any
-                  updateRecordList(sequelizeModel, records, count, res);
-              }
-              else {
-                  // last element
-                  res.send({error: false, updateNumber: count});
-              }
-            });
-        }
-    }
-
-    function admin_api_action_update (req, res) {
-        /** Update multiple records **/
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
-        let updateCount = 0;
-        // Save all records
-        updateRecordList(Map, req.body.records, updateCount, res);
-    }
-
-    function admin_api_action_undelete (req, res, published=true) {
-        admin_api_action_delete(req, res, published);
-    }
-
-    function admin_api_action_delete (req, res, published=false) {
-        let dbMeta = new db.Database(localconfig.database);
-        const Map = dbMeta.db.define('map', models.Map);
-        const History = dbMeta.db.define('history', models.History);
-        Map.hasMany(History); // 1 : N
-        // soft delete (unpublish)
-        console.log(req.body);
-        Map.update(
-            { published: published }, /* set attributes' value */
-            { where: { id: req.body.id }} /* where criteria */
-          ).then(([affectedCount, affectedRows]) => {
-            // Notice that affectedRows will only be defined in dialects which support returning: true
-            // affectedCount will be n
-            res.send({error: false, updateNumber: affectedCount});
-          });
-    }
     // Enable json for express (to get req.body to work)
     app.use(express.json());
+
+    app.use(bodyParser.urlencoded({ extended: true }));
+
+
+    app.get('/admin/api/get/:name', dbapi.adminApiGetName);
 
     /**
      * Internal admin API to C-U- (not Read, not real Delete) maps.
@@ -834,15 +671,55 @@ module.exports = function(app, apicache) {
      * @param  {Express response} res
      * @return {[type]}     [description]
      */
-    app.put('/admin/api/:action', function (req, res) {
-        let fun = eval('admin_api_action_' + req.params.action);
-        try {
-            fun(req, res);
-        }
-        catch (e) {
-            // Function not found, pass
-            res.send("Error")
-        }
+    app.put('/admin/api/:action', dbapi.adminApiAction);
+
+    const yourMapPath = '/your-map';
+    
+    app.post(yourMapPath, function (req, res) {
+        logger.debug(req.body)
+        mail.sendMail(req.body)
+        res.redirect(302, `${yourMapPath}?message=sent&l=${req.body.shortlang}`)
+    })
+    /**
+     * Display Landing page
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return Express send with HTML.
+     */
+     app.get(yourMapPath, async function (req, res) {
+        fs.readFile(util.format('%s/public/frontend/mailmap.mustache', __dirname), function (err, fileData) {
+            if (err) {
+              throw err;
+            }
+            // get template content, server-side
+            let template = fileData.toString();
+            let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'mailmap');
+            let i18nOptions = i18n_utils.geti18nOptions(shortlang);
+            i18nOptions.resources[shortlang] = {translation: translationData};
+            i18next.init(i18nOptions, async function(err, t) {
+                // variables to pass to Mustache to populate template
+                var view = {
+                  shortlang: shortlang,
+                  path: yourMapPath,
+                  logo: templateutils.logo(),
+                  langname: i18n_utils.getLangName(config.languages, shortlang),
+                  baseurl: localconfig.url + "/your-map",
+                  languages: config.languages,
+                  author: config.map.author,
+                  hasMessageSent: req.query.message === "sent",  // ?message=sent
+                  i18n: function () {
+                    return function (text, render) {
+                        i18next.changeLanguage(shortlang);
+                        return i18next.t(text);
+                    }
+                  }
+                };
+                const menuTemplate = await templateutils.readMustachePartials('public/frontend/menu.mustache');
+                const partials = {menu: menuTemplate};
+                var output = Mustache.render(template, view, partials);
+                res.send(output);
+            });
+        });
     });
 
     /**
@@ -854,65 +731,58 @@ module.exports = function(app, apicache) {
     app.get('/admin', async function (req, res) {
         // [ 'it', 'it-IT', 'en-US', 'en' ]
         // console.log(req.acceptsLanguages()[0]);
-        fs.readFile(util.format('%s/public/wizard/admin.html', __dirname), function (err, fileData) {
+        fs.readFile(util.format('%s/public/wizard/admin.mustache', __dirname), async function (err, fileData) {
             // cannot read template?
             if (err) {
               throw err;
             }
+            // load categories
+            const categoriesWithMaps = await query.categoriesWithMaps();
             // load all maps data
-            let dbMeta = new db.Database(localconfig.database);
-            const Map = dbMeta.db.define('map', models.Map);
-            const History = dbMeta.db.define('history', models.History);
-            Map.hasMany(History); // 1 : N
-            Map.findAll({
-              where:  {
-                published: true  // hide "deleted" elements
-              },
-              order: [
-                ['sticky', 'DESC'],
-                ['createdAt', 'DESC'],
-              ]
-            }).then(maps => {
-              let jsonRes = [];
-              if (maps) {
-                  // maps found, continue
-                  // get template content, server-side
-                  let template = fileData.toString();
-                  let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'admin');
-                  let i18nOptions = i18n_utils.geti18nOptions(shortlang);
-                  i18nOptions.resources[shortlang] = {translation: translationData};
-                  // console.log(i18nOptions);
-                  // load i18n
-                  i18next.init(i18nOptions, function(err, t) {
-                      // i18n initialized and ready to go!
-                      // document.getElementById('output').innerHTML = i18next.t('key');
-                      // variables to pass to Mustache to populate template
-                      var view = {
-                        shortlang: shortlang,
-                        langname: i18n_utils.getLangName(config.languages, shortlang),
-                        languages: config.languages,
-                        credits: config.map.author,
-                        logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
-                        maps: maps,
-                        i18n: function () {
-                          return function (text, render) {
-                              i18next.changeLanguage(shortlang);
-                              return i18next.t(text);
-                          }
+            let jsonRes = [];
+            if (categoriesWithMaps.length) {
+                // maps found, continue
+                // get template content, server-side
+                let template = fileData.toString();
+                let [shortlang, translationData] = i18n_utils.seekLang(req, config.fallbackLanguage, 'admin');
+                let i18nOptions = i18n_utils.geti18nOptions(shortlang);
+                i18nOptions.resources[shortlang] = {translation: translationData};
+                // console.log(i18nOptions);
+                // load i18n
+                i18next.init(i18nOptions, async function(err, t) {
+                    // i18n initialized and ready to go!
+                    // document.getElementById('output').innerHTML = i18next.t('key');
+                    // variables to pass to Mustache to populate template
+                    var view = {
+                    isAdminPage: true,
+                    shortlang: shortlang,
+                    langname: i18n_utils.getLangName(config.languages, shortlang),
+                    languages: config.adminLanguages,
+                    credits: config.map.author,
+                    logo: templateutils.logo(),
+                    categories: categoriesWithMaps.map(categoryWithMaps => dbutils.getCategoryWithMapsAsDict(categoryWithMaps)),
+                    i18n: function () {
+                        return function (text, render) {
+                            i18next.changeLanguage(shortlang);
+                            return i18next.t(text);
                         }
-                      };
-                      // console.log(view);
-                      var output = Mustache.render(template, view);
-                      res.send(output);
-                  });
-              }
-              else {
-                  res.status(404).send('<h2>Cannot edit an empty Map table, add at least one map to continue</h2>');
-              }
-            });
+                    }
+                    };
+                    // console.log(view);
+                    const menuTemplate = await templateutils.readMustachePartials('public/wizard/menu.mustache');
+                    const partials = {menu: menuTemplate};
+                    var output = Mustache.render(template, view, partials);
+                    res.send(output);
+                });
+            }
+            else {
+                res.status(404).send(await templateutils.notFound(req, 'Cannot edit an empty Map table, add at least one map to continue'));
+            }
         });
     });
 
-
+    app.get('/*', async function (req, res) {
+        res.status(404).send(await templateutils.notFound(req))
+    });
 
 }

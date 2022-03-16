@@ -1,8 +1,13 @@
 # Tools
 
-The following URLs can be used on Wikimedia Projects and available through CDNs as of March 2019.
+The following URLs can be used on Wikimedia Projects and available through CDNs as of February 2022.
 
-Complete list on https://tools.wmflabs.org/cdnjs-beta/.
+Complete list on https://cdnjs.toolforge.org/.
+
+## html5sortable
+
+- Latest version: 0.13.3
+- Using: 0.9.11
 
 ## Semantic UI 2.4.1
 
@@ -185,6 +190,10 @@ Complete list on https://tools.wmflabs.org/cdnjs-beta/.
 
 ## Leaflet
 
+Latest version: 1.7.1
+
+Using: 1.5.1
+
 ~~~
 https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.5.1/images/layers-2x.png
 https://tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet/1.5.1/images/layers.png
@@ -197,3 +206,10 @@ https:/css/lib/leaflet.css
 https:/js/lib/leaflet.js
 https:/js/lib/leaflet.js.map
 ~~~
+
+## foundation
+
+Latest version: 6.7.4
+
+- //tools-static.wmflabs.org/cdnjs/ajax/libs/foundation/6.7.4/css/foundation-float.css
+- ...

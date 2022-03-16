@@ -25,6 +25,9 @@
 .step:nth-child(4):before {
     content: "4";
 }
+.step:nth-child(5):before {
+    content: "5";
+}
 #languages *,
 #languagesmobile * {
     cursor: pointer;
@@ -61,4 +64,19 @@ input.inverted {
 	top: 54px;
 	z-index: 996;
 	left: 40%;
+}
+#adminui td.map-record-title {
+    padding-left: 2em;
+}
+#adminui .button {
+    background-color: transparent;
+}
+#adminui .ui.input input {
+    border-width: 0px;
+}
+#adminui .ui.input input:focus {
+    border-width: 1px;
+}
+.strikethrough {
+    text-decoration: line-through;
 }

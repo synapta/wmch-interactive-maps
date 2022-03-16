@@ -1,10 +1,7 @@
 // Database connection
-const dbinit       = require('../db/init');
-const localconfig = dbinit.init();
 const assert = require('assert').strict;
 const deepd  = require('deep-diff');
-const util   = require('util');
-const DEBUG = localconfig.debug ? localconfig.debug : false;
+const { logger }  = require('./logger');
 
 /**
  * Apply after.data[recordKey].postProcess['diff'] to all stored objects.
@@ -19,14 +16,10 @@ function postProcess(before, after) {
             // only one element here, since it's a comparison between 2
             let diffResultObj = diffResults.shift();
             if (typeof diffResultObj !== 'undefined') {
-                // cannot convert diffResultObj.rhs / diffResultObj.rls values to json! Circular objects
-                // delete diffResultObj.rhs;
-                // delete diffResultObj.lhs;
                 // one results must exists (before and after are different)
                 if (typeof diffResultObj !== 'undefined') {
                     for (recordKey in after.data) {
                         let wikidataId = after.data[recordKey].properties.wikidata;
-                        // console.log(wikidataId, diffResultObj[wikidataId]);
                         if (typeof diffResultObj[wikidataId] !== 'undefined') {
                             after.data[recordKey].postProcess = {};
                             after.data[recordKey].postProcess['diff'] = diffResult2dict(diffResultObj[wikidataId]);
@@ -37,8 +30,6 @@ function postProcess(before, after) {
                         }
                     }
                 }
-                // TODO? to suport more than 2 elements on postProcess, add:
-                // processDeepDiff(array, function () {});
                 resolve(after);
             }
             else {
@@ -153,20 +144,14 @@ function processDeepDiff(jsons, finalCallback, passedResults) {
             let differences = deepd.diff(
               parsedA, // record A
               parsedB,  // record B
-              // XXX not working ignore the generated postProcess field
-              // (path, key) => path.length === 0 && ~['postProcess'].indexOf(key)
-              // function (path, key) { return true | false }  // prefilter
-              // function () { ??? }  // accumulator
             );
             results.push(differences);
             processDeepDiff(jsons, finalCallback, results);
     }
     else {
-        if (DEBUG) {
-            util.debug("deep diff ok");
-            for (r of results) {
-                console.log(r);
-            }
+        logger.trace("deep diff ok");
+        for (r of results) {
+            logger.trace(JSON.stringify(r, null, 2));
         }
         finalCallback(wddiff2obj(results));
     }
