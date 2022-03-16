@@ -30,6 +30,19 @@ To add a new translation:
 3. [Create a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
 
 
+## Add theme
+
+Frontend theme is based on [Foundation](https://get.foundation/).
+
+Here an example to how to change css in [themes/](themes/) folders:
+
+- On development environment, go to theme directory
+- Change theme files (e.g. app.sass)
+- ./build.sh
+- Theme is changed accordingly to sass
+
+You can also add a new theme copying the directory inside [themes/](themes/) and changing .mustache template accordingly.
+
 ## Add icons
 
 ### Generate a new icon list
