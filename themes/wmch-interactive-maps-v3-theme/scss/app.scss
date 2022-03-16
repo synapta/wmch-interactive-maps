@@ -120,4 +120,16 @@
 }
 
 .map {
+    .card-section {
+        height: rem-calc(180);  // desktop
+        padding: rem-calc(76) rem-calc(40) rem-calc(12) rem-calc(40);
+        overflow: hidden;
+    }
+    .card-section h3 {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        color: #3A659F;
+        font-size: rem-calc(30);  // desktop
+        line-height: rem-calc(30);  // desktop
+    }
 }
