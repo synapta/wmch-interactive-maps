@@ -75,6 +75,19 @@ async function getMapConfigFromDb (id) {
 }
 
 /**
+ * 
+ * @param {Object} query from Express
+ * @param {String} fieldName database field and parameter name
+ * @returns published=1 -> true; if absent or published=0 -> false
+ */
+function query2booleanField (query, fieldName) {
+  if (query.hasOwnProperty(fieldName)) {
+    return query[fieldName] == 1;
+  }
+  return false;
+}
+
+/**
  * Do CxUx actions (create or update).
  * @param  {object} req    Express object. req.params.action
  * @param  {object} res    Express object.
@@ -96,6 +109,7 @@ async function cuMap (req, res, action) {
           if (!jsonBody) {
               logger.info('******** Screenshot server is down ************');
           }
+          const isPublished = query2booleanField(req.query, 'published');
           switch (action) {
               case 'add':
                   // add a new record to Map table via ORM
@@ -104,7 +118,7 @@ async function cuMap (req, res, action) {
                     path: req.query.path,
                     mapargs: req.query.mapargs,
                     screenshot: jsonBody.path,
-                    published: true  // TODO: switch to FORM element req.query.published
+                    published: isPublished
                   });
                   await MapCategory.create({
                     mapId: map.id,
@@ -114,20 +128,25 @@ async function cuMap (req, res, action) {
               case 'edit':
                   let currentId = parseInt(req.params.id);
                   await Map.findByPk(currentId).then(async (editedMap) => {
-                    console.log(jsonBody)
                       await editedMap.update({
                         title: req.query.title,
                         path: req.query.path,
                         mapargs: req.query.mapargs,
                         screenshot: jsonBody.path,
-                        published: true
+                        published: isPublished
                       });
                       await query.setMapCategory(editedMap.id, req.query.category);
                   });
                   // add a new record to Map table via ORM
               break;
           }
+          // res.send(req.query)  // DEBUG
+          if (isPublished) {
           res.redirect(util.format("/v/%s", req.query.path));
+          }
+          else {
+            res.redirect("/admin");
+          }
       });
   }
   catch (e) {

@@ -22,7 +22,7 @@
     "url": {
       "title": "URL",
       "description": "Genera l'url e lo snippet per la mappa",
-      "help": "Puoi rivedere quanto inserito oppure con Pubblica essere rimandato alla tua nuova mappa."
+      "help": "Quando pubblicherai la mappa verrai rimandato alla mappa a schermo intero, altrimenti tornerai ad Amministra contenuti."
     }
   },
   "fields": {
@@ -63,6 +63,9 @@
     "long": {
       "label": "Longitudine"
     },
+    "published": {
+      "label": "Pubblicato"
+    },
     "maxClusterRadius": {
       "label": "Aggregazione",
       "help": "Aggrega marker adiacenti in singoli gruppi navigabili, al fine di migliorare la leggibilità e le performance.",
@@ -95,7 +98,7 @@
       "text": "Precedente"
     },
     "submit": {
-      "text": "Pubblica"
+      "text": "Salva"
     },
     "languages": {
       "text": "In altre lingue"

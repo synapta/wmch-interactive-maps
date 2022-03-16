@@ -290,8 +290,14 @@
             <i class="map icon"></i>
             {{#i18n}}step.url.help{{/i18n}}
           </div>
+          <div class="inline field">
+            <div class="ui toggle checkbox {{#map.published}}checked{{/map.published}}">
+              <input type="checkbox" id="publishedflag" value="1" name="published" {{#map.published}}checked=""{{/map.published}}>
+              <label>{{#i18n}}fields.published.label{{/i18n}}</label>
+            </div>
+          </div>
           <div class="inline">
-            <input type="button" value="{{#i18n}}actions.prev.text{{/i18n}}" class="ui button wizard-prev-next inverted" data-show="step-3">
+            <input type="button" value="{{#i18n}}actions.prev.text{{/i18n}}" class="ui button wizard-prev-next inverted" data-show="step-4">
             <button class="ui button green disabled" type="submit">{{#i18n}}actions.submit.text{{/i18n}}</button>
             <input type="hidden" value="" id="url">
             <input type="hidden" value="" name="mapargs">

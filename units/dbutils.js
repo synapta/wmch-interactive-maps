@@ -13,29 +13,28 @@ function getParameterFromQuery (querystr, parameter) {
     return tmpUrl.searchParams.get(parameter);
 }
 
+function mapRecordExtra (record, category) {
+    return {
+        // extra
+        categoryId: category.get('id'),  // needed for mustache
+        screenshotUrl: `/p/${record.screenshot.split('/').pop()}`,
+        absolutePath: `/v/${record.get('path')}/`,
+        icon: getParameterFromQuery(record.get('mapargs'), 'pinIcon'),
+        // legacy
+        star: false  // was favourite
+    }
+}
+
 function getCategoryWithMapsAsDict (category) {
     return {
         id: category.get('id'),
         name: category.get('name'),
         sticky: category.get('sticky'),
-        maps: category.get('maps').map(record => {  
-            return {
-                id: record.get('id'),
-                title: record.get("title"),
-                path: record.get('path'),
-                history: record.get('history'),
-                published: record.get('published'),
-                sticky: record.get('sticky'),
-                screenshot: record.get('screenshot'),
-                // extra
-                categoryId: category.get('id'),  // needed for mustache
-                screenshotUrl: `/p/${record.screenshot.split('/').pop()}`,
-                absolutePath: `/v/${record.get('path')}/`,
-                icon: getParameterFromQuery(record.get('mapargs'), 'pinIcon'),
-                // legacy
-                star: false  // was favourite
-            }
-        })
+        maps: category.get('maps').map(record => Object.assign(
+            {}, 
+            mapRecordExtra(record, category), 
+            getMapRecordAsDict(record)
+        ))
     };
 }
 
@@ -48,7 +47,11 @@ function getMapRecordAsDict (record) {
       title: record.get('title'),
       mapargs: record.get('mapargs'),
       screenshot: record.get('screenshot'),
-      history: record.get('history')
+      history: record.get('history'),
+      published: record.get('published'),
+      sticky: record.get('sticky'),
+      createdAt: record.get('createdAt'),
+      updatedAt: record.get('updatedAt')
     };
 }
 exports.getMapRecordAsDict = getMapRecordAsDict;
