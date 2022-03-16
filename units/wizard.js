@@ -108,6 +108,8 @@ async function cuMap (req, res, action) {
       }, async function (error, response, jsonBody) {
           if (!jsonBody) {
               logger.info('******** Screenshot server is down ************');
+              // add fallback 
+              jsonBody = {path: "./images/placeholder.png"}
           }
           const isPublished = query2booleanField(req.query, 'published');
           switch (action) {
@@ -142,7 +144,7 @@ async function cuMap (req, res, action) {
           }
           // res.send(req.query)  // DEBUG
           if (isPublished) {
-          res.redirect(util.format("/v/%s", req.query.path));
+            res.redirect(util.format("/v/%s", req.query.path));
           }
           else {
             res.redirect("/admin");

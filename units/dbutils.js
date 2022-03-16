@@ -13,11 +13,24 @@ function getParameterFromQuery (querystr, parameter) {
     return tmpUrl.searchParams.get(parameter);
 }
 
+function screenshotOrPlaceholder (localPath) {
+    const fileName = localPath.split('/').pop()
+    if (localPath.indexOf('./screenshots/') === 0) {
+        return `/p/${fileName}`
+    }
+    else if (localPath.indexOf('./images/') === 0) {
+        return `/images/${fileName}`
+    }
+    else {
+        return ''
+    }
+}
+
 function mapRecordExtra (record, category) {
     return {
         // extra
         categoryId: category.get('id'),  // needed for mustache
-        screenshotUrl: `/p/${record.screenshot.split('/').pop()}`,
+        screenshotUrl: screenshotOrPlaceholder(record.get('screenshot')),
         absolutePath: `/v/${record.get('path')}/`,
         icon: getParameterFromQuery(record.get('mapargs'), 'pinIcon'),
         // legacy
