@@ -26,10 +26,17 @@ function screenshotOrPlaceholder (localPath) {
     }
 }
 
-function mapRecordExtra (record, category) {
+function mapRecordExtra (record, categories) {
+    let category = categories[0];
     return {
         // extra
         categoryId: category.get('id'),  // needed for mustache
+        categories: categories.map(cat => { 
+            return {
+                "id": cat.get('id'), 
+                "name": cat.get('name'), 
+            }
+        }),  // for wizard
         screenshotUrl: screenshotOrPlaceholder(record.get('screenshot')),
         absolutePath: `/v/${record.get('path')}/`,
         icon: getParameterFromQuery(record.get('mapargs'), 'pinIcon'),
@@ -43,11 +50,7 @@ function getCategoryWithMapsAsDict (category) {
         id: category.get('id'),
         name: category.get('name'),
         sticky: category.get('sticky'),
-        maps: category.get('maps').map(record => Object.assign(
-            {}, 
-            mapRecordExtra(record, category), 
-            getMapRecordAsDict(record)
-        ))
+        maps: category.get('maps').map(record => getFullMapRecordAsDict(record, [category]))
     };
 }
 
@@ -68,6 +71,16 @@ function getMapRecordAsDict (record) {
     };
 }
 exports.getMapRecordAsDict = getMapRecordAsDict;
+
+
+function getFullMapRecordAsDict (mapRecord, categories) {
+    return Object.assign(
+        {}, 
+        mapRecordExtra(mapRecord, categories), 
+        getMapRecordAsDict(mapRecord)
+    )
+}
+exports.getFullMapRecordAsDict = getFullMapRecordAsDict;
 
 function booleanize(obj) {
   /**
@@ -91,7 +104,7 @@ function mapargsParse(record) {
 exports.mapargsParse = mapargsParse;
 
 function getAllFieldsAsDict(record) {
-    let obj = getMapRecordAsDict(record);
+    let obj = getFullMapRecordAsDict(record, record.categories);
     Object.assign(obj, mapargsParse(record));
     // used only on edit
     obj.lat = obj.startLat;

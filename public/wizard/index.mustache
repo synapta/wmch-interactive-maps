@@ -101,16 +101,16 @@
           <div class="field">
             <div class="ui search right labeled left icon input category-wrapper">
               <i class="tag icon"></i>
-              <input class="prompt" type="text" placeholder="{{#i18n}}actions.category.text{{/i18n}}" id="category-select" size="26" value="{{#map.category}}{{{map.category}}}{{/map.category}}" data-valid="0">
-              <input type="hidden" value="{{map.categories.0}}" name="category">
+              <input type="text" class="prompt" placeholder="{{#i18n}}actions.category.text{{/i18n}}" id="category-select" size="26" value="{{#map.categories.0}}{{{name}}}{{/map.categories.0}}" data-valid="0">
+              <input type="hidden" value="{{map.categories.0.id}}" name="category">
               <div class="results"></div>
             </div>
-            {{#map.categories}}
-              <div class="field category-label"><a class="ui label purple">
-                <i class="tag icon">{{map.categories.0}}</i>
-              </div>
-            {{/map.categories}}
           </div>
+        {{#map.categories}}
+          <div class="field category-label" data-id="{{id}}"><a class="ui label purple">
+            <i class="tag icon"></i> {{name}}
+          </a></div>
+        {{/map.categories}}
           <div id="category-error" class="ui pointing red basic label" style="display: none;">
             <div class="header">{{#i18n}}actions.category.error{{/i18n}}</div>
           </div>
