@@ -40,6 +40,11 @@
     "comment": "Hello World",
     "sparqlcode": "# Example query: keep the name and the use identical to these ones\r\nSELECT ?item ?itemLabel ?coord ?commons ?website ?img ?lang ?langcode\r\nWHERE {\r\n  ?item wdt:P31/wdt:P279* wd:Q6581615 .\r\n  ?item wdt:P625 ?coord\r\n        OPTIONAL { ?item wdt:P373 ?commons }\r\n        OPTIONAL { ?item wdt:P856 ?website }\r\n        OPTIONAL { ?item wdt:P18 ?img }\r\n        OPTIONAL {\r\n          ?art schema:about ?item ;\r\n          schema:inLanguage ?langcode .\r\n          BIND(IF(?langcode in ('en', 'it', 'fr', 'de'),?art,?langcode) AS ?lang)\r\n        }\r\n  SERVICE wikibase:label { bd:serviceParam wikibase:language \"en,de,fr,it\". }\r\n}\r\nORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord) ASC(?commons) DESC(?website) ASC(?img)"
   },
+  "stat": {
+    "time": "0 */15 * * * *",
+    "interval": 5000,
+    "_comment": "Override the value specified in config.json here; delete if you're fine with default."
+  },
   "createTables": true,
   "renameToLogo": "rename this key to logo to override config.logo",
   "cronTime": "0 */10 * * * *",

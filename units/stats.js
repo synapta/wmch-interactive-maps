@@ -1,6 +1,7 @@
 "use strict";
 const {migrate, connection, Map, Stat} = require("../db/modelsB.js");
 const localconfig = require('../localconfig');
+const config = require('../config');
 // from: require('../public/js/utils');
 var confVisibleWikipediaLanguages = ['de', 'en', 'fr', 'it'];
 var httpToken = '://';
@@ -51,14 +52,18 @@ var quality = function (counters) {
     }
 };
 
+const getSetting = (key) => {
+    const fallback = config.stat[key];
+    if (localconfig.hasOwnProperty('stat') && typeof localconfig.stat[key] !== "undefined") {
+        return localconfig.stat[key]
+    }
+    return fallback
+};
+
 const CronJob = require('cron').CronJob;
 const sequelize = require('sequelize');
 const got = require('got');
 const { logger } = require("./logger.js");
-
-const executionTime = '0 20 */4 * * *';  // prod
-// const executionTime = '0 */1 * * * *';  // dev
-const executionInterval = 1000;
 
 var featureLinkCounter = function(feature) {
     // conta il numero di link del museo corrente
@@ -167,7 +172,7 @@ const saveStat = async function () {
             logger.debug(`Stop saving stats, no more maps to process`)
             clearInterval(intervalHandler)
         }
-    }, executionInterval)
+    }, getSetting('interval'))
 };
 
 
@@ -179,5 +184,5 @@ const saveStat = async function () {
 /**
  * Save periodically some data for statistics.
  */
-const job = new CronJob(executionTime, saveStat);
+const job = new CronJob(getSetting('time'), saveStat);
 job.start();
