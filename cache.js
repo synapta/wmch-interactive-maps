@@ -5,6 +5,9 @@ const CronJob = require('cron').CronJob;
 const sequelize = require('sequelize');
 const got = require('got');
 
+/**
+ * Visit periodically to save history paths on server cache.
+ */
 const job = new CronJob('0 12 */6 * * *', async function () {
     console.log('start');
     const histories = await History.findAll({
@@ -19,7 +22,8 @@ const job = new CronJob('0 12 */6 * * *', async function () {
             model: Map,
             attributes: ['id'],
             where: {
-                published: true
+                published: true,  // do not cache draft maps
+                history: true  // do not cache maps with history off
             }
         }
         ],
