@@ -150,7 +150,7 @@ const featureStat = function (feature) {
 }
 
 const saveStat = async function () {
-    const maps = await Map.findAll({ published: true })
+    const maps = await Map.findAll({where: { published: true }})
     const intervalHandler = setInterval(async () => {
         const map = maps.shift()
         if (typeof map !== "undefined") {
