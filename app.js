@@ -39,6 +39,9 @@ require('./urls.js')(app, apicache);
 // load cache autorequests
 require('./cache');
 
+// load statistic periodically update
+require('./units/stats')
+
 const server = app.listen(port, async function() {
     logger.info('Initializing app...');
     await migrate()
