@@ -115,14 +115,45 @@
     font-size: rem-calc(60);
     line-height: rem-calc(70);
 }
+.maintitle {
+    font-family: Anton, sans-serif;
+    font-size: rem-calc(100);
+    color: #F5F5F5;
+}
+.mainsubtitle {
+    font-size: rem-calc(32);
+    color: #F5F5F5;
+}
 
 .maps {
 }
 
 .map {
+    .icon-section {
+        width: 100%;
+        height: 0;
+        text-align: center;
+        position: relative;
+        top: rem-calc(-40);  // desktop
+        .icon-button {
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            box-shadow: 3px 3px 6px #00000029;
+            width: rem-calc(80);  // desktop
+            height: rem-calc(80);  // desktop
+            border-radius: 50%;
+            display: inline-block;
+            i.icon {
+                color: #3A659F;
+                font-size: rem-calc(44);  // desktop
+                line-height: rem-calc(44 + 17 + 17);  // desktop
+                padding-left: rem-calc(4);  // desktop
+                display: inline-block;
+            }
+        }
+    }
     .card-section {
         height: rem-calc(180);  // desktop
-        padding: rem-calc(76) rem-calc(40) rem-calc(12) rem-calc(40);
+        padding: rem-calc(50) rem-calc(30) rem-calc(12) rem-calc(30);  // desktop
         overflow: hidden;
     }
     .card-section h3 {
