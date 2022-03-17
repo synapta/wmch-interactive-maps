@@ -54,8 +54,10 @@ var quality = function (counters) {
 const CronJob = require('cron').CronJob;
 const sequelize = require('sequelize');
 const got = require('got');
+const { logger } = require("./logger.js");
 
 const executionTime = '0 20 */24 * * *';
+const executionInterval = 5000;
 
 var featureLinkCounter = function(feature) {
     // conta il numero di link del museo corrente
@@ -138,21 +140,24 @@ const featureStat = function (feature) {
     qualityFlags.commons = feature.properties.commons ? true : false
     qualityFlags.image = feature.properties.image ? true : false
     qualityFlags.languages = feature.properties.lang.length
-    console.log(qualityFlags)
     return qualityFlags
 }
 
 const saveStat = async function () {
     const maps = await Map.findAll({ published: true })
-    for (const map of maps) {
-        const dataUrl = localconfig.internalUrl + '/api/data?id=' + map.id
-        const features = await got(dataUrl).json()
-        const featuresStatArr = features.map(feature => featureStat(feature))
-        // console.log(featuresStatArr)
-        const stats = mapStat(featuresStatArr)
-        console.log(stats)
-        break;  // DEBUG
-    }
+    const intervalHandler = setInterval(async () => {
+        const map = maps.shift()
+        if (typeof map !== "undefined") {
+            const dataUrl = localconfig.internalUrl + '/api/data?id=' + map.id
+            const features = await got(dataUrl).json()
+            const featuresStatArr = features.map(feature => featureStat(feature))
+            const stats = mapStat(featuresStatArr)
+            logger.debug(`Saving stats for map id ${map.id}`)
+        }
+        else {
+            clearInterval(intervalHandler)
+        }
+    }, executionInterval)
 };
 
 
