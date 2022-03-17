@@ -17,6 +17,7 @@ const allModels = []
 class Map extends Model {}
 class History extends Model {}
 class Category extends Model {}
+class Stat extends Model {}
 class MapCategory extends Model {}
 
 History.init({
@@ -85,12 +86,32 @@ MapCategory.init({}, {
   timestamps: false
 });
 
+Stat.init({
+  // Model attributes are defined here
+  id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+  qualityBlack: { type: Sequelize.INTEGER, defaultValue: 0 },
+  qualityRed: { type: Sequelize.INTEGER, defaultValue: 0 },
+  qualityYellow: { type: Sequelize.INTEGER, defaultValue: 0 },
+  qualityGreen: { type: Sequelize.INTEGER, defaultValue: 0 },
+  pins: { type: Sequelize.INTEGER, defaultValue: 0 }
+}, {
+  sequelize: connection,
+  modelName: "stat",
+  freezeTableName: true,
+  tableName: "stats",
+  schema: "public",
+  // enable: CreatedAt & updatedAt fields in Sequelize
+  timestamps: true
+});
+
 // Relationships
 Map.hasMany(History)
 History.belongsTo(Map)
 
 Map.belongsToMany(Category, { through: MapCategory });
 Category.belongsToMany(Map, { through: MapCategory });
+
+Stat.belongsTo(Map)
 
 // expose and prepare for migration
 allModels.push(Map)
@@ -104,6 +125,9 @@ exports.Category = Category
 
 allModels.push(MapCategory)
 exports.MapCategory = MapCategory
+
+allModels.push(Stat)
+exports.Stat = Stat
 
 exports.migrate = async () => {
   // create table(s) if does not exist?

@@ -1,5 +1,5 @@
 "use strict";
-const {migrate, connection, Map} = require("../db/modelsB.js");
+const {migrate, connection, Map, Stat} = require("../db/modelsB.js");
 const localconfig = require('../localconfig');
 // from: require('../public/js/utils');
 var confVisibleWikipediaLanguages = ['de', 'en', 'fr', 'it'];
@@ -56,8 +56,9 @@ const sequelize = require('sequelize');
 const got = require('got');
 const { logger } = require("./logger.js");
 
-const executionTime = '0 20 */24 * * *';
-const executionInterval = 5000;
+const executionTime = '0 20 */4 * * *';  // prod
+// const executionTime = '0 */1 * * * *';  // dev
+const executionInterval = 1000;
 
 var featureLinkCounter = function(feature) {
     // conta il numero di link del museo corrente
@@ -152,22 +153,31 @@ const saveStat = async function () {
             const features = await got(dataUrl).json()
             const featuresStatArr = features.map(feature => featureStat(feature))
             const stats = mapStat(featuresStatArr)
+            stats.mapId = map.id
+            const currentStat = await Stat.findOne({where: {
+                mapId: map.id
+            }})
+            if (currentStat) {
+                stats.id = currentStat.id
+            }
             logger.debug(`Saving stats for map id ${map.id}`)
+            await Stat.upsert(stats)
         }
         else {
+            logger.debug(`Stop saving stats, no more maps to process`)
             clearInterval(intervalHandler)
         }
     }, executionInterval)
 };
 
 
-(async () => {
+// DEBUG to launch from command line this unit
+/** (async () => {
     await saveStat()
-  })();
+  })(); **/
 
 /**
  * Save periodically some data for statistics.
-
-const job = new CronJob(executionTime, saveStatistics);
-job.start();
  */
+const job = new CronJob(executionTime, saveStat);
+job.start();
