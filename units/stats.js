@@ -8,14 +8,36 @@ const got = require('got');
 
 const executionTime = '0 20 */24 * * *';
 
-const mapStat = function (map, json) {
+const mapStat = function (featureStats) {
+    const stats = {
+        wikidata: 0,
+        commons: 0,
+        website: 0,
+        image: 0
+    }
+    for (const fstats of featureStats) {
+        for (const field of Object.keys(stats)) {
+            if (fstats[field] === true) {
+                stats[field]++
+            }
+        }
+    }
+    stats.pins = featureStats.length
+    return stats
+}
+
+/**
+ * 
+ * @param {Object} feature A single point on the map (pin).
+ * @returns 
+ */
+const featureStat = function (feature) {
     return {
-        mapId: map.id,
-        wikidata: json.properties.wikidata ? true : false,
-        commons: json.properties.commons ? true : false,
-        website: json.properties.website ? true : false,
-        image: json.properties.image ? true : false,
-        languages: json.properties.lang.length
+        wikidata: feature.properties.wikidata ? true : false,
+        commons: feature.properties.commons ? true : false,
+        website: feature.properties.website ? true : false,
+        image: feature.properties.image ? true : false,
+        languages: feature.properties.lang.length
     }
 }
 
@@ -24,10 +46,9 @@ const saveStat = async function () {
     for (const map of maps) {
         const dataUrl = localconfig.internalUrl + '/api/data?id=' + map.id
         const features = await got(dataUrl).json()
-        const result = features.map(feature => mapStat(map, feature))
-        for (const row of result) {
-            console.log(row)  // DEBUG
-        }
+        const featuresStatArr = features.map(feature => featureStat(feature))
+        const stats = mapStat(featuresStatArr)
+        console.log(stats)
         break;  // DEBUG
     }
 };
