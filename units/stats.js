@@ -135,14 +135,11 @@ const featureStat = function (feature) {
     let counter = featureLinkCounter(feature)
     let rank = quality(counter)
     qualityFlags[rank] = true
+    qualityFlags.commons = feature.properties.commons ? true : false
+    qualityFlags.image = feature.properties.image ? true : false
+    qualityFlags.languages = feature.properties.lang.length
+    console.log(qualityFlags)
     return qualityFlags
-    /** return {
-        wikidata: feature.properties.wikidata ? true : false,
-        commons: feature.properties.commons ? true : false,
-        website: feature.properties.website ? true : false,
-        image: feature.properties.image ? true : false,
-        languages: feature.properties.lang.length
-    } **/
 }
 
 const saveStat = async function () {
