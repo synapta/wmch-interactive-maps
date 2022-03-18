@@ -48,6 +48,9 @@
     "alt": "Wikimedia CH",
     "height": 100
   },
+  "seeAll": {
+    "rowlength": 4
+  },
   "screenshotServer": {
     "GOTO_OPTS": { "waitUntil": ["load","domcontentloaded","networkidle0"], "timeout": 0 },
     "port": 9031,

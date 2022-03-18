@@ -480,7 +480,12 @@ module.exports = function(app, apicache) {
                 var view = {
                   shortlang: shortlang,
                   logo: templateutils.logo(),
-                  categories: categoriesWithPublishedMaps.map(category => dbutils.getCategoryWithMapsAsDict(category)),
+                  categories: categoriesWithPublishedMaps
+                    .map(category => dbutils.getCategoryWithMapsAsDict(category))
+                    .map(categoryWithMaps => {
+                        categoryWithMaps.more = categoryWithMaps.maps.length > config.seeAll.rowlength
+                        return categoryWithMaps
+                    }),
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/",
                   languages: config.languages,
@@ -754,19 +759,19 @@ module.exports = function(app, apicache) {
                     // document.getElementById('output').innerHTML = i18next.t('key');
                     // variables to pass to Mustache to populate template
                     var view = {
-                    isAdminPage: true,
-                    shortlang: shortlang,
-                    langname: i18n_utils.getLangName(config.languages, shortlang),
-                    languages: config.adminLanguages,
-                    credits: config.map.author,
-                    logo: templateutils.logo(),
-                    categories: categoriesWithMaps.map(categoryWithMaps => dbutils.getCategoryWithMapsAsDict(categoryWithMaps)),
-                    i18n: function () {
-                        return function (text, render) {
-                            i18next.changeLanguage(shortlang);
-                            return i18next.t(text);
+                        isAdminPage: true,
+                        shortlang: shortlang,
+                        langname: i18n_utils.getLangName(config.languages, shortlang),
+                        languages: config.adminLanguages,
+                        credits: config.map.author,
+                        logo: templateutils.logo(),
+                        categories: categoriesWithMaps.map(categoryWithMaps => dbutils.getCategoryWithMapsAsDict(categoryWithMaps)),
+                        i18n: function () {
+                            return function (text, render) {
+                                i18next.changeLanguage(shortlang);
+                                return i18next.t(text);
+                            }
                         }
-                    }
                     };
                     // console.log(view);
                     const menuTemplate = await templateutils.readMustachePartials('public/wizard/menu.mustache');
