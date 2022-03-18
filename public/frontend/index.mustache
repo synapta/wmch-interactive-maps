@@ -16,8 +16,10 @@
         <div class="header-your-map cell margin-bottom-1 padding-top-3 padding-bottom-2">
                               <div class="grid-container">
                                 <div class="grid-x">
-                                  <div class="cell medium-9 large-9 padding-top-3 padding-bottom-3">
+                                  <div class="cell">
                                     <h1 class="maintitle">{{#i18n}}page.title{{/i18n}}</h1>
+                                  </div>
+                                  <div class="cell medium-9 large-9 padding-top-3 padding-bottom-3">
                                     <h2 class="mainsubtitle">{{#i18n}}page.subtitle{{/i18n}}</h2>
                                     <a href="/your-map" class="warning button large upper-strip text-uppercase margin-top-2">{{#i18n}}actions.askyourmap.calltoaction{{/i18n}}</a>
                                   </div>
@@ -25,11 +27,14 @@
                               </div>
         </div>
         {{#categories}}
-        <div class="cell">
+        <div class="cell category-section">
           <div class="grid-container">
             <div class="grid-x">
-              <div class="cell">
-                <h2 class="category h4 text-uppercase">{{name}}</h2>
+              <div class="cell medium-9 large-9">
+                <h2 class="category">{{name}}</h2>
+              </div>
+              <div class="cell medium-3 large-3 seeall-section">
+                <a class="seeall">{{#i18n}}actions.seeall.text{{/i18n}}</a>
               </div>
             </div>
           </div>

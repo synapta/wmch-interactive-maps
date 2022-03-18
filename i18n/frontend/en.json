@@ -17,6 +17,9 @@
     "askyourmap": {
       "calltoaction": "Ask your map!"
     },
+    "seeall": {
+      "text": "See all"
+    },
     "back": {
       "text": "Back to home"
     },

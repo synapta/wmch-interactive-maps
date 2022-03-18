@@ -108,12 +108,29 @@
     height: rem-calc(60);
 }
 
-
+$category-text-height: 60;
+$category-height: 70;
+$seeall-height: 25;
+.category-section {
+    margin-top: rem-calc($category-height - $category-text-height);
+    margin-bottom: rem-calc($category-height - $category-text-height);
+}
 .category {
     font-family: Anton, sans-serif;
     color: #636466;
-    font-size: rem-calc(60);
-    line-height: rem-calc(70);
+    font-size: rem-calc($category-text-height);
+    line-height: rem-calc($category-text-height);
+    text-transform: uppercase;
+}
+.seeall-section {
+    text-align: right;
+    // padding-top: rem-calc(($category-text-height - $seeall-height) / 2);
+    .seeall {
+        font-size: rem-calc($seeall-height);
+        line-height: rem-calc($seeall-height);
+        font-weight: 700;
+        color: #636466;
+    }
 }
 .maintitle {
     font-family: Anton, sans-serif;
