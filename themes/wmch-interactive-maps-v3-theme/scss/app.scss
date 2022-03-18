@@ -108,21 +108,22 @@
     height: rem-calc(60);
 }
 
+
 $category-text-height: 60;
 $category-height: 70;
 $seeall-height: 25;
-.category-section {
+.index .category-section {
     margin-top: rem-calc($category-height - $category-text-height);
     margin-bottom: rem-calc($category-height - $category-text-height);
 }
-.category {
+.index .category {
     font-family: Anton, sans-serif;
     color: #636466;
     font-size: rem-calc($category-text-height);
     line-height: rem-calc($category-text-height);
     text-transform: uppercase;
 }
-.seeall-section {
+.index .seeall-section {
     text-align: right;
     // padding-top: rem-calc(($category-text-height - $seeall-height) / 2);
     .seeall {
@@ -134,18 +135,31 @@ $seeall-height: 25;
 }
 .maintitle {
     font-family: Anton, sans-serif;
-    font-size: rem-calc(100);
     color: #F5F5F5;
 }
 .mainsubtitle {
-    font-size: rem-calc(32);
     color: #F5F5F5;
 }
 
-.maps {
+.mailmap {
+    .maintitle {
+        font-size: rem-calc(70);
+    }
+    .mainsubtitle {
+        font-size: rem-calc(23);
+    }
+}
+    
+.index {
+    .maintitle {
+        font-size: rem-calc(100);
+    }
+    .mainsubtitle {
+        font-size: rem-calc(32);
+    }
 }
 
-.map {
+.index .map {
     .icon-section {
         width: 100%;
         height: 0;
@@ -181,3 +195,4 @@ $seeall-height: 25;
         line-height: rem-calc(30);  // desktop
     }
 }
+
