@@ -1,4 +1,9 @@
 {
+  "actions": {
+    "askyourmap": {
+      "calltoaction": "Demandez votre carte"
+    }
+  },
   "page": {
     "title": "Demandez votre carte",
     "subtitle": ""

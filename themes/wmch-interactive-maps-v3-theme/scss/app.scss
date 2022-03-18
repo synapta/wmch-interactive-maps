@@ -105,7 +105,7 @@
 }
 
 #logo {
-    height: rem-calc(60);
+    height: rem-calc(134);
 }
 
 
@@ -139,6 +139,20 @@ $seeall-height: 25;
 }
 .mainsubtitle {
     color: #F5F5F5;
+}
+
+#topmenu {
+    .menu.inline {
+        padding-top: rem-calc(35);
+    }
+    #askyourmap {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: rem-calc(25);
+    }
+    .dropdown {
+        font-size: rem-calc(25);
+    }
 }
 
 .mailmap {
