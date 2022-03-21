@@ -31,10 +31,10 @@
           <div class="grid-container">
             <div class="grid-x">
               <div class="cell medium-9 large-9">
-                <h2 class="category">{{name}}</h2>
+                <h2 class="category">{{name}}<a id="seeall-{{categoryId}}" ></a></h2>
               </div>
               <div class="cell medium-3 large-3 seeall-section">
-                {{#more}}<a class="seeall" href="#seeall-{{categoryId}}" data-smooth-scroll>{{#i18n}}actions.seeall.text{{/i18n}}</a>{{/more}}
+                {{#more}}<a class="seeall" href="#seeall-{{categoryId}}" data-smooth-scroll data-offset="-240">{{#i18n}}actions.seeall.text{{/i18n}}</a>{{/more}}
               </div>
             </div>
           </div>
