@@ -185,4 +185,4 @@ const saveStat = async function () {
  * Save periodically some data for statistics.
  */
 const job = new CronJob(getSetting('time'), saveStat);
-job.start();
+// job.start();  // temporary disable for tests
