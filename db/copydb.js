@@ -57,13 +57,21 @@ const legacyDb = async function() {
         let ncm = await Map.create(data)
         newMaps.push(ncm)
     }
+    console.log()
     console.log("Importing histories...")
-    const chunk = 30
-    const recordNumber = 60  // set to total count after tests
+    const chunk = 50
+    const recordNumber = 600  // set to total count after tests
     // Chunk import
     for (let offset = 0; offset < recordNumber; offset = offset + chunk) {
         console.log(`Importing ${offset + chunk} histories offset`)
+        // SELECT id, createdAt, updatedAt FROM interactivemaps.histories h WHERE h.mapId = 1 AND diff AND NOT error
+        // solo per calcolo punti id 1 - Swiss Museums
         const histories = await OldHistory.findAll({
+            where: {
+                diff: true,
+                error: false,
+                mapId: 1
+            },
             limit: chunk,
             offset: offset,
             order: [
@@ -75,11 +83,14 @@ const legacyDb = async function() {
             await History.create(data)
         }
     }
+    console.log()
     console.log(`Creating categories`)
     for (const name of [`editors' choice`, `red cross`]) {
         // Create categories
         await Category.create({"name": name})
     }
+    console.log("End import histories")
+    console.log()
     console.log(`Assign maps to a single category to start`)
     // assign all maps to new editors' choice category
     await MapCategory.bulkCreate(newMaps.map(ncm => {
