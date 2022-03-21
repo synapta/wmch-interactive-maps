@@ -91,16 +91,17 @@
 }
 
 .header-your-map {
-    background-image: url(/images/landing/headerbg.jpg);
-    color:aliceblue;
+    background-image: url(/images/landing/headerbg3_cr.png);
+    color:#f5f5f5;
     background-color: #0065A4;
-    background-attachment: scroll;
+    background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    
+
     h1 {
         text-transform: uppercase;
+        mix-blend-mode: normal;
     }
 }
 
