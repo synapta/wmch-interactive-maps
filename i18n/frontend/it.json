@@ -17,6 +17,9 @@
     "askyourmap": {
       "calltoaction": "Richiedi la tua mappa!"
     },
+    "seeall": {
+      "text": "Vedi tutti"
+    },
     "back": {
       "text": "Torna indietro"
     },

@@ -1,6 +1,7 @@
 "use strict";
 
 const { promises: fs } = require("fs");
+const i18next = require('i18next');
 const Mustache = require('mustache');
 // Global settings
 const config = require('../config');
@@ -33,8 +34,11 @@ exports.notFound = async (request, text) => {
     try {
         let template = await fs.readFile(templatePath)
         let [shortlang, translationData] = i18n_utils.seekLang(request, config.fallbackLanguage, 'frontend')
+        let i18nOptions = i18n_utils.geti18nOptions(shortlang);
+        i18nOptions.resources[shortlang] = {translation: translationData};
         const menuTemplate = await readMustachePartials('public/frontend/menu.mustache')
         const partials = {menu: menuTemplate}
+        const tnext = await i18next.init(i18nOptions)
         output = Mustache.render(template.toString(), { 
             message: message, 
             comment: comment,
@@ -43,7 +47,13 @@ exports.notFound = async (request, text) => {
             // common
             baseurl: localconfig.url + "/",
             languages: config.languages,
-            author: config.map.author 
+            author: config.map.author,
+            i18n: function () {
+                return function (text, render) {
+                    i18next.changeLanguage(shortlang);
+                    return i18next.t(text);
+                }
+            }
         }, partials)
     }
     catch (e) {

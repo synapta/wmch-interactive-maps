@@ -105,6 +105,108 @@
 }
 
 #logo {
-    height: rem-calc(60);
+    height: rem-calc(134);
+}
+
+
+$category-text-height: 60;
+$category-height: 70;
+$seeall-height: 25;
+.index .category-section {
+    margin-top: rem-calc($category-height - $category-text-height);
+    margin-bottom: rem-calc($category-height - $category-text-height);
+}
+.index .category {
+    font-family: Anton, sans-serif;
+    color: #636466;
+    font-size: rem-calc($category-text-height);
+    line-height: rem-calc($category-text-height);
+    text-transform: uppercase;
+}
+.index .seeall-section {
+    text-align: right;
+    // padding-top: rem-calc(($category-text-height - $seeall-height) / 2);
+    .seeall {
+        font-size: rem-calc($seeall-height);
+        line-height: rem-calc($seeall-height);
+        font-weight: 700;
+        color: #636466;
+    }
+}
+.maintitle {
+    font-family: Anton, sans-serif;
+    color: #F5F5F5;
+}
+.mainsubtitle {
+    color: #F5F5F5;
+}
+
+#topmenu {
+    .menu.inline {
+        padding-top: rem-calc(35);
+    }
+    #askyourmap {
+        text-transform: uppercase;
+        font-weight: 700;
+        font-size: rem-calc(25);
+    }
+    .dropdown {
+        font-size: rem-calc(25);
+    }
+}
+
+.mailmap {
+    .maintitle {
+        font-size: rem-calc(70);
+    }
+    .mainsubtitle {
+        font-size: rem-calc(23);
+    }
+}
+    
+.index {
+    .maintitle {
+        font-size: rem-calc(100);
+    }
+    .mainsubtitle {
+        font-size: rem-calc(32);
+    }
+}
+
+.index .map {
+    .icon-section {
+        width: 100%;
+        height: 0;
+        text-align: center;
+        position: relative;
+        top: rem-calc(-40);  // desktop
+        .icon-button {
+            background: #FFFFFF 0% 0% no-repeat padding-box;
+            box-shadow: 3px 3px 6px #00000029;
+            width: rem-calc(80);  // desktop
+            height: rem-calc(80);  // desktop
+            border-radius: 50%;
+            display: inline-block;
+            i.icon {
+                color: #3A659F;
+                font-size: rem-calc(44);  // desktop
+                line-height: rem-calc(44 + 17 + 17);  // desktop
+                padding-left: rem-calc(4);  // desktop
+                display: inline-block;
+            }
+        }
+    }
+    .card-section {
+        height: rem-calc(180);  // desktop
+        padding: rem-calc(50) rem-calc(30) rem-calc(12) rem-calc(30);  // desktop
+        overflow: hidden;
+    }
+    .card-section h3 {
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        color: #3A659F;
+        font-size: rem-calc(30);  // desktop
+        line-height: rem-calc(30);  // desktop
+    }
 }
 

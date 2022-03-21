@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/codemirror/5.65.1/codemirror.css">
 
   </head>
-  <body>
+  <body class="mailmap">
     <div class="grid-container full">
       <div class="grid-x">
         {{>menu}}
@@ -21,8 +21,10 @@
                               <div class="grid-container">
                                 <div class="grid-x">
                                   <div class="cell">
-                                    <h1 class="h3">{{#i18n}}page.title{{/i18n}}</h1>
-                                    <p>{{#i18n}}comment.label{{/i18n}}</p>
+                                    <h1 class="maintitle">{{#i18n}}page.title{{/i18n}}</h1>
+                                  </div>
+                                  <div class="cell medium-9 large-9 padding-top-3 padding-bottom-3">
+                                    <h2 class="mainsubtitle">{{#i18n}}comment.label{{/i18n}}</h2>
                                   </div>
                                 </div>
                               </div>
@@ -83,7 +85,7 @@
                                     <legend></legend>
                                     <label>
                                       {{#i18n}}sparql.label{{/i18n}}
-                                      <textarea id="sparql" name="sparql" rows="14" placeholder="{{#i18n}}sparql.label{{/i18n}}" aria-describedby="sparqlHelpText"></textarea>
+                                      <textarea id="sparql" name="sparql" rows="1" placeholder="{{#i18n}}sparql.label{{/i18n}}" aria-describedby="sparqlHelpText"></textarea>
                                     </label>
                                   </fieldset>
                                   <p class="cell help-text" id="sparqlHelpText">{{#i18n}}sparql.help{{/i18n}}</p>
@@ -149,7 +151,7 @@ ORDER BY ?item ASC(?langcode) ASC(?lang) DESC(?coord) ASC(?commons) DESC(?websit
           document.getElementById("sparqlcode").value = myCodeMirror.getValue();
         });
       }
-
+//         document.getElementById("sparql-container").setAttribute("rows", 14);
       function showCodeEditor () {
         if (myCodeMirror === null) {
           loadCodeEditor();

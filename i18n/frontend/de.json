@@ -17,6 +17,9 @@
     "askyourmap": {
       "calltoaction": "Fragen Sie Ihre Karte"
     },
+    "seeall": {
+      "text": "Alle sehen"
+    },
     "back": {
       "text": "Back to home"
     },

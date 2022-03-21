@@ -1,4 +1,9 @@
 {
+  "actions": {
+    "askyourmap": {
+      "calltoaction": "Ask your map"
+    }
+  },
   "page": {
     "title": "Ask your map",
     "subtitle": ""
