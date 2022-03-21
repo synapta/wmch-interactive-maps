@@ -484,6 +484,10 @@ module.exports = function(app, apicache) {
                     .map(category => dbutils.getCategoryWithMapsAsDict(category))
                     .map(categoryWithMaps => {
                         categoryWithMaps.more = categoryWithMaps.maps.length > config.seeAll.rowlength
+                        categoryWithMaps.maps = categoryWithMaps.maps.map((map, mapInd) => {
+                            map.seeAllHidden = mapInd >= config.seeAll.rowlength
+                            return map
+                        })
                         return categoryWithMaps
                     }),
                   langname: i18n_utils.getLangName(config.languages, shortlang),

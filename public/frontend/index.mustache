@@ -34,7 +34,7 @@
                 <h2 class="category">{{name}}</h2>
               </div>
               <div class="cell medium-3 large-3 seeall-section">
-                {{#more}}<a class="seeall">{{#i18n}}actions.seeall.text{{/i18n}}</a>{{/more}}
+                {{#more}}<a class="seeall" href="#seeall-{{categoryId}}" data-smooth-scroll>{{#i18n}}actions.seeall.text{{/i18n}}</a>{{/more}}
               </div>
             </div>
           </div>
@@ -43,8 +43,8 @@
                               <div class="grid-container maps">
                                 <div class="grid-x grid-padding-x small-up-2 medium-up-4 large-up-4">
                                   {{#maps}}
-                                  <div class="cell">
-                                    <a class="bordered shadow card map" href="{{absolutePath}}">
+                                  <div class="cell map {{#seeAllHidden}}hide{{/seeAllHidden}}">
+                                    <a class="bordered shadow card" href="{{absolutePath}}">
                                       <img class="lozad" data-placeholder-background="grey" data-src="{{screenshotUrl}}">
                                       <div class="icon-section">
                                         <div class="icon-button"><i class="icon {{icon}}"></i></div>
@@ -77,13 +77,7 @@
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/foundation/6.7.4/js/foundation.min.js"></script>
     <script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/lozad.js/1.16.0/lozad.min.js"></script>
-    <script>
-      const observer = lozad(); // lazy loads elements with default selector as '.lozad'
-      observer.observe();
-    </script>
     <script src="/themes/wmch-interactive-maps-v3-theme/js/app.js"></script>
-    <script>
-    </script>
 
   </body>
 </html>
