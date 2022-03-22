@@ -22,6 +22,12 @@
                                   <div class="cell medium-9 large-9 padding-top-3 padding-bottom-3">
                                     <h2 class="mainsubtitle">{{#i18n}}page.subtitle{{/i18n}}</h2>
                                     <a href="/your-map" class="hide warning button large upper-strip text-uppercase margin-top-2">{{#i18n}}actions.askyourmap.calltoaction{{/i18n}}</a>
+                                    {{!-- working on page menu using Magellan, reserved for future use
+                                      <ul class="menu expanded" data-magellan>
+                                        {{#categories}}
+                                          <li><a href="#seeall-{{id}}">{{name}}</a></li>
+                                        {{/categories}}
+                                      </ul> --}}
                                   </div>
                                 </div>
                               </div>
@@ -31,10 +37,10 @@
           <div class="grid-container">
             <div class="grid-x">
               <div class="cell medium-9 large-9">
-                <h2 class="category">{{name}}<a id="seeall-{{categoryId}}" ></a></h2>
+                <h2 class="category" id="seeall-{{id}}">{{name}}</h2>
               </div>
               <div class="cell medium-3 large-3 seeall-section">
-                {{#more}}<a class="seeall" href="#seeall-{{categoryId}}" data-smooth-scroll data-offset="-240">{{#i18n}}actions.seeall.text{{/i18n}}</a>{{/more}}
+                {{#more}}<a class="seeall" href="#seeall-{{id}}" data-smooth-scroll data-offset="-240">{{#i18n}}actions.seeall.text{{/i18n}}</a>{{/more}}
               </div>
             </div>
           </div>
