@@ -10,10 +10,19 @@ $.fn.visible = function() {
     return bottom > vpTop && top < vpBottom;
 };
 
+function prepareCategories() {
+    $(".appear-off").each(function () {
+        // do not apply effect on already visible elements
+        if (!$(this).visible()) {
+            $(this).toggleClass(['appear-off', 'appear-on']);
+        }
+    });
+}
+
 function showCategories () {
-    $( ".category" ).each(function () {
+    $( ".appear-on .category" ).each(function () {
         if ($(this).visible()) {
-            $(this).parents(".category-section").first().animate({"padding-top": "0"});
+            // $(this).parents(".category-section").first().animate({"padding-top": "0"});
             $(this).animate({"margin-bottom": "0.5rem"});
         }
     });
@@ -28,4 +37,5 @@ $(".seeall").click(function () {
     $(this).fadeOut();
 });
 
+prepareCategories();
 setInterval(showCategories, 300);
