@@ -220,15 +220,19 @@ $seeall-height: 25;
 
 .index .map .card {
     width: 100%;
-    transition-property: width, box-shadow, border-radius;
+    transition-property: width, box-shadow, border-radius, right, bottom;
     transition-duration: 0.3s;
     transition-timing-function: linear;
-    transition-delay: 0.1s;
+    transition-delay: 0.2s;
+    position: relative;
+    right: 0%;
+    bottom: 0%;
 }
 .index .map .card:hover {
-    width: 220%;
+    width: 180%;
     z-index: 999;
-    position: relative;
     box-shadow: rem-calc(3 * 2.2) rem-calc(3 * 2.2) rem-calc(6 * 2.2) #00000029;
     border-radius: 0 !important;
+    right: 50%;
+    bottom: 10%;
 }
