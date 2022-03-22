@@ -351,7 +351,7 @@ $card-background: $white;
 $card-font-color: $body-font-color;
 $card-divider-background: $light-gray;
 $card-border: 1px solid $light-gray;
-$card-shadow: none;
+$card-shadow: rem-calc(3) rem-calc(3) rem-calc(6) #00000029;
 $card-border-radius: 0 0 rem-calc(14) rem-calc(14);
 $card-padding: $global-padding;
 $card-margin-bottom: $global-margin;

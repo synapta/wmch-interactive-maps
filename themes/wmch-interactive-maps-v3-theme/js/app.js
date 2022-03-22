@@ -12,7 +12,6 @@ $.fn.visible = function() {
 
 function showCategories () {
     $( ".category" ).each(function () {
-        console.log(this)
         if ($(this).visible()) {
             $(this).parents(".category-section").first().animate({"padding-top": "0"});
             $(this).animate({"margin-bottom": "0.5rem"});
@@ -29,4 +28,4 @@ $(".seeall").click(function () {
     $(this).fadeOut();
 });
 
-setInterval(showCategories, 300)
+setInterval(showCategories, 300);
