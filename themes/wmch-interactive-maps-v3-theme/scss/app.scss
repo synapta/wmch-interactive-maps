@@ -186,7 +186,7 @@ $seeall-height: 25;
         top: rem-calc(-40);  // desktop
         .icon-button {
             background: #FFFFFF 0% 0% no-repeat padding-box;
-            box-shadow: 3px 3px 6px #00000029;
+            box-shadow: rem-calc(3) rem-calc(3) rem-calc(6) #00000029;
             width: rem-calc(80);  // desktop
             height: rem-calc(80);  // desktop
             border-radius: 50%;
@@ -199,6 +199,9 @@ $seeall-height: 25;
                 display: inline-block;
             }
         }
+    }
+    .image-section {
+        min-height: rem-calc(60);
     }
     .card-section {
         height: rem-calc(180);  // desktop
