@@ -115,7 +115,9 @@ $category-height: 70;
 $seeall-height: 25;
 .index .category-section {
     margin-top: rem-calc($category-height - $category-text-height);
-    margin-bottom: rem-calc($category-height - $category-text-height);
+    margin-bottom: 0;
+    overflow: hidden;
+    padding-top: 0.5em;  // to alter via JS
 }
 .index .category {
     font-family: Anton, sans-serif;
@@ -123,6 +125,7 @@ $seeall-height: 25;
     font-size: rem-calc($category-text-height);
     line-height: rem-calc($category-text-height);
     text-transform: uppercase;
+    margin-bottom: -0.5em;  // to alter via JS
 }
 .index .seeall-section {
     text-align: right;
