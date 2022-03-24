@@ -151,6 +151,11 @@
                 <div id="pinicon-mapstyle-error" class="ui error message" style="display: none;">
                   <div class="header">{{#i18n}}actions.style.error{{/i18n}}</div>
                 </div>
+                {{#map.mismatch}}
+                <div id="pinicon-mapstyle-mismatch" class="ui warning message" style="display: block;">
+                  <div class="header">{{#i18n}}actions.style.mismatch{{/i18n}}</div>
+                </div>
+                {{/map.mismatch}}
                 <div class="ui floating dropdown labeled icon button" id="mapstyle" data-touched="0" data-value="{{#map.style}}{{{.}}}{{/map.style}}">
                   <i class="flag checkered large icon"></i>
                   <span class="text">{{#i18n}}actions.style.text{{/i18n}}</span>

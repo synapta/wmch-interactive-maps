@@ -158,6 +158,24 @@ async function cuMap (req, res, action) {
 }
 
 /**
+ * 
+ * @param {Object} configMap 
+ */
+function addCurrentStyle(configMap) {
+    currentStyle = configMap.styles.filter(styleRow => { return styleRow.tile === configMap.tile }).pop();
+    logger.debug('§§§§§§§§§§§§§§§§§§§§§§§§§§', configMap.style);
+    configMap.style = currentStyle ? currentStyle.name : '';
+}
+
+/**
+ * Mismatch tile? true if cannot find style in config.map.styles, false if it is in the list.
+ * @param {Object} configMap 
+ */
+ function addMismatch(configMap) {
+  return configMap.mismatch = !(typeof configMap.style === "string" && configMap.style.length > 0);
+}
+
+/**
  * Get values for map, edit or add.
  * @param  {string} action to perform (optional).
  * @param  {integer} id     Map primary key on database, numeric integer.
@@ -173,9 +191,8 @@ function getMapValues(action, id) {
             // overwrite with Database values
             Object.assign(configMap, configFromDb);
             // add derived values
-            currentStyle = configMap.styles.filter(styleRow => { return styleRow.tile === configMap.tile }).pop();
-            logger.debug('§§§§§§§§§§§§§§§§§§§§§§§§§§', configMap.style);
-            configMap.style = currentStyle ? currentStyle.name : '';
+            addCurrentStyle(configMap);
+            addMismatch(configMap);
             resolve(configMap);
           });
         }

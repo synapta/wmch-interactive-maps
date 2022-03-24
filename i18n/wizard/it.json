@@ -106,6 +106,7 @@
     "style": {
       "text": "Scegli uno stile della mappa per cominciare",
       "error": "Scegli prima uno stile della mappa",
+      "mismatch": "Seleziona un altro stile poiché lo stile originale non è disponibile e viene invece utilizzato lo stile di ripiego. Hai cambiato il tile server (config.map.styles) di recente?",
       "help": "Scegli un tipo di mappa e un'icona da visualizzare sopra il pin"
     },
     "center": {

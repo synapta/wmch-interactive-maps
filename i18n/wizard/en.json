@@ -106,6 +106,7 @@
     "style": {
       "text": "Select a map style to start",
       "error": "Select a map style first",
+      "mismatch": "Please select a news style since original style is unavailable and fallback style is used instead. Have you changed the tile server (config.map.styles) recently?",
       "help": "Select a type of map and an icon to be shown on top of pin"
     },
     "center": {

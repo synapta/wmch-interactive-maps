@@ -440,6 +440,7 @@ $(function() {
         onChange: function (value) {
             $(this).data('touched', 1);
             $('#pinicon-mapstyle-error').hide();
+            $('#pinicon-mapstyle-mismatch').hide();
             var vals = value.split('|||');
             window.tile = vals[0];
             window.attribution = vals[1] + ' | ' + $('#author').html();
