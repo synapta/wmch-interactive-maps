@@ -54,7 +54,11 @@ $(function() {
     };
 
     var formIsValid = function () {
-        if($('.ui.form').form('is valid') && $('#mapstyle').data('touched') && $('input[name="path"]').data('valid') && $('#map-query').data('valid') && $('#category-select').data('valid')) {
+        if($('.ui.form').form('is valid') && 
+           $('#mapstyle').data('touched') && 
+           $('input[name="path"]').data('valid') && 
+           $('#map-query').data('valid') && 
+           $('#category-select').data('valid')) {
             // form is valid
             return true;
         }
@@ -526,12 +530,12 @@ $(function() {
             console.warn('Error retrieving icons list');
         },
         success: function(json) {
-          // console.log(json[0]);
           $('.ui.search.pinicon-wrapper').removeClass("disabled");
           $('.ui.search.pinicon-wrapper')
             .search({
               source: json,
               fullTextSearch: true,
+              selectFirstResult: true,
               onSelect: function(result, response) {
                 // force select of a map style if none selected
                 if ($('#mapstyle').data('touched')) {
@@ -546,6 +550,8 @@ $(function() {
                 }
               }
           });
+
+
         }
     });
 
@@ -572,7 +578,7 @@ $(function() {
                 $(".category-wrapper").parents('.field').eq(0).after(`<div class="field category-label"><a class="ui label purple">
                 <i class="tag icon"></i> ${result.title}
               </a></div>`);
-                console.log(`Category ${result.id} selected`);  // DEBUG
+                // console.log(`Category ${result.id} selected`);  // DEBUG
                 // $('.ui.search.category-wrapper').search("set value", "");  // TODO
               }
             });
@@ -598,5 +604,8 @@ $(function() {
 
     // First step: trigger keyUp to force path check
     $("input[name='path']").trigger("keyup");
+
+    $(".step-1").css("min-height", $(".steps.vertical").height())
+    $(".step-2").css("min-height", $(".steps.vertical").height())
 
 });

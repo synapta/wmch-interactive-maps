@@ -101,7 +101,7 @@
           <div class="field">
             <div class="ui search right labeled left icon input category-wrapper">
               <i class="tag icon"></i>
-              <input type="text" class="prompt" placeholder="{{#i18n}}actions.category.text{{/i18n}}" id="category-select" size="26" value="{{#map.categories.0}}{{{name}}}{{/map.categories.0}}" data-valid="0">
+              <input type="text" class="prompt" placeholder="{{#i18n}}actions.category.text{{/i18n}}" id="category-select" size="26" value="{{#map.categories.0}}{{{name}}}{{/map.categories.0}}" data-valid="{{#map.categories.0}}1{{/map.categories.0}}{{^map.categories.0}}0{{/map.categories.0}}">
               <input type="hidden" value="{{map.categories.0.id}}" name="category">
               <div class="results"></div>
             </div>
@@ -131,7 +131,7 @@
             <a class="ui compact mini icon button teal" href="https://query.wikidata.org/" target="_blank">
               <i class="barcode icon"></i> {{#i18n}}fields.sparql.help{{/i18n}}
             </a>
-            <textarea id="map-query" placeholder="{{#i18n}}fields.sparql.placeholder{{/i18n}}" rows="30" data-valid="0">{{#map.query}}{{{map.query}}}{{/map.query}}{{^map.query}}{{{sparql}}}{{/map.query}}</textarea>
+            <textarea id="map-query" placeholder="{{#i18n}}fields.sparql.placeholder{{/i18n}}" rows="30" data-valid="{{#map.query}}1{{/map.query}}{{^map.query}}0{{/map.query}}">{{#map.query}}{{{map.query}}}{{/map.query}}{{^map.query}}{{{sparql}}}{{/map.query}}</textarea>
           </div>
           <div class="fields">
             <div class="inline field">

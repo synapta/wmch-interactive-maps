@@ -80,3 +80,12 @@ input.inverted {
 .strikethrough {
     text-decoration: line-through;
 }
+.step-content {
+    min-height: 380px;
+}
+.ui.segment {
+    margin-top: 0;
+}
+.ui.segments {
+    margin-top: 0;
+}
