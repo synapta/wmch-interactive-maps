@@ -48,8 +48,10 @@ const legacyDb = async function() {
     console.log("Read old -> write new database")
     console.log("Importing maps...")
     const newMaps = []
+    const mapIds = []
     for (const record of maps) {
         const data = record.dataValues
+        mapIds.push(data.id)
         // do not run history on unpublished maps
         data.history = data.published
         // drop legacy field
@@ -59,28 +61,32 @@ const legacyDb = async function() {
     }
     console.log()
     console.log("Importing histories...")
-    const chunk = 50
-    const recordNumber = 600  // set to total count after tests
-    // Chunk import
-    for (let offset = 0; offset < recordNumber; offset = offset + chunk) {
-        console.log(`Importing ${offset + chunk} histories offset`)
-        // SELECT id, createdAt, updatedAt FROM interactivemaps.histories h WHERE h.mapId = 1 AND diff AND NOT error
-        // solo per calcolo punti id 1 - Swiss Museums
-        const histories = await OldHistory.findAll({
-            where: {
-                diff: true,
-                error: false,
-                mapId: 1
-            },
-            limit: chunk,
-            offset: offset,
-            order: [
-                ['createdAt', 'ASC']
-            ]
-        })
-        for (const record of histories) {
-            const data = record.dataValues
-            await History.create(data)
+    const chunk = 5
+    // const recordNumber = 600  // set to total count after tests
+    for (const mapId of mapIds) {            
+        let histories = []
+        // Chunk import
+        for (let offset = 0; histories.length || offset === 0; offset = offset + chunk) {
+            console.log(`Importing ${offset + chunk} histories offset`)
+            // SELECT id, createdAt, updatedAt FROM interactivemaps.histories h WHERE h.mapId = 1 AND diff AND NOT error
+            // solo per calcolo punti id 1 - Swiss Museums
+            histories = await OldHistory.findAll({
+                where: {
+                    diff: true,
+                    error: false,
+                    mapId: mapId
+                },
+                limit: chunk,
+                offset: offset,
+                order: [
+                    ['createdAt', 'ASC']
+                ]
+            })
+            const newHistories = []
+            for (const record of histories) {
+                newHistories.push(record.dataValues)
+            }
+            await History.bulkCreate(newHistories)
         }
     }
     console.log()
