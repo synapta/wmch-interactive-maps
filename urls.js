@@ -99,16 +99,10 @@ module.exports = function(app, apicache) {
      */
     function querystring2json (res, enrichedQuery) {
         dbutils.booleanize(enrichedQuery);
-        // define fallback default style
-        const fallBackStyle =   {
-          "name": "OSM Bright",
-          "tile": "//tile.wikimedia.swiss/styles/osm-bright/{z}/{x}/{y}.png",
-          "attribution": "<a href=\"https://openmaptiles.org/\" target=\"_blank\">© OpenMapTiles</a>, <a href=\"https://www.openstreetmap.org/\" target=\"_blank\">© OpenStreetMap</a> contributors"
-        };
         // find requested style in config styles list
         const style = config.map.styles.find(el => el.tile === enrichedQuery.tile);
         // if found add style to query otherwise add fallback style
-        enrichedQuery.currentStyle = style ? style : fallBackStyle;
+        enrichedQuery.currentStyle = style ? style : config.map.fallBackStyle;
         // TODO - check if this property is not used anymore and remove
         enrichedQuery.tile = enrichedQuery.currentStyle.tile;
         // stringify rend response

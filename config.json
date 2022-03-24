@@ -22,6 +22,11 @@
   "map": {
     "published": false,
     "style": "OSM Bright",
+    "fallBackStyle": {
+      "name": "OSM Bright",
+      "tile": "//tile.wikimedia.swiss/styles/osm-bright/{z}/{x}/{y}.png",
+      "attribution": "<a href=\"https://openmaptiles.org/\" target=\"_blank\">© OpenMapTiles</a>, <a href=\"https://www.openstreetmap.org/\" target=\"_blank\">© OpenStreetMap</a> contributors"
+    },
     "styles": [
       {
         "name": "OSM Bright",
