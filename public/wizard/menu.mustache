@@ -9,7 +9,7 @@
   <div class="ui secondary pointing menu right">
     {{#isEditPage}}
     <div class="item active">
-      <i class="plus icon"></i> {{#i18n}}actions.edit.text{{/i18n}}
+      <i class="edit icon"></i> {{#i18n}}actions.edit.text{{/i18n}}
     </div>
     {{/isEditPage}}
     <div class="item {{#isWizardPage}}active{{/isWizardPage}}">
@@ -21,6 +21,11 @@
     <div class="item {{#isHelpPage}}active{{/isHelpPage}}">
       <a class="" href="/wizard/man/index?l={{shortlang}}"><i class="help icon"></i> {{#i18n}}actions.help.text{{/i18n}}</a>
     </div>
+    {{#adminMenuExtra}}
+    <div class="item">
+      <a class="" href="{{{url}}}"><i class="{{icon}} icon"></i> {{title}}</a>
+    </div>
+    {{/adminMenuExtra}}
     <div class="item">
       <div class="ui dropdown labeled" id="languages">
         <i class="language icon"></i>

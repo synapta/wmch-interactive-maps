@@ -62,7 +62,7 @@ Screenshots directory will contains preview files for maps, local directory coul
 
 ### Add localconfig.json
 
-***TL;DR: Copy localconfig.example.json to localconfig.json. Change data as needed.***
+***TL;DR: Copy [localconfig.example.json](ocalconfig.example.json) to localconfig.json. Change data as needed.***
 
 Local settings like database name and authentication data are available in the git ignored `localconfig.json` in the following formats.
 

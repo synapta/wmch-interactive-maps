@@ -526,6 +526,7 @@ module.exports = function(app, apicache) {
                       var view = {
                         isHelpPage: true,
                         shortlang: shortlang,
+                        adminMenuExtra: localconfig.adminMenuExtra,
                         logo: templateutils.logo(),
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         baseurl: localconfig.url + "/",
@@ -759,6 +760,7 @@ module.exports = function(app, apicache) {
                     var view = {
                         isAdminPage: true,
                         shortlang: shortlang,
+                        adminMenuExtra: localconfig.adminMenuExtra,
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         languages: config.adminLanguages,
                         credits: config.map.author,

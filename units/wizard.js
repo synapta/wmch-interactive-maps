@@ -238,6 +238,7 @@ function getWizard(req, res, action, id) {
               var view = {
                 isWizardPage: action === "add",
                 isEditPage: action === "edit",
+                adminMenuExtra: localconfig.adminMenuExtra,
                 shortlang: shortlang,
                 langname: i18n_utils.getLangName(config.languages, shortlang),
                 map: values,

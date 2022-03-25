@@ -51,6 +51,14 @@
   "msCronWaitWikidata": 10000,
   "historyTimelineLimit": 52,
   "historyOnlyDiff": true,
+  "adminMenuExtra": [
+    {
+      "_comment": "Additional elements on admin menu bar. Semantic UI icon, url and title to show.",
+      "icon": "chart line", 
+      "url": "https://example.org/path/to/your/stats/dashboard/demo", 
+      "title": "Stats"
+    }
+  ],
   "url": "http://example.org",
   "internalUrl": "http://localhost:9030"
 }

@@ -405,3 +405,10 @@ body {
   cursor: pointer;
   color: white !important;
 }
+#menutemplate .item.active a:link,
+#menutemplate .item.active a:hover,
+#menutemplate .item.active a:focus,
+#menutemplate .item.active a:visited {
+    color: black;
+    font-weight: normal;
+}
