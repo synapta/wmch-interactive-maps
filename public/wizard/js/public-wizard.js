@@ -42,6 +42,33 @@ $(function() {
         }
     };
 
+    var lookupPath = function (el) {
+        $.ajax ({
+            type:'GET',
+            dataType: 'json',
+            url: "/admin/api/get/map/?path=" + $(el).val() + "&id=" + $('form').data('map-id'),
+            error: function(e) {
+                $("#path-found").hide();
+                $("#path-not-found").show();
+                $("input[name='path']").data('valid', 1);
+            },
+            success: function(json) {
+                // var action = json.exists ? 'pathExists' : $('form').data('action-name');
+                if (json.hasOwnProperty('exists') && !json.exists) {
+                    // can overwrite path on the same record
+                    $("#path-found").hide();
+                    $("#path-not-found").show();
+                    $("input[name='path']").data('valid', 1);
+                }
+                else {
+                    $("#path-found").show();
+                    $("#path-not-found").hide();
+                    $("input[name='path']").data('valid', 0);
+                }
+            }
+        });
+    };
+
     var legendaUpdate = function (data) {
         var counterArrayByCriteria = countByFilter(data);
         var newText = '';
@@ -109,36 +136,7 @@ $(function() {
         $("input[name='path']").trigger("keyup");
     });
     $("input[name='path']").on("keyup", function () {
-        // if ($('form').data('action-name') === "add") {
-        $.ajax ({
-            type:'GET',
-            dataType: 'json',
-            url: "/admin/api/get/map/?path=" + $(this).val() + "&id=" + $('form').data('map-id'),
-            error: function(e) {
-                $("#path-found").hide();
-                $("#path-not-found").show();
-                $("input[name='path']").data('valid', 1);
-            },
-            success: function(json) {
-                var action = json.exists ? 'pathExists' : $('form').data('action-name');
-                switch (action) {
-                    case 'edit':
-                        // can overwrite path on the same record
-                        $("#path-found").hide();
-                        $("#path-not-found").show();
-                        $("input[name='path']").data('valid', 1);
-                    break;
-                    case 'add':  // invalid by default
-                    case 'pathExists':
-                    default:
-                        $("#path-found").show();
-                        $("#path-not-found").hide();
-                        $("input[name='path']").data('valid', 0);
-                    break;
-                }
-            }
-        });
-        // }
+        lookupPath(this)
     });
     $('.ui.form')
       .form({
@@ -605,7 +603,9 @@ $(function() {
     // First step: trigger keyUp to force path check
     $("input[name='path']").trigger("keyup");
 
-    $(".step-1").css("min-height", $(".steps.vertical").height())
-    $(".step-2").css("min-height", $(".steps.vertical").height())
+    $(".step-1").css("min-height", $(".steps.vertical").height());
+    $(".step-2").css("min-height", $(".steps.vertical").height());
+
+    lookupPath("input[name='path']");
 
 });

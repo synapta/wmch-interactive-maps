@@ -23,17 +23,21 @@ exports.publishedMaps = (limit, offset) => Map.findAll({
 /**
  * 
  * @param {String} path 
- * @param  {String|Number} excludeId can accept multiple ids as arguments, string or numbers
+ * @param  {String|Number} excludeId
  * @returns 
  */
- exports.mapByPath = (path, excludeId) => Map.findOne({
+ exports.mapByPath = (path, excludeId) => {
+   const excludeIdClean = (typeof excludeId === "string" && excludeId.length === 0 || !excludeId) ? 0 : parseInt(excludeId);
+   return Map.findOne({
     where: {
       path: path,
       id: {
-        [Op.ne]: parseInt(excludeId)
+        [Op.ne]: excludeIdClean
       }
     }
-});
+  });
+}
+
 
  /** Get all Category records **/
 exports.getAllCategories = () => Category.findAll({
