@@ -87,6 +87,22 @@ function query2booleanField (query, fieldName) {
   return false;
 }
 
+function getScreenshotWithFallback(dataFromScreenshotServer, previousPath) {
+  if (!dataFromScreenshotServer) {
+    logger.info('******** Screenshot server is down ************');
+    if (previousPath) {
+      return previousPath
+    }
+    else {
+      // add fallback 
+      return "./images/placeholder.png"
+    }
+  }
+  else {
+    return dataFromScreenshotServer.path
+  }
+}
+
 /**
  * Do CxUx actions (create or update).
  * @param  {object} req    Express object. req.params.action
@@ -106,44 +122,37 @@ async function cuMap (req, res, action) {
             },
             json: {mapargs: req.query.mapargs}
       }, async function (error, response, jsonBody) {
-          if (!jsonBody) {
-              logger.info('******** Screenshot server is down ************');
-              // add fallback 
-              jsonBody = {path: "./images/placeholder.png"}
-          }
-          const isPublished = query2booleanField(req.query, 'published');
+
+          const mapValues = {
+            title: req.query.title,
+            path: req.query.path,
+            mapargs: req.query.mapargs,
+            published: query2booleanField(req.query, 'published')
+          };
+
           switch (action) {
               case 'add':
                   // add a new record to Map table via ORM
-                  const map = await Map.create({
-                    title: req.query.title,
-                    path: req.query.path,
-                    mapargs: req.query.mapargs,
-                    screenshot: jsonBody.path,
-                    published: isPublished
-                  });
+                  mapValues.screenshot = getScreenshotWithFallback(jsonBody);
+                  const map = await Map.create(mapValues);
                   await MapCategory.create({
                     mapId: map.id,
                     categoryId: req.query.category
                   });
               break;
               case 'edit':
+                console.log("edit!!")
+                  // edit map
                   let currentId = parseInt(req.params.id);
                   await Map.findByPk(currentId).then(async (editedMap) => {
-                      await editedMap.update({
-                        title: req.query.title,
-                        path: req.query.path,
-                        mapargs: req.query.mapargs,
-                        screenshot: jsonBody.path,
-                        published: isPublished
-                      });
+                      mapValues.screenshot = getScreenshotWithFallback(jsonBody, editedMap.get('screenshot'));
+                      await editedMap.update(mapValues);
                       await query.setMapCategory(editedMap.id, req.query.category);
                   });
-                  // add a new record to Map table via ORM
               break;
           }
           // res.send(req.query)  // DEBUG
-          if (isPublished) {
+          if (mapValues.published) {
             res.redirect(util.format("/v/%s", req.query.path));
           }
           else {

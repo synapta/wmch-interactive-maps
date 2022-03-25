@@ -6,6 +6,7 @@ const fs = require('fs');
 const {migrate, connection, Map, History, Category, MapCategory} = require("./modelsB.js");
 const query = require("./query.js");
 const { logger } = require('../units/logger');
+const { stringify } = require('querystring');
 
 
 // Get /////////////////////////////////////////////////////
@@ -19,11 +20,13 @@ async function admin_api_get_map (req, res) {
     if (req.query.path) {
         const map = await query.mapByPath(req.query.path, req.query.id);
         res.send({
-            "exists": map ? true : false
+            "exists": map === null ? false : true
         });
     }
     else {
-        res.status(400).send({"message": "Invalid request"})
+        res.send({
+            "exists": true
+        });
     }
 }
 
