@@ -79,8 +79,8 @@ const legacyDb = async function() {
             // SELECT id, createdAt, updatedAt FROM interactivemaps.histories h WHERE h.mapId = 1 AND diff AND NOT error
             histories = await OldHistory.findAll({
                 where: {
-                    diff: true,
-                    error: false,
+                    // diff: true,
+                    // error: false,
                     mapId: mapId
                 },
                 limit: chunk,
