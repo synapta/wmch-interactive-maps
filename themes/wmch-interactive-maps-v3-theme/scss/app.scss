@@ -242,3 +242,15 @@ $seeall-height: 25;
     right: 50%;
     bottom: 10%;
 }
+
+@media #{$small-only} {
+    #main-container .card-section h3 {
+        font-size: rem-calc(14);
+    }
+}
+
+@media #{$medium-only} {
+    #main-container .card-section h3 {
+        font-size: rem-calc(19);
+    }
+}
