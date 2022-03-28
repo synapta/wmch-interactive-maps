@@ -46,8 +46,8 @@ const legacyDb = async function() {
     console.log("Importing histories...")
     const chunk = 50
     // History: remove elements to not import
-    mapIds.splice(a.indexOf(1), 1);
-    mapIds.splice(a.indexOf(2), 1);
+    mapIds.splice(mapIds.indexOf(1), 1);
+    mapIds.splice(mapIds.indexOf(2), 1);
     // process all chunked elements
     for (const mapId of mapIds) {            
         let histories = []
