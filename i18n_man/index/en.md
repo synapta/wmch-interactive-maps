@@ -8,6 +8,24 @@ Admin paths are protected by user name and password.
 
 The frontend is visible and everyone can see it. Not published maps will appear only on edit.
 
+## Manage contents
+
+You can find the *Manage contents* at:
+
+- [map.wikimedia.swiss/admin](https://map.wikimedia.swiss/admin)
+
+In the Manage contents dashboard you can:
+
+1. List, add, change categories on the site;
+2. List map on site;
+3. Edit existing map clicking the title; 
+4. Change display order of maps and categories using drag & drop;
+6. Publish or unpublish maps (draft).
+
+Press Save to apply the changes.
+
+![Manage contents](/wizard/man/_media/admin-01.png)
+
 ## Create a map
 
 You can create a map by visiting the path:
@@ -15,6 +33,8 @@ You can create a map by visiting the path:
 - [map.wikimedia.swiss/wizard](https://map.wikimedia.swiss/wizard)
 
 Form is separated into different steps below:
+
+![Wizard](/wizard/man/_media/wizard-01.png)
 
 ### 1. Name
 
@@ -90,22 +110,6 @@ The embedded values must be integer and it is better not to overcome the default
 Publishing the map will be displayed to the public.
 
 Saving the map as draft, map can be edited later without publishing it.
-
-## Admin dashboard
-
-You can find the admin dashboard at:
-
-- [map.wikimedia.swiss/admin](https://map.wikimedia.swiss/admin)
-
-In the admin dashboard you can:
-
-1. List, add, change categories on the site;
-2. List map on site;
-3. Edit map through title; 
-4. Chane display order of maps and categories using drag & drop;
-6. Publish or unpublish maps.
-
-Press Save to apply the changes.
 
 ## Edit a map
 

@@ -8,6 +8,25 @@ I percorsi amministrativi sono protetti da una coppia nome utente / password.
 
 Le mappe pubblicate sono invece visibili a tutti, mentre quelle non pubblicate appariranno solo in modifica.
 
+## Amministra contenuti
+
+La schermata *Amministra contenuti* è raggiungibile all'indirizzo:
+
+- [map.wikimedia.swiss/admin](https://map.wikimedia.swiss/admin)
+
+Tramite la quale è possibile:
+
+1. Elencare, aggiungere, modificare le categorie;
+2. Elencare le mappe pubblicate sul sito;
+3. Modificare le mappe esistenti cliccando il titolo;
+4. Riordinare l'ordine di apparizione delle mappe e delle categorie nella pagina principale tramite trascinamento;
+5. Abilitare la funzionalità cronologia;
+6. Pubblicare o nascondere le mappe (bozze).
+
+Dopo aver modificato gli elementi bisognerà premere Salva.
+
+![Amministra contenuti](/wizard/man/_media/admin-01.png)
+
 ## Creare una mappa
 
 È possibile creare una mappa visitando il percorso:
@@ -15,6 +34,8 @@ Le mappe pubblicate sono invece visibili a tutti, mentre quelle non pubblicate a
 - [map.wikimedia.swiss/wizard](https://map.wikimedia.swiss/wizard)
 
 Verrà visualizzato un modulo diviso nei seguenti passaggi.
+
+![Wizard](/wizard/man/_media/wizard-01.png)
 
 ### 1. Nome
 
@@ -95,23 +116,6 @@ Pubblicando la mappa verrà immediatamente resa visibile a tutti.
 Salvando come bozza, la mappa potrà essere ancora modificata in seguito senza renderla visibile.
 
 Se si esce dal configuratore prima di aver salvato o pubblicato, il lavoro andrà perso.
-
-## Amministra contenuti
-
-La schermata *amministra contenuti* è raggiungibile all'indirizzo:
-
-- [map.wikimedia.swiss/admin](https://map.wikimedia.swiss/admin)
-
-Tramite la quale è possibile:
-
-1. Elencare, aggiungere, modificare le categorie;
-2. Elencare le mappe pubblicate sul sito;
-3. Modificare le singole mappe tramite il titolo;
-4. Riordinare l'ordine di apparizione delle mappe e delle categorie nella pagina principale tramite trascinamento;
-5. Abilitare la funzionalità cronologia;
-6. Pubblicare o togliere dalla pubblicazione le mappe.
-
-Dopo aver modificato gli elementi bisognerà premere Salva.
 
 ## Modificare una mappa
 
