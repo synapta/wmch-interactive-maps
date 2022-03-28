@@ -36,8 +36,13 @@
         </footer>
     </div>
     <!-- Display large image -->
-    <div id="man-modal" class="ui modal">
-      <div class="header">Header</div>
+    <div id="man-modal" class="ui modal fullscreen">
+      <div class="actions">
+        <div class="ui cancel button">
+          <i class="close icon"></i>
+          {{#i18n}}actions.back.text{{/i18n}}
+        </div>
+      </div>
       <div class="image content">
         <img class="image" src="">
         <div class="description">
