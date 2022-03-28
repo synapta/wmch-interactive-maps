@@ -23,11 +23,7 @@ const legacyDb = async function() {
     const Map = dbMeta.db.define('map', oldModels.Map);
     const History = dbMeta.db.define('history', oldModels.History);
     Map.hasMany(History); // 1 : N
-    // skip, read only
-    // create table(s) if doesn't exists
-    // await Map.sync();
-    // await History.sync();
-    // console.log('Database "%s" loaded, tables created if needed', localconfig.database.name);
+    // skip sync, read only
     return {"oldDbMeta": dbMeta, "OldMap": Map, "OldHistory": History}
 };
 
@@ -60,16 +56,27 @@ const legacyDb = async function() {
         newMaps.push(ncm)
     }
     console.log()
+    console.log(`Creating categories`)
+    for (const name of [`editors' choice`, `red cross`]) {
+        // Create categories
+        await Category.create({"name": name})
+    }
+    console.log("End creating categories")
+    console.log()
+    console.log(`Assign maps to a single category to start`)
+    // assign all maps to new editors' choice category
+    await MapCategory.bulkCreate(newMaps.map(ncm => {
+        return {categoryId: 1, mapId: ncm.id}
+    }));
+    // Below take longer, will be the last import
     console.log("Importing histories...")
     const chunk = 5
-    // const recordNumber = 600  // set to total count after tests
     for (const mapId of mapIds) {            
         let histories = []
         // Chunk import
         for (let offset = 0; histories.length || offset === 0; offset = offset + chunk) {
             console.log(`Importing ${offset + chunk} histories offset`)
             // SELECT id, createdAt, updatedAt FROM interactivemaps.histories h WHERE h.mapId = 1 AND diff AND NOT error
-            // solo per calcolo punti id 1 - Swiss Museums
             histories = await OldHistory.findAll({
                 where: {
                     diff: true,
@@ -90,20 +97,7 @@ const legacyDb = async function() {
         }
     }
     console.log()
-    console.log(`Creating categories`)
-    for (const name of [`editors' choice`, `red cross`]) {
-        // Create categories
-        await Category.create({"name": name})
-    }
-    console.log("End import histories")
-    console.log()
-    console.log(`Assign maps to a single category to start`)
-    // assign all maps to new editors' choice category
-    await MapCategory.bulkCreate(newMaps.map(ncm => {
-        return {categoryId: 1, mapId: ncm.id}
-    }));
     // close connection (must be the last line)
     await connection.close()
     await oldDbMeta.db.close()  // ineffective old close
-    // process.exit(1)
 })();
