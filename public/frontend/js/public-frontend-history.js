@@ -271,13 +271,13 @@ $(function() {
       $.get(`/api/timestamp?id=${mapOpts.id}`, timestamps => {
 
         // setup base map
-        const basemap = new L.TileLayer(mapOpts.currentStyle.tile, {
+        /** const basemap = new L.TileLayer(mapOpts.currentStyle.tile, {
           maxZoom     : mapOpts.maxZoom,
           minZoom     : mapOpts.minZoom,
           attribution : mapOpts.baseAttribution,
           subdomains  : mapOpts.subdomains,
           opacity     : 1.0
-        });
+        }); **/
 
         // load map in div #wmap
         window.map = new L.Map('wmap', {
@@ -286,13 +286,18 @@ $(function() {
           zoom                 : mapOpts.zoom,
           maxZoom              : mapOpts.maxZoom,
           minZoom              : mapOpts.minZoom,
-          layers               : [basemap],
+          // layers               : [basemap],
           timeDimensionControl : false, // add custom control later
           timeDimension        : true,
           timeDimensionOptions : {
             times : timestamps
           }
         });
+
+        var gl = L.mapboxGL({
+          style: mapOpts.currentStyle.tile,
+          accessToken: 'no-token'
+      }).addTo(window.map);
 
         // add custom timeDimensionControl control
         const timeDimensionControl = new L.Control.TimeDimensionCustom({

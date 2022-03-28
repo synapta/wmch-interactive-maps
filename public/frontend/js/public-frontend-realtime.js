@@ -175,9 +175,15 @@ $(function() {
             zoom              : parsedOptions.zoom,
             maxZoom           : parsedOptions.maxZoom,
             minZoom           : parsedOptions.minZoom,
-            layers            : [basemap]
+            // layers            : [basemap]
         });
 
+
+        var gl = L.mapboxGL({
+          style: parsedOptions.currentStyle.tile,
+          accessToken: 'no-token'
+      }).addTo(window.map);
+        
         // load controls
         loadLegenda();
 
