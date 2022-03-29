@@ -27,3 +27,11 @@ To regenerate diff between History of a specified map.id (e.g. 10) e.g. when cha
 `node maintenance.js -D 10`
 
 both diff and json will be changed accordingly to diff between nearest siblings.
+
+
+### Generate stats from History
+
+After an upgrade or migration, or when you change counters on [units/stats.js](units/stats.js) you can:
+
+- Empty the stats table (e.g. TRUNCATE) if not already empty
+- Run `node maintenance.js -H` to populate stat table from history

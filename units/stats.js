@@ -150,8 +150,14 @@ const featureStat = function (feature) {
 }
 
 const saveStat = async function () {
-    const hists = await History.findAll({where: { error: false }})
+    let saveStatOffset = 0
     const intervalHandler = setInterval(async () => {
+        logger.info(`saveStat offset ${saveStatOffset}`)
+        const hists = await History.findAll({
+            where: { error: false },
+            limit: 1,
+            offset: saveStatOffset++
+        })
         const hist = hists.shift()
         if (typeof hist !== "undefined") {
             const data = JSON.parse(hist.json)
