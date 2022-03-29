@@ -1,5 +1,5 @@
 "use strict";
-const {History, Stat} = require("../db/modelsB.js");
+const {History, Stat, Op} = require("../db/modelsB.js");
 const localconfig = require('../localconfig');
 const config = require('../config');
 // from: require('../public/js/utils');
@@ -151,10 +151,23 @@ const featureStat = function (feature) {
 
 const saveStat = async function () {
     let saveStatOffset = 0
+    const lastStat = await Stat.findOne({
+        limit: 1,
+        order: [
+            ['id', 'DESC']
+        ],
+    })
+    // if no stat in database, take all
+    const lastStatDate = lastStat ? lastStat.get('createdAt') : new Date(0)
     const intervalHandler = setInterval(async () => {
         logger.info(`saveStat offset ${saveStatOffset}`)
         const hists = await History.findAll({
-            where: { error: false },
+            where: { 
+                error: false,
+                createdAt: {
+                    [Op.gt]: lastStatDate
+                }
+            },
             limit: 1,
             offset: saveStatOffset++
         })
@@ -187,4 +200,4 @@ exports.saveStat = saveStat;
  * Save periodically some data for statistics.
  */
 const job = new CronJob(getSetting('time'), saveStat);
-// job.start();  // temporary disable for tests
+job.start();
