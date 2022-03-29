@@ -206,7 +206,8 @@ $seeall-height: 25;
         }
     }
     .image-section {
-        background: url(/images/placeholder-map.png);
+        background-image: url(/images/placeholder-map.png);
+        background-size: cover;
     }
     .card-section {
         padding: rem-calc(50) rem-calc(30) rem-calc(12) rem-calc(30);  // desktop
