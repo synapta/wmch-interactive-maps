@@ -31,7 +31,6 @@ logger.debug('Before job instantiation');
 // @see https://github.com/kelektiv/node-cron/blob/master/examples/every_10_minutes.js
 const job = new CronJob(localconfig.cronTime, async function() {
 	const d = new Date();
-	logger.debug('Every 10 Minutes:', d);
 	//////////////////////////////////////////
 
 	async function timeshot(maps) {
