@@ -42,7 +42,7 @@ Push is not available with read-only keys.
 
 ## Node version
 
-- Supported node versions: 11
+- Supported node versions: 16
 
 ## System dependencies
 
@@ -73,6 +73,10 @@ On localconfig.json, set the url to the production url. It will be used to expos
 A global base configuration file is available on `config.json`.
 
 It contains available map styles based on sources listed on [Tile servers](https://wiki.openstreetmap.org/wiki/Tile_servers) page on OpenStreetMap.
+
+## Install dependencies
+
+`nvm exec 16 npm ci`
 
 ## Go live
 
