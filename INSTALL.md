@@ -88,3 +88,5 @@ exec node app.js --port 9030;
 
 - Issue: Validation error on a Unique Constraint after a migration, e.g. on histories
 - Fix with: `ALTER SEQUENCE histories_id_seq RESTART WITH 20` where 20 is the nextval you need, higher than last value for that sequence.
+- Issue:  If on your system you have problem on hanging node installing dependencies (reify...), try downgrade npm
+- Fix with: `npm i -g npm@6`
