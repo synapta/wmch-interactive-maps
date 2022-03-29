@@ -45,5 +45,6 @@
   },
   "another": "Altra richiesta",
   "home": "Torna alla pagina principale",
-  "submit": "Invia"
+  "submit": "Invia",
+  "required": "Obbligatorio"
 }

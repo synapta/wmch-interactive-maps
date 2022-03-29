@@ -45,5 +45,6 @@
   },
   "another": "Another request",
   "home": "Back to home",
-  "submit": "Submit"
+  "submit": "Submit",
+  "required": "Required"
 }

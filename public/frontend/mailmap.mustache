@@ -43,7 +43,7 @@
                                   <input type="hidden" name="shortlang" value="{{shortlang}}">
                                   <input type="hidden" name="sparqlcode" id="sparqlcode" value="">
                                   <fieldset class="cell">
-                                    <legend>{{#i18n}}asktype.legend{{/i18n}}</legend>
+                                    <legend>{{#i18n}}asktype.legend{{/i18n}}{{>required}}</legend>
                                     <input type="radio" name="asktype" value="New" id="asknewmap" required><label for="asknewmap">{{#i18n}}asktype.asknewmap{{/i18n}}</label>
                                     <input type="radio" name="asktype" value="Change existing map" id="askchangemap"><label for="askchangemap">{{#i18n}}asktype.askchangemap{{/i18n}}</label>
                                     <input type="radio" name="asktype" value="Other request" id="askother"><label for="askother">{{#i18n}}asktype.askother{{/i18n}}</label>
@@ -54,7 +54,7 @@
                                   <fieldset class="cell">
                                     <legend></legend>
                                     <label>
-                                      {{#i18n}}comment.label{{/i18n}}
+                                      {{#i18n}}comment.label{{/i18n}}{{>required}}
                                       <textarea id="comment" name="comment" rows="3" placeholder="{{#i18n}}comment.placeholder{{/i18n}}" aria-describedby="commentHelpText" required></textarea>
                                       <span class="form-error" data-form-error-on="required">
                                         {{#i18n}}validate.text{{/i18n}}
@@ -63,7 +63,7 @@
                                     <p class="help-text" id="commentHelpText">{{#i18n}}comment.help{{/i18n}}</p>
                                   </fieldset>
                                   <fieldset class="cell small-4 medium-4 large-4">
-                                    <legend>{{#i18n}}contact.legend{{/i18n}}</legend>
+                                    <legend>{{#i18n}}contact.legend{{/i18n}}{{>required}}</legend>
                                     <input type="text" name="contactname" value="" placeholder="{{#i18n}}contact.name{{/i18n}}" id="contactname" required>
                                     <input type="text" name="contactmail" pattern="email" value="" placeholder="{{#i18n}}contact.mail{{/i18n}}" id="contactmail" required>
                                     <span class="form-error" data-form-error-on="required">
