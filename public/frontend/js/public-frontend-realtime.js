@@ -160,13 +160,13 @@ $(function() {
         }
 
         // basemap
-        const basemap = new L.TileLayer(parsedOptions.currentStyle.tile, {
+        /** const basemap = new L.TileLayer(parsedOptions.currentStyle.tile, {
             maxZoom     : parsedOptions.maxZoom,
             minZoom     : parsedOptions.minZoom,
             attribution : window.attribution,
             subdomains  : '1234',
             opacity     : 1
-        });
+        }); **/
 
         // carica la mappa nel div #wmap
         window.map = new L.Map('wmap', {
@@ -179,7 +179,7 @@ $(function() {
         });
 
 
-        var gl = L.mapboxGL({
+        var gl = L.maplibreGL({
           style: parsedOptions.currentStyle.tile,
           accessToken: 'no-token'
       }).addTo(window.map);

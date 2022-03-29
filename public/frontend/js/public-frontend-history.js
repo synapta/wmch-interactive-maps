@@ -294,7 +294,7 @@ $(function() {
           }
         });
 
-        var gl = L.mapboxGL({
+        var gl = L.maplibreGL({
           style: mapOpts.currentStyle.tile,
           accessToken: 'no-token'
       }).addTo(window.map);
