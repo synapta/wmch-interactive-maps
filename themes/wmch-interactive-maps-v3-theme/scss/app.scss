@@ -206,7 +206,7 @@ $seeall-height: 25;
         }
     }
     .image-section {
-        min-height: rem-calc(60);
+        background: url(/images/placeholder-map.png);
     }
     .card-section {
         padding: rem-calc(50) rem-calc(30) rem-calc(12) rem-calc(30);  // desktop
@@ -285,6 +285,9 @@ $seeall-height: 25;
 
 @media #{$large-up} {
     .index .map {
+        .image-section {
+            min-height: rem-calc(212);
+        }
         .icon-section {
             top: rem-calc(-40);  // desktop
             .icon-button {
