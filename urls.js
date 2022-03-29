@@ -68,7 +68,10 @@ module.exports = function(app, apicache) {
                   }
                 };
                 // console.log(view);
-                var output = Mustache.render(template, view);
+                const partials = {
+                    urlqueryargs: templateutils.retainUrlQueryArguments(req)
+                };
+                var output = Mustache.render(template, view, partials);
                 res.send(output);
             });
         });
@@ -497,7 +500,10 @@ module.exports = function(app, apicache) {
                   }
                 };
                 const menuTemplate = await templateutils.readMustachePartials('public/frontend/menu.mustache');
-                const partials = {menu: menuTemplate};
+                const partials = {
+                    menu: menuTemplate,
+                    urlqueryargs: templateutils.retainUrlQueryArguments(req)
+                };
                 var output = Mustache.render(template, view, partials);
                 res.send(output);
             });
@@ -719,7 +725,11 @@ module.exports = function(app, apicache) {
                   }
                 };
                 const menuTemplate = await templateutils.readMustachePartials('public/frontend/menu.mustache');
-                const partials = {menu: menuTemplate, required: `&nbsp;<sup title="${i18next.t('required')}"><i class="ui red icon small asterisk"></i></sup>`};
+                const partials = {
+                    menu: menuTemplate, 
+                    urlqueryargs: templateutils.retainUrlQueryArguments(req),
+                    required: `&nbsp;<sup title="${i18next.t('required')}"><i class="ui red icon small asterisk"></i></sup>`
+                };
                 var output = Mustache.render(template, view, partials);
                 res.send(output);
             });

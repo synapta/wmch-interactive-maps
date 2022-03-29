@@ -2,14 +2,14 @@
                               <div class="grid-container">
                                 <div class="grid-x grid-padding-x small-padding-collapse">
                                     <div class="cell medium-6 large-4">
-                                      <a href="/" class="text-hide">
+                                      <a href="/{{>urlqueryargs}}" class="text-hide">
                                         <img src="{{logo.src}}" alt="{{logo.alt}}" id="logo" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}}>
                                         Wikimedia CH <!-- Logo Text  -->
                                       </a>
                                     </div>
                                     <div class="cell medium-6 large-8">
                                       <ul class="menu inline align-right">
-                                          <li class="padding-right-2"><a href="/your-map" id="askyourmap" class="button rounded">{{#i18n}}actions.askyourmap.calltoaction{{/i18n}}</a></li>
+                                          <li class="padding-right-2"><a href="/your-map{{>urlqueryargs}}" id="askyourmap" class="button rounded">{{#i18n}}actions.askyourmap.calltoaction{{/i18n}}</a></li>
                                           <li class="padding-left-2">
                                                             <ul class="menu dropdown align-right" data-dropdown-menu>
                                                               <li>
