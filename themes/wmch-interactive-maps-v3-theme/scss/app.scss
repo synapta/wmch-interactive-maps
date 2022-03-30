@@ -159,24 +159,7 @@ $icon-button-small-only: 50;
     }
     .dropdown {
         font-size: rem-calc(25);
-    }
-}
-
-.mailmap {
-    .maintitle {
-        font-size: rem-calc(70);
-    }
-    .mainsubtitle {
-        font-size: rem-calc(23);
-    }
-}
-    
-.index {
-    .maintitle {
-        font-size: rem-calc(100);
-    }
-    .mainsubtitle {
-        font-size: rem-calc(32);
+        font-weight: 700;
     }
 }
 
@@ -212,25 +195,6 @@ $icon-button-small-only: 50;
         font-weight: 700;
         color: #3A659F;
     }
-}
-
-.index .map .card {
-    width: 100%;
-    transition-property: width, box-shadow, border-radius, right, bottom;
-    transition-duration: 0.3s;
-    transition-timing-function: linear;
-    transition-delay: 0.2s;
-    position: relative;
-    right: 0%;
-    bottom: 0%;
-}
-.index .map .card:hover {
-    width: 180%;
-    z-index: 999;
-    box-shadow: rem-calc(3 * 2.2) rem-calc(3 * 2.2) rem-calc(6 * 2.2) #00000029;
-    border-radius: 0 !important;
-    right: 50%;
-    bottom: 10%;
 }
 
 .mailmap .CodeMirror {
@@ -280,6 +244,23 @@ $icon-button-small-only: 50;
             line-height: rem-calc($seeall-height);
         }
     }
+    // Header titles
+    .mailmap {
+        .maintitle {
+            font-size: rem-calc(42);
+        }
+        .mainsubtitle {
+            font-size: rem-calc(15);
+        }
+    } 
+    .index {
+        .maintitle {
+            font-size: rem-calc(42);
+        }
+        .mainsubtitle {
+            font-size: rem-calc(15);
+        }
+    }
 }
 
 @media #{$medium-only} {
@@ -305,6 +286,23 @@ $icon-button-small-only: 50;
 
 
 @media #{$medium-up} {
+    // Header titles
+    .mailmap {
+        .maintitle {
+            font-size: rem-calc(70);
+        }
+        .mainsubtitle {
+            font-size: rem-calc(23);
+        }
+    } 
+    .index {
+        .maintitle {
+            font-size: rem-calc(100);
+        }
+        .mainsubtitle {
+            font-size: rem-calc(32);
+        }
+    }
     // Category titles on home page
     $category-text-height: 60;
     $category-height: 70;
@@ -323,6 +321,24 @@ $icon-button-small-only: 50;
             font-size: rem-calc($seeall-height);
             line-height: rem-calc($seeall-height);
         }
+    }
+    // Card transictions
+    .index .map .card {
+        width: 100%;
+        transition-property: width, box-shadow, border-radius, right, bottom;
+        transition-duration: 0.3s;
+        transition-timing-function: linear;
+        transition-delay: 0.2s;
+        position: relative;
+        right: 0%;
+        bottom: 0%;
+    }
+    .index .map .card:hover {
+        width: 180%;
+        z-index: 999;
+        box-shadow: rem-calc(3 * 2.2) rem-calc(3 * 2.2) rem-calc(6 * 2.2) #00000029;
+        right: 50%;
+        bottom: 10%;
     }
 }
 
