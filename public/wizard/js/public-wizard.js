@@ -345,13 +345,7 @@ $(function() {
             // maxWidth : 540,
             autoPan: true
         };
-        var basemap = new L.TileLayer(parsedOptions.tile, {
-            maxZoom: parsedOptions.maxZoom,
-            minZoom: parsedOptions.minZoom,
-            attribution: mapOptions.baseAttribution,
-            subdomains: mapOptions.subdomains,
-            opacity: opacity
-        });
+
         // remove placeholder
         $('#preview').empty();
         $('#preview').removeClass('ui placeholder segment');
@@ -362,8 +356,16 @@ $(function() {
             zoom: parsedOptions.zoom,
             maxZoom: parsedOptions.maxZoom,
             minZoom: parsedOptions.minZoom,
-            layers: [basemap]
+            attributionControl: true
         });
+
+        var gl = L.maplibreGL({
+            style: parsedOptions.tile,
+            accessToken: 'no-token'
+        }).addTo(window.map);
+
+        window.map.attributionControl.addAttribution("<a href=\"https://maplibre.org/\">MapLibre</a> | " + mapOptions.baseAttribution);
+        
         window.map.on('zoomend', function() {
             // set current map zoom to zoom field
             $('#zoom').val(parseInt(window.map.getZoom()));
