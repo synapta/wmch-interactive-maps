@@ -241,6 +241,11 @@ $seeall-height: 25;
     bottom: 10%;
 }
 
+.mailmap .CodeMirror {
+    border: 1px solid #eee;
+    height: auto;
+}
+
 // @see https://zurb.com/university/lessons/94
 @media #{$small-only} {
     .index .map {
