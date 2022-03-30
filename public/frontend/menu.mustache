@@ -13,10 +13,10 @@
                                           <li class="padding-left-2">
                                                             <ul class="menu dropdown align-right" data-dropdown-menu>
                                                               <li>
-                                                                <a class="dropdown clear button padding-right-2 padding-left-2" href="#">{{{langname}}}</a>
+                                                                <a class="dropdown clear button padding-right-2 padding-left-2" href="#"><span class="show-for-medium">{{langname}} </span><abbr title="{{name}}" class="show-for-small-only text-uppercase">{{shortlang}}</abbr></a></a>
                                                                 <ul class="menu">
                                                                   {{#languages}}
-                                                                  <li><a data-value="{{code}}" href="?l={{code}}">{{name}}</a></li>
+                                                                  <li><a data-value="{{code}}" href="?l={{code}}"><span class="show-for-medium">{{name}} </span><abbr title="{{name}}" class="show-for-small-only text-uppercase">{{code}}</abbr></a></li>
                                                                   {{/languages}}
                                                                 </ul>
                                                               </li>
