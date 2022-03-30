@@ -52,7 +52,7 @@
     <div class="ui container top-buttons-wrapper">
       <div class="ui grid left aligned computer tablet only">
         <div class="three wide column ">
-              <a href="/" class="logoonmap"><img class="logo" src="{{logo.src}}" alt="{{#i18n}}actions.back.text{{/i18n}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
+              <a href="/{{>urlqueryargs}}" class="logoonmap"><img class="logo" src="{{logo.src}}" alt="{{#i18n}}actions.back.text{{/i18n}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
         </div>
         <div class="ten wide column center aligned">
           <h1>{{dbMap.title}}</h1>
@@ -70,7 +70,7 @@
       </div>
       <div class="ui grid left aligned mobile only marginless">
           <div class="four wide column paddingless">
-                <a href="/" class="logoonmap"><img class="logo" src="{{logo.src}}" alt="{{#i18n}}actions.back.text{{/i18n}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
+                <a href="/{{>urlqueryargs}}" class="logoonmap"><img class="logo" src="{{logo.src}}" alt="{{#i18n}}actions.back.text{{/i18n}}" height="{{logo.height}}" {{#logo.bgcolor}} style="background-color: {{logo.bgcolor}};" {{/logo.bgcolor}} /></a>
           </div>
           <div class="eleven wide column paddingless">
                 <div class="ui wikiblue dropdown search icon button" class="languages-switch" id="languagesmobile">

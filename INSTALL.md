@@ -42,7 +42,7 @@ Push is not available with read-only keys.
 
 ## Node version
 
-- Supported node versions: 11
+- Supported node versions: 16
 
 ## System dependencies
 
@@ -74,6 +74,10 @@ A global base configuration file is available on `config.json`.
 
 It contains available map styles based on sources listed on [Tile servers](https://wiki.openstreetmap.org/wiki/Tile_servers) page on OpenStreetMap.
 
+## Install dependencies
+
+`nvm exec 16 npm ci`
+
 ## Go live
 
 On production, use something like [supervisor](http://supervisord.org/) to keep all services up, passing a script like this:
@@ -88,3 +92,5 @@ exec node app.js --port 9030;
 
 - Issue: Validation error on a Unique Constraint after a migration, e.g. on histories
 - Fix with: `ALTER SEQUENCE histories_id_seq RESTART WITH 20` where 20 is the nextval you need, higher than last value for that sequence.
+- Issue:  If on your system you have problem on hanging node installing dependencies (reify...), try downgrade npm
+- Fix with: `npm i -g npm@6`

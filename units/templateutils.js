@@ -63,3 +63,10 @@ exports.notFound = async (request, text) => {
     }
     return output
 }
+
+exports.retainUrlQueryArguments = (req) => {
+    if (req.query.l) {
+        return `?l=${req.query.l}`
+    }
+    return ""
+}

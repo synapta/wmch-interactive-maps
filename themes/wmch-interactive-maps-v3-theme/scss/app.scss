@@ -64,6 +64,10 @@
 @include motion-ui-transitions;
 @include motion-ui-animations;
 
+// Different icon size by breakpoint
+$icon-button-medium-up: 80;
+$icon-button-small-only: 50;
+
 .ov-footer {
     background-color: #f1f2f2;
     color: rgba(0,0,0,.6);
@@ -189,37 +193,31 @@ $seeall-height: 25;
         height: 0;
         text-align: center;
         position: relative;
-        top: rem-calc(-40);  // desktop
         .icon-button {
+            color: #3A659F;
             background: #FFFFFF 0% 0% no-repeat padding-box;
             box-shadow: rem-calc(3) rem-calc(3) rem-calc(6) #00000029;
-            width: rem-calc(80);  // desktop
-            height: rem-calc(80);  // desktop
             border-radius: 50%;
             display: inline-block;
             i.icon {
                 color: #3A659F;
-                font-size: rem-calc(44);  // desktop
-                line-height: rem-calc(44 + 17 + 17);  // desktop
-                padding-left: rem-calc(4);  // desktop
                 display: inline-block;
             }
         }
     }
     .image-section {
-        min-height: rem-calc(60);
+        background-image: url(/images/placeholder-map.png);
+        background-size: cover;
     }
     .card-section {
-        height: rem-calc(180);  // desktop
         padding: rem-calc(50) rem-calc(30) rem-calc(12) rem-calc(30);  // desktop
         overflow: hidden;
+        height: rem-calc(180);
     }
     .card-section h3 {
         font-family: 'Open Sans', sans-serif;
         font-weight: 700;
         color: #3A659F;
-        font-size: rem-calc(30);  // desktop
-        line-height: rem-calc(30);  // desktop
     }
 }
 
@@ -241,4 +239,72 @@ $seeall-height: 25;
     border-radius: 0 !important;
     right: 50%;
     bottom: 10%;
+}
+
+// @see https://zurb.com/university/lessons/94
+@media #{$small-only} {
+    .index .map {
+        .icon-section {
+            top: rem-calc(-24);
+            .icon-button {
+                width: rem-calc($icon-button-small-only);
+                height: rem-calc($icon-button-small-only);
+                i.icon {
+                    font-size: rem-calc(28); 
+                    line-height: rem-calc(28 + 11 + 11); 
+                    padding-left: rem-calc(4);
+                }
+            }
+        }
+        .card-section h3 {
+            font-size: rem-calc(14);
+            line-height: rem-calc(14);
+        }
+    }
+}
+
+@media #{$medium-only} {
+    .index .map {
+        .icon-section {
+            top: rem-calc(-24);
+            .icon-button {
+                width: rem-calc($icon-button-small-only);
+                height: rem-calc($icon-button-small-only);
+                i.icon {
+                    font-size: rem-calc(28); 
+                    line-height: rem-calc(28 + 11 + 11); 
+                    padding-left: rem-calc(4);
+                }
+            }
+        }
+        .card-section h3 {
+            font-size: rem-calc(19);
+            line-height: rem-calc(19);
+        }
+    }
+}
+
+@media #{$large-up} {
+    .index .map {
+        .image-section {
+            min-height: rem-calc(212);
+        }
+        .icon-section {
+            top: rem-calc(-40);  // desktop
+            .icon-button {
+                width: rem-calc($icon-button-medium-up);  // desktop
+                height: rem-calc($icon-button-medium-up);  // desktop
+                i.icon {
+                    color: #3A659F;
+                    font-size: rem-calc(44);  // desktop
+                    line-height: rem-calc(44 + 17 + 17);  // desktop
+                    padding-left: rem-calc(4);  // desktop
+                }
+            }
+        }
+        .card-section h3 {
+            font-size: rem-calc(30);  // desktop
+            line-height: rem-calc(30);  // desktop
+        }
+    }
 }

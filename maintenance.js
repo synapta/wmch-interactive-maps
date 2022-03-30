@@ -6,6 +6,7 @@ const config = require('./config');
 const { logger } = require('./units/logger');
 const diff = require('./units/diff');
 const {migrate, connection, Map, History} = require("./db/modelsB.js");
+const stats = require('./units/stats');
 
 program
   .version('0.0.1')
@@ -13,6 +14,7 @@ program
   .option('-T, --testdiff <mapId>', 'Test diff between histories on specified map.id')
   .option('-D, --processdiff <mapId>', 'Process diff between on specified map.id')
   .option('-E, --checkerrors', 'Check errors in histories table')
+  .option('-H, --stathistory', 'Read all histories and populate stats map accordingly')
   .parse(process.argv);
 
 function regenerateMaps (maps) {
@@ -222,5 +224,12 @@ if (program.checkerrors) {
         await history.save();
       }
     }
+  })();
+}
+
+if (program.stathistory) {
+  (async () => {
+    logger.info("Calc stats for histories table");
+    await stats.saveStat()
   })();
 }

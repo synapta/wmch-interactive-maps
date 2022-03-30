@@ -1,5 +1,5 @@
 "use strict";
-const {migrate, connection, Map, Stat} = require("../db/modelsB.js");
+const {History, Stat, Op} = require("../db/modelsB.js");
 const localconfig = require('../localconfig');
 const config = require('../config');
 // from: require('../public/js/utils');
@@ -150,22 +150,37 @@ const featureStat = function (feature) {
 }
 
 const saveStat = async function () {
-    const maps = await Map.findAll({where: { published: true }})
+    let saveStatOffset = 0
+    const lastStat = await Stat.findOne({
+        limit: 1,
+        order: [
+            ['id', 'DESC']
+        ],
+    })
+    // if no stat in database, take all
+    const lastStatDate = lastStat ? lastStat.get('createdAt') : new Date(0)
     const intervalHandler = setInterval(async () => {
-        const map = maps.shift()
-        if (typeof map !== "undefined") {
-            const dataUrl = localconfig.internalUrl + '/api/data?id=' + map.id
-            const features = await got(dataUrl).json()
+        logger.info(`saveStat offset ${saveStatOffset}`)
+        const hists = await History.findAll({
+            where: { 
+                error: false,
+                createdAt: {
+                    [Op.gt]: lastStatDate
+                }
+            },
+            limit: 1,
+            offset: saveStatOffset++
+        })
+        const hist = hists.shift()
+        if (typeof hist !== "undefined") {
+            const data = JSON.parse(hist.json)
+            const features = data.data
             const featuresStatArr = features.map(feature => featureStat(feature))
             const stats = mapStat(featuresStatArr)
-            stats.mapId = map.id
-            const currentStat = await Stat.findOne({where: {
-                mapId: map.id
-            }})
-            if (currentStat) {
-                stats.id = currentStat.id
-            }
-            logger.debug(`Saving stats for map id ${map.id}`)
+            stats.mapId = hist.mapId
+            stats.createdAt = hist.createdAt
+            stats.updatedAt = hist.updatedAt
+            logger.debug(`Saving stats for map id ${hist.mapId}`)
             await Stat.upsert(stats)
         }
         else {
@@ -174,7 +189,7 @@ const saveStat = async function () {
         }
     }, getSetting('interval'))
 };
-
+exports.saveStat = saveStat;
 
 // DEBUG to launch from command line this unit
 /** (async () => {
@@ -185,4 +200,4 @@ const saveStat = async function () {
  * Save periodically some data for statistics.
  */
 const job = new CronJob(getSetting('time'), saveStat);
-// job.start();  // temporary disable for tests
+job.start();

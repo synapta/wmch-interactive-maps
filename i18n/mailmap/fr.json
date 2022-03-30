@@ -45,5 +45,6 @@
   },
   "another" : "Autre demande",
   "home" : "Retour à la page principale",
-  "submit": "Soumettre"
+  "submit": "Soumettre",
+  "required": "Obligatoire"
 }

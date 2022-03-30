@@ -23,11 +23,7 @@ const legacyDb = async function() {
     const Map = dbMeta.db.define('map', oldModels.Map);
     const History = dbMeta.db.define('history', oldModels.History);
     Map.hasMany(History); // 1 : N
-    // skip, read only
-    // create table(s) if doesn't exists
-    // await Map.sync();
-    // await History.sync();
-    // console.log('Database "%s" loaded, tables created if needed', localconfig.database.name);
+    // skip sync, read only
     return {"oldDbMeta": dbMeta, "OldMap": Map, "OldHistory": History}
 };
 
@@ -48,8 +44,10 @@ const legacyDb = async function() {
     console.log("Read old -> write new database")
     console.log("Importing maps...")
     const newMaps = []
+    const mapIds = []
     for (const record of maps) {
         const data = record.dataValues
+        mapIds.push(data.id)
         // do not run history on unpublished maps
         data.history = data.published
         // drop legacy field
@@ -57,36 +55,52 @@ const legacyDb = async function() {
         let ncm = await Map.create(data)
         newMaps.push(ncm)
     }
-    console.log("Importing histories...")
-    const chunk = 30
-    const recordNumber = 60  // set to total count after tests
-    // Chunk import
-    for (let offset = 0; offset < recordNumber; offset = offset + chunk) {
-        console.log(`Importing ${offset + chunk} histories offset`)
-        const histories = await OldHistory.findAll({
-            limit: chunk,
-            offset: offset,
-            order: [
-                ['createdAt', 'ASC']
-            ]
-        })
-        for (const record of histories) {
-            const data = record.dataValues
-            await History.create(data)
-        }
-    }
+    console.log()
     console.log(`Creating categories`)
     for (const name of [`editors' choice`, `red cross`]) {
         // Create categories
         await Category.create({"name": name})
     }
+    console.log("End creating categories")
+    console.log()
     console.log(`Assign maps to a single category to start`)
     // assign all maps to new editors' choice category
     await MapCategory.bulkCreate(newMaps.map(ncm => {
         return {categoryId: 1, mapId: ncm.id}
     }));
+    // Below take longer, will be the last import
+    console.log("Importing histories...")
+    const chunk = 30
+    // History: remove elements to not import
+    // mapIds.splice(mapIds.indexOf(1), 1);
+    // mapIds.splice(mapIds.indexOf(2), 1);
+    for (const mapId of mapIds) {            
+        let histories = []
+        // Chunk import
+        for (let offset = 0; histories.length || offset === 0; offset = offset + chunk) {
+            console.log(`Importing ${offset + chunk} histories offset`)
+            // SELECT id, createdAt, updatedAt FROM interactivemaps.histories h WHERE h.mapId = 1 AND diff AND NOT error
+            histories = await OldHistory.findAll({
+                where: {
+                    // diff: true,
+                    // error: false,
+                    mapId: mapId
+                },
+                limit: chunk,
+                offset: offset,
+                order: [
+                    ['createdAt', 'ASC']
+                ]
+            })
+            const newHistories = []
+            for (const record of histories) {
+                newHistories.push(record.dataValues)
+            }
+            await History.bulkCreate(newHistories)
+        }
+    }
+    console.log()
     // close connection (must be the last line)
     await connection.close()
     await oldDbMeta.db.close()  // ineffective old close
-    // process.exit(1)
 })();
