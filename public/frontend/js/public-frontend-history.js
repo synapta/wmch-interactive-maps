@@ -265,19 +265,9 @@ $(function() {
     success  : mapOpts => {
 
       mapOpts.baseAttribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
-      mapOpts.subdomains = '1234';
 
       // retrieve available timestaps for current map
       $.get(`/api/timestamp?id=${mapOpts.id}`, timestamps => {
-
-        // setup base map
-        const basemap = new L.TileLayer(mapOpts.currentStyle.tile, {
-          maxZoom     : mapOpts.maxZoom,
-          minZoom     : mapOpts.minZoom,
-          attribution : mapOpts.baseAttribution,
-          subdomains  : mapOpts.subdomains,
-          opacity     : 1.0
-        });
 
         // load map in div #wmap
         window.map = new L.Map('wmap', {
@@ -286,13 +276,21 @@ $(function() {
           zoom                 : mapOpts.zoom,
           maxZoom              : mapOpts.maxZoom,
           minZoom              : mapOpts.minZoom,
-          layers               : [basemap],
+          attributionControl   : true,
+          // layers               : [basemap],
           timeDimensionControl : false, // add custom control later
           timeDimension        : true,
           timeDimensionOptions : {
             times : timestamps
           }
         });
+
+        window.map.attributionControl.addAttribution("<a href=\"https://maplibre.org/\">MapLibre</a> | " + mapOpts.baseAttribution);
+  
+        var gl = L.maplibreGL({
+          style: mapOpts.currentStyle.tile,
+          accessToken: 'no-token'
+      }).addTo(window.map);
 
         // add custom timeDimensionControl control
         const timeDimensionControl = new L.Control.TimeDimensionCustom({
