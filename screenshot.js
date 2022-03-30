@@ -53,7 +53,7 @@ if (argv['nosentry']) {
             let jsonBody = JSON.parse(body);
             logger.trace(jsonBody);
             // visit map page with internal url
-            let url = util.format('%s%s', localconfig.internalUrl, jsonBody.mapargs);
+            let url = util.format('%s%s', localconfig.url, jsonBody.mapargs);
             logger.debug(url);
             // pass hidecontrols but not save it
             await page.goto(
@@ -65,6 +65,7 @@ if (argv['nosentry']) {
               if (!jQuery) return false;
               return !jQuery(".massive.loader").is(":visible");
             })
+            await page.waitForTimeout(2000);
             var options = {};
             Object.assign(options, config.screenshotServer.options);
             // use path instead of full url to be protocol agnostic
