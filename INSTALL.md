@@ -42,15 +42,21 @@ Push is not available with read-only keys.
 
 ## Node version
 
+To better handle node versions, suggestion is to use [nvm](http://nvm.sh).
+
 - Supported node versions: 16
+
+File (.nvmrc)[.nvmrc] reference the right version to use through `nvm use`. See [nvm documentation](https://github.com/nvm-sh/nvm/blob/master/README.md#nvmrc) for details.
 
 ## System dependencies
 
-To run screenshot server, these dependencies are needed (Debian-based):
+To run screenshot server, you need to install the dependencies [listed here](https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix).
+
+
+For example these are the Debian-based dependencies at the time of writing:
 
 `sudo apt-get install gconf-service libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget libgbm-dev`
 
-Updated dependencies [for Debian-based Linux and other OS are here](https://github.com/GoogleChrome/puppeteer/blob/master/docs/troubleshooting.md#chrome-headless-doesnt-launch-on-unix).
 
 ## Files and directories
 
@@ -76,17 +82,19 @@ It contains available map styles based on sources listed on [Tile servers](https
 
 ## Install dependencies
 
-`nvm exec 16 npm ci`
+On project root, run:
+
+`nvm use && npm ci`
 
 ## Go live
 
-On production, use something like [supervisor](http://supervisord.org/) to keep all services up, passing a script like this:
+On production, use something like [supervisor](http://supervisord.org/) to keep all services up:
 
-~~~
-#!/bin/bash
-cd /path/to/my/app;
-exec node app.js --port 9030;
-~~~
+1. Configure supervisor to handle nvm
+2. Add [app.sh](app.sh) and the other scripts to your conf.d/ file as of [supervisor-conf.d-maps.example.conf](supervisor-conf.d-maps.example.conf)
+3. `supervisorctl reread` and `supervisorctl update`
+
+Alternatively, you can use [tmux](https://github.com/tmux/tmux/wiki) or other similar tools taking care to use always `nvm use` command.
 
 ## Troubleshooting
 
