@@ -109,10 +109,6 @@ $icon-button-small-only: 50;
     }
 }
 
-#logo {
-    height: rem-calc(134);
-}
-
 
 
 .index .appear-on {
@@ -149,22 +145,32 @@ $icon-button-small-only: 50;
 }
 
 #topmenu {
-    .menu.inline {
-        padding-top: rem-calc(35);
-    }
     #askyourmap {
         text-transform: uppercase;
         font-weight: 700;
-        font-size: rem-calc(25);
     }
     .dropdown {
-        font-size: rem-calc(25);
         font-weight: 700;
     }
     .dropdown abbr[title] {
         text-decoration: none;
         border: none;
         cursor: pointer;
+    }
+}
+
+#topmenu {
+    .your-map-menu-item {
+        padding-right: rem-calc(27);
+    }
+    .menu.inline {
+        padding-top: rem-calc(39);
+    }
+    #askyourmap {
+        font-size: rem-calc(11);
+    }
+    .dropdown {
+        font-size: rem-calc(14);
     }
 }
 
@@ -212,6 +218,9 @@ $icon-button-small-only: 50;
 
 // @see https://zurb.com/university/lessons/94
 @media #{$small-only} {
+    #logo {
+        margin: rem-calc(20) rem-calc(25) 0 rem-calc(25);
+    }
     .index .map {
         .icon-section {
             top: rem-calc(-24);
@@ -269,6 +278,20 @@ $icon-button-small-only: 50;
 }
 
 @media #{$medium-only} {
+    #logo {
+        margin: rem-calc(20) rem-calc(25) 0 rem-calc(25);
+    }
+    #topmenu {
+        .menu.inline {
+            padding-top: rem-calc(44);
+        }
+        #askyourmap {
+            font-size: rem-calc(14);
+        }
+        .dropdown {
+            font-size: rem-calc(16);
+        }
+    }
     .index .map {
         .icon-section {
             top: rem-calc(-24);
@@ -291,6 +314,10 @@ $icon-button-small-only: 50;
 
 
 @media #{$medium-up} {
+    #logo {
+        max-height: rem-calc(134);
+        // margin: rem-calc(20) rem-calc(25) 0 rem-calc(25);
+    }
     // Header titles
     .mailmap {
         .maintitle {
@@ -348,6 +375,24 @@ $icon-button-small-only: 50;
 }
 
 @media #{$large-up} {
+    #logo {
+        margin: rem-calc(66) rem-calc(21) rem-calc(23) rem-calc(21);
+    }
+    #topmenu {
+        .menu.inline {
+            padding-top: rem-calc(91);
+        }
+        #askyourmap {
+            font-size: rem-calc(25);
+            padding: rem-calc(15) rem-calc(36);
+        }
+        .dropdown {
+            font-size: rem-calc(25);
+        }
+        .your-map-menu-item {
+            padding-right: rem-calc(122);
+        }
+    }
     .index .map {
         .image-section {
             min-height: rem-calc(212);
