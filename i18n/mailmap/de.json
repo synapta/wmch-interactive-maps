@@ -11,8 +11,8 @@
   "asktype": {
     "legend": "Welche Art von Karte möchten Sie fragen?",
     "asknewmap": "Neue Karte",
-    "askchangemap": "Change existing map",
-    "askother": "Vorhandene Karte ändern"
+    "askchangemap": "Vorhandene Karte ändern",
+    "askother": "Andere Anfrage"
   },
   "comment": {
     "label": "Bitte teilen Sie uns mit, welche Karte Sie vermissen",
