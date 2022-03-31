@@ -26,9 +26,20 @@ if (argv['nosentry']) {
   logger.info("*** Sentry disabled ***");
 }
 
+const launchOptions = {
+  headless: true, 
+  ignoreHTTPSErrors: true,
+  devtools: true,
+  args: [
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins',
+      '--disable-site-isolation-trials'
+  ]
+};
+
 (async () => {
     // create browser and keep it open
-    let browser = await puppeteer.launch({headless: config.screenshotServer.headless, ignoreHTTPSErrors: true});
+    let browser = await puppeteer.launch(launchOptions);
 
     process.on('SIGQUIT', async () => {
       await browser.close();
@@ -45,7 +56,7 @@ if (argv['nosentry']) {
           res.setHeader('Content-Type','text/plain');
           try {
             if (browser === undefined) {
-              browser = await puppeteer.launch({headless: config.screenshotServer.headless, ignoreHTTPSErrors: true});
+              browser = await puppeteer.launch(launchOptions);
             }
             let page = await browser.newPage();
             body = Buffer.concat(body).toString();
@@ -53,7 +64,7 @@ if (argv['nosentry']) {
             let jsonBody = JSON.parse(body);
             logger.trace(jsonBody);
             // visit map page with internal url
-            let url = util.format('%s%s', localconfig.url, jsonBody.mapargs);
+            let url = util.format('%s%s', localconfig.internalUrl, jsonBody.mapargs);
             logger.debug(url);
             // pass hidecontrols but not save it
             await page.goto(

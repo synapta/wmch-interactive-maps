@@ -64,7 +64,6 @@
     "GOTO_OPTS": { "waitUntil": ["load","domcontentloaded","networkidle0"], "timeout": 0 },
     "port": 9031,
     "url": "http://localhost:9031",
-    "headless": true,
     "hideControls": true,
     "options": {
         "path": "./screenshots/%s.png"
