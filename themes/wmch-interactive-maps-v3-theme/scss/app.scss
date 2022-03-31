@@ -161,6 +161,11 @@ $icon-button-small-only: 50;
         font-size: rem-calc(25);
         font-weight: 700;
     }
+    .dropdown abbr[title] {
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+    }
 }
 
 .index .map {
