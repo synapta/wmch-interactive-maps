@@ -11,13 +11,13 @@
   "asktype": {
     "legend": "Che tipo di mappa hai in mente?",
     "asknewmap": "Nuova mappa",
-    "askchangemap": "Modifica mappa esistente",
+    "askchangemap": "Modifica una mappa esistente",
     "askother": "Richiesta di altro tipo"
   },
   "comment": {
     "label": "Facci sapere quale mappa vorresti",
-    "placeholder": "Inserisci qui il tuo messaggio",
-    "help": "Sii costruttivo ed educato e fornisci più dettagli possibili per costruire la mappa che desideri."
+    "placeholder": "Inserisci il tuo messaggio qui\n(Modifica una mappa esistente): https://map.wikimedia.swiss/v/swiss-museums/\nLingue selezionate: en,de,fr,it",
+    "help": "Sii costruttivo ed educato e fornisci più dettagli possibili per costruire la mappa che desideri. Indica ad esempio: le lingue desiderate o l'url della mappa che suggerisci di modificare."
   },
   "ihavesparql": {
     "legend": "Hai già una query SPARQL da proporre?",

@@ -16,8 +16,8 @@
   },
   "comment": {
     "label": "Faites-nous savoir quelle carte vous souhaitez",
-    "placeholder": "Entrez votre message ici",
-    "help": "Soyez constructif et poli et fournissez autant de détails que possible pour construire la carte que vous souhaitez."
+    "placeholder": "Entrez votre message ici\nURL (Modifier la carte existante): https://map.wikimedia.swiss/v/swiss-museums/\nLangues choisies: en,de,fr,it",
+    "help": "Soyez constructif et poli et fournissez autant de détails que possible pour construire la carte que vous souhaitez. Indiquez par exemple : les langues souhaitées ou l'url de la carte que vous souhaitez modifier."
   },
   "ihavesparql": {
     "legend": "Vous avez déjà une requête SPARQL à proposer ?",
