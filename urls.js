@@ -503,7 +503,8 @@ module.exports = function(app, apicache) {
                 const menuTemplate = await templateutils.readMustachePartials('public/frontend/menu.mustache');
                 const partials = {
                     menu: menuTemplate,
-                    urlqueryargs: templateutils.retainUrlQueryArguments(req)
+                    urlqueryargs: templateutils.retainUrlQueryArguments(req),
+                    card: await templateutils.readMustachePartials('public/frontend/card.mustache')
                 };
                 var output = Mustache.render(template, view, partials);
                 res.send(output);
