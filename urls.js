@@ -483,6 +483,7 @@ module.exports = function(app, apicache) {
                         categoryWithMaps.more = categoryWithMaps.maps.length > config.seeAll.rowlength
                         categoryWithMaps.maps = categoryWithMaps.maps.map((map, mapInd) => {
                             map.seeAllHidden = mapInd >= config.seeAll.rowlength
+                            map.uicon = map.icon.split(' ').map(name => `sui-${name}`).join(' ')
                             return map
                         })
                         return categoryWithMaps

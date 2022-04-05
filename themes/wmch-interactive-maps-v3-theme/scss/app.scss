@@ -3,6 +3,7 @@
 @import 'settings';
 @import 'foundation';
 @import 'motion-ui';
+@import './semantic-ui-icon.scss';
 
 // Global styles
 @include foundation-global-styles;
@@ -186,7 +187,7 @@ $icon-button-small-only: 50;
             box-shadow: rem-calc(3) rem-calc(3) rem-calc(6) #00000029;
             border-radius: 50%;
             display: inline-block;
-            i.icon {
+            i.sui-icon {
                 color: #3A659F;
                 display: inline-block;
             }
@@ -227,7 +228,7 @@ $icon-button-small-only: 50;
             .icon-button {
                 width: rem-calc($icon-button-small-only);
                 height: rem-calc($icon-button-small-only);
-                i.icon {
+                i.sui-icon {
                     font-size: rem-calc(28); 
                     line-height: rem-calc(28 + 11 + 11); 
                     padding-left: rem-calc(4);
@@ -298,7 +299,7 @@ $icon-button-small-only: 50;
             .icon-button {
                 width: rem-calc($icon-button-small-only);
                 height: rem-calc($icon-button-small-only);
-                i.icon {
+                i.sui-icon {
                     font-size: rem-calc(28); 
                     line-height: rem-calc(28 + 11 + 11); 
                     padding-left: rem-calc(4);
@@ -402,7 +403,7 @@ $icon-button-small-only: 50;
             .icon-button {
                 width: rem-calc($icon-button-medium-up);  // desktop
                 height: rem-calc($icon-button-medium-up);  // desktop
-                i.icon {
+                i.sui-icon {
                     color: #3A659F;
                     font-size: rem-calc(44);  // desktop
                     line-height: rem-calc(44 + 17 + 17);  // desktop

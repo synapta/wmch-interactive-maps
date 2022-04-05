@@ -1,0 +1,4802 @@
+/*!
+ * # Semantic UI 2.4.1 -.sui-icon
+ * http://github.com/semantic-org/semantic-ui/
+ *
+ *
+ * Released under the MIT license
+ * http://opensource.org/licenses/MIT
+ *
+ */
+
+ $pre: "sui-";
+
+/*******************************
+            .sui-icon
+*******************************/
+@font-face {
+  font-family: 'Icons';
+  src: url("/css/lib/semantic-2.4.1/icons.woff2") format("woff2"),
+       url("/css/lib/semantic-2.4.1/icons.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-decoration: inherit;
+  text-transform: none;
+}
+/* Load & Define Brand Font */
+@font-face {
+  font-family: 'brand-icons';
+  src: url("/css/lib/semantic-2.4.1/brands.woff2") format("woff2"),
+       url("/css/lib/semantic-2.4.1/brands.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-decoration: inherit;
+  text-transform: none;
+}
+@font-face {
+  font-family: 'outline-icons';
+  src: url("/css/lib/semantic-2.4.1/outline-icons.woff2") format("woff2"),
+       url("/css/lib/semantic-2.4.1/outline-icons.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-decoration: inherit;
+  text-transform: none;
+}
+i.#{$pre}icon {
+  display: inline-block;
+  opacity: 1;
+  margin: 0em 0.25rem 0em 0em;
+  width: 1.18em;
+  height: 1em;
+  font-family: 'Icons';
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  text-align: center;
+  speak: none;
+  font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+i.#{$pre}icon:before {
+  background: none !important;
+}
+
+/*******************************
+             Types
+*******************************/
+
+
+/*--------------
+    Loading
+---------------*/
+
+i.#{$pre}icon.#{$pre}loading {
+  height: 1em;
+  line-height: 1;
+  -webkit-animation: icon-loading 2s linear infinite;
+          animation: icon-loading 2s linear infinite;
+}
+@-webkit-keyframes icon-loading {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@keyframes icon-loading {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+
+/*******************************
+            States
+*******************************/
+
+i.#{$pre}icon.#{$pre}hover {
+  opacity: 1 !important;
+}
+i.#{$pre}icon.#{$pre}active {
+  opacity: 1 !important;
+}
+i.#{$pre}emphasized.#{$pre}icon {
+  opacity: 1 !important;
+}
+i.#{$pre}disabled.#{$pre}icon {
+  opacity: 0.45 !important;
+}
+
+
+/*******************************
+          Variations
+*******************************/
+
+
+/*-------------------
+        Fitted
+--------------------*/
+
+i.#{$pre}fitted.#{$pre}icon {
+  width: auto;
+  margin: 0em !important;
+}
+
+/*-------------------
+        Link
+--------------------*/
+
+i.#{$pre}link.#{$pre}icon,
+i.#{$pre}link.#{$pre}icons {
+  cursor: pointer;
+  opacity: 0.8;
+  -webkit-transition: opacity 0.1s ease;
+  transition: opacity 0.1s ease;
+}
+i.#{$pre}link.#{$pre}icon:hover,
+i.#{$pre}link.#{$pre}icons:hover {
+  opacity: 1 !important;
+}
+
+/*-------------------
+      Circular
+--------------------*/
+
+i.#{$pre}circular.#{$pre}icon {
+  border-radius: 500em !important;
+  line-height: 1 !important;
+  padding: 0.5em 0em !important;
+  -webkit-box-shadow: 0em 0em 0em 0.1em rgba(0, 0, 0, 0.1) inset;
+          box-shadow: 0em 0em 0em 0.1em rgba(0, 0, 0, 0.1) inset;
+  width: 2em !important;
+  height: 2em !important;
+}
+i.#{$pre}circular.#{$pre}inverted.#{$pre}icon {
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+/*-------------------
+      Flipped
+--------------------*/
+
+i.#{$pre}flipped.#{$pre}icon,
+i.#{$pre}horizontally.#{$pre}flipped.#{$pre}icon {
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+i.#{$pre}vertically.#{$pre}flipped.#{$pre}icon {
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1);
+}
+
+/*-------------------
+      Rotated
+--------------------*/
+
+i.#{$pre}rotated.#{$pre}icon,
+i.#{$pre}right.#{$pre}rotated.#{$pre}icon,
+i.#{$pre}clockwise.#{$pre}rotated.#{$pre}icon {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+i.#{$pre}left.#{$pre}rotated.#{$pre}icon,
+i.#{$pre}counterclockwise.#{$pre}rotated.#{$pre}icon {
+  -webkit-transform: rotate(-90deg);
+          transform: rotate(-90deg);
+}
+
+/*-------------------
+      Bordered
+--------------------*/
+
+i.#{$pre}bordered.#{$pre}icon {
+  line-height: 1;
+  vertical-align: baseline;
+  width: 2em;
+  height: 2em;
+  padding: 0.5em 0em !important;
+  -webkit-box-shadow: 0em 0em 0em 0.1em rgba(0, 0, 0, 0.1) inset;
+          box-shadow: 0em 0em 0em 0.1em rgba(0, 0, 0, 0.1) inset;
+}
+i.#{$pre}bordered.#{$pre}inverted.#{$pre}icon {
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+/*-------------------
+      Inverted
+--------------------*/
+
+
+/* Inverted Shapes */
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}icon {
+  background-color: #1B1C1D !important;
+  color: #FFFFFF !important;
+}
+i.#{$pre}inverted.#{$pre}icon {
+  color: #FFFFFF;
+}
+
+/*-------------------
+      Colors
+--------------------*/
+
+
+/* Red */
+i.#{$pre}red.#{$pre}icon {
+  color: #DB2828 !important;
+}
+i.#{$pre}inverted.#{$pre}red.#{$pre}icon {
+  color: #FF695E !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}red.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}red.#{$pre}icon {
+  background-color: #DB2828 !important;
+  color: #FFFFFF !important;
+}
+
+/* Orange */
+i.#{$pre}orange.#{$pre}icon {
+  color: #F2711C !important;
+}
+i.#{$pre}inverted.#{$pre}orange.#{$pre}icon {
+  color: #FF851B !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}orange.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}orange.#{$pre}icon {
+  background-color: #F2711C !important;
+  color: #FFFFFF !important;
+}
+
+/* Yellow */
+i.#{$pre}yellow.#{$pre}icon {
+  color: #FBBD08 !important;
+}
+i.#{$pre}inverted.#{$pre}yellow.#{$pre}icon {
+  color: #FFE21F !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}yellow.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}yellow.#{$pre}icon {
+  background-color: #FBBD08 !important;
+  color: #FFFFFF !important;
+}
+
+/* Olive */
+i.#{$pre}olive.#{$pre}icon {
+  color: #B5CC18 !important;
+}
+i.#{$pre}inverted.#{$pre}olive.#{$pre}icon {
+  color: #D9E778 !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}olive.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}olive.#{$pre}icon {
+  background-color: #B5CC18 !important;
+  color: #FFFFFF !important;
+}
+
+/* Green */
+i.#{$pre}green.#{$pre}icon {
+  color: #21BA45 !important;
+}
+i.#{$pre}inverted.#{$pre}green.#{$pre}icon {
+  color: #2ECC40 !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}green.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}green.#{$pre}icon {
+  background-color: #21BA45 !important;
+  color: #FFFFFF !important;
+}
+
+/* Teal */
+i.#{$pre}teal.#{$pre}icon {
+  color: #00B5AD !important;
+}
+i.#{$pre}inverted.#{$pre}teal.#{$pre}icon {
+  color: #6DFFFF !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}teal.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}teal.#{$pre}icon {
+  background-color: #00B5AD !important;
+  color: #FFFFFF !important;
+}
+
+/* Blue */
+i.#{$pre}blue.#{$pre}icon {
+  color: #2185D0 !important;
+}
+i.#{$pre}inverted.#{$pre}blue.#{$pre}icon {
+  color: #54C8FF !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}blue.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}blue.#{$pre}icon {
+  background-color: #2185D0 !important;
+  color: #FFFFFF !important;
+}
+
+/* Violet */
+i.#{$pre}violet.#{$pre}icon {
+  color: #6435C9 !important;
+}
+i.#{$pre}inverted.#{$pre}violet.#{$pre}icon {
+  color: #A291FB !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}violet.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}violet.#{$pre}icon {
+  background-color: #6435C9 !important;
+  color: #FFFFFF !important;
+}
+
+/* Purple */
+i.#{$pre}purple.#{$pre}icon {
+  color: #A333C8 !important;
+}
+i.#{$pre}inverted.#{$pre}purple.#{$pre}icon {
+  color: #DC73FF !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}purple.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}purple.#{$pre}icon {
+  background-color: #A333C8 !important;
+  color: #FFFFFF !important;
+}
+
+/* Pink */
+i.#{$pre}pink.#{$pre}icon {
+  color: #E03997 !important;
+}
+i.#{$pre}inverted.#{$pre}pink.#{$pre}icon {
+  color: #FF8EDF !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}pink.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}pink.#{$pre}icon {
+  background-color: #E03997 !important;
+  color: #FFFFFF !important;
+}
+
+/* Brown */
+i.#{$pre}brown.#{$pre}icon {
+  color: #A5673F !important;
+}
+i.#{$pre}inverted.#{$pre}brown.#{$pre}icon {
+  color: #D67C1C !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}brown.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}brown.#{$pre}icon {
+  background-color: #A5673F !important;
+  color: #FFFFFF !important;
+}
+
+/* Grey */
+i.#{$pre}grey.#{$pre}icon {
+  color: #767676 !important;
+}
+i.#{$pre}inverted.#{$pre}grey.#{$pre}icon {
+  color: #DCDDDE !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}grey.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}grey.#{$pre}icon {
+  background-color: #767676 !important;
+  color: #FFFFFF !important;
+}
+
+/* Black */
+i.#{$pre}black.#{$pre}icon {
+  color: #1B1C1D !important;
+}
+i.#{$pre}inverted.#{$pre}black.#{$pre}icon {
+  color: #545454 !important;
+}
+i.#{$pre}inverted.#{$pre}bordered.#{$pre}black.#{$pre}icon,
+i.#{$pre}inverted.#{$pre}circular.#{$pre}black.#{$pre}icon {
+  background-color: #1B1C1D !important;
+  color: #FFFFFF !important;
+}
+
+/*-------------------
+        Sizes
+--------------------*/
+
+i.#{$pre}mini.#{$pre}icon,
+i.#{$pre}mini.#{$pre}icons {
+  line-height: 1;
+  font-size: 0.4em;
+}
+i.#{$pre}tiny.#{$pre}icon,
+i.#{$pre}tiny.#{$pre}icons {
+  line-height: 1;
+  font-size: 0.5em;
+}
+i.#{$pre}small.#{$pre}icon,
+i.#{$pre}small.#{$pre}icons {
+  line-height: 1;
+  font-size: 0.75em;
+}
+i.#{$pre}icon,
+i.#{$pre}icons {
+  font-size: 1em;
+}
+i.#{$pre}large.#{$pre}icon,
+i.#{$pre}large.#{$pre}icons {
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 1.5em;
+}
+i.#{$pre}big.#{$pre}icon,
+i.#{$pre}big.#{$pre}icons {
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 2em;
+}
+i.#{$pre}huge.#{$pre}icon,
+i.#{$pre}huge.#{$pre}icons {
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 4em;
+}
+i.#{$pre}massive.#{$pre}icon,
+i.#{$pre}massive.#{$pre}icons {
+  line-height: 1;
+  vertical-align: middle;
+  font-size: 8em;
+}
+
+
+/*******************************
+            Groups
+*******************************/
+
+i.#{$pre}icons {
+  display: inline-block;
+  position: relative;
+  line-height: 1;
+}
+i.#{$pre}icons .#{$pre}icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+          transform: translateX(-50%) translateY(-50%);
+  margin: 0em;
+  margin: 0;
+}
+i.#{$pre}icons .#{$pre}icon:first-child {
+  position: static;
+  width: auto;
+  height: auto;
+  vertical-align: top;
+  -webkit-transform: none;
+          transform: none;
+  margin-right: 0.25rem;
+}
+
+/* Corner Icon */
+i.#{$pre}icons .#{$pre}corner.#{$pre}icon {
+  top: auto;
+  left: auto;
+  right: 0;
+  bottom: 0;
+  -webkit-transform: none;
+          transform: none;
+  font-size: 0.45em;
+  text-shadow: -1px -1px 0 #FFFFFF, 1px -1px 0 #FFFFFF, -1px 1px 0 #FFFFFF, 1px 1px 0 #FFFFFF;
+}
+i.#{$pre}icons .#{$pre}top.#{$pre}right.#{$pre}corner.#{$pre}icon {
+  top: 0;
+  left: auto;
+  right: 0;
+  bottom: auto;
+}
+i.#{$pre}icons .#{$pre}top.#{$pre}left.#{$pre}corner.#{$pre}icon {
+  top: 0;
+  left: 0;
+  right: auto;
+  bottom: auto;
+}
+i.#{$pre}icons .#{$pre}bottom.#{$pre}left.#{$pre}corner.#{$pre}icon {
+  top: auto;
+  left: 0;
+  right: auto;
+  bottom: 0;
+}
+i.#{$pre}icons .#{$pre}bottom.#{$pre}right.#{$pre}corner.#{$pre}icon {
+  top: auto;
+  left: auto;
+  right: 0;
+  bottom: 0;
+}
+i.#{$pre}icons .#{$pre}inverted.#{$pre}corner.#{$pre}icon {
+  text-shadow: -1px -1px 0 #1B1C1D, 1px -1px 0 #1B1C1D, -1px 1px 0 #1B1C1D, 1px 1px 0 #1B1C1D;
+}
+/*
+* Font Awesome 5.#{$pre}0.#{$pre}8 by @fontawesome - http://fontawesome.#{$pre}io - @fontawesome
+* License - https://fontawesome.#{$pre}com/license (Icons: CC BY 4.#{$pre}0 License, Fonts: SIL OFL 1.#{$pre}1 License, CSS: MIT License)
+*/
+
+
+/*******************************
+
+Semantic-UI integration of font-awesome :
+
+///class names are separated
+i.#{$pre}icon.#{$pre}circle => i.#{$pre}icon.#{$pre}circle
+i.#{$pre}icon.#{$pre}circle-o => i.#{$pre}icon.#{$pre}circle.#{$pre}outline
+
+//abbreviation are replaced by full letters:
+i.#{$pre}icon.#{$pre}ellipsis-h => i.#{$pre}icon.#{$pre}ellipsis.#{$pre}horizontal
+i.#{$pre}icon.#{$pre}ellipsis-v => i.#{$pre}icon.#{$pre}ellipsis.#{$pre}vertical
+.#{$pre}alpha => .#{$pre}i.#{$pre}icon.#{$pre}alphabet
+.#{$pre}asc => .#{$pre}i.#{$pre}icon.#{$pre}ascending
+.#{$pre}desc => .#{$pre}i.#{$pre}icon.#{$pre}descending
+.#{$pre}alt =>.#{$pre}alternate
+
+ASCII order is conserved for easier maintenance.#{$pre}
+
+Icons that only have one style 'outline', 'square' etc do not require this class
+for instance `lemon icon` not `lemon outline icon` since there is only one lemon
+
+*******************************/
+
+
+
+/*******************************
+            Icons
+*******************************/
+
+
+/* Deprecated *In/Out Naming Conflict) */
+i.#{$pre}icon.#{$pre}linkedin.#{$pre}in:before {
+  content: "\f0e1";
+}
+i.#{$pre}icon.#{$pre}zoom.#{$pre}in:before {
+  content: "\f00e";
+}
+i.#{$pre}icon.#{$pre}zoom.#{$pre}out:before {
+  content: "\f010";
+}
+i.#{$pre}icon.#{$pre}sign.#{$pre}in:before {
+  content: "\f2f6";
+}
+i.#{$pre}icon.#{$pre}in.#{$pre}cart:before {
+  content: "\f218";
+}
+i.#{$pre}icon.#{$pre}log.#{$pre}out:before {
+  content: "\f2f5";
+}
+i.#{$pre}icon.#{$pre}sign.#{$pre}out:before {
+  content: "\f2f5";
+}
+
+/* Icons */
+i.#{$pre}icon.#{$pre}\35 00px:before {
+  content: "\f26e";
+}
+i.#{$pre}icon.#{$pre}accessible.#{$pre}icon:before {
+  content: "\f368";
+}
+i.#{$pre}icon.#{$pre}accusoft:before {
+  content: "\f369";
+}
+i.#{$pre}icon.#{$pre}address.#{$pre}book:before {
+  content: "\f2b9";
+}
+i.#{$pre}icon.#{$pre}address.#{$pre}card:before {
+  content: "\f2bb";
+}
+i.#{$pre}icon.#{$pre}adjust:before {
+  content: "\f042";
+}
+i.#{$pre}icon.#{$pre}adn:before {
+  content: "\f170";
+}
+i.#{$pre}icon.#{$pre}adversal:before {
+  content: "\f36a";
+}
+i.#{$pre}icon.#{$pre}affiliatetheme:before {
+  content: "\f36b";
+}
+i.#{$pre}icon.#{$pre}algolia:before {
+  content: "\f36c";
+}
+i.#{$pre}icon.#{$pre}align.#{$pre}center:before {
+  content: "\f037";
+}
+i.#{$pre}icon.#{$pre}align.#{$pre}justify:before {
+  content: "\f039";
+}
+i.#{$pre}icon.#{$pre}align.#{$pre}left:before {
+  content: "\f036";
+}
+i.#{$pre}icon.#{$pre}align.#{$pre}right:before {
+  content: "\f038";
+}
+i.#{$pre}icon.#{$pre}amazon:before {
+  content: "\f270";
+}
+i.#{$pre}icon.#{$pre}amazon.#{$pre}pay:before {
+  content: "\f42c";
+}
+i.#{$pre}icon.#{$pre}ambulance:before {
+  content: "\f0f9";
+}
+i.#{$pre}icon.#{$pre}american.#{$pre}sign.#{$pre}language.#{$pre}interpreting:before {
+  content: "\f2a3";
+}
+i.#{$pre}icon.#{$pre}amilia:before {
+  content: "\f36d";
+}
+i.#{$pre}icon.#{$pre}anchor:before {
+  content: "\f13d";
+}
+i.#{$pre}icon.#{$pre}android:before {
+  content: "\f17b";
+}
+i.#{$pre}icon.#{$pre}angellist:before {
+  content: "\f209";
+}
+i.#{$pre}icon.#{$pre}angle.#{$pre}double.#{$pre}down:before {
+  content: "\f103";
+}
+i.#{$pre}icon.#{$pre}angle.#{$pre}double.#{$pre}left:before {
+  content: "\f100";
+}
+i.#{$pre}icon.#{$pre}angle.#{$pre}double.#{$pre}right:before {
+  content: "\f101";
+}
+i.#{$pre}icon.#{$pre}angle.#{$pre}double.#{$pre}up:before {
+  content: "\f102";
+}
+i.#{$pre}icon.#{$pre}angle.#{$pre}down:before {
+  content: "\f107";
+}
+i.#{$pre}icon.#{$pre}angle.#{$pre}left:before {
+  content: "\f104";
+}
+i.#{$pre}icon.#{$pre}angle.#{$pre}right:before {
+  content: "\f105";
+}
+i.#{$pre}icon.#{$pre}angle.#{$pre}up:before {
+  content: "\f106";
+}
+i.#{$pre}icon.#{$pre}angrycreative:before {
+  content: "\f36e";
+}
+i.#{$pre}icon.#{$pre}angular:before {
+  content: "\f420";
+}
+i.#{$pre}icon.#{$pre}app.#{$pre}store:before {
+  content: "\f36f";
+}
+i.#{$pre}icon.#{$pre}app.#{$pre}store.#{$pre}ios:before {
+  content: "\f370";
+}
+i.#{$pre}icon.#{$pre}apper:before {
+  content: "\f371";
+}
+i.#{$pre}icon.#{$pre}apple:before {
+  content: "\f179";
+}
+i.#{$pre}icon.#{$pre}apple.#{$pre}pay:before {
+  content: "\f415";
+}
+i.#{$pre}icon.#{$pre}archive:before {
+  content: "\f187";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}alternate.#{$pre}circle.#{$pre}down:before {
+  content: "\f358";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}alternate.#{$pre}circle.#{$pre}left:before {
+  content: "\f359";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}alternate.#{$pre}circle.#{$pre}right:before {
+  content: "\f35a";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}alternate.#{$pre}circle.#{$pre}up:before {
+  content: "\f35b";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}circle.#{$pre}down:before {
+  content: "\f0ab";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}circle.#{$pre}left:before {
+  content: "\f0a8";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}circle.#{$pre}right:before {
+  content: "\f0a9";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}circle.#{$pre}up:before {
+  content: "\f0aa";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}down:before {
+  content: "\f063";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}left:before {
+  content: "\f060";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}right:before {
+  content: "\f061";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}up:before {
+  content: "\f062";
+}
+i.#{$pre}icon.#{$pre}arrows.#{$pre}alternate:before {
+  content: "\f0b2";
+}
+i.#{$pre}icon.#{$pre}arrows.#{$pre}alternate.#{$pre}horizontal:before {
+  content: "\f337";
+}
+i.#{$pre}icon.#{$pre}arrows.#{$pre}alternate.#{$pre}vertical:before {
+  content: "\f338";
+}
+i.#{$pre}icon.#{$pre}assistive.#{$pre}listening.#{$pre}systems:before {
+  content: "\f2a2";
+}
+i.#{$pre}icon.#{$pre}asterisk:before {
+  content: "\f069";
+}
+i.#{$pre}icon.#{$pre}asymmetrik:before {
+  content: "\f372";
+}
+i.#{$pre}icon.#{$pre}at:before {
+  content: "\f1fa";
+}
+i.#{$pre}icon.#{$pre}audible:before {
+  content: "\f373";
+}
+i.#{$pre}icon.#{$pre}audio.#{$pre}description:before {
+  content: "\f29e";
+}
+i.#{$pre}icon.#{$pre}autoprefixer:before {
+  content: "\f41c";
+}
+i.#{$pre}icon.#{$pre}avianex:before {
+  content: "\f374";
+}
+i.#{$pre}icon.#{$pre}aviato:before {
+  content: "\f421";
+}
+i.#{$pre}icon.#{$pre}aws:before {
+  content: "\f375";
+}
+i.#{$pre}icon.#{$pre}backward:before {
+  content: "\f04a";
+}
+i.#{$pre}icon.#{$pre}balance.#{$pre}scale:before {
+  content: "\f24e";
+}
+i.#{$pre}icon.#{$pre}ban:before {
+  content: "\f05e";
+}
+i.#{$pre}icon.#{$pre}band.#{$pre}aid:before {
+  content: "\f462";
+}
+i.#{$pre}icon.#{$pre}bandcamp:before {
+  content: "\f2d5";
+}
+i.#{$pre}icon.#{$pre}barcode:before {
+  content: "\f02a";
+}
+i.#{$pre}icon.#{$pre}bars:before {
+  content: "\f0c9";
+}
+i.#{$pre}icon.#{$pre}baseball.#{$pre}ball:before {
+  content: "\f433";
+}
+i.#{$pre}icon.#{$pre}basketball.#{$pre}ball:before {
+  content: "\f434";
+}
+i.#{$pre}icon.#{$pre}bath:before {
+  content: "\f2cd";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}empty:before {
+  content: "\f244";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}full:before {
+  content: "\f240";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}half:before {
+  content: "\f242";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}quarter:before {
+  content: "\f243";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}three.#{$pre}quarters:before {
+  content: "\f241";
+}
+i.#{$pre}icon.#{$pre}bed:before {
+  content: "\f236";
+}
+i.#{$pre}icon.#{$pre}beer:before {
+  content: "\f0fc";
+}
+i.#{$pre}icon.#{$pre}behance:before {
+  content: "\f1b4";
+}
+i.#{$pre}icon.#{$pre}behance.#{$pre}square:before {
+  content: "\f1b5";
+}
+i.#{$pre}icon.#{$pre}bell:before {
+  content: "\f0f3";
+}
+i.#{$pre}icon.#{$pre}bell.#{$pre}slash:before {
+  content: "\f1f6";
+}
+i.#{$pre}icon.#{$pre}bicycle:before {
+  content: "\f206";
+}
+i.#{$pre}icon.#{$pre}bimobject:before {
+  content: "\f378";
+}
+i.#{$pre}icon.#{$pre}binoculars:before {
+  content: "\f1e5";
+}
+i.#{$pre}icon.#{$pre}birthday.#{$pre}cake:before {
+  content: "\f1fd";
+}
+i.#{$pre}icon.#{$pre}bitbucket:before {
+  content: "\f171";
+}
+i.#{$pre}icon.#{$pre}bitcoin:before {
+  content: "\f379";
+}
+i.#{$pre}icon.#{$pre}bity:before {
+  content: "\f37a";
+}
+i.#{$pre}icon.#{$pre}black.#{$pre}tie:before {
+  content: "\f27e";
+}
+i.#{$pre}icon.#{$pre}blackberry:before {
+  content: "\f37b";
+}
+i.#{$pre}icon.#{$pre}blind:before {
+  content: "\f29d";
+}
+i.#{$pre}icon.#{$pre}blogger:before {
+  content: "\f37c";
+}
+i.#{$pre}icon.#{$pre}blogger.#{$pre}b:before {
+  content: "\f37d";
+}
+i.#{$pre}icon.#{$pre}bluetooth:before {
+  content: "\f293";
+}
+i.#{$pre}icon.#{$pre}bluetooth.#{$pre}b:before {
+  content: "\f294";
+}
+i.#{$pre}icon.#{$pre}bold:before {
+  content: "\f032";
+}
+i.#{$pre}icon.#{$pre}bolt:before {
+  content: "\f0e7";
+}
+i.#{$pre}icon.#{$pre}bomb:before {
+  content: "\f1e2";
+}
+i.#{$pre}icon.#{$pre}book:before {
+  content: "\f02d";
+}
+i.#{$pre}icon.#{$pre}bookmark:before {
+  content: "\f02e";
+}
+i.#{$pre}icon.#{$pre}bowling.#{$pre}ball:before {
+  content: "\f436";
+}
+i.#{$pre}icon.#{$pre}box:before {
+  content: "\f466";
+}
+i.#{$pre}icon.#{$pre}boxes:before {
+  content: "\f468";
+}
+i.#{$pre}icon.#{$pre}braille:before {
+  content: "\f2a1";
+}
+i.#{$pre}icon.#{$pre}briefcase:before {
+  content: "\f0b1";
+}
+i.#{$pre}icon.#{$pre}btc:before {
+  content: "\f15a";
+}
+i.#{$pre}icon.#{$pre}bug:before {
+  content: "\f188";
+}
+i.#{$pre}icon.#{$pre}building:before {
+  content: "\f1ad";
+}
+i.#{$pre}icon.#{$pre}bullhorn:before {
+  content: "\f0a1";
+}
+i.#{$pre}icon.#{$pre}bullseye:before {
+  content: "\f140";
+}
+i.#{$pre}icon.#{$pre}buromobelexperte:before {
+  content: "\f37f";
+}
+i.#{$pre}icon.#{$pre}bus:before {
+  content: "\f207";
+}
+i.#{$pre}icon.#{$pre}buysellads:before {
+  content: "\f20d";
+}
+i.#{$pre}icon.#{$pre}calculator:before {
+  content: "\f1ec";
+}
+i.#{$pre}icon.#{$pre}calendar:before {
+  content: "\f133";
+}
+i.#{$pre}icon.#{$pre}calendar.#{$pre}alternate:before {
+  content: "\f073";
+}
+i.#{$pre}icon.#{$pre}calendar.#{$pre}check:before {
+  content: "\f274";
+}
+i.#{$pre}icon.#{$pre}calendar.#{$pre}minus:before {
+  content: "\f272";
+}
+i.#{$pre}icon.#{$pre}calendar.#{$pre}plus:before {
+  content: "\f271";
+}
+i.#{$pre}icon.#{$pre}calendar.#{$pre}times:before {
+  content: "\f273";
+}
+i.#{$pre}icon.#{$pre}camera:before {
+  content: "\f030";
+}
+i.#{$pre}icon.#{$pre}camera.#{$pre}retro:before {
+  content: "\f083";
+}
+i.#{$pre}icon.#{$pre}car:before {
+  content: "\f1b9";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}down:before {
+  content: "\f0d7";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}left:before {
+  content: "\f0d9";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}right:before {
+  content: "\f0da";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}square.#{$pre}down:before {
+  content: "\f150";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}square.#{$pre}left:before {
+  content: "\f191";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}square.#{$pre}right:before {
+  content: "\f152";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}square.#{$pre}up:before {
+  content: "\f151";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}up:before {
+  content: "\f0d8";
+}
+i.#{$pre}icon.#{$pre}cart.#{$pre}arrow.#{$pre}down:before {
+  content: "\f218";
+}
+i.#{$pre}icon.#{$pre}cart.#{$pre}plus:before {
+  content: "\f217";
+}
+i.#{$pre}icon.#{$pre}cc.#{$pre}amazon.#{$pre}pay:before {
+  content: "\f42d";
+}
+i.#{$pre}icon.#{$pre}cc.#{$pre}amex:before {
+  content: "\f1f3";
+}
+i.#{$pre}icon.#{$pre}cc.#{$pre}apple.#{$pre}pay:before {
+  content: "\f416";
+}
+i.#{$pre}icon.#{$pre}cc.#{$pre}diners.#{$pre}club:before {
+  content: "\f24c";
+}
+i.#{$pre}icon.#{$pre}cc.#{$pre}discover:before {
+  content: "\f1f2";
+}
+i.#{$pre}icon.#{$pre}cc.#{$pre}jcb:before {
+  content: "\f24b";
+}
+i.#{$pre}icon.#{$pre}cc.#{$pre}mastercard:before {
+  content: "\f1f1";
+}
+i.#{$pre}icon.#{$pre}cc.#{$pre}paypal:before {
+  content: "\f1f4";
+}
+i.#{$pre}icon.#{$pre}cc.#{$pre}stripe:before {
+  content: "\f1f5";
+}
+i.#{$pre}icon.#{$pre}cc.#{$pre}visa:before {
+  content: "\f1f0";
+}
+i.#{$pre}icon.#{$pre}centercode:before {
+  content: "\f380";
+}
+i.#{$pre}icon.#{$pre}certificate:before {
+  content: "\f0a3";
+}
+i.#{$pre}icon.#{$pre}chart.#{$pre}area:before {
+  content: "\f1fe";
+}
+i.#{$pre}icon.#{$pre}chart.#{$pre}bar:before {
+  content: "\f080";
+}
+i.#{$pre}icon.#{$pre}chart.#{$pre}line:before {
+  content: "\f201";
+}
+i.#{$pre}icon.#{$pre}chart.#{$pre}pie:before {
+  content: "\f200";
+}
+i.#{$pre}icon.#{$pre}check:before {
+  content: "\f00c";
+}
+i.#{$pre}icon.#{$pre}check.#{$pre}circle:before {
+  content: "\f058";
+}
+i.#{$pre}icon.#{$pre}check.#{$pre}square:before {
+  content: "\f14a";
+}
+i.#{$pre}icon.#{$pre}chess:before {
+  content: "\f439";
+}
+i.#{$pre}icon.#{$pre}chess.#{$pre}bishop:before {
+  content: "\f43a";
+}
+i.#{$pre}icon.#{$pre}chess.#{$pre}board:before {
+  content: "\f43c";
+}
+i.#{$pre}icon.#{$pre}chess.#{$pre}king:before {
+  content: "\f43f";
+}
+i.#{$pre}icon.#{$pre}chess.#{$pre}knight:before {
+  content: "\f441";
+}
+i.#{$pre}icon.#{$pre}chess.#{$pre}pawn:before {
+  content: "\f443";
+}
+i.#{$pre}icon.#{$pre}chess.#{$pre}queen:before {
+  content: "\f445";
+}
+i.#{$pre}icon.#{$pre}chess.#{$pre}rook:before {
+  content: "\f447";
+}
+i.#{$pre}icon.#{$pre}chevron.#{$pre}circle.#{$pre}down:before {
+  content: "\f13a";
+}
+i.#{$pre}icon.#{$pre}chevron.#{$pre}circle.#{$pre}left:before {
+  content: "\f137";
+}
+i.#{$pre}icon.#{$pre}chevron.#{$pre}circle.#{$pre}right:before {
+  content: "\f138";
+}
+i.#{$pre}icon.#{$pre}chevron.#{$pre}circle.#{$pre}up:before {
+  content: "\f139";
+}
+i.#{$pre}icon.#{$pre}chevron.#{$pre}down:before {
+  content: "\f078";
+}
+i.#{$pre}icon.#{$pre}chevron.#{$pre}left:before {
+  content: "\f053";
+}
+i.#{$pre}icon.#{$pre}chevron.#{$pre}right:before {
+  content: "\f054";
+}
+i.#{$pre}icon.#{$pre}chevron.#{$pre}up:before {
+  content: "\f077";
+}
+i.#{$pre}icon.#{$pre}child:before {
+  content: "\f1ae";
+}
+i.#{$pre}icon.#{$pre}chrome:before {
+  content: "\f268";
+}
+i.#{$pre}icon.#{$pre}circle:before {
+  content: "\f111";
+}
+i.#{$pre}icon.#{$pre}circle.#{$pre}notch:before {
+  content: "\f1ce";
+}
+i.#{$pre}icon.#{$pre}clipboard:before {
+  content: "\f328";
+}
+i.#{$pre}icon.#{$pre}clipboard.#{$pre}check:before {
+  content: "\f46c";
+}
+i.#{$pre}icon.#{$pre}clipboard.#{$pre}list:before {
+  content: "\f46d";
+}
+i.#{$pre}icon.#{$pre}clock:before {
+  content: "\f017";
+}
+i.#{$pre}icon.#{$pre}clone:before {
+  content: "\f24d";
+}
+i.#{$pre}icon.#{$pre}closed.#{$pre}captioning:before {
+  content: "\f20a";
+}
+i.#{$pre}icon.#{$pre}cloud:before {
+  content: "\f0c2";
+}
+i.#{$pre}icon.#{$pre}cloudscale:before {
+  content: "\f383";
+}
+i.#{$pre}icon.#{$pre}cloudsmith:before {
+  content: "\f384";
+}
+i.#{$pre}icon.#{$pre}cloudversify:before {
+  content: "\f385";
+}
+i.#{$pre}icon.#{$pre}code:before {
+  content: "\f121";
+}
+i.#{$pre}icon.#{$pre}code.#{$pre}branch:before {
+  content: "\f126";
+}
+i.#{$pre}icon.#{$pre}codepen:before {
+  content: "\f1cb";
+}
+i.#{$pre}icon.#{$pre}codiepie:before {
+  content: "\f284";
+}
+i.#{$pre}icon.#{$pre}coffee:before {
+  content: "\f0f4";
+}
+i.#{$pre}icon.#{$pre}cog:before {
+  content: "\f013";
+}
+i.#{$pre}icon.#{$pre}cogs:before {
+  content: "\f085";
+}
+i.#{$pre}icon.#{$pre}columns:before {
+  content: "\f0db";
+}
+i.#{$pre}icon.#{$pre}comment:before {
+  content: "\f075";
+}
+i.#{$pre}icon.#{$pre}comment.#{$pre}alternate:before {
+  content: "\f27a";
+}
+i.#{$pre}icon.#{$pre}comments:before {
+  content: "\f086";
+}
+i.#{$pre}icon.#{$pre}compass:before {
+  content: "\f14e";
+}
+i.#{$pre}icon.#{$pre}compress:before {
+  content: "\f066";
+}
+i.#{$pre}icon.#{$pre}connectdevelop:before {
+  content: "\f20e";
+}
+i.#{$pre}icon.#{$pre}contao:before {
+  content: "\f26d";
+}
+i.#{$pre}icon.#{$pre}copy:before {
+  content: "\f0c5";
+}
+i.#{$pre}icon.#{$pre}copyright:before {
+  content: "\f1f9";
+}
+i.#{$pre}icon.#{$pre}cpanel:before {
+  content: "\f388";
+}
+i.#{$pre}icon.#{$pre}creative.#{$pre}commons:before {
+  content: "\f25e";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card:before {
+  content: "\f09d";
+}
+i.#{$pre}icon.#{$pre}crop:before {
+  content: "\f125";
+}
+i.#{$pre}icon.#{$pre}crosshairs:before {
+  content: "\f05b";
+}
+i.#{$pre}icon.#{$pre}css3:before {
+  content: "\f13c";
+}
+i.#{$pre}icon.#{$pre}css3.#{$pre}alternate:before {
+  content: "\f38b";
+}
+i.#{$pre}icon.#{$pre}cube:before {
+  content: "\f1b2";
+}
+i.#{$pre}icon.#{$pre}cubes:before {
+  content: "\f1b3";
+}
+i.#{$pre}icon.#{$pre}cut:before {
+  content: "\f0c4";
+}
+i.#{$pre}icon.#{$pre}cuttlefish:before {
+  content: "\f38c";
+}
+i.#{$pre}icon.#{$pre}d.#{$pre}and.#{$pre}d:before {
+  content: "\f38d";
+}
+i.#{$pre}icon.#{$pre}dashcube:before {
+  content: "\f210";
+}
+i.#{$pre}icon.#{$pre}database:before {
+  content: "\f1c0";
+}
+i.#{$pre}icon.#{$pre}deaf:before {
+  content: "\f2a4";
+}
+i.#{$pre}icon.#{$pre}delicious:before {
+  content: "\f1a5";
+}
+i.#{$pre}icon.#{$pre}deploydog:before {
+  content: "\f38e";
+}
+i.#{$pre}icon.#{$pre}deskpro:before {
+  content: "\f38f";
+}
+i.#{$pre}icon.#{$pre}desktop:before {
+  content: "\f108";
+}
+i.#{$pre}icon.#{$pre}deviantart:before {
+  content: "\f1bd";
+}
+i.#{$pre}icon.#{$pre}digg:before {
+  content: "\f1a6";
+}
+i.#{$pre}icon.#{$pre}digital.#{$pre}ocean:before {
+  content: "\f391";
+}
+i.#{$pre}icon.#{$pre}discord:before {
+  content: "\f392";
+}
+i.#{$pre}icon.#{$pre}discourse:before {
+  content: "\f393";
+}
+i.#{$pre}icon.#{$pre}dna:before {
+  content: "\f471";
+}
+i.#{$pre}icon.#{$pre}dochub:before {
+  content: "\f394";
+}
+i.#{$pre}icon.#{$pre}docker:before {
+  content: "\f395";
+}
+i.#{$pre}icon.#{$pre}dollar.#{$pre}sign:before {
+  content: "\f155";
+}
+i.#{$pre}icon.#{$pre}dolly:before {
+  content: "\f472";
+}
+i.#{$pre}icon.#{$pre}dolly.#{$pre}flatbed:before {
+  content: "\f474";
+}
+i.#{$pre}icon.#{$pre}dot.#{$pre}circle:before {
+  content: "\f192";
+}
+i.#{$pre}icon.#{$pre}download:before {
+  content: "\f019";
+}
+i.#{$pre}icon.#{$pre}draft2digital:before {
+  content: "\f396";
+}
+i.#{$pre}icon.#{$pre}dribbble:before {
+  content: "\f17d";
+}
+i.#{$pre}icon.#{$pre}dribbble.#{$pre}square:before {
+  content: "\f397";
+}
+i.#{$pre}icon.#{$pre}dropbox:before {
+  content: "\f16b";
+}
+i.#{$pre}icon.#{$pre}drupal:before {
+  content: "\f1a9";
+}
+i.#{$pre}icon.#{$pre}dyalog:before {
+  content: "\f399";
+}
+i.#{$pre}icon.#{$pre}earlybirds:before {
+  content: "\f39a";
+}
+i.#{$pre}icon.#{$pre}edge:before {
+  content: "\f282";
+}
+i.#{$pre}icon.#{$pre}edit:before {
+  content: "\f044";
+}
+i.#{$pre}icon.#{$pre}eject:before {
+  content: "\f052";
+}
+i.#{$pre}icon.#{$pre}elementor:before {
+  content: "\f430";
+}
+i.#{$pre}icon.#{$pre}ellipsis.#{$pre}horizontal:before {
+  content: "\f141";
+}
+i.#{$pre}icon.#{$pre}ellipsis.#{$pre}vertical:before {
+  content: "\f142";
+}
+i.#{$pre}icon.#{$pre}ember:before {
+  content: "\f423";
+}
+i.#{$pre}icon.#{$pre}empire:before {
+  content: "\f1d1";
+}
+i.#{$pre}icon.#{$pre}envelope:before {
+  content: "\f0e0";
+}
+i.#{$pre}icon.#{$pre}envelope.#{$pre}open:before {
+  content: "\f2b6";
+}
+i.#{$pre}icon.#{$pre}envelope.#{$pre}square:before {
+  content: "\f199";
+}
+i.#{$pre}icon.#{$pre}envira:before {
+  content: "\f299";
+}
+i.#{$pre}icon.#{$pre}eraser:before {
+  content: "\f12d";
+}
+i.#{$pre}icon.#{$pre}erlang:before {
+  content: "\f39d";
+}
+i.#{$pre}icon.#{$pre}ethereum:before {
+  content: "\f42e";
+}
+i.#{$pre}icon.#{$pre}etsy:before {
+  content: "\f2d7";
+}
+i.#{$pre}icon.#{$pre}euro.#{$pre}sign:before {
+  content: "\f153";
+}
+i.#{$pre}icon.#{$pre}exchange.#{$pre}alternate:before {
+  content: "\f362";
+}
+i.#{$pre}icon.#{$pre}exclamation:before {
+  content: "\f12a";
+}
+i.#{$pre}icon.#{$pre}exclamation.#{$pre}circle:before {
+  content: "\f06a";
+}
+i.#{$pre}icon.#{$pre}exclamation.#{$pre}triangle:before {
+  content: "\f071";
+}
+i.#{$pre}icon.#{$pre}expand:before {
+  content: "\f065";
+}
+i.#{$pre}icon.#{$pre}expand.#{$pre}arrows.#{$pre}alternate:before {
+  content: "\f31e";
+}
+i.#{$pre}icon.#{$pre}expeditedssl:before {
+  content: "\f23e";
+}
+i.#{$pre}icon.#{$pre}external.#{$pre}alternate:before {
+  content: "\f35d";
+}
+i.#{$pre}icon.#{$pre}external.#{$pre}square.#{$pre}alternate:before {
+  content: "\f360";
+}
+i.#{$pre}icon.#{$pre}eye:before {
+  content: "\f06e";
+}
+i.#{$pre}icon.#{$pre}eye.#{$pre}dropper:before {
+  content: "\f1fb";
+}
+i.#{$pre}icon.#{$pre}eye.#{$pre}slash:before {
+  content: "\f070";
+}
+i.#{$pre}icon.#{$pre}facebook:before {
+  content: "\f09a";
+}
+i.#{$pre}icon.#{$pre}facebook.#{$pre}f:before {
+  content: "\f39e";
+}
+i.#{$pre}icon.#{$pre}facebook.#{$pre}messenger:before {
+  content: "\f39f";
+}
+i.#{$pre}icon.#{$pre}facebook.#{$pre}square:before {
+  content: "\f082";
+}
+i.#{$pre}icon.#{$pre}fast.#{$pre}backward:before {
+  content: "\f049";
+}
+i.#{$pre}icon.#{$pre}fast.#{$pre}forward:before {
+  content: "\f050";
+}
+i.#{$pre}icon.#{$pre}fax:before {
+  content: "\f1ac";
+}
+i.#{$pre}icon.#{$pre}female:before {
+  content: "\f182";
+}
+i.#{$pre}icon.#{$pre}fighter.#{$pre}jet:before {
+  content: "\f0fb";
+}
+i.#{$pre}icon.#{$pre}file:before {
+  content: "\f15b";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}alternate:before {
+  content: "\f15c";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}archive:before {
+  content: "\f1c6";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}audio:before {
+  content: "\f1c7";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}code:before {
+  content: "\f1c9";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}excel:before {
+  content: "\f1c3";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}image:before {
+  content: "\f1c5";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}pdf:before {
+  content: "\f1c1";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}powerpoint:before {
+  content: "\f1c4";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}video:before {
+  content: "\f1c8";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}word:before {
+  content: "\f1c2";
+}
+i.#{$pre}icon.#{$pre}film:before {
+  content: "\f008";
+}
+i.#{$pre}icon.#{$pre}filter:before {
+  content: "\f0b0";
+}
+i.#{$pre}icon.#{$pre}fire:before {
+  content: "\f06d";
+}
+i.#{$pre}icon.#{$pre}fire.#{$pre}extinguisher:before {
+  content: "\f134";
+}
+i.#{$pre}icon.#{$pre}firefox:before {
+  content: "\f269";
+}
+i.#{$pre}icon.#{$pre}first.#{$pre}aid:before {
+  content: "\f479";
+}
+i.#{$pre}icon.#{$pre}first.#{$pre}order:before {
+  content: "\f2b0";
+}
+i.#{$pre}icon.#{$pre}firstdraft:before {
+  content: "\f3a1";
+}
+i.#{$pre}icon.#{$pre}flag:before {
+  content: "\f024";
+}
+i.#{$pre}icon.#{$pre}flag.#{$pre}checkered:before {
+  content: "\f11e";
+}
+i.#{$pre}icon.#{$pre}flask:before {
+  content: "\f0c3";
+}
+i.#{$pre}icon.#{$pre}flickr:before {
+  content: "\f16e";
+}
+i.#{$pre}icon.#{$pre}flipboard:before {
+  content: "\f44d";
+}
+i.#{$pre}icon.#{$pre}fly:before {
+  content: "\f417";
+}
+i.#{$pre}icon.#{$pre}folder:before {
+  content: "\f07b";
+}
+i.#{$pre}icon.#{$pre}folder.#{$pre}open:before {
+  content: "\f07c";
+}
+i.#{$pre}icon.#{$pre}font:before {
+  content: "\f031";
+}
+i.#{$pre}icon.#{$pre}font.#{$pre}awesome:before {
+  content: "\f2b4";
+}
+i.#{$pre}icon.#{$pre}font.#{$pre}awesome.#{$pre}alternate:before {
+  content: "\f35c";
+}
+i.#{$pre}icon.#{$pre}font.#{$pre}awesome.#{$pre}flag:before {
+  content: "\f425";
+}
+i.#{$pre}icon.#{$pre}fonticons:before {
+  content: "\f280";
+}
+i.#{$pre}icon.#{$pre}fonticons.#{$pre}fi:before {
+  content: "\f3a2";
+}
+i.#{$pre}icon.#{$pre}football.#{$pre}ball:before {
+  content: "\f44e";
+}
+i.#{$pre}icon.#{$pre}fort.#{$pre}awesome:before {
+  content: "\f286";
+}
+i.#{$pre}icon.#{$pre}fort.#{$pre}awesome.#{$pre}alternate:before {
+  content: "\f3a3";
+}
+i.#{$pre}icon.#{$pre}forumbee:before {
+  content: "\f211";
+}
+i.#{$pre}icon.#{$pre}forward:before {
+  content: "\f04e";
+}
+i.#{$pre}icon.#{$pre}foursquare:before {
+  content: "\f180";
+}
+i.#{$pre}icon.#{$pre}free.#{$pre}code.#{$pre}camp:before {
+  content: "\f2c5";
+}
+i.#{$pre}icon.#{$pre}freebsd:before {
+  content: "\f3a4";
+}
+i.#{$pre}icon.#{$pre}frown:before {
+  content: "\f119";
+}
+i.#{$pre}icon.#{$pre}futbol:before {
+  content: "\f1e3";
+}
+i.#{$pre}icon.#{$pre}gamepad:before {
+  content: "\f11b";
+}
+i.#{$pre}icon.#{$pre}gavel:before {
+  content: "\f0e3";
+}
+i.#{$pre}icon.#{$pre}gem:before {
+  content: "\f3a5";
+}
+i.#{$pre}icon.#{$pre}genderless:before {
+  content: "\f22d";
+}
+i.#{$pre}icon.#{$pre}get.#{$pre}pocket:before {
+  content: "\f265";
+}
+i.#{$pre}icon.#{$pre}gg:before {
+  content: "\f260";
+}
+i.#{$pre}icon.#{$pre}gg.#{$pre}circle:before {
+  content: "\f261";
+}
+i.#{$pre}icon.#{$pre}gift:before {
+  content: "\f06b";
+}
+i.#{$pre}icon.#{$pre}git:before {
+  content: "\f1d3";
+}
+i.#{$pre}icon.#{$pre}git.#{$pre}square:before {
+  content: "\f1d2";
+}
+i.#{$pre}icon.#{$pre}github:before {
+  content: "\f09b";
+}
+i.#{$pre}icon.#{$pre}github.#{$pre}alternate:before {
+  content: "\f113";
+}
+i.#{$pre}icon.#{$pre}github.#{$pre}square:before {
+  content: "\f092";
+}
+i.#{$pre}icon.#{$pre}gitkraken:before {
+  content: "\f3a6";
+}
+i.#{$pre}icon.#{$pre}gitlab:before {
+  content: "\f296";
+}
+i.#{$pre}icon.#{$pre}gitter:before {
+  content: "\f426";
+}
+i.#{$pre}icon.#{$pre}glass.#{$pre}martini:before {
+  content: "\f000";
+}
+i.#{$pre}icon.#{$pre}glide:before {
+  content: "\f2a5";
+}
+i.#{$pre}icon.#{$pre}glide.#{$pre}g:before {
+  content: "\f2a6";
+}
+i.#{$pre}icon.#{$pre}globe:before {
+  content: "\f0ac";
+}
+i.#{$pre}icon.#{$pre}gofore:before {
+  content: "\f3a7";
+}
+i.#{$pre}icon.#{$pre}golf.#{$pre}ball:before {
+  content: "\f450";
+}
+i.#{$pre}icon.#{$pre}goodreads:before {
+  content: "\f3a8";
+}
+i.#{$pre}icon.#{$pre}goodreads.#{$pre}g:before {
+  content: "\f3a9";
+}
+i.#{$pre}icon.#{$pre}google:before {
+  content: "\f1a0";
+}
+i.#{$pre}icon.#{$pre}google.#{$pre}drive:before {
+  content: "\f3aa";
+}
+i.#{$pre}icon.#{$pre}google.#{$pre}play:before {
+  content: "\f3ab";
+}
+i.#{$pre}icon.#{$pre}google.#{$pre}plus:before {
+  content: "\f2b3";
+}
+i.#{$pre}icon.#{$pre}google.#{$pre}plus.#{$pre}g:before {
+  content: "\f0d5";
+}
+i.#{$pre}icon.#{$pre}google.#{$pre}plus.#{$pre}square:before {
+  content: "\f0d4";
+}
+i.#{$pre}icon.#{$pre}google.#{$pre}wallet:before {
+  content: "\f1ee";
+}
+i.#{$pre}icon.#{$pre}graduation.#{$pre}cap:before {
+  content: "\f19d";
+}
+i.#{$pre}icon.#{$pre}gratipay:before {
+  content: "\f184";
+}
+i.#{$pre}icon.#{$pre}grav:before {
+  content: "\f2d6";
+}
+i.#{$pre}icon.#{$pre}gripfire:before {
+  content: "\f3ac";
+}
+i.#{$pre}icon.#{$pre}grunt:before {
+  content: "\f3ad";
+}
+i.#{$pre}icon.#{$pre}gulp:before {
+  content: "\f3ae";
+}
+i.#{$pre}icon.#{$pre}h.#{$pre}square:before {
+  content: "\f0fd";
+}
+i.#{$pre}icon.#{$pre}hacker.#{$pre}news:before {
+  content: "\f1d4";
+}
+i.#{$pre}icon.#{$pre}hacker.#{$pre}news.#{$pre}square:before {
+  content: "\f3af";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}lizard:before {
+  content: "\f258";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}paper:before {
+  content: "\f256";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}peace:before {
+  content: "\f25b";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}point.#{$pre}down:before {
+  content: "\f0a7";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}point.#{$pre}left:before {
+  content: "\f0a5";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}point.#{$pre}right:before {
+  content: "\f0a4";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}point.#{$pre}up:before {
+  content: "\f0a6";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}pointer:before {
+  content: "\f25a";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}rock:before {
+  content: "\f255";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}scissors:before {
+  content: "\f257";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}spock:before {
+  content: "\f259";
+}
+i.#{$pre}icon.#{$pre}handshake:before {
+  content: "\f2b5";
+}
+i.#{$pre}icon.#{$pre}hashtag:before {
+  content: "\f292";
+}
+i.#{$pre}icon.#{$pre}hdd:before {
+  content: "\f0a0";
+}
+i.#{$pre}icon.#{$pre}heading:before {
+  content: "\f1dc";
+}
+i.#{$pre}icon.#{$pre}headphones:before {
+  content: "\f025";
+}
+i.#{$pre}icon.#{$pre}heart:before {
+  content: "\f004";
+}
+i.#{$pre}icon.#{$pre}heartbeat:before {
+  content: "\f21e";
+}
+i.#{$pre}icon.#{$pre}hips:before {
+  content: "\f452";
+}
+i.#{$pre}icon.#{$pre}hire.#{$pre}a.#{$pre}helper:before {
+  content: "\f3b0";
+}
+i.#{$pre}icon.#{$pre}history:before {
+  content: "\f1da";
+}
+i.#{$pre}icon.#{$pre}hockey.#{$pre}puck:before {
+  content: "\f453";
+}
+i.#{$pre}icon.#{$pre}home:before {
+  content: "\f015";
+}
+i.#{$pre}icon.#{$pre}hooli:before {
+  content: "\f427";
+}
+i.#{$pre}icon.#{$pre}hospital:before {
+  content: "\f0f8";
+}
+i.#{$pre}icon.#{$pre}hospital.#{$pre}symbol:before {
+  content: "\f47e";
+}
+i.#{$pre}icon.#{$pre}hotjar:before {
+  content: "\f3b1";
+}
+i.#{$pre}icon.#{$pre}hourglass:before {
+  content: "\f254";
+}
+i.#{$pre}icon.#{$pre}hourglass.#{$pre}end:before {
+  content: "\f253";
+}
+i.#{$pre}icon.#{$pre}hourglass.#{$pre}half:before {
+  content: "\f252";
+}
+i.#{$pre}icon.#{$pre}hourglass.#{$pre}start:before {
+  content: "\f251";
+}
+i.#{$pre}icon.#{$pre}houzz:before {
+  content: "\f27c";
+}
+i.#{$pre}icon.#{$pre}html5:before {
+  content: "\f13b";
+}
+i.#{$pre}icon.#{$pre}hubspot:before {
+  content: "\f3b2";
+}
+i.#{$pre}icon.#{$pre}i.#{$pre}cursor:before {
+  content: "\f246";
+}
+i.#{$pre}icon.#{$pre}id.#{$pre}badge:before {
+  content: "\f2c1";
+}
+i.#{$pre}icon.#{$pre}id.#{$pre}card:before {
+  content: "\f2c2";
+}
+i.#{$pre}icon.#{$pre}image:before {
+  content: "\f03e";
+}
+i.#{$pre}icon.#{$pre}images:before {
+  content: "\f302";
+}
+i.#{$pre}icon.#{$pre}imdb:before {
+  content: "\f2d8";
+}
+i.#{$pre}icon.#{$pre}inbox:before {
+  content: "\f01c";
+}
+i.#{$pre}icon.#{$pre}indent:before {
+  content: "\f03c";
+}
+i.#{$pre}icon.#{$pre}industry:before {
+  content: "\f275";
+}
+i.#{$pre}icon.#{$pre}info:before {
+  content: "\f129";
+}
+i.#{$pre}icon.#{$pre}info.#{$pre}circle:before {
+  content: "\f05a";
+}
+i.#{$pre}icon.#{$pre}instagram:before {
+  content: "\f16d";
+}
+i.#{$pre}icon.#{$pre}internet.#{$pre}explorer:before {
+  content: "\f26b";
+}
+i.#{$pre}icon.#{$pre}ioxhost:before {
+  content: "\f208";
+}
+i.#{$pre}icon.#{$pre}italic:before {
+  content: "\f033";
+}
+i.#{$pre}icon.#{$pre}itunes:before {
+  content: "\f3b4";
+}
+i.#{$pre}icon.#{$pre}itunes.#{$pre}note:before {
+  content: "\f3b5";
+}
+i.#{$pre}icon.#{$pre}jenkins:before {
+  content: "\f3b6";
+}
+i.#{$pre}icon.#{$pre}joget:before {
+  content: "\f3b7";
+}
+i.#{$pre}icon.#{$pre}joomla:before {
+  content: "\f1aa";
+}
+i.#{$pre}icon.#{$pre}js:before {
+  content: "\f3b8";
+}
+i.#{$pre}icon.#{$pre}js.#{$pre}square:before {
+  content: "\f3b9";
+}
+i.#{$pre}icon.#{$pre}jsfiddle:before {
+  content: "\f1cc";
+}
+i.#{$pre}icon.#{$pre}key:before {
+  content: "\f084";
+}
+i.#{$pre}icon.#{$pre}keyboard:before {
+  content: "\f11c";
+}
+i.#{$pre}icon.#{$pre}keycdn:before {
+  content: "\f3ba";
+}
+i.#{$pre}icon.#{$pre}kickstarter:before {
+  content: "\f3bb";
+}
+i.#{$pre}icon.#{$pre}kickstarter.#{$pre}k:before {
+  content: "\f3bc";
+}
+i.#{$pre}icon.#{$pre}korvue:before {
+  content: "\f42f";
+}
+i.#{$pre}icon.#{$pre}language:before {
+  content: "\f1ab";
+}
+i.#{$pre}icon.#{$pre}laptop:before {
+  content: "\f109";
+}
+i.#{$pre}icon.#{$pre}laravel:before {
+  content: "\f3bd";
+}
+i.#{$pre}icon.#{$pre}lastfm:before {
+  content: "\f202";
+}
+i.#{$pre}icon.#{$pre}lastfm.#{$pre}square:before {
+  content: "\f203";
+}
+i.#{$pre}icon.#{$pre}leaf:before {
+  content: "\f06c";
+}
+i.#{$pre}icon.#{$pre}leanpub:before {
+  content: "\f212";
+}
+i.#{$pre}icon.#{$pre}lemon:before {
+  content: "\f094";
+}
+i.#{$pre}icon.#{$pre}less:before {
+  content: "\f41d";
+}
+i.#{$pre}icon.#{$pre}level.#{$pre}down.#{$pre}alternate:before {
+  content: "\f3be";
+}
+i.#{$pre}icon.#{$pre}level.#{$pre}up.#{$pre}alternate:before {
+  content: "\f3bf";
+}
+i.#{$pre}icon.#{$pre}life.#{$pre}ring:before {
+  content: "\f1cd";
+}
+i.#{$pre}icon.#{$pre}lightbulb:before {
+  content: "\f0eb";
+}
+i.#{$pre}icon.#{$pre}linechat:before {
+  content: "\f3c0";
+}
+i.#{$pre}icon.#{$pre}linkify:before {
+  content: "\f0c1";
+}
+i.#{$pre}icon.#{$pre}linkedin:before {
+  content: "\f08c";
+}
+i.#{$pre}icon.#{$pre}linkedin.#{$pre}alt:before {
+  content: "\f0e1";
+}
+i.#{$pre}icon.#{$pre}linode:before {
+  content: "\f2b8";
+}
+i.#{$pre}icon.#{$pre}linux:before {
+  content: "\f17c";
+}
+i.#{$pre}icon.#{$pre}lira.#{$pre}sign:before {
+  content: "\f195";
+}
+i.#{$pre}icon.#{$pre}list:before {
+  content: "\f03a";
+}
+i.#{$pre}icon.#{$pre}list.#{$pre}alternate:before {
+  content: "\f022";
+}
+i.#{$pre}icon.#{$pre}list.#{$pre}ol:before {
+  content: "\f0cb";
+}
+i.#{$pre}icon.#{$pre}list.#{$pre}ul:before {
+  content: "\f0ca";
+}
+i.#{$pre}icon.#{$pre}location.#{$pre}arrow:before {
+  content: "\f124";
+}
+i.#{$pre}icon.#{$pre}lock:before {
+  content: "\f023";
+}
+i.#{$pre}icon.#{$pre}lock.#{$pre}open:before {
+  content: "\f3c1";
+}
+i.#{$pre}icon.#{$pre}long.#{$pre}arrow.#{$pre}alternate.#{$pre}down:before {
+  content: "\f309";
+}
+i.#{$pre}icon.#{$pre}long.#{$pre}arrow.#{$pre}alternate.#{$pre}left:before {
+  content: "\f30a";
+}
+i.#{$pre}icon.#{$pre}long.#{$pre}arrow.#{$pre}alternate.#{$pre}right:before {
+  content: "\f30b";
+}
+i.#{$pre}icon.#{$pre}long.#{$pre}arrow.#{$pre}alternate.#{$pre}up:before {
+  content: "\f30c";
+}
+i.#{$pre}icon.#{$pre}low.#{$pre}vision:before {
+  content: "\f2a8";
+}
+i.#{$pre}icon.#{$pre}lyft:before {
+  content: "\f3c3";
+}
+i.#{$pre}icon.#{$pre}magento:before {
+  content: "\f3c4";
+}
+i.#{$pre}icon.#{$pre}magic:before {
+  content: "\f0d0";
+}
+i.#{$pre}icon.#{$pre}magnet:before {
+  content: "\f076";
+}
+i.#{$pre}icon.#{$pre}male:before {
+  content: "\f183";
+}
+i.#{$pre}icon.#{$pre}map:before {
+  content: "\f279";
+}
+i.#{$pre}icon.#{$pre}map.#{$pre}marker:before {
+  content: "\f041";
+}
+i.#{$pre}icon.#{$pre}map.#{$pre}marker.#{$pre}alternate:before {
+  content: "\f3c5";
+}
+i.#{$pre}icon.#{$pre}map.#{$pre}pin:before {
+  content: "\f276";
+}
+i.#{$pre}icon.#{$pre}map.#{$pre}signs:before {
+  content: "\f277";
+}
+i.#{$pre}icon.#{$pre}mars:before {
+  content: "\f222";
+}
+i.#{$pre}icon.#{$pre}mars.#{$pre}double:before {
+  content: "\f227";
+}
+i.#{$pre}icon.#{$pre}mars.#{$pre}stroke:before {
+  content: "\f229";
+}
+i.#{$pre}icon.#{$pre}mars.#{$pre}stroke.#{$pre}horizontal:before {
+  content: "\f22b";
+}
+i.#{$pre}icon.#{$pre}mars.#{$pre}stroke.#{$pre}vertical:before {
+  content: "\f22a";
+}
+i.#{$pre}icon.#{$pre}maxcdn:before {
+  content: "\f136";
+}
+i.#{$pre}icon.#{$pre}medapps:before {
+  content: "\f3c6";
+}
+i.#{$pre}icon.#{$pre}medium:before {
+  content: "\f23a";
+}
+i.#{$pre}icon.#{$pre}medium.#{$pre}m:before {
+  content: "\f3c7";
+}
+i.#{$pre}icon.#{$pre}medkit:before {
+  content: "\f0fa";
+}
+i.#{$pre}icon.#{$pre}medrt:before {
+  content: "\f3c8";
+}
+i.#{$pre}icon.#{$pre}meetup:before {
+  content: "\f2e0";
+}
+i.#{$pre}icon.#{$pre}meh:before {
+  content: "\f11a";
+}
+i.#{$pre}icon.#{$pre}mercury:before {
+  content: "\f223";
+}
+i.#{$pre}icon.#{$pre}microchip:before {
+  content: "\f2db";
+}
+i.#{$pre}icon.#{$pre}microphone:before {
+  content: "\f130";
+}
+i.#{$pre}icon.#{$pre}microphone.#{$pre}slash:before {
+  content: "\f131";
+}
+i.#{$pre}icon.#{$pre}microsoft:before {
+  content: "\f3ca";
+}
+i.#{$pre}icon.#{$pre}minus:before {
+  content: "\f068";
+}
+i.#{$pre}icon.#{$pre}minus.#{$pre}circle:before {
+  content: "\f056";
+}
+i.#{$pre}icon.#{$pre}minus.#{$pre}square:before {
+  content: "\f146";
+}
+i.#{$pre}icon.#{$pre}mix:before {
+  content: "\f3cb";
+}
+i.#{$pre}icon.#{$pre}mixcloud:before {
+  content: "\f289";
+}
+i.#{$pre}icon.#{$pre}mizuni:before {
+  content: "\f3cc";
+}
+i.#{$pre}icon.#{$pre}mobile:before {
+  content: "\f10b";
+}
+i.#{$pre}icon.#{$pre}mobile.#{$pre}alternate:before {
+  content: "\f3cd";
+}
+i.#{$pre}icon.#{$pre}modx:before {
+  content: "\f285";
+}
+i.#{$pre}icon.#{$pre}monero:before {
+  content: "\f3d0";
+}
+i.#{$pre}icon.#{$pre}money.#{$pre}bill.#{$pre}alternate:before {
+  content: "\f3d1";
+}
+i.#{$pre}icon.#{$pre}moon:before {
+  content: "\f186";
+}
+i.#{$pre}icon.#{$pre}motorcycle:before {
+  content: "\f21c";
+}
+i.#{$pre}icon.#{$pre}mouse.#{$pre}pointer:before {
+  content: "\f245";
+}
+i.#{$pre}icon.#{$pre}music:before {
+  content: "\f001";
+}
+i.#{$pre}icon.#{$pre}napster:before {
+  content: "\f3d2";
+}
+i.#{$pre}icon.#{$pre}neuter:before {
+  content: "\f22c";
+}
+i.#{$pre}icon.#{$pre}newspaper:before {
+  content: "\f1ea";
+}
+i.#{$pre}icon.#{$pre}nintendo.#{$pre}switch:before {
+  content: "\f418";
+}
+i.#{$pre}icon.#{$pre}node:before {
+  content: "\f419";
+}
+i.#{$pre}icon.#{$pre}node.#{$pre}js:before {
+  content: "\f3d3";
+}
+i.#{$pre}icon.#{$pre}npm:before {
+  content: "\f3d4";
+}
+i.#{$pre}icon.#{$pre}ns8:before {
+  content: "\f3d5";
+}
+i.#{$pre}icon.#{$pre}nutritionix:before {
+  content: "\f3d6";
+}
+i.#{$pre}icon.#{$pre}object.#{$pre}group:before {
+  content: "\f247";
+}
+i.#{$pre}icon.#{$pre}object.#{$pre}ungroup:before {
+  content: "\f248";
+}
+i.#{$pre}icon.#{$pre}odnoklassniki:before {
+  content: "\f263";
+}
+i.#{$pre}icon.#{$pre}odnoklassniki.#{$pre}square:before {
+  content: "\f264";
+}
+i.#{$pre}icon.#{$pre}opencart:before {
+  content: "\f23d";
+}
+i.#{$pre}icon.#{$pre}openid:before {
+  content: "\f19b";
+}
+i.#{$pre}icon.#{$pre}opera:before {
+  content: "\f26a";
+}
+i.#{$pre}icon.#{$pre}optin.#{$pre}monster:before {
+  content: "\f23c";
+}
+i.#{$pre}icon.#{$pre}osi:before {
+  content: "\f41a";
+}
+i.#{$pre}icon.#{$pre}outdent:before {
+  content: "\f03b";
+}
+i.#{$pre}icon.#{$pre}page4:before {
+  content: "\f3d7";
+}
+i.#{$pre}icon.#{$pre}pagelines:before {
+  content: "\f18c";
+}
+i.#{$pre}icon.#{$pre}paint.#{$pre}brush:before {
+  content: "\f1fc";
+}
+i.#{$pre}icon.#{$pre}palfed:before {
+  content: "\f3d8";
+}
+i.#{$pre}icon.#{$pre}pallet:before {
+  content: "\f482";
+}
+i.#{$pre}icon.#{$pre}paper.#{$pre}plane:before {
+  content: "\f1d8";
+}
+i.#{$pre}icon.#{$pre}paperclip:before {
+  content: "\f0c6";
+}
+i.#{$pre}icon.#{$pre}paragraph:before {
+  content: "\f1dd";
+}
+i.#{$pre}icon.#{$pre}paste:before {
+  content: "\f0ea";
+}
+i.#{$pre}icon.#{$pre}patreon:before {
+  content: "\f3d9";
+}
+i.#{$pre}icon.#{$pre}pause:before {
+  content: "\f04c";
+}
+i.#{$pre}icon.#{$pre}pause.#{$pre}circle:before {
+  content: "\f28b";
+}
+i.#{$pre}icon.#{$pre}paw:before {
+  content: "\f1b0";
+}
+i.#{$pre}icon.#{$pre}paypal:before {
+  content: "\f1ed";
+}
+i.#{$pre}icon.#{$pre}pen.#{$pre}square:before {
+  content: "\f14b";
+}
+i.#{$pre}icon.#{$pre}pencil.#{$pre}alternate:before {
+  content: "\f303";
+}
+i.#{$pre}icon.#{$pre}percent:before {
+  content: "\f295";
+}
+i.#{$pre}icon.#{$pre}periscope:before {
+  content: "\f3da";
+}
+i.#{$pre}icon.#{$pre}phabricator:before {
+  content: "\f3db";
+}
+i.#{$pre}icon.#{$pre}phoenix.#{$pre}framework:before {
+  content: "\f3dc";
+}
+i.#{$pre}icon.#{$pre}phone:before {
+  content: "\f095";
+}
+i.#{$pre}icon.#{$pre}phone.#{$pre}square:before {
+  content: "\f098";
+}
+i.#{$pre}icon.#{$pre}phone.#{$pre}volume:before {
+  content: "\f2a0";
+}
+i.#{$pre}icon.#{$pre}php:before {
+  content: "\f457";
+}
+i.#{$pre}icon.#{$pre}pied.#{$pre}piper:before {
+  content: "\f2ae";
+}
+i.#{$pre}icon.#{$pre}pied.#{$pre}piper.#{$pre}alternate:before {
+  content: "\f1a8";
+}
+i.#{$pre}icon.#{$pre}pied.#{$pre}piper.#{$pre}pp:before {
+  content: "\f1a7";
+}
+i.#{$pre}icon.#{$pre}pills:before {
+  content: "\f484";
+}
+i.#{$pre}icon.#{$pre}pinterest:before {
+  content: "\f0d2";
+}
+i.#{$pre}icon.#{$pre}pinterest.#{$pre}p:before {
+  content: "\f231";
+}
+i.#{$pre}icon.#{$pre}pinterest.#{$pre}square:before {
+  content: "\f0d3";
+}
+i.#{$pre}icon.#{$pre}plane:before {
+  content: "\f072";
+}
+i.#{$pre}icon.#{$pre}play:before {
+  content: "\f04b";
+}
+i.#{$pre}icon.#{$pre}play.#{$pre}circle:before {
+  content: "\f144";
+}
+i.#{$pre}icon.#{$pre}playstation:before {
+  content: "\f3df";
+}
+i.#{$pre}icon.#{$pre}plug:before {
+  content: "\f1e6";
+}
+i.#{$pre}icon.#{$pre}plus:before {
+  content: "\f067";
+}
+i.#{$pre}icon.#{$pre}plus.#{$pre}circle:before {
+  content: "\f055";
+}
+i.#{$pre}icon.#{$pre}plus.#{$pre}square:before {
+  content: "\f0fe";
+}
+i.#{$pre}icon.#{$pre}podcast:before {
+  content: "\f2ce";
+}
+i.#{$pre}icon.#{$pre}pound.#{$pre}sign:before {
+  content: "\f154";
+}
+i.#{$pre}icon.#{$pre}power.#{$pre}off:before {
+  content: "\f011";
+}
+i.#{$pre}icon.#{$pre}print:before {
+  content: "\f02f";
+}
+i.#{$pre}icon.#{$pre}product.#{$pre}hunt:before {
+  content: "\f288";
+}
+i.#{$pre}icon.#{$pre}pushed:before {
+  content: "\f3e1";
+}
+i.#{$pre}icon.#{$pre}puzzle.#{$pre}piece:before {
+  content: "\f12e";
+}
+i.#{$pre}icon.#{$pre}python:before {
+  content: "\f3e2";
+}
+i.#{$pre}icon.#{$pre}qq:before {
+  content: "\f1d6";
+}
+i.#{$pre}icon.#{$pre}qrcode:before {
+  content: "\f029";
+}
+i.#{$pre}icon.#{$pre}question:before {
+  content: "\f128";
+}
+i.#{$pre}icon.#{$pre}question.#{$pre}circle:before {
+  content: "\f059";
+}
+i.#{$pre}icon.#{$pre}quidditch:before {
+  content: "\f458";
+}
+i.#{$pre}icon.#{$pre}quinscape:before {
+  content: "\f459";
+}
+i.#{$pre}icon.#{$pre}quora:before {
+  content: "\f2c4";
+}
+i.#{$pre}icon.#{$pre}quote.#{$pre}left:before {
+  content: "\f10d";
+}
+i.#{$pre}icon.#{$pre}quote.#{$pre}right:before {
+  content: "\f10e";
+}
+i.#{$pre}icon.#{$pre}random:before {
+  content: "\f074";
+}
+i.#{$pre}icon.#{$pre}ravelry:before {
+  content: "\f2d9";
+}
+i.#{$pre}icon.#{$pre}react:before {
+  content: "\f41b";
+}
+i.#{$pre}icon.#{$pre}rebel:before {
+  content: "\f1d0";
+}
+i.#{$pre}icon.#{$pre}recycle:before {
+  content: "\f1b8";
+}
+i.#{$pre}icon.#{$pre}redriver:before {
+  content: "\f3e3";
+}
+i.#{$pre}icon.#{$pre}reddit:before {
+  content: "\f1a1";
+}
+i.#{$pre}icon.#{$pre}reddit.#{$pre}alien:before {
+  content: "\f281";
+}
+i.#{$pre}icon.#{$pre}reddit.#{$pre}square:before {
+  content: "\f1a2";
+}
+i.#{$pre}icon.#{$pre}redo:before {
+  content: "\f01e";
+}
+i.#{$pre}icon.#{$pre}redo.#{$pre}alternate:before {
+  content: "\f2f9";
+}
+i.#{$pre}icon.#{$pre}registered:before {
+  content: "\f25d";
+}
+i.#{$pre}icon.#{$pre}rendact:before {
+  content: "\f3e4";
+}
+i.#{$pre}icon.#{$pre}renren:before {
+  content: "\f18b";
+}
+i.#{$pre}icon.#{$pre}reply:before {
+  content: "\f3e5";
+}
+i.#{$pre}icon.#{$pre}reply.#{$pre}all:before {
+  content: "\f122";
+}
+i.#{$pre}icon.#{$pre}replyd:before {
+  content: "\f3e6";
+}
+i.#{$pre}icon.#{$pre}resolving:before {
+  content: "\f3e7";
+}
+i.#{$pre}icon.#{$pre}retweet:before {
+  content: "\f079";
+}
+i.#{$pre}icon.#{$pre}road:before {
+  content: "\f018";
+}
+i.#{$pre}icon.#{$pre}rocket:before {
+  content: "\f135";
+}
+i.#{$pre}icon.#{$pre}rocketchat:before {
+  content: "\f3e8";
+}
+i.#{$pre}icon.#{$pre}rockrms:before {
+  content: "\f3e9";
+}
+i.#{$pre}icon.#{$pre}rss:before {
+  content: "\f09e";
+}
+i.#{$pre}icon.#{$pre}rss.#{$pre}square:before {
+  content: "\f143";
+}
+i.#{$pre}icon.#{$pre}ruble.#{$pre}sign:before {
+  content: "\f158";
+}
+i.#{$pre}icon.#{$pre}rupee.#{$pre}sign:before {
+  content: "\f156";
+}
+i.#{$pre}icon.#{$pre}safari:before {
+  content: "\f267";
+}
+i.#{$pre}icon.#{$pre}sass:before {
+  content: "\f41e";
+}
+i.#{$pre}icon.#{$pre}save:before {
+  content: "\f0c7";
+}
+i.#{$pre}icon.#{$pre}schlix:before {
+  content: "\f3ea";
+}
+i.#{$pre}icon.#{$pre}scribd:before {
+  content: "\f28a";
+}
+i.#{$pre}icon.#{$pre}search:before {
+  content: "\f002";
+}
+i.#{$pre}icon.#{$pre}search.#{$pre}minus:before {
+  content: "\f010";
+}
+i.#{$pre}icon.#{$pre}search.#{$pre}plus:before {
+  content: "\f00e";
+}
+i.#{$pre}icon.#{$pre}searchengin:before {
+  content: "\f3eb";
+}
+i.#{$pre}icon.#{$pre}sellcast:before {
+  content: "\f2da";
+}
+i.#{$pre}icon.#{$pre}sellsy:before {
+  content: "\f213";
+}
+i.#{$pre}icon.#{$pre}server:before {
+  content: "\f233";
+}
+i.#{$pre}icon.#{$pre}servicestack:before {
+  content: "\f3ec";
+}
+i.#{$pre}icon.#{$pre}share:before {
+  content: "\f064";
+}
+i.#{$pre}icon.#{$pre}share.#{$pre}alternate:before {
+  content: "\f1e0";
+}
+i.#{$pre}icon.#{$pre}share.#{$pre}alternate.#{$pre}square:before {
+  content: "\f1e1";
+}
+i.#{$pre}icon.#{$pre}share.#{$pre}square:before {
+  content: "\f14d";
+}
+i.#{$pre}icon.#{$pre}shekel.#{$pre}sign:before {
+  content: "\f20b";
+}
+i.#{$pre}icon.#{$pre}shield.#{$pre}alternate:before {
+  content: "\f3ed";
+}
+i.#{$pre}icon.#{$pre}ship:before {
+  content: "\f21a";
+}
+i.#{$pre}icon.#{$pre}shipping.#{$pre}fast:before {
+  content: "\f48b";
+}
+i.#{$pre}icon.#{$pre}shirtsinbulk:before {
+  content: "\f214";
+}
+i.#{$pre}icon.#{$pre}shopping.#{$pre}bag:before {
+  content: "\f290";
+}
+i.#{$pre}icon.#{$pre}shopping.#{$pre}basket:before {
+  content: "\f291";
+}
+i.#{$pre}icon.#{$pre}shopping.#{$pre}cart:before {
+  content: "\f07a";
+}
+i.#{$pre}icon.#{$pre}shower:before {
+  content: "\f2cc";
+}
+i.#{$pre}icon.#{$pre}sign.#{$pre}language:before {
+  content: "\f2a7";
+}
+i.#{$pre}icon.#{$pre}signal:before {
+  content: "\f012";
+}
+i.#{$pre}icon.#{$pre}simplybuilt:before {
+  content: "\f215";
+}
+i.#{$pre}icon.#{$pre}sistrix:before {
+  content: "\f3ee";
+}
+i.#{$pre}icon.#{$pre}sitemap:before {
+  content: "\f0e8";
+}
+i.#{$pre}icon.#{$pre}skyatlas:before {
+  content: "\f216";
+}
+i.#{$pre}icon.#{$pre}skype:before {
+  content: "\f17e";
+}
+i.#{$pre}icon.#{$pre}slack:before {
+  content: "\f198";
+}
+i.#{$pre}icon.#{$pre}slack.#{$pre}hash:before {
+  content: "\f3ef";
+}
+i.#{$pre}icon.#{$pre}sliders.#{$pre}horizontal:before {
+  content: "\f1de";
+}
+i.#{$pre}icon.#{$pre}slideshare:before {
+  content: "\f1e7";
+}
+i.#{$pre}icon.#{$pre}smile:before {
+  content: "\f118";
+}
+i.#{$pre}icon.#{$pre}snapchat:before {
+  content: "\f2ab";
+}
+i.#{$pre}icon.#{$pre}snapchat.#{$pre}ghost:before {
+  content: "\f2ac";
+}
+i.#{$pre}icon.#{$pre}snapchat.#{$pre}square:before {
+  content: "\f2ad";
+}
+i.#{$pre}icon.#{$pre}snowflake:before {
+  content: "\f2dc";
+}
+i.#{$pre}icon.#{$pre}sort:before {
+  content: "\f0dc";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}alphabet.#{$pre}down:before {
+  content: "\f15d";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}alphabet.#{$pre}up:before {
+  content: "\f15e";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}amount.#{$pre}down:before {
+  content: "\f160";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}amount.#{$pre}up:before {
+  content: "\f161";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}down:before {
+  content: "\f0dd";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}numeric.#{$pre}down:before {
+  content: "\f162";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}numeric.#{$pre}up:before {
+  content: "\f163";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}up:before {
+  content: "\f0de";
+}
+i.#{$pre}icon.#{$pre}soundcloud:before {
+  content: "\f1be";
+}
+i.#{$pre}icon.#{$pre}space.#{$pre}shuttle:before {
+  content: "\f197";
+}
+i.#{$pre}icon.#{$pre}speakap:before {
+  content: "\f3f3";
+}
+i.#{$pre}icon.#{$pre}spinner:before {
+  content: "\f110";
+}
+i.#{$pre}icon.#{$pre}spotify:before {
+  content: "\f1bc";
+}
+i.#{$pre}icon.#{$pre}square:before {
+  content: "\f0c8";
+}
+i.#{$pre}icon.#{$pre}square.#{$pre}full:before {
+  content: "\f45c";
+}
+i.#{$pre}icon.#{$pre}stack.#{$pre}exchange:before {
+  content: "\f18d";
+}
+i.#{$pre}icon.#{$pre}stack.#{$pre}overflow:before {
+  content: "\f16c";
+}
+i.#{$pre}icon.#{$pre}star:before {
+  content: "\f005";
+}
+i.#{$pre}icon.#{$pre}star.#{$pre}half:before {
+  content: "\f089";
+}
+i.#{$pre}icon.#{$pre}staylinked:before {
+  content: "\f3f5";
+}
+i.#{$pre}icon.#{$pre}steam:before {
+  content: "\f1b6";
+}
+i.#{$pre}icon.#{$pre}steam.#{$pre}square:before {
+  content: "\f1b7";
+}
+i.#{$pre}icon.#{$pre}steam.#{$pre}symbol:before {
+  content: "\f3f6";
+}
+i.#{$pre}icon.#{$pre}step.#{$pre}backward:before {
+  content: "\f048";
+}
+i.#{$pre}icon.#{$pre}step.#{$pre}forward:before {
+  content: "\f051";
+}
+i.#{$pre}icon.#{$pre}stethoscope:before {
+  content: "\f0f1";
+}
+i.#{$pre}icon.#{$pre}sticker.#{$pre}mule:before {
+  content: "\f3f7";
+}
+i.#{$pre}icon.#{$pre}sticky.#{$pre}note:before {
+  content: "\f249";
+}
+i.#{$pre}icon.#{$pre}stop:before {
+  content: "\f04d";
+}
+i.#{$pre}icon.#{$pre}stop.#{$pre}circle:before {
+  content: "\f28d";
+}
+i.#{$pre}icon.#{$pre}stopwatch:before {
+  content: "\f2f2";
+}
+i.#{$pre}icon.#{$pre}strava:before {
+  content: "\f428";
+}
+i.#{$pre}icon.#{$pre}street.#{$pre}view:before {
+  content: "\f21d";
+}
+i.#{$pre}icon.#{$pre}strikethrough:before {
+  content: "\f0cc";
+}
+i.#{$pre}icon.#{$pre}stripe:before {
+  content: "\f429";
+}
+i.#{$pre}icon.#{$pre}stripe.#{$pre}s:before {
+  content: "\f42a";
+}
+i.#{$pre}icon.#{$pre}studiovinari:before {
+  content: "\f3f8";
+}
+i.#{$pre}icon.#{$pre}stumbleupon:before {
+  content: "\f1a4";
+}
+i.#{$pre}icon.#{$pre}stumbleupon.#{$pre}circle:before {
+  content: "\f1a3";
+}
+i.#{$pre}icon.#{$pre}subscript:before {
+  content: "\f12c";
+}
+i.#{$pre}icon.#{$pre}subway:before {
+  content: "\f239";
+}
+i.#{$pre}icon.#{$pre}suitcase:before {
+  content: "\f0f2";
+}
+i.#{$pre}icon.#{$pre}sun:before {
+  content: "\f185";
+}
+i.#{$pre}icon.#{$pre}superpowers:before {
+  content: "\f2dd";
+}
+i.#{$pre}icon.#{$pre}superscript:before {
+  content: "\f12b";
+}
+i.#{$pre}icon.#{$pre}supple:before {
+  content: "\f3f9";
+}
+i.#{$pre}icon.#{$pre}sync:before {
+  content: "\f021";
+}
+i.#{$pre}icon.#{$pre}sync.#{$pre}alternate:before {
+  content: "\f2f1";
+}
+i.#{$pre}icon.#{$pre}syringe:before {
+  content: "\f48e";
+}
+i.#{$pre}icon.#{$pre}table:before {
+  content: "\f0ce";
+}
+i.#{$pre}icon.#{$pre}table.#{$pre}tennis:before {
+  content: "\f45d";
+}
+i.#{$pre}icon.#{$pre}tablet:before {
+  content: "\f10a";
+}
+i.#{$pre}icon.#{$pre}tablet.#{$pre}alternate:before {
+  content: "\f3fa";
+}
+i.#{$pre}icon.#{$pre}tachometer.#{$pre}alternate:before {
+  content: "\f3fd";
+}
+i.#{$pre}icon.#{$pre}tag:before {
+  content: "\f02b";
+}
+i.#{$pre}icon.#{$pre}tags:before {
+  content: "\f02c";
+}
+i.#{$pre}icon.#{$pre}tasks:before {
+  content: "\f0ae";
+}
+i.#{$pre}icon.#{$pre}taxi:before {
+  content: "\f1ba";
+}
+i.#{$pre}icon.#{$pre}telegram:before {
+  content: "\f2c6";
+}
+i.#{$pre}icon.#{$pre}telegram.#{$pre}plane:before {
+  content: "\f3fe";
+}
+i.#{$pre}icon.#{$pre}tencent.#{$pre}weibo:before {
+  content: "\f1d5";
+}
+i.#{$pre}icon.#{$pre}terminal:before {
+  content: "\f120";
+}
+i.#{$pre}icon.#{$pre}text.#{$pre}height:before {
+  content: "\f034";
+}
+i.#{$pre}icon.#{$pre}text.#{$pre}width:before {
+  content: "\f035";
+}
+i.#{$pre}icon.#{$pre}th:before {
+  content: "\f00a";
+}
+i.#{$pre}icon.#{$pre}th.#{$pre}large:before {
+  content: "\f009";
+}
+i.#{$pre}icon.#{$pre}th.#{$pre}list:before {
+  content: "\f00b";
+}
+i.#{$pre}icon.#{$pre}themeisle:before {
+  content: "\f2b2";
+}
+i.#{$pre}icon.#{$pre}thermometer:before {
+  content: "\f491";
+}
+i.#{$pre}icon.#{$pre}thermometer.#{$pre}empty:before {
+  content: "\f2cb";
+}
+i.#{$pre}icon.#{$pre}thermometer.#{$pre}full:before {
+  content: "\f2c7";
+}
+i.#{$pre}icon.#{$pre}thermometer.#{$pre}half:before {
+  content: "\f2c9";
+}
+i.#{$pre}icon.#{$pre}thermometer.#{$pre}quarter:before {
+  content: "\f2ca";
+}
+i.#{$pre}icon.#{$pre}thermometer.#{$pre}three.#{$pre}quarters:before {
+  content: "\f2c8";
+}
+i.#{$pre}icon.#{$pre}thumbs.#{$pre}down:before {
+  content: "\f165";
+}
+i.#{$pre}icon.#{$pre}thumbs.#{$pre}up:before {
+  content: "\f164";
+}
+i.#{$pre}icon.#{$pre}thumbtack:before {
+  content: "\f08d";
+}
+i.#{$pre}icon.#{$pre}ticket.#{$pre}alternate:before {
+  content: "\f3ff";
+}
+i.#{$pre}icon.#{$pre}times:before {
+  content: "\f00d";
+}
+i.#{$pre}icon.#{$pre}times.#{$pre}circle:before {
+  content: "\f057";
+}
+i.#{$pre}icon.#{$pre}tint:before {
+  content: "\f043";
+}
+i.#{$pre}icon.#{$pre}toggle.#{$pre}off:before {
+  content: "\f204";
+}
+i.#{$pre}icon.#{$pre}toggle.#{$pre}on:before {
+  content: "\f205";
+}
+i.#{$pre}icon.#{$pre}trademark:before {
+  content: "\f25c";
+}
+i.#{$pre}icon.#{$pre}train:before {
+  content: "\f238";
+}
+i.#{$pre}icon.#{$pre}transgender:before {
+  content: "\f224";
+}
+i.#{$pre}icon.#{$pre}transgender.#{$pre}alternate:before {
+  content: "\f225";
+}
+i.#{$pre}icon.#{$pre}trash:before {
+  content: "\f1f8";
+}
+i.#{$pre}icon.#{$pre}trash.#{$pre}alternate:before {
+  content: "\f2ed";
+}
+i.#{$pre}icon.#{$pre}tree:before {
+  content: "\f1bb";
+}
+i.#{$pre}icon.#{$pre}trello:before {
+  content: "\f181";
+}
+i.#{$pre}icon.#{$pre}tripadvisor:before {
+  content: "\f262";
+}
+i.#{$pre}icon.#{$pre}trophy:before {
+  content: "\f091";
+}
+i.#{$pre}icon.#{$pre}truck:before {
+  content: "\f0d1";
+}
+i.#{$pre}icon.#{$pre}tty:before {
+  content: "\f1e4";
+}
+i.#{$pre}icon.#{$pre}tumblr:before {
+  content: "\f173";
+}
+i.#{$pre}icon.#{$pre}tumblr.#{$pre}square:before {
+  content: "\f174";
+}
+i.#{$pre}icon.#{$pre}tv:before {
+  content: "\f26c";
+}
+i.#{$pre}icon.#{$pre}twitch:before {
+  content: "\f1e8";
+}
+i.#{$pre}icon.#{$pre}twitter:before {
+  content: "\f099";
+}
+i.#{$pre}icon.#{$pre}twitter.#{$pre}square:before {
+  content: "\f081";
+}
+i.#{$pre}icon.#{$pre}typo3:before {
+  content: "\f42b";
+}
+i.#{$pre}icon.#{$pre}uber:before {
+  content: "\f402";
+}
+i.#{$pre}icon.#{$pre}uikit:before {
+  content: "\f403";
+}
+i.#{$pre}icon.#{$pre}umbrella:before {
+  content: "\f0e9";
+}
+i.#{$pre}icon.#{$pre}underline:before {
+  content: "\f0cd";
+}
+i.#{$pre}icon.#{$pre}undo:before {
+  content: "\f0e2";
+}
+i.#{$pre}icon.#{$pre}undo.#{$pre}alternate:before {
+  content: "\f2ea";
+}
+i.#{$pre}icon.#{$pre}uniregistry:before {
+  content: "\f404";
+}
+i.#{$pre}icon.#{$pre}universal.#{$pre}access:before {
+  content: "\f29a";
+}
+i.#{$pre}icon.#{$pre}university:before {
+  content: "\f19c";
+}
+i.#{$pre}icon.#{$pre}unlink:before {
+  content: "\f127";
+}
+i.#{$pre}icon.#{$pre}unlock:before {
+  content: "\f09c";
+}
+i.#{$pre}icon.#{$pre}unlock.#{$pre}alternate:before {
+  content: "\f13e";
+}
+i.#{$pre}icon.#{$pre}untappd:before {
+  content: "\f405";
+}
+i.#{$pre}icon.#{$pre}upload:before {
+  content: "\f093";
+}
+i.#{$pre}icon.#{$pre}usb:before {
+  content: "\f287";
+}
+i.#{$pre}icon.#{$pre}user:before {
+  content: "\f007";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}circle:before {
+  content: "\f2bd";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}md:before {
+  content: "\f0f0";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}plus:before {
+  content: "\f234";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}secret:before {
+  content: "\f21b";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}times:before {
+  content: "\f235";
+}
+i.#{$pre}icon.#{$pre}users:before {
+  content: "\f0c0";
+}
+i.#{$pre}icon.#{$pre}ussunnah:before {
+  content: "\f407";
+}
+i.#{$pre}icon.#{$pre}utensil.#{$pre}spoon:before {
+  content: "\f2e5";
+}
+i.#{$pre}icon.#{$pre}utensils:before {
+  content: "\f2e7";
+}
+i.#{$pre}icon.#{$pre}vaadin:before {
+  content: "\f408";
+}
+i.#{$pre}icon.#{$pre}venus:before {
+  content: "\f221";
+}
+i.#{$pre}icon.#{$pre}venus.#{$pre}double:before {
+  content: "\f226";
+}
+i.#{$pre}icon.#{$pre}venus.#{$pre}mars:before {
+  content: "\f228";
+}
+i.#{$pre}icon.#{$pre}viacoin:before {
+  content: "\f237";
+}
+i.#{$pre}icon.#{$pre}viadeo:before {
+  content: "\f2a9";
+}
+i.#{$pre}icon.#{$pre}viadeo.#{$pre}square:before {
+  content: "\f2aa";
+}
+i.#{$pre}icon.#{$pre}viber:before {
+  content: "\f409";
+}
+i.#{$pre}icon.#{$pre}video:before {
+  content: "\f03d";
+}
+i.#{$pre}icon.#{$pre}vimeo:before {
+  content: "\f40a";
+}
+i.#{$pre}icon.#{$pre}vimeo.#{$pre}square:before {
+  content: "\f194";
+}
+i.#{$pre}icon.#{$pre}vimeo.#{$pre}v:before {
+  content: "\f27d";
+}
+i.#{$pre}icon.#{$pre}vine:before {
+  content: "\f1ca";
+}
+i.#{$pre}icon.#{$pre}vk:before {
+  content: "\f189";
+}
+i.#{$pre}icon.#{$pre}vnv:before {
+  content: "\f40b";
+}
+i.#{$pre}icon.#{$pre}volleyball.#{$pre}ball:before {
+  content: "\f45f";
+}
+i.#{$pre}icon.#{$pre}volume.#{$pre}down:before {
+  content: "\f027";
+}
+i.#{$pre}icon.#{$pre}volume.#{$pre}off:before {
+  content: "\f026";
+}
+i.#{$pre}icon.#{$pre}volume.#{$pre}up:before {
+  content: "\f028";
+}
+i.#{$pre}icon.#{$pre}vuejs:before {
+  content: "\f41f";
+}
+i.#{$pre}icon.#{$pre}warehouse:before {
+  content: "\f494";
+}
+i.#{$pre}icon.#{$pre}weibo:before {
+  content: "\f18a";
+}
+i.#{$pre}icon.#{$pre}weight:before {
+  content: "\f496";
+}
+i.#{$pre}icon.#{$pre}weixin:before {
+  content: "\f1d7";
+}
+i.#{$pre}icon.#{$pre}whatsapp:before {
+  content: "\f232";
+}
+i.#{$pre}icon.#{$pre}whatsapp.#{$pre}square:before {
+  content: "\f40c";
+}
+i.#{$pre}icon.#{$pre}wheelchair:before {
+  content: "\f193";
+}
+i.#{$pre}icon.#{$pre}whmcs:before {
+  content: "\f40d";
+}
+i.#{$pre}icon.#{$pre}wifi:before {
+  content: "\f1eb";
+}
+i.#{$pre}icon.#{$pre}wikipedia.#{$pre}w:before {
+  content: "\f266";
+}
+i.#{$pre}icon.#{$pre}window.#{$pre}close:before {
+  content: "\f410";
+}
+i.#{$pre}icon.#{$pre}window.#{$pre}maximize:before {
+  content: "\f2d0";
+}
+i.#{$pre}icon.#{$pre}window.#{$pre}minimize:before {
+  content: "\f2d1";
+}
+i.#{$pre}icon.#{$pre}window.#{$pre}restore:before {
+  content: "\f2d2";
+}
+i.#{$pre}icon.#{$pre}windows:before {
+  content: "\f17a";
+}
+i.#{$pre}icon.#{$pre}won.#{$pre}sign:before {
+  content: "\f159";
+}
+i.#{$pre}icon.#{$pre}wordpress:before {
+  content: "\f19a";
+}
+i.#{$pre}icon.#{$pre}wordpress.#{$pre}simple:before {
+  content: "\f411";
+}
+i.#{$pre}icon.#{$pre}wpbeginner:before {
+  content: "\f297";
+}
+i.#{$pre}icon.#{$pre}wpexplorer:before {
+  content: "\f2de";
+}
+i.#{$pre}icon.#{$pre}wpforms:before {
+  content: "\f298";
+}
+i.#{$pre}icon.#{$pre}wrench:before {
+  content: "\f0ad";
+}
+i.#{$pre}icon.#{$pre}xbox:before {
+  content: "\f412";
+}
+i.#{$pre}icon.#{$pre}xing:before {
+  content: "\f168";
+}
+i.#{$pre}icon.#{$pre}xing.#{$pre}square:before {
+  content: "\f169";
+}
+i.#{$pre}icon.#{$pre}y.#{$pre}combinator:before {
+  content: "\f23b";
+}
+i.#{$pre}icon.#{$pre}yahoo:before {
+  content: "\f19e";
+}
+i.#{$pre}icon.#{$pre}yandex:before {
+  content: "\f413";
+}
+i.#{$pre}icon.#{$pre}yandex.#{$pre}international:before {
+  content: "\f414";
+}
+i.#{$pre}icon.#{$pre}yelp:before {
+  content: "\f1e9";
+}
+i.#{$pre}icon.#{$pre}yen.#{$pre}sign:before {
+  content: "\f157";
+}
+i.#{$pre}icon.#{$pre}yoast:before {
+  content: "\f2b1";
+}
+i.#{$pre}icon.#{$pre}youtube:before {
+  content: "\f167";
+}
+i.#{$pre}icon.#{$pre}youtube.#{$pre}square:before {
+  content: "\f431";
+}
+
+/* Aliases */
+i.#{$pre}icon.#{$pre}chess.#{$pre}rock:before {
+  content: "\f447";
+}
+i.#{$pre}icon.#{$pre}ordered.#{$pre}list:before {
+  content: "\f0cb";
+}
+i.#{$pre}icon.#{$pre}unordered.#{$pre}list:before {
+  content: "\f0ca";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}doctor:before {
+  content: "\f0f0";
+}
+i.#{$pre}icon.#{$pre}shield:before {
+  content: "\f3ed";
+}
+i.#{$pre}icon.#{$pre}puzzle:before {
+  content: "\f12e";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card.#{$pre}amazon.#{$pre}pay:before {
+  content: "\f42d";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card.#{$pre}american.#{$pre}express:before {
+  content: "\f1f3";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card.#{$pre}diners.#{$pre}club:before {
+  content: "\f24c";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card.#{$pre}discover:before {
+  content: "\f1f2";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card.#{$pre}jcb:before {
+  content: "\f24b";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card.#{$pre}mastercard:before {
+  content: "\f1f1";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card.#{$pre}paypal:before {
+  content: "\f1f4";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card.#{$pre}stripe:before {
+  content: "\f1f5";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card.#{$pre}visa:before {
+  content: "\f1f0";
+}
+i.#{$pre}icon.#{$pre}add.#{$pre}circle:before {
+  content: "\f055";
+}
+i.#{$pre}icon.#{$pre}add.#{$pre}square:before {
+  content: "\f0fe";
+}
+i.#{$pre}icon.#{$pre}add.#{$pre}to.#{$pre}calendar:before {
+  content: "\f271";
+}
+i.#{$pre}icon.#{$pre}add.#{$pre}to.#{$pre}cart:before {
+  content: "\f217";
+}
+i.#{$pre}icon.#{$pre}add.#{$pre}user:before {
+  content: "\f234";
+}
+i.#{$pre}icon.#{$pre}add:before {
+  content: "\f067";
+}
+i.#{$pre}icon.#{$pre}alarm.#{$pre}mute:before {
+  content: "\f1f6";
+}
+i.#{$pre}icon.#{$pre}alarm:before {
+  content: "\f0f3";
+}
+i.#{$pre}icon.#{$pre}ald:before {
+  content: "\f2a2";
+}
+i.#{$pre}icon.#{$pre}als:before {
+  content: "\f2a2";
+}
+i.#{$pre}icon.#{$pre}american.#{$pre}express.#{$pre}card:before {
+  content: "\f1f3";
+}
+i.#{$pre}icon.#{$pre}american.#{$pre}express:before {
+  content: "\f1f3";
+}
+i.#{$pre}icon.#{$pre}amex:before {
+  content: "\f1f3";
+}
+i.#{$pre}icon.#{$pre}announcement:before {
+  content: "\f0a1";
+}
+i.#{$pre}icon.#{$pre}area.#{$pre}chart:before {
+  content: "\f1fe";
+}
+i.#{$pre}icon.#{$pre}area.#{$pre}graph:before {
+  content: "\f1fe";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}down.#{$pre}cart:before {
+  content: "\f218";
+}
+i.#{$pre}icon.#{$pre}asexual:before {
+  content: "\f22d";
+}
+i.#{$pre}icon.#{$pre}asl.#{$pre}interpreting:before {
+  content: "\f2a3";
+}
+i.#{$pre}icon.#{$pre}asl:before {
+  content: "\f2a3";
+}
+i.#{$pre}icon.#{$pre}assistive.#{$pre}listening.#{$pre}devices:before {
+  content: "\f2a2";
+}
+i.#{$pre}icon.#{$pre}attach:before {
+  content: "\f0c6";
+}
+i.#{$pre}icon.#{$pre}attention:before {
+  content: "\f06a";
+}
+i.#{$pre}icon.#{$pre}balance:before {
+  content: "\f24e";
+}
+i.#{$pre}icon.#{$pre}bar:before {
+  content: "\f0fc";
+}
+i.#{$pre}icon.#{$pre}bathtub:before {
+  content: "\f2cd";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}four:before {
+  content: "\f240";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}high:before {
+  content: "\f241";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}low:before {
+  content: "\f243";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}medium:before {
+  content: "\f242";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}one:before {
+  content: "\f243";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}three:before {
+  content: "\f241";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}two:before {
+  content: "\f242";
+}
+i.#{$pre}icon.#{$pre}battery.#{$pre}zero:before {
+  content: "\f244";
+}
+i.#{$pre}icon.#{$pre}birthday:before {
+  content: "\f1fd";
+}
+i.#{$pre}icon.#{$pre}block.#{$pre}layout:before {
+  content: "\f009";
+}
+i.#{$pre}icon.#{$pre}bluetooth.#{$pre}alternative:before {
+  content: "\f294";
+}
+i.#{$pre}icon.#{$pre}broken.#{$pre}chain:before {
+  content: "\f127";
+}
+i.#{$pre}icon.#{$pre}browser:before {
+  content: "\f022";
+}
+i.#{$pre}icon.#{$pre}call.#{$pre}square:before {
+  content: "\f098";
+}
+i.#{$pre}icon.#{$pre}call:before {
+  content: "\f095";
+}
+i.#{$pre}icon.#{$pre}cancel:before {
+  content: "\f00d";
+}
+i.#{$pre}icon.#{$pre}cart:before {
+  content: "\f07a";
+}
+i.#{$pre}icon.#{$pre}cc:before {
+  content: "\f20a";
+}
+i.#{$pre}icon.#{$pre}chain:before {
+  content: "\f0c1";
+}
+i.#{$pre}icon.#{$pre}chat:before {
+  content: "\f075";
+}
+i.#{$pre}icon.#{$pre}checked.#{$pre}calendar:before {
+  content: "\f274";
+}
+i.#{$pre}icon.#{$pre}checkmark:before {
+  content: "\f00c";
+}
+i.#{$pre}icon.#{$pre}circle.#{$pre}notched:before {
+  content: "\f1ce";
+}
+i.#{$pre}icon.#{$pre}close:before {
+  content: "\f00d";
+}
+i.#{$pre}icon.#{$pre}cny:before {
+  content: "\f157";
+}
+i.#{$pre}icon.#{$pre}cocktail:before {
+  content: "\f000";
+}
+i.#{$pre}icon.#{$pre}commenting:before {
+  content: "\f27a";
+}
+i.#{$pre}icon.#{$pre}computer:before {
+  content: "\f108";
+}
+i.#{$pre}icon.#{$pre}configure:before {
+  content: "\f0ad";
+}
+i.#{$pre}icon.#{$pre}content:before {
+  content: "\f0c9";
+}
+i.#{$pre}icon.#{$pre}deafness:before {
+  content: "\f2a4";
+}
+i.#{$pre}icon.#{$pre}delete.#{$pre}calendar:before {
+  content: "\f273";
+}
+i.#{$pre}icon.#{$pre}delete:before {
+  content: "\f00d";
+}
+i.#{$pre}icon.#{$pre}detective:before {
+  content: "\f21b";
+}
+i.#{$pre}icon.#{$pre}diners.#{$pre}club.#{$pre}card:before {
+  content: "\f24c";
+}
+i.#{$pre}icon.#{$pre}diners.#{$pre}club:before {
+  content: "\f24c";
+}
+i.#{$pre}icon.#{$pre}discover.#{$pre}card:before {
+  content: "\f1f2";
+}
+i.#{$pre}icon.#{$pre}discover:before {
+  content: "\f1f2";
+}
+i.#{$pre}icon.#{$pre}discussions:before {
+  content: "\f086";
+}
+i.#{$pre}icon.#{$pre}doctor:before {
+  content: "\f0f0";
+}
+i.#{$pre}icon.#{$pre}dollar:before {
+  content: "\f155";
+}
+i.#{$pre}icon.#{$pre}dont:before {
+  content: "\f05e";
+}
+i.#{$pre}icon.#{$pre}dribble:before {
+  content: "\f17d";
+}
+i.#{$pre}icon.#{$pre}drivers.#{$pre}license:before {
+  content: "\f2c2";
+}
+i.#{$pre}icon.#{$pre}dropdown:before {
+  content: "\f0d7";
+}
+i.#{$pre}icon.#{$pre}eercast:before {
+  content: "\f2da";
+}
+i.#{$pre}icon.#{$pre}emergency:before {
+  content: "\f0f9";
+}
+i.#{$pre}icon.#{$pre}envira.#{$pre}gallery:before {
+  content: "\f299";
+}
+i.#{$pre}icon.#{$pre}erase:before {
+  content: "\f12d";
+}
+i.#{$pre}icon.#{$pre}eur:before {
+  content: "\f153";
+}
+i.#{$pre}icon.#{$pre}euro:before {
+  content: "\f153";
+}
+i.#{$pre}icon.#{$pre}eyedropper:before {
+  content: "\f1fb";
+}
+i.#{$pre}icon.#{$pre}fa:before {
+  content: "\f2b4";
+}
+i.#{$pre}icon.#{$pre}factory:before {
+  content: "\f275";
+}
+i.#{$pre}icon.#{$pre}favorite:before {
+  content: "\f005";
+}
+i.#{$pre}icon.#{$pre}feed:before {
+  content: "\f09e";
+}
+i.#{$pre}icon.#{$pre}female.#{$pre}homosexual:before {
+  content: "\f226";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}text:before {
+  content: "\f15c";
+}
+i.#{$pre}icon.#{$pre}find:before {
+  content: "\f1e5";
+}
+i.#{$pre}icon.#{$pre}first.#{$pre}aid:before {
+  content: "\f0fa";
+}
+i.#{$pre}icon.#{$pre}five.#{$pre}hundred.#{$pre}pixels:before {
+  content: "\f26e";
+}
+i.#{$pre}icon.#{$pre}fork:before {
+  content: "\f126";
+}
+i.#{$pre}icon.#{$pre}game:before {
+  content: "\f11b";
+}
+i.#{$pre}icon.#{$pre}gay:before {
+  content: "\f227";
+}
+i.#{$pre}icon.#{$pre}gbp:before {
+  content: "\f154";
+}
+i.#{$pre}icon.#{$pre}gittip:before {
+  content: "\f184";
+}
+i.#{$pre}icon.#{$pre}google.#{$pre}plus.#{$pre}circle:before {
+  content: "\f2b3";
+}
+i.#{$pre}icon.#{$pre}google.#{$pre}plus.#{$pre}official:before {
+  content: "\f2b3";
+}
+i.#{$pre}icon.#{$pre}grab:before {
+  content: "\f255";
+}
+i.#{$pre}icon.#{$pre}graduation:before {
+  content: "\f19d";
+}
+i.#{$pre}icon.#{$pre}grid.#{$pre}layout:before {
+  content: "\f00a";
+}
+i.#{$pre}icon.#{$pre}group:before {
+  content: "\f0c0";
+}
+i.#{$pre}icon.#{$pre}h:before {
+  content: "\f0fd";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}victory:before {
+  content: "\f25b";
+}
+i.#{$pre}icon.#{$pre}handicap:before {
+  content: "\f193";
+}
+i.#{$pre}icon.#{$pre}hard.#{$pre}of.#{$pre}hearing:before {
+  content: "\f2a4";
+}
+i.#{$pre}icon.#{$pre}header:before {
+  content: "\f1dc";
+}
+i.#{$pre}icon.#{$pre}help.#{$pre}circle:before {
+  content: "\f059";
+}
+i.#{$pre}icon.#{$pre}help:before {
+  content: "\f128";
+}
+i.#{$pre}icon.#{$pre}heterosexual:before {
+  content: "\f228";
+}
+i.#{$pre}icon.#{$pre}hide:before {
+  content: "\f070";
+}
+i.#{$pre}icon.#{$pre}hotel:before {
+  content: "\f236";
+}
+i.#{$pre}icon.#{$pre}hourglass.#{$pre}four:before {
+  content: "\f254";
+}
+i.#{$pre}icon.#{$pre}hourglass.#{$pre}full:before {
+  content: "\f254";
+}
+i.#{$pre}icon.#{$pre}hourglass.#{$pre}one:before {
+  content: "\f251";
+}
+i.#{$pre}icon.#{$pre}hourglass.#{$pre}three:before {
+  content: "\f253";
+}
+i.#{$pre}icon.#{$pre}hourglass.#{$pre}two:before {
+  content: "\f252";
+}
+i.#{$pre}icon.#{$pre}idea:before {
+  content: "\f0eb";
+}
+i.#{$pre}icon.#{$pre}ils:before {
+  content: "\f20b";
+}
+i.#{$pre}icon.#{$pre}in-cart:before {
+  content: "\f218";
+}
+i.#{$pre}icon.#{$pre}inr:before {
+  content: "\f156";
+}
+i.#{$pre}icon.#{$pre}intergender:before {
+  content: "\f224";
+}
+i.#{$pre}icon.#{$pre}intersex:before {
+  content: "\f224";
+}
+i.#{$pre}icon.#{$pre}japan.#{$pre}credit.#{$pre}bureau.#{$pre}card:before {
+  content: "\f24b";
+}
+i.#{$pre}icon.#{$pre}japan.#{$pre}credit.#{$pre}bureau:before {
+  content: "\f24b";
+}
+i.#{$pre}icon.#{$pre}jcb:before {
+  content: "\f24b";
+}
+i.#{$pre}icon.#{$pre}jpy:before {
+  content: "\f157";
+}
+i.#{$pre}icon.#{$pre}krw:before {
+  content: "\f159";
+}
+i.#{$pre}icon.#{$pre}lab:before {
+  content: "\f0c3";
+}
+i.#{$pre}icon.#{$pre}law:before {
+  content: "\f24e";
+}
+i.#{$pre}icon.#{$pre}legal:before {
+  content: "\f0e3";
+}
+i.#{$pre}icon.#{$pre}lesbian:before {
+  content: "\f226";
+}
+i.#{$pre}icon.#{$pre}lightning:before {
+  content: "\f0e7";
+}
+i.#{$pre}icon.#{$pre}like:before {
+  content: "\f004";
+}
+i.#{$pre}icon.#{$pre}line.#{$pre}graph:before {
+  content: "\f201";
+}
+i.#{$pre}icon.#{$pre}linkedin.#{$pre}square:before {
+  content: "\f08c";
+}
+i.#{$pre}icon.#{$pre}linkify:before {
+  content: "\f0c1";
+}
+i.#{$pre}icon.#{$pre}lira:before {
+  content: "\f195";
+}
+i.#{$pre}icon.#{$pre}list.#{$pre}layout:before {
+  content: "\f00b";
+}
+i.#{$pre}icon.#{$pre}magnify:before {
+  content: "\f00e";
+}
+i.#{$pre}icon.#{$pre}mail.#{$pre}forward:before {
+  content: "\f064";
+}
+i.#{$pre}icon.#{$pre}mail.#{$pre}square:before {
+  content: "\f199";
+}
+i.#{$pre}icon.#{$pre}mail:before {
+  content: "\f0e0";
+}
+i.#{$pre}icon.#{$pre}male.#{$pre}homosexual:before {
+  content: "\f227";
+}
+i.#{$pre}icon.#{$pre}man:before {
+  content: "\f222";
+}
+i.#{$pre}icon.#{$pre}marker:before {
+  content: "\f041";
+}
+i.#{$pre}icon.#{$pre}mars.#{$pre}alternate:before {
+  content: "\f229";
+}
+i.#{$pre}icon.#{$pre}mars.#{$pre}horizontal:before {
+  content: "\f22b";
+}
+i.#{$pre}icon.#{$pre}mars.#{$pre}vertical:before {
+  content: "\f22a";
+}
+i.#{$pre}icon.#{$pre}mastercard.#{$pre}card:before {
+  content: "\f1f1";
+}
+i.#{$pre}icon.#{$pre}mastercard:before {
+  content: "\f1f1";
+}
+i.#{$pre}icon.#{$pre}microsoft.#{$pre}edge:before {
+  content: "\f282";
+}
+i.#{$pre}icon.#{$pre}military:before {
+  content: "\f0fb";
+}
+i.#{$pre}icon.#{$pre}ms.#{$pre}edge:before {
+  content: "\f282";
+}
+i.#{$pre}icon.#{$pre}mute:before {
+  content: "\f131";
+}
+i.#{$pre}icon.#{$pre}new.#{$pre}pied.#{$pre}piper:before {
+  content: "\f2ae";
+}
+i.#{$pre}icon.#{$pre}non.#{$pre}binary.#{$pre}transgender:before {
+  content: "\f223";
+}
+i.#{$pre}icon.#{$pre}numbered.#{$pre}list:before {
+  content: "\f0cb";
+}
+i.#{$pre}icon.#{$pre}optinmonster:before {
+  content: "\f23c";
+}
+i.#{$pre}icon.#{$pre}options:before {
+  content: "\f1de";
+}
+i.#{$pre}icon.#{$pre}other.#{$pre}gender.#{$pre}horizontal:before {
+  content: "\f22b";
+}
+i.#{$pre}icon.#{$pre}other.#{$pre}gender.#{$pre}vertical:before {
+  content: "\f22a";
+}
+i.#{$pre}icon.#{$pre}other.#{$pre}gender:before {
+  content: "\f229";
+}
+i.#{$pre}icon.#{$pre}payment:before {
+  content: "\f09d";
+}
+i.#{$pre}icon.#{$pre}paypal.#{$pre}card:before {
+  content: "\f1f4";
+}
+i.#{$pre}icon.#{$pre}pencil.#{$pre}square:before {
+  content: "\f14b";
+}
+i.#{$pre}icon.#{$pre}photo:before {
+  content: "\f030";
+}
+i.#{$pre}icon.#{$pre}picture:before {
+  content: "\f03e";
+}
+i.#{$pre}icon.#{$pre}pie.#{$pre}chart:before {
+  content: "\f200";
+}
+i.#{$pre}icon.#{$pre}pie.#{$pre}graph:before {
+  content: "\f200";
+}
+i.#{$pre}icon.#{$pre}pied.#{$pre}piper.#{$pre}hat:before {
+  content: "\f2ae";
+}
+i.#{$pre}icon.#{$pre}pin:before {
+  content: "\f08d";
+}
+i.#{$pre}icon.#{$pre}plus.#{$pre}cart:before {
+  content: "\f217";
+}
+i.#{$pre}icon.#{$pre}pocket:before {
+  content: "\f265";
+}
+i.#{$pre}icon.#{$pre}point:before {
+  content: "\f041";
+}
+i.#{$pre}icon.#{$pre}pointing.#{$pre}down:before {
+  content: "\f0a7";
+}
+i.#{$pre}icon.#{$pre}pointing.#{$pre}left:before {
+  content: "\f0a5";
+}
+i.#{$pre}icon.#{$pre}pointing.#{$pre}right:before {
+  content: "\f0a4";
+}
+i.#{$pre}icon.#{$pre}pointing.#{$pre}up:before {
+  content: "\f0a6";
+}
+i.#{$pre}icon.#{$pre}pound:before {
+  content: "\f154";
+}
+i.#{$pre}icon.#{$pre}power.#{$pre}cord:before {
+  content: "\f1e6";
+}
+i.#{$pre}icon.#{$pre}power:before {
+  content: "\f011";
+}
+i.#{$pre}icon.#{$pre}privacy:before {
+  content: "\f084";
+}
+i.#{$pre}icon.#{$pre}r.#{$pre}circle:before {
+  content: "\f25d";
+}
+i.#{$pre}icon.#{$pre}rain:before {
+  content: "\f0e9";
+}
+i.#{$pre}icon.#{$pre}record:before {
+  content: "\f03d";
+}
+i.#{$pre}icon.#{$pre}refresh:before {
+  content: "\f021";
+}
+i.#{$pre}icon.#{$pre}remove.#{$pre}circle:before {
+  content: "\f057";
+}
+i.#{$pre}icon.#{$pre}remove.#{$pre}from.#{$pre}calendar:before {
+  content: "\f272";
+}
+i.#{$pre}icon.#{$pre}remove.#{$pre}user:before {
+  content: "\f235";
+}
+i.#{$pre}icon.#{$pre}remove:before {
+  content: "\f00d";
+}
+i.#{$pre}icon.#{$pre}repeat:before {
+  content: "\f01e";
+}
+i.#{$pre}icon.#{$pre}rmb:before {
+  content: "\f157";
+}
+i.#{$pre}icon.#{$pre}rouble:before {
+  content: "\f158";
+}
+i.#{$pre}icon.#{$pre}rub:before {
+  content: "\f158";
+}
+i.#{$pre}icon.#{$pre}ruble:before {
+  content: "\f158";
+}
+i.#{$pre}icon.#{$pre}rupee:before {
+  content: "\f156";
+}
+i.#{$pre}icon.#{$pre}s15:before {
+  content: "\f2cd";
+}
+i.#{$pre}icon.#{$pre}selected.#{$pre}radio:before {
+  content: "\f192";
+}
+i.#{$pre}icon.#{$pre}send:before {
+  content: "\f1d8";
+}
+i.#{$pre}icon.#{$pre}setting:before {
+  content: "\f013";
+}
+i.#{$pre}icon.#{$pre}settings:before {
+  content: "\f085";
+}
+i.#{$pre}icon.#{$pre}shekel:before {
+  content: "\f20b";
+}
+i.#{$pre}icon.#{$pre}sheqel:before {
+  content: "\f20b";
+}
+i.#{$pre}icon.#{$pre}shipping:before {
+  content: "\f0d1";
+}
+i.#{$pre}icon.#{$pre}shop:before {
+  content: "\f07a";
+}
+i.#{$pre}icon.#{$pre}shuffle:before {
+  content: "\f074";
+}
+i.#{$pre}icon.#{$pre}shutdown:before {
+  content: "\f011";
+}
+i.#{$pre}icon.#{$pre}sidebar:before {
+  content: "\f0c9";
+}
+i.#{$pre}icon.#{$pre}signing:before {
+  content: "\f2a7";
+}
+i.#{$pre}icon.#{$pre}signup:before {
+  content: "\f044";
+}
+i.#{$pre}icon.#{$pre}sliders:before {
+  content: "\f1de";
+}
+i.#{$pre}icon.#{$pre}soccer:before {
+  content: "\f1e3";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}alphabet.#{$pre}ascending:before {
+  content: "\f15d";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}alphabet.#{$pre}descending:before {
+  content: "\f15e";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}ascending:before {
+  content: "\f0de";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}content.#{$pre}ascending:before {
+  content: "\f160";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}content.#{$pre}descending:before {
+  content: "\f161";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}descending:before {
+  content: "\f0dd";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}numeric.#{$pre}ascending:before {
+  content: "\f162";
+}
+i.#{$pre}icon.#{$pre}sort.#{$pre}numeric.#{$pre}descending:before {
+  content: "\f163";
+}
+i.#{$pre}icon.#{$pre}sound:before {
+  content: "\f025";
+}
+i.#{$pre}icon.#{$pre}spy:before {
+  content: "\f21b";
+}
+i.#{$pre}icon.#{$pre}stripe.#{$pre}card:before {
+  content: "\f1f5";
+}
+i.#{$pre}icon.#{$pre}student:before {
+  content: "\f19d";
+}
+i.#{$pre}icon.#{$pre}talk:before {
+  content: "\f27a";
+}
+i.#{$pre}icon.#{$pre}target:before {
+  content: "\f140";
+}
+i.#{$pre}icon.#{$pre}teletype:before {
+  content: "\f1e4";
+}
+i.#{$pre}icon.#{$pre}television:before {
+  content: "\f26c";
+}
+i.#{$pre}icon.#{$pre}text.#{$pre}cursor:before {
+  content: "\f246";
+}
+i.#{$pre}icon.#{$pre}text.#{$pre}telephone:before {
+  content: "\f1e4";
+}
+i.#{$pre}icon.#{$pre}theme.#{$pre}isle:before {
+  content: "\f2b2";
+}
+i.#{$pre}icon.#{$pre}theme:before {
+  content: "\f043";
+}
+i.#{$pre}icon.#{$pre}thermometer:before {
+  content: "\f2c7";
+}
+i.#{$pre}icon.#{$pre}thumb.#{$pre}tack:before {
+  content: "\f08d";
+}
+i.#{$pre}icon.#{$pre}time:before {
+  content: "\f017";
+}
+i.#{$pre}icon.#{$pre}tm:before {
+  content: "\f25c";
+}
+i.#{$pre}icon.#{$pre}toggle.#{$pre}down:before {
+  content: "\f150";
+}
+i.#{$pre}icon.#{$pre}toggle.#{$pre}left:before {
+  content: "\f191";
+}
+i.#{$pre}icon.#{$pre}toggle.#{$pre}right:before {
+  content: "\f152";
+}
+i.#{$pre}icon.#{$pre}toggle.#{$pre}up:before {
+  content: "\f151";
+}
+i.#{$pre}icon.#{$pre}translate:before {
+  content: "\f1ab";
+}
+i.#{$pre}icon.#{$pre}travel:before {
+  content: "\f0b1";
+}
+i.#{$pre}icon.#{$pre}treatment:before {
+  content: "\f0f1";
+}
+i.#{$pre}icon.#{$pre}triangle.#{$pre}down:before {
+  content: "\f0d7";
+}
+i.#{$pre}icon.#{$pre}triangle.#{$pre}left:before {
+  content: "\f0d9";
+}
+i.#{$pre}icon.#{$pre}triangle.#{$pre}right:before {
+  content: "\f0da";
+}
+i.#{$pre}icon.#{$pre}triangle.#{$pre}up:before {
+  content: "\f0d8";
+}
+i.#{$pre}icon.#{$pre}try:before {
+  content: "\f195";
+}
+i.#{$pre}icon.#{$pre}unhide:before {
+  content: "\f06e";
+}
+i.#{$pre}icon.#{$pre}unlinkify:before {
+  content: "\f127";
+}
+i.#{$pre}icon.#{$pre}unmute:before {
+  content: "\f130";
+}
+i.#{$pre}icon.#{$pre}usd:before {
+  content: "\f155";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}cancel:before {
+  content: "\f235";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}close:before {
+  content: "\f235";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}delete:before {
+  content: "\f235";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}x:before {
+  content: "\f235";
+}
+i.#{$pre}icon.#{$pre}vcard:before {
+  content: "\f2bb";
+}
+i.#{$pre}icon.#{$pre}video.#{$pre}camera:before {
+  content: "\f03d";
+}
+i.#{$pre}icon.#{$pre}video.#{$pre}play:before {
+  content: "\f144";
+}
+i.#{$pre}icon.#{$pre}visa.#{$pre}card:before {
+  content: "\f1f0";
+}
+i.#{$pre}icon.#{$pre}visa:before {
+  content: "\f1f0";
+}
+i.#{$pre}icon.#{$pre}volume.#{$pre}control.#{$pre}phone:before {
+  content: "\f2a0";
+}
+i.#{$pre}icon.#{$pre}wait:before {
+  content: "\f017";
+}
+i.#{$pre}icon.#{$pre}warning.#{$pre}circle:before {
+  content: "\f06a";
+}
+i.#{$pre}icon.#{$pre}warning.#{$pre}sign:before {
+  content: "\f071";
+}
+i.#{$pre}icon.#{$pre}warning:before {
+  content: "\f12a";
+}
+i.#{$pre}icon.#{$pre}wechat:before {
+  content: "\f1d7";
+}
+i.#{$pre}icon.#{$pre}wi-fi:before {
+  content: "\f1eb";
+}
+i.#{$pre}icon.#{$pre}wikipedia:before {
+  content: "\f266";
+}
+i.#{$pre}icon.#{$pre}winner:before {
+  content: "\f091";
+}
+i.#{$pre}icon.#{$pre}wizard:before {
+  content: "\f0d0";
+}
+i.#{$pre}icon.#{$pre}woman:before {
+  content: "\f221";
+}
+i.#{$pre}icon.#{$pre}won:before {
+  content: "\f159";
+}
+i.#{$pre}icon.#{$pre}wordpress.#{$pre}beginner:before {
+  content: "\f297";
+}
+i.#{$pre}icon.#{$pre}wordpress.#{$pre}forms:before {
+  content: "\f298";
+}
+i.#{$pre}icon.#{$pre}world:before {
+  content: "\f0ac";
+}
+i.#{$pre}icon.#{$pre}write.#{$pre}square:before {
+  content: "\f14b";
+}
+i.#{$pre}icon.#{$pre}x:before {
+  content: "\f00d";
+}
+i.#{$pre}icon.#{$pre}yc:before {
+  content: "\f23b";
+}
+i.#{$pre}icon.#{$pre}ycombinator:before {
+  content: "\f23b";
+}
+i.#{$pre}icon.#{$pre}yen:before {
+  content: "\f157";
+}
+i.#{$pre}icon.#{$pre}zip:before {
+  content: "\f187";
+}
+i.#{$pre}icon.#{$pre}zoom-in:before {
+  content: "\f00e";
+}
+i.#{$pre}icon.#{$pre}zoom-out:before {
+  content: "\f010";
+}
+i.#{$pre}icon.#{$pre}zoom:before {
+  content: "\f00e";
+}
+i.#{$pre}icon.#{$pre}bitbucket.#{$pre}square:before {
+  content: "\f171";
+}
+i.#{$pre}icon.#{$pre}checkmark.#{$pre}box:before {
+  content: "\f14a";
+}
+i.#{$pre}icon.#{$pre}circle.#{$pre}thin:before {
+  content: "\f111";
+}
+i.#{$pre}icon.#{$pre}cloud.#{$pre}download:before {
+  content: "\f381";
+}
+i.#{$pre}icon.#{$pre}cloud.#{$pre}upload:before {
+  content: "\f382";
+}
+i.#{$pre}icon.#{$pre}compose:before {
+  content: "\f303";
+}
+i.#{$pre}icon.#{$pre}conversation:before {
+  content: "\f086";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card.#{$pre}alternative:before {
+  content: "\f09d";
+}
+i.#{$pre}icon.#{$pre}currency:before {
+  content: "\f3d1";
+}
+i.#{$pre}icon.#{$pre}dashboard:before {
+  content: "\f3fd";
+}
+i.#{$pre}icon.#{$pre}diamond:before {
+  content: "\f3a5";
+}
+i.#{$pre}icon.#{$pre}disk:before {
+  content: "\f0a0";
+}
+i.#{$pre}icon.#{$pre}exchange:before {
+  content: "\f362";
+}
+i.#{$pre}icon.#{$pre}external.#{$pre}share:before {
+  content: "\f14d";
+}
+i.#{$pre}icon.#{$pre}external.#{$pre}square:before {
+  content: "\f360";
+}
+i.#{$pre}icon.#{$pre}external:before {
+  content: "\f35d";
+}
+i.#{$pre}icon.#{$pre}facebook.#{$pre}official:before {
+  content: "\f082";
+}
+i.#{$pre}icon.#{$pre}food:before {
+  content: "\f2e7";
+}
+i.#{$pre}icon.#{$pre}hourglass.#{$pre}zero:before {
+  content: "\f253";
+}
+i.#{$pre}icon.#{$pre}level.#{$pre}down:before {
+  content: "\f3be";
+}
+i.#{$pre}icon.#{$pre}level.#{$pre}up:before {
+  content: "\f3bf";
+}
+i.#{$pre}icon.#{$pre}logout:before {
+  content: "\f2f5";
+}
+i.#{$pre}icon.#{$pre}meanpath:before {
+  content: "\f0c8";
+}
+i.#{$pre}icon.#{$pre}money:before {
+  content: "\f3d1";
+}
+i.#{$pre}icon.#{$pre}move:before {
+  content: "\f0b2";
+}
+i.#{$pre}icon.#{$pre}pencil:before {
+  content: "\f303";
+}
+i.#{$pre}icon.#{$pre}protect:before {
+  content: "\f023";
+}
+i.#{$pre}icon.#{$pre}radio:before {
+  content: "\f192";
+}
+i.#{$pre}icon.#{$pre}remove.#{$pre}bookmark:before {
+  content: "\f02e";
+}
+i.#{$pre}icon.#{$pre}resize.#{$pre}horizontal:before {
+  content: "\f337";
+}
+i.#{$pre}icon.#{$pre}resize.#{$pre}vertical:before {
+  content: "\f338";
+}
+i.#{$pre}icon.#{$pre}sign-in:before {
+  content: "\f2f6";
+}
+i.#{$pre}icon.#{$pre}sign-out:before {
+  content: "\f2f5";
+}
+i.#{$pre}icon.#{$pre}spoon:before {
+  content: "\f2e5";
+}
+i.#{$pre}icon.#{$pre}star.#{$pre}half.#{$pre}empty:before {
+  content: "\f089";
+}
+i.#{$pre}icon.#{$pre}star.#{$pre}half.#{$pre}full:before {
+  content: "\f089";
+}
+i.#{$pre}icon.#{$pre}ticket:before {
+  content: "\f3ff";
+}
+i.#{$pre}icon.#{$pre}times.#{$pre}rectangle:before {
+  content: "\f410";
+}
+i.#{$pre}icon.#{$pre}write:before {
+  content: "\f303";
+}
+i.#{$pre}icon.#{$pre}youtube.#{$pre}play:before {
+  content: "\f167";
+}
+
+
+/*******************************
+        Outline Icons
+*******************************/
+
+
+/* Outline Icon */
+
+/* Load & Define Icon Font */
+i.#{$pre}icon.#{$pre}outline {
+  font-family: 'outline-icons';
+}
+
+/* Icon Definitions */
+i.#{$pre}icon.#{$pre}address.#{$pre}book.#{$pre}outline:before {
+  content: "\f2b9";
+}
+i.#{$pre}icon.#{$pre}address.#{$pre}card.#{$pre}outline:before {
+  content: "\f2bb";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}alternate.#{$pre}circle.#{$pre}down.#{$pre}outline:before {
+  content: "\f358";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}alternate.#{$pre}circle.#{$pre}left.#{$pre}outline:before {
+  content: "\f359";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}alternate.#{$pre}circle.#{$pre}right.#{$pre}outline:before {
+  content: "\f35a";
+}
+i.#{$pre}icon.#{$pre}arrow.#{$pre}alternate.#{$pre}circle.#{$pre}up.#{$pre}outline:before {
+  content: "\f35b";
+}
+i.#{$pre}icon.#{$pre}bell.#{$pre}outline:before {
+  content: "\f0f3";
+}
+i.#{$pre}icon.#{$pre}bell.#{$pre}slash.#{$pre}outline:before {
+  content: "\f1f6";
+}
+i.#{$pre}icon.#{$pre}bookmark.#{$pre}outline:before {
+  content: "\f02e";
+}
+i.#{$pre}icon.#{$pre}building.#{$pre}outline:before {
+  content: "\f1ad";
+}
+i.#{$pre}icon.#{$pre}calendar.#{$pre}outline:before {
+  content: "\f133";
+}
+i.#{$pre}icon.#{$pre}calendar.#{$pre}alternate.#{$pre}outline:before {
+  content: "\f073";
+}
+i.#{$pre}icon.#{$pre}calendar.#{$pre}check.#{$pre}outline:before {
+  content: "\f274";
+}
+i.#{$pre}icon.#{$pre}calendar.#{$pre}minus.#{$pre}outline:before {
+  content: "\f272";
+}
+i.#{$pre}icon.#{$pre}calendar.#{$pre}plus.#{$pre}outline:before {
+  content: "\f271";
+}
+i.#{$pre}icon.#{$pre}calendar.#{$pre}times.#{$pre}outline:before {
+  content: "\f273";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}square.#{$pre}down.#{$pre}outline:before {
+  content: "\f150";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}square.#{$pre}left.#{$pre}outline:before {
+  content: "\f191";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}square.#{$pre}right.#{$pre}outline:before {
+  content: "\f152";
+}
+i.#{$pre}icon.#{$pre}caret.#{$pre}square.#{$pre}up.#{$pre}outline:before {
+  content: "\f151";
+}
+i.#{$pre}icon.#{$pre}chart.#{$pre}bar.#{$pre}outline:before {
+  content: "\f080";
+}
+i.#{$pre}icon.#{$pre}check.#{$pre}circle.#{$pre}outline:before {
+  content: "\f058";
+}
+i.#{$pre}icon.#{$pre}check.#{$pre}square.#{$pre}outline:before {
+  content: "\f14a";
+}
+i.#{$pre}icon.#{$pre}circle.#{$pre}outline:before {
+  content: "\f111";
+}
+i.#{$pre}icon.#{$pre}clipboard.#{$pre}outline:before {
+  content: "\f328";
+}
+i.#{$pre}icon.#{$pre}clock.#{$pre}outline:before {
+  content: "\f017";
+}
+i.#{$pre}icon.#{$pre}clone.#{$pre}outline:before {
+  content: "\f24d";
+}
+i.#{$pre}icon.#{$pre}closed.#{$pre}captioning.#{$pre}outline:before {
+  content: "\f20a";
+}
+i.#{$pre}icon.#{$pre}comment.#{$pre}outline:before {
+  content: "\f075";
+}
+i.#{$pre}icon.#{$pre}comment.#{$pre}alternate.#{$pre}outline:before {
+  content: "\f27a";
+}
+i.#{$pre}icon.#{$pre}comments.#{$pre}outline:before {
+  content: "\f086";
+}
+i.#{$pre}icon.#{$pre}compass.#{$pre}outline:before {
+  content: "\f14e";
+}
+i.#{$pre}icon.#{$pre}copy.#{$pre}outline:before {
+  content: "\f0c5";
+}
+i.#{$pre}icon.#{$pre}copyright.#{$pre}outline:before {
+  content: "\f1f9";
+}
+i.#{$pre}icon.#{$pre}credit.#{$pre}card.#{$pre}outline:before {
+  content: "\f09d";
+}
+i.#{$pre}icon.#{$pre}dot.#{$pre}circle.#{$pre}outline:before {
+  content: "\f192";
+}
+i.#{$pre}icon.#{$pre}edit.#{$pre}outline:before {
+  content: "\f044";
+}
+i.#{$pre}icon.#{$pre}envelope.#{$pre}outline:before {
+  content: "\f0e0";
+}
+i.#{$pre}icon.#{$pre}envelope.#{$pre}open.#{$pre}outline:before {
+  content: "\f2b6";
+}
+i.#{$pre}icon.#{$pre}eye.#{$pre}slash.#{$pre}outline:before {
+  content: "\f070";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}outline:before {
+  content: "\f15b";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}alternate.#{$pre}outline:before {
+  content: "\f15c";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}archive.#{$pre}outline:before {
+  content: "\f1c6";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}audio.#{$pre}outline:before {
+  content: "\f1c7";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}code.#{$pre}outline:before {
+  content: "\f1c9";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}excel.#{$pre}outline:before {
+  content: "\f1c3";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}image.#{$pre}outline:before {
+  content: "\f1c5";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}pdf.#{$pre}outline:before {
+  content: "\f1c1";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}powerpoint.#{$pre}outline:before {
+  content: "\f1c4";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}video.#{$pre}outline:before {
+  content: "\f1c8";
+}
+i.#{$pre}icon.#{$pre}file.#{$pre}word.#{$pre}outline:before {
+  content: "\f1c2";
+}
+i.#{$pre}icon.#{$pre}flag.#{$pre}outline:before {
+  content: "\f024";
+}
+i.#{$pre}icon.#{$pre}folder.#{$pre}outline:before {
+  content: "\f07b";
+}
+i.#{$pre}icon.#{$pre}folder.#{$pre}open.#{$pre}outline:before {
+  content: "\f07c";
+}
+i.#{$pre}icon.#{$pre}frown.#{$pre}outline:before {
+  content: "\f119";
+}
+i.#{$pre}icon.#{$pre}futbol.#{$pre}outline:before {
+  content: "\f1e3";
+}
+i.#{$pre}icon.#{$pre}gem.#{$pre}outline:before {
+  content: "\f3a5";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}lizard.#{$pre}outline:before {
+  content: "\f258";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}paper.#{$pre}outline:before {
+  content: "\f256";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}peace.#{$pre}outline:before {
+  content: "\f25b";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}point.#{$pre}down.#{$pre}outline:before {
+  content: "\f0a7";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}point.#{$pre}left.#{$pre}outline:before {
+  content: "\f0a5";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}point.#{$pre}right.#{$pre}outline:before {
+  content: "\f0a4";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}point.#{$pre}up.#{$pre}outline:before {
+  content: "\f0a6";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}pointer.#{$pre}outline:before {
+  content: "\f25a";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}rock.#{$pre}outline:before {
+  content: "\f255";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}scissors.#{$pre}outline:before {
+  content: "\f257";
+}
+i.#{$pre}icon.#{$pre}hand.#{$pre}spock.#{$pre}outline:before {
+  content: "\f259";
+}
+i.#{$pre}icon.#{$pre}handshake.#{$pre}outline:before {
+  content: "\f2b5";
+}
+i.#{$pre}icon.#{$pre}hdd.#{$pre}outline:before {
+  content: "\f0a0";
+}
+i.#{$pre}icon.#{$pre}heart.#{$pre}outline:before {
+  content: "\f004";
+}
+i.#{$pre}icon.#{$pre}hospital.#{$pre}outline:before {
+  content: "\f0f8";
+}
+i.#{$pre}icon.#{$pre}hourglass.#{$pre}outline:before {
+  content: "\f254";
+}
+i.#{$pre}icon.#{$pre}id.#{$pre}badge.#{$pre}outline:before {
+  content: "\f2c1";
+}
+i.#{$pre}icon.#{$pre}id.#{$pre}card.#{$pre}outline:before {
+  content: "\f2c2";
+}
+i.#{$pre}icon.#{$pre}image.#{$pre}outline:before {
+  content: "\f03e";
+}
+i.#{$pre}icon.#{$pre}images.#{$pre}outline:before {
+  content: "\f302";
+}
+i.#{$pre}icon.#{$pre}keyboard.#{$pre}outline:before {
+  content: "\f11c";
+}
+i.#{$pre}icon.#{$pre}lemon.#{$pre}outline:before {
+  content: "\f094";
+}
+i.#{$pre}icon.#{$pre}life.#{$pre}ring.#{$pre}outline:before {
+  content: "\f1cd";
+}
+i.#{$pre}icon.#{$pre}lightbulb.#{$pre}outline:before {
+  content: "\f0eb";
+}
+i.#{$pre}icon.#{$pre}list.#{$pre}alternate.#{$pre}outline:before {
+  content: "\f022";
+}
+i.#{$pre}icon.#{$pre}map.#{$pre}outline:before {
+  content: "\f279";
+}
+i.#{$pre}icon.#{$pre}meh.#{$pre}outline:before {
+  content: "\f11a";
+}
+i.#{$pre}icon.#{$pre}minus.#{$pre}square.#{$pre}outline:before {
+  content: "\f146";
+}
+i.#{$pre}icon.#{$pre}money.#{$pre}bill.#{$pre}alternate.#{$pre}outline:before {
+  content: "\f3d1";
+}
+i.#{$pre}icon.#{$pre}moon.#{$pre}outline:before {
+  content: "\f186";
+}
+i.#{$pre}icon.#{$pre}newspaper.#{$pre}outline:before {
+  content: "\f1ea";
+}
+i.#{$pre}icon.#{$pre}object.#{$pre}group.#{$pre}outline:before {
+  content: "\f247";
+}
+i.#{$pre}icon.#{$pre}object.#{$pre}ungroup.#{$pre}outline:before {
+  content: "\f248";
+}
+i.#{$pre}icon.#{$pre}paper.#{$pre}plane.#{$pre}outline:before {
+  content: "\f1d8";
+}
+i.#{$pre}icon.#{$pre}pause.#{$pre}circle.#{$pre}outline:before {
+  content: "\f28b";
+}
+i.#{$pre}icon.#{$pre}play.#{$pre}circle.#{$pre}outline:before {
+  content: "\f144";
+}
+i.#{$pre}icon.#{$pre}plus.#{$pre}square.#{$pre}outline:before {
+  content: "\f0fe";
+}
+i.#{$pre}icon.#{$pre}question.#{$pre}circle.#{$pre}outline:before {
+  content: "\f059";
+}
+i.#{$pre}icon.#{$pre}registered.#{$pre}outline:before {
+  content: "\f25d";
+}
+i.#{$pre}icon.#{$pre}save.#{$pre}outline:before {
+  content: "\f0c7";
+}
+i.#{$pre}icon.#{$pre}share.#{$pre}square.#{$pre}outline:before {
+  content: "\f14d";
+}
+i.#{$pre}icon.#{$pre}smile.#{$pre}outline:before {
+  content: "\f118";
+}
+i.#{$pre}icon.#{$pre}snowflake.#{$pre}outline:before {
+  content: "\f2dc";
+}
+i.#{$pre}icon.#{$pre}square.#{$pre}outline:before {
+  content: "\f0c8";
+}
+i.#{$pre}icon.#{$pre}star.#{$pre}outline:before {
+  content: "\f005";
+}
+i.#{$pre}icon.#{$pre}star.#{$pre}half.#{$pre}outline:before {
+  content: "\f089";
+}
+i.#{$pre}icon.#{$pre}sticky.#{$pre}note.#{$pre}outline:before {
+  content: "\f249";
+}
+i.#{$pre}icon.#{$pre}stop.#{$pre}circle.#{$pre}outline:before {
+  content: "\f28d";
+}
+i.#{$pre}icon.#{$pre}sun.#{$pre}outline:before {
+  content: "\f185";
+}
+i.#{$pre}icon.#{$pre}thumbs.#{$pre}down.#{$pre}outline:before {
+  content: "\f165";
+}
+i.#{$pre}icon.#{$pre}thumbs.#{$pre}up.#{$pre}outline:before {
+  content: "\f164";
+}
+i.#{$pre}icon.#{$pre}times.#{$pre}circle.#{$pre}outline:before {
+  content: "\f057";
+}
+i.#{$pre}icon.#{$pre}trash.#{$pre}alternate.#{$pre}outline:before {
+  content: "\f2ed";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}outline:before {
+  content: "\f007";
+}
+i.#{$pre}icon.#{$pre}user.#{$pre}circle.#{$pre}outline:before {
+  content: "\f2bd";
+}
+i.#{$pre}icon.#{$pre}window.#{$pre}close.#{$pre}outline:before {
+  content: "\f410";
+}
+i.#{$pre}icon.#{$pre}window.#{$pre}maximize.#{$pre}outline:before {
+  content: "\f2d0";
+}
+i.#{$pre}icon.#{$pre}window.#{$pre}minimize.#{$pre}outline:before {
+  content: "\f2d1";
+}
+i.#{$pre}icon.#{$pre}window.#{$pre}restore.#{$pre}outline:before {
+  content: "\f2d2";
+}
+
+/* Outline Aliases */
+i.#{$pre}icon.#{$pre}disk.#{$pre}outline:before {
+  content: "\f0a0";
+}
+i.#{$pre}icon.#{$pre}heart.#{$pre}empty,
+i.#{$pre}icon.#{$pre}star.#{$pre}empty {
+  font-family: 'outline-icons';
+}
+i.#{$pre}icon.#{$pre}heart.#{$pre}empty:before {
+  content: "\f004";
+}
+i.#{$pre}icon.#{$pre}star.#{$pre}empty:before {
+  content: "\f089";
+}
+
+
+/*******************************
+          Brand Icons
+*******************************/
+
+/* Brand Icon Font Family */
+i.#{$pre}icon.#{$pre}\35 00px,
+i.#{$pre}icon.#{$pre}accessible.#{$pre}icon,
+i.#{$pre}icon.#{$pre}accusoft,
+i.#{$pre}icon.#{$pre}adn,
+i.#{$pre}icon.#{$pre}adversal,
+i.#{$pre}icon.#{$pre}affiliatetheme,
+i.#{$pre}icon.#{$pre}algolia,
+i.#{$pre}icon.#{$pre}amazon,
+i.#{$pre}icon.#{$pre}amazon.#{$pre}pay,
+i.#{$pre}icon.#{$pre}amilia,
+i.#{$pre}icon.#{$pre}android,
+i.#{$pre}icon.#{$pre}angellist,
+i.#{$pre}icon.#{$pre}angrycreative,
+i.#{$pre}icon.#{$pre}angular,
+i.#{$pre}icon.#{$pre}app.#{$pre}store,
+i.#{$pre}icon.#{$pre}app.#{$pre}store.#{$pre}ios,
+i.#{$pre}icon.#{$pre}apper,
+i.#{$pre}icon.#{$pre}apple,
+i.#{$pre}icon.#{$pre}apple.#{$pre}pay,
+i.#{$pre}icon.#{$pre}asymmetrik,
+i.#{$pre}icon.#{$pre}audible,
+i.#{$pre}icon.#{$pre}autoprefixer,
+i.#{$pre}icon.#{$pre}avianex,
+i.#{$pre}icon.#{$pre}aviato,
+i.#{$pre}icon.#{$pre}aws,
+i.#{$pre}icon.#{$pre}bandcamp,
+i.#{$pre}icon.#{$pre}behance,
+i.#{$pre}icon.#{$pre}behance.#{$pre}square,
+i.#{$pre}icon.#{$pre}bimobject,
+i.#{$pre}icon.#{$pre}bitbucket,
+i.#{$pre}icon.#{$pre}bitcoin,
+i.#{$pre}icon.#{$pre}bity,
+i.#{$pre}icon.#{$pre}black.#{$pre}tie,
+i.#{$pre}icon.#{$pre}blackberry,
+i.#{$pre}icon.#{$pre}blogger,
+i.#{$pre}icon.#{$pre}blogger.#{$pre}b,
+i.#{$pre}icon.#{$pre}bluetooth,
+i.#{$pre}icon.#{$pre}bluetooth.#{$pre}b,
+i.#{$pre}icon.#{$pre}btc,
+i.#{$pre}icon.#{$pre}buromobelexperte,
+i.#{$pre}icon.#{$pre}buysellads,
+i.#{$pre}icon.#{$pre}cc.#{$pre}amazon.#{$pre}pay,
+i.#{$pre}icon.#{$pre}cc.#{$pre}amex,
+i.#{$pre}icon.#{$pre}cc.#{$pre}apple.#{$pre}pay,
+i.#{$pre}icon.#{$pre}cc.#{$pre}diners.#{$pre}club,
+i.#{$pre}icon.#{$pre}cc.#{$pre}discover,
+i.#{$pre}icon.#{$pre}cc.#{$pre}jcb,
+i.#{$pre}icon.#{$pre}cc.#{$pre}mastercard,
+i.#{$pre}icon.#{$pre}cc.#{$pre}paypal,
+i.#{$pre}icon.#{$pre}cc.#{$pre}stripe,
+i.#{$pre}icon.#{$pre}cc.#{$pre}visa,
+i.#{$pre}icon.#{$pre}centercode,
+i.#{$pre}icon.#{$pre}chrome,
+i.#{$pre}icon.#{$pre}cloudscale,
+i.#{$pre}icon.#{$pre}cloudsmith,
+i.#{$pre}icon.#{$pre}cloudversify,
+i.#{$pre}icon.#{$pre}codepen,
+i.#{$pre}icon.#{$pre}codiepie,
+i.#{$pre}icon.#{$pre}connectdevelop,
+i.#{$pre}icon.#{$pre}contao,
+i.#{$pre}icon.#{$pre}cpanel,
+i.#{$pre}icon.#{$pre}creative.#{$pre}commons,
+i.#{$pre}icon.#{$pre}css3,
+i.#{$pre}icon.#{$pre}css3.#{$pre}alternate,
+i.#{$pre}icon.#{$pre}cuttlefish,
+i.#{$pre}icon.#{$pre}d.#{$pre}and.#{$pre}d,
+i.#{$pre}icon.#{$pre}dashcube,
+i.#{$pre}icon.#{$pre}delicious,
+i.#{$pre}icon.#{$pre}deploydog,
+i.#{$pre}icon.#{$pre}deskpro,
+i.#{$pre}icon.#{$pre}deviantart,
+i.#{$pre}icon.#{$pre}digg,
+i.#{$pre}icon.#{$pre}digital.#{$pre}ocean,
+i.#{$pre}icon.#{$pre}discord,
+i.#{$pre}icon.#{$pre}discourse,
+i.#{$pre}icon.#{$pre}dochub,
+i.#{$pre}icon.#{$pre}docker,
+i.#{$pre}icon.#{$pre}draft2digital,
+i.#{$pre}icon.#{$pre}dribbble,
+i.#{$pre}icon.#{$pre}dribbble.#{$pre}square,
+i.#{$pre}icon.#{$pre}dropbox,
+i.#{$pre}icon.#{$pre}drupal,
+i.#{$pre}icon.#{$pre}dyalog,
+i.#{$pre}icon.#{$pre}earlybirds,
+i.#{$pre}icon.#{$pre}edge,
+i.#{$pre}icon.#{$pre}elementor,
+i.#{$pre}icon.#{$pre}ember,
+i.#{$pre}icon.#{$pre}empire,
+i.#{$pre}icon.#{$pre}envira,
+i.#{$pre}icon.#{$pre}erlang,
+i.#{$pre}icon.#{$pre}ethereum,
+i.#{$pre}icon.#{$pre}etsy,
+i.#{$pre}icon.#{$pre}expeditedssl,
+i.#{$pre}icon.#{$pre}facebook,
+i.#{$pre}icon.#{$pre}facebook.#{$pre}f,
+i.#{$pre}icon.#{$pre}facebook.#{$pre}messenger,
+i.#{$pre}icon.#{$pre}facebook.#{$pre}square,
+i.#{$pre}icon.#{$pre}firefox,
+i.#{$pre}icon.#{$pre}first.#{$pre}order,
+i.#{$pre}icon.#{$pre}firstdraft,
+i.#{$pre}icon.#{$pre}flickr,
+i.#{$pre}icon.#{$pre}flipboard,
+i.#{$pre}icon.#{$pre}fly,
+i.#{$pre}icon.#{$pre}font.#{$pre}awesome,
+i.#{$pre}icon.#{$pre}font.#{$pre}awesome.#{$pre}alternate,
+i.#{$pre}icon.#{$pre}font.#{$pre}awesome.#{$pre}flag,
+i.#{$pre}icon.#{$pre}fonticons,
+i.#{$pre}icon.#{$pre}fonticons.#{$pre}fi,
+i.#{$pre}icon.#{$pre}fort.#{$pre}awesome,
+i.#{$pre}icon.#{$pre}fort.#{$pre}awesome.#{$pre}alternate,
+i.#{$pre}icon.#{$pre}forumbee,
+i.#{$pre}icon.#{$pre}foursquare,
+i.#{$pre}icon.#{$pre}free.#{$pre}code.#{$pre}camp,
+i.#{$pre}icon.#{$pre}freebsd,
+i.#{$pre}icon.#{$pre}get.#{$pre}pocket,
+i.#{$pre}icon.#{$pre}gg,
+i.#{$pre}icon.#{$pre}gg.#{$pre}circle,
+i.#{$pre}icon.#{$pre}git,
+i.#{$pre}icon.#{$pre}git.#{$pre}square,
+i.#{$pre}icon.#{$pre}github,
+i.#{$pre}icon.#{$pre}github.#{$pre}alternate,
+i.#{$pre}icon.#{$pre}github.#{$pre}square,
+i.#{$pre}icon.#{$pre}gitkraken,
+i.#{$pre}icon.#{$pre}gitlab,
+i.#{$pre}icon.#{$pre}gitter,
+i.#{$pre}icon.#{$pre}glide,
+i.#{$pre}icon.#{$pre}glide.#{$pre}g,
+i.#{$pre}icon.#{$pre}gofore,
+i.#{$pre}icon.#{$pre}goodreads,
+i.#{$pre}icon.#{$pre}goodreads.#{$pre}g,
+i.#{$pre}icon.#{$pre}google,
+i.#{$pre}icon.#{$pre}google.#{$pre}drive,
+i.#{$pre}icon.#{$pre}google.#{$pre}play,
+i.#{$pre}icon.#{$pre}google.#{$pre}plus,
+i.#{$pre}icon.#{$pre}google.#{$pre}plus.#{$pre}g,
+i.#{$pre}icon.#{$pre}google.#{$pre}plus.#{$pre}square,
+i.#{$pre}icon.#{$pre}google.#{$pre}wallet,
+i.#{$pre}icon.#{$pre}gratipay,
+i.#{$pre}icon.#{$pre}grav,
+i.#{$pre}icon.#{$pre}gripfire,
+i.#{$pre}icon.#{$pre}grunt,
+i.#{$pre}icon.#{$pre}gulp,
+i.#{$pre}icon.#{$pre}hacker.#{$pre}news,
+i.#{$pre}icon.#{$pre}hacker.#{$pre}news.#{$pre}square,
+i.#{$pre}icon.#{$pre}hips,
+i.#{$pre}icon.#{$pre}hire.#{$pre}a.#{$pre}helper,
+i.#{$pre}icon.#{$pre}hooli,
+i.#{$pre}icon.#{$pre}hotjar,
+i.#{$pre}icon.#{$pre}houzz,
+i.#{$pre}icon.#{$pre}html5,
+i.#{$pre}icon.#{$pre}hubspot,
+i.#{$pre}icon.#{$pre}imdb,
+i.#{$pre}icon.#{$pre}instagram,
+i.#{$pre}icon.#{$pre}internet.#{$pre}explorer,
+i.#{$pre}icon.#{$pre}ioxhost,
+i.#{$pre}icon.#{$pre}itunes,
+i.#{$pre}icon.#{$pre}itunes.#{$pre}note,
+i.#{$pre}icon.#{$pre}jenkins,
+i.#{$pre}icon.#{$pre}joget,
+i.#{$pre}icon.#{$pre}joomla,
+i.#{$pre}icon.#{$pre}js,
+i.#{$pre}icon.#{$pre}js.#{$pre}square,
+i.#{$pre}icon.#{$pre}jsfiddle,
+i.#{$pre}icon.#{$pre}keycdn,
+i.#{$pre}icon.#{$pre}kickstarter,
+i.#{$pre}icon.#{$pre}kickstarter.#{$pre}k,
+i.#{$pre}icon.#{$pre}korvue,
+i.#{$pre}icon.#{$pre}laravel,
+i.#{$pre}icon.#{$pre}lastfm,
+i.#{$pre}icon.#{$pre}lastfm.#{$pre}square,
+i.#{$pre}icon.#{$pre}leanpub,
+i.#{$pre}icon.#{$pre}less,
+i.#{$pre}icon.#{$pre}linechat,
+i.#{$pre}icon.#{$pre}linkedin,
+i.#{$pre}icon.#{$pre}linkedin.#{$pre}alternate,
+i.#{$pre}icon.#{$pre}linkedin.#{$pre}in,
+i.#{$pre}icon.#{$pre}linode,
+i.#{$pre}icon.#{$pre}linux,
+i.#{$pre}icon.#{$pre}lyft,
+i.#{$pre}icon.#{$pre}magento,
+i.#{$pre}icon.#{$pre}maxcdn,
+i.#{$pre}icon.#{$pre}medapps,
+i.#{$pre}icon.#{$pre}medium,
+i.#{$pre}icon.#{$pre}medium.#{$pre}m,
+i.#{$pre}icon.#{$pre}medrt,
+i.#{$pre}icon.#{$pre}meetup,
+i.#{$pre}icon.#{$pre}microsoft,
+i.#{$pre}icon.#{$pre}mix,
+i.#{$pre}icon.#{$pre}mixcloud,
+i.#{$pre}icon.#{$pre}mizuni,
+i.#{$pre}icon.#{$pre}modx,
+i.#{$pre}icon.#{$pre}monero,
+i.#{$pre}icon.#{$pre}napster,
+i.#{$pre}icon.#{$pre}nintendo.#{$pre}switch,
+i.#{$pre}icon.#{$pre}node,
+i.#{$pre}icon.#{$pre}node.#{$pre}js,
+i.#{$pre}icon.#{$pre}npm,
+i.#{$pre}icon.#{$pre}ns8,
+i.#{$pre}icon.#{$pre}nutritionix,
+i.#{$pre}icon.#{$pre}odnoklassniki,
+i.#{$pre}icon.#{$pre}odnoklassniki.#{$pre}square,
+i.#{$pre}icon.#{$pre}opencart,
+i.#{$pre}icon.#{$pre}openid,
+i.#{$pre}icon.#{$pre}opera,
+i.#{$pre}icon.#{$pre}optin.#{$pre}monster,
+i.#{$pre}icon.#{$pre}osi,
+i.#{$pre}icon.#{$pre}page4,
+i.#{$pre}icon.#{$pre}pagelines,
+i.#{$pre}icon.#{$pre}palfed,
+i.#{$pre}icon.#{$pre}patreon,
+i.#{$pre}icon.#{$pre}paypal,
+i.#{$pre}icon.#{$pre}periscope,
+i.#{$pre}icon.#{$pre}phabricator,
+i.#{$pre}icon.#{$pre}phoenix.#{$pre}framework,
+i.#{$pre}icon.#{$pre}php,
+i.#{$pre}icon.#{$pre}pied.#{$pre}piper,
+i.#{$pre}icon.#{$pre}pied.#{$pre}piper.#{$pre}alternate,
+i.#{$pre}icon.#{$pre}pied.#{$pre}piper.#{$pre}pp,
+i.#{$pre}icon.#{$pre}pinterest,
+i.#{$pre}icon.#{$pre}pinterest.#{$pre}p,
+i.#{$pre}icon.#{$pre}pinterest.#{$pre}square,
+i.#{$pre}icon.#{$pre}playstation,
+i.#{$pre}icon.#{$pre}product.#{$pre}hunt,
+i.#{$pre}icon.#{$pre}pushed,
+i.#{$pre}icon.#{$pre}python,
+i.#{$pre}icon.#{$pre}qq,
+i.#{$pre}icon.#{$pre}quinscape,
+i.#{$pre}icon.#{$pre}quora,
+i.#{$pre}icon.#{$pre}ravelry,
+i.#{$pre}icon.#{$pre}react,
+i.#{$pre}icon.#{$pre}rebel,
+i.#{$pre}icon.#{$pre}redriver,
+i.#{$pre}icon.#{$pre}reddit,
+i.#{$pre}icon.#{$pre}reddit.#{$pre}alien,
+i.#{$pre}icon.#{$pre}reddit.#{$pre}square,
+i.#{$pre}icon.#{$pre}rendact,
+i.#{$pre}icon.#{$pre}renren,
+i.#{$pre}icon.#{$pre}replyd,
+i.#{$pre}icon.#{$pre}resolving,
+i.#{$pre}icon.#{$pre}rocketchat,
+i.#{$pre}icon.#{$pre}rockrms,
+i.#{$pre}icon.#{$pre}safari,
+i.#{$pre}icon.#{$pre}sass,
+i.#{$pre}icon.#{$pre}schlix,
+i.#{$pre}icon.#{$pre}scribd,
+i.#{$pre}icon.#{$pre}searchengin,
+i.#{$pre}icon.#{$pre}sellcast,
+i.#{$pre}icon.#{$pre}sellsy,
+i.#{$pre}icon.#{$pre}servicestack,
+i.#{$pre}icon.#{$pre}shirtsinbulk,
+i.#{$pre}icon.#{$pre}simplybuilt,
+i.#{$pre}icon.#{$pre}sistrix,
+i.#{$pre}icon.#{$pre}skyatlas,
+i.#{$pre}icon.#{$pre}skype,
+i.#{$pre}icon.#{$pre}slack,
+i.#{$pre}icon.#{$pre}slack.#{$pre}hash,
+i.#{$pre}icon.#{$pre}slideshare,
+i.#{$pre}icon.#{$pre}snapchat,
+i.#{$pre}icon.#{$pre}snapchat.#{$pre}ghost,
+i.#{$pre}icon.#{$pre}snapchat.#{$pre}square,
+i.#{$pre}icon.#{$pre}soundcloud,
+i.#{$pre}icon.#{$pre}speakap,
+i.#{$pre}icon.#{$pre}spotify,
+i.#{$pre}icon.#{$pre}stack.#{$pre}exchange,
+i.#{$pre}icon.#{$pre}stack.#{$pre}overflow,
+i.#{$pre}icon.#{$pre}staylinked,
+i.#{$pre}icon.#{$pre}steam,
+i.#{$pre}icon.#{$pre}steam.#{$pre}square,
+i.#{$pre}icon.#{$pre}steam.#{$pre}symbol,
+i.#{$pre}icon.#{$pre}sticker.#{$pre}mule,
+i.#{$pre}icon.#{$pre}strava,
+i.#{$pre}icon.#{$pre}stripe,
+i.#{$pre}icon.#{$pre}stripe.#{$pre}s,
+i.#{$pre}icon.#{$pre}studiovinari,
+i.#{$pre}icon.#{$pre}stumbleupon,
+i.#{$pre}icon.#{$pre}stumbleupon.#{$pre}circle,
+i.#{$pre}icon.#{$pre}superpowers,
+i.#{$pre}icon.#{$pre}supple,
+i.#{$pre}icon.#{$pre}telegram,
+i.#{$pre}icon.#{$pre}telegram.#{$pre}plane,
+i.#{$pre}icon.#{$pre}tencent.#{$pre}weibo,
+i.#{$pre}icon.#{$pre}themeisle,
+i.#{$pre}icon.#{$pre}trello,
+i.#{$pre}icon.#{$pre}tripadvisor,
+i.#{$pre}icon.#{$pre}tumblr,
+i.#{$pre}icon.#{$pre}tumblr.#{$pre}square,
+i.#{$pre}icon.#{$pre}twitch,
+i.#{$pre}icon.#{$pre}twitter,
+i.#{$pre}icon.#{$pre}twitter.#{$pre}square,
+i.#{$pre}icon.#{$pre}typo3,
+i.#{$pre}icon.#{$pre}uber,
+i.#{$pre}icon.#{$pre}uikit,
+i.#{$pre}icon.#{$pre}uniregistry,
+i.#{$pre}icon.#{$pre}untappd,
+i.#{$pre}icon.#{$pre}usb,
+i.#{$pre}icon.#{$pre}ussunnah,
+i.#{$pre}icon.#{$pre}vaadin,
+i.#{$pre}icon.#{$pre}viacoin,
+i.#{$pre}icon.#{$pre}viadeo,
+i.#{$pre}icon.#{$pre}viadeo.#{$pre}square,
+i.#{$pre}icon.#{$pre}viber,
+i.#{$pre}icon.#{$pre}vimeo,
+i.#{$pre}icon.#{$pre}vimeo.#{$pre}square,
+i.#{$pre}icon.#{$pre}vimeo.#{$pre}v,
+i.#{$pre}icon.#{$pre}vine,
+i.#{$pre}icon.#{$pre}vk,
+i.#{$pre}icon.#{$pre}vnv,
+i.#{$pre}icon.#{$pre}vuejs,
+i.#{$pre}icon.#{$pre}wechat,
+i.#{$pre}icon.#{$pre}weibo,
+i.#{$pre}icon.#{$pre}weixin,
+i.#{$pre}icon.#{$pre}whatsapp,
+i.#{$pre}icon.#{$pre}whatsapp.#{$pre}square,
+i.#{$pre}icon.#{$pre}whmcs,
+i.#{$pre}icon.#{$pre}wikipedia.#{$pre}w,
+i.#{$pre}icon.#{$pre}windows,
+i.#{$pre}icon.#{$pre}wordpress,
+i.#{$pre}icon.#{$pre}wordpress.#{$pre}simple,
+i.#{$pre}icon.#{$pre}wpbeginner,
+i.#{$pre}icon.#{$pre}wpexplorer,
+i.#{$pre}icon.#{$pre}wpforms,
+i.#{$pre}icon.#{$pre}xbox,
+i.#{$pre}icon.#{$pre}xing,
+i.#{$pre}icon.#{$pre}xing.#{$pre}square,
+i.#{$pre}icon.#{$pre}y.#{$pre}combinator,
+i.#{$pre}icon.#{$pre}yahoo,
+i.#{$pre}icon.#{$pre}yandex,
+i.#{$pre}icon.#{$pre}yandex.#{$pre}international,
+i.#{$pre}icon.#{$pre}yelp,
+i.#{$pre}icon.#{$pre}yoast,
+i.#{$pre}icon.#{$pre}youtube,
+i.#{$pre}icon.#{$pre}youtube.#{$pre}square {
+  font-family: 'brand-icons';
+}
+
+/* Brand Icons Ideally Would Be Defined Here */
+
+
+/*******************************
+        Site Overrides
+*******************************/ 
