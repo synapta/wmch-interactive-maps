@@ -16,6 +16,7 @@ const hasha = require('hasha');
 const request = require('request');
 const localconfig = require('./localconfig');
 const nodeurl = require('url');
+const sharp = require('sharp');
 // const express = require('express');
 
 // error reporting
@@ -38,6 +39,7 @@ const launchOptions = {
 };
 
 (async () => {
+    const payloadToReturn = {};
     // create browser and keep it open
     let browser = await puppeteer.launch(launchOptions);
 
@@ -75,21 +77,37 @@ const launchOptions = {
             await page.waitForFunction(async () => {
               if (!jQuery) return false;
               return !jQuery(".massive.loader").is(":visible");
-            })
-            await page.waitForTimeout(2000);
-            var options = {};
-            Object.assign(options, config.screenshotServer.options);
+            });
+            /** await page.waitForResponse(
+              (response) =>
+                response.url().endsWith('.pbf') && response.status() === 200
+            ); **/
+            const options = {
+              type: "png",
+              encoding: "binary"
+            };
             // use path instead of full url to be protocol agnostic
             let urlob = nodeurl.parse(url);
-            options.path = util.format(options.path, hasha(urlob.path));
-            await page.screenshot(options);
+            await page.waitForTimeout(20000);
+            let scrBuf = await page.screenshot(options);
+            // console.log(scrBuf)
+            payloadToReturn.path = util.format(config.screenshotServer.path, hasha(urlob.path));
+            payloadToReturn.type = options.type;
+            await sharp(scrBuf).png({
+              progressive: true,  // display low-res images before hi-res during loading
+              compressionLevel: 9  // max compression
+            }).toFile(payloadToReturn.path);
+            payloadToReturn.error = false;
+            // console.log(payloadToReturn)
             await page.close();
           } catch (error) {
               logger.error(error);
               await browser.close();
               browser = undefined;
+              payloadToReturn.error = true;
+          } finally {
+            res.end(JSON.stringify(payloadToReturn, null, ''));
           }
-          res.end(JSON.stringify(options, null, ''));
       });
 
     });

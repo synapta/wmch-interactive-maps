@@ -65,8 +65,6 @@
     "port": 9031,
     "url": "http://localhost:9031",
     "hideControls": true,
-    "options": {
-        "path": "./screenshots/%s.png"
-    }
+    "path": "./screenshots/%s.png"
   }
 }
