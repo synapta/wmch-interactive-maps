@@ -1,13 +1,19 @@
+"use strict";
 // Environment variables ///////////////////////////////////////////////////////
 require('dotenv').config({
   path: ".env"
 })
+const argv = require('yargs')
+  .option('port', {
+    describe: "Port to expose screenshot server endpoint",
+    demandOption: true,
+    type: "number",
+    default: 9031
+  }).help()
+  .argv
 const http = require('http');
 const process = require('process');
 const puppeteer = require('puppeteer');
-// parse command line arguments
-var parseArgs = require('minimist');
-var argv = parseArgs(process.argv, opts={boolean: ['nosentry']});
 const server = http.createServer();
 const config = require('./config');
 const { logger } = require('./units/logger');
@@ -17,15 +23,6 @@ const request = require('request');
 const localconfig = require('./localconfig');
 const nodeurl = require('url');
 const sharp = require('sharp');
-// const express = require('express');
-
-// error reporting
-var Raven = require('raven');
-if (!argv['nosentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
-logger.trace(argv);
-if (argv['nosentry']) {
-  logger.info("*** Sentry disabled ***");
-}
 
 const launchOptions = {
   headless: true, 
@@ -70,8 +67,10 @@ const launchOptions = {
             logger.debug(url);
             // pass hidecontrols but not save it
             await page.goto(
-              util.format("%s%s", url, config.screenshotServer.hideControls ? '&noControls=1' : ''),
-              config.screenshotServer.GOTO_OPTS
+              util.format("%s%s", url, '&noControls=1'), {
+                "waitUntil": ["load","domcontentloaded","networkidle0"],
+                "timeout": 0 
+              }
             );
             // Wait until loader disappear from map
             await page.waitForFunction(async () => {
@@ -91,7 +90,7 @@ const launchOptions = {
             await page.waitForTimeout(20000);
             let scrBuf = await page.screenshot(options);
             // console.log(scrBuf)
-            payloadToReturn.path = util.format(config.screenshotServer.path, hasha(urlob.path));
+            payloadToReturn.path = util.format(config.screenshot.pathPattern, hasha(urlob.path));
             payloadToReturn.type = options.type;
             await sharp(scrBuf).png({
               progressive: true,  // display low-res images before hi-res during loading
@@ -111,6 +110,6 @@ const launchOptions = {
       });
 
     });
-    server.listen(config.screenshotServer.port);
-    logger.info('Screenshot server listening on port %d', config.screenshotServer.port);
+    server.listen(argv.port);
+    logger.info('Screenshot server listening on port %d', argv.port);
 })();

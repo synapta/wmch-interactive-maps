@@ -115,7 +115,7 @@ async function cuMap (req, res, action) {
   try {
       // make a request to screenshot server. Get the screenshot path.
       request({
-            url: config.screenshotServer.url,
+            url: util.format(config.screenshot.hostPattern, localconfig.screenshotServerPort),
             method: "PUT",
             headers: {
               'Accept': 'application/json'

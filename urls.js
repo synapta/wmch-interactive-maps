@@ -88,7 +88,7 @@ module.exports = function(app, apicache) {
          href: util.format(config.mapPattern, e.path),
          title: e.title,
          icon: tmpUrl.searchParams.get("pinIcon"),  // get pin icon classes
-         screenshot: util.format(config.screenshotPattern, e.screenshot.split('/').pop()),
+         screenshot: util.format(config.screenshot.urlPattern, e.screenshot.split('/').pop()),
          star: false  // legacy favourite
        };
     }

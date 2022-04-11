@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 /** Maintenance script **/
 const program = require('commander');
+const util = require('util');
 const request = require('request');
 const config = require('./config');
+const localconfig = require('./localconfig');
 const { logger } = require('./units/logger');
 const diff = require('./units/diff');
 const {migrate, connection, Map, History} = require("./db/modelsB.js");
-const stats = require('./units/stats');
 
 program
   .version('0.0.1')
@@ -22,7 +23,7 @@ function regenerateMaps (maps) {
         let record = maps.shift();
         logger.info("Updating preview for id %d - %s", record.id, record.title);
         request({
-             url: config.screenshotServer.url,
+             url: util.format(config.screenshot.hostPattern, localconfig.screenshotServerPort),
              method: "PUT",
              headers: {
                'Accept': 'application/json'
@@ -47,7 +48,7 @@ function regenerateMaps (maps) {
         });
     }
     else {
-        logger.info("maps preview updated");
+        logger.info("maps previews updated");
         // exit without errors
         process.exit(0);
     }
@@ -229,7 +230,8 @@ if (program.checkerrors) {
 
 if (program.stathistory) {
   (async () => {
+    const { saveStat } = require('./units/stats');
     logger.info("Calc stats for histories table");
-    await stats.saveStat()
+    await saveStat();
   })();
 }
