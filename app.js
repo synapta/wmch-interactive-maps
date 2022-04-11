@@ -1,20 +1,21 @@
+"use strict";
 // Environment variables ///////////////////////////////////////////////////////
 require('dotenv').config({
   path: ".env"
-})
+});
 const { logger } = require('./units/logger');
 // database 
 const {migrate, connection, Map, History} = require("./db/modelsB.js");
-var parseArgs = require('minimist');
-var argv = parseArgs(process.argv, opts={boolean: ['nosentry']});
-const localconfig = require('./localconfig')
-// error reporting
-var Raven = require('raven');
-if (!argv['nosentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
+const argv = require('yargs')
+  .option('port', {
+    describe: "Port to expose app endpoint",
+    demandOption: true,
+    type: "number",
+    default: 9030
+  }).help()
+  .argv;
+const localconfig = require('./localconfig');
 logger.debug(argv);
-if (argv['nosentry']) {
-  logger.info("*** Sentry disabled ***");
-}
 const util       = require('util');
 // external dependencies ///////////////////////////////////////////////////////
 const compression = require('compression');
@@ -24,8 +25,6 @@ const morgan       = require('morgan');
 ////////////////////////////////////////////////////////////////////////////////
 const app = express();
 const config = require('./config');
-// listening on port...
-const port = parseInt(argv.port ? argv.port : "8080");
 
 // compress all responses @see https://www.npmjs.com/package/compression#examples
 app.use(compression());
@@ -40,11 +39,11 @@ require('./urls.js')(app, apicache);
 require('./cache');
 
 // load statistic periodically update
-require('./units/stats')
+require('./units/stats');
 
-const server = app.listen(port, async function() {
+const server = app.listen(argv.port, async function() {
     logger.info('Initializing app...');
-    await migrate()
+    await migrate();
     logger.info(`Database loaded, tables created if needed`);
     const { port, address } = server.address();
     logger.info(`${config.appname} listening at http://${address}:${port}`);

@@ -7,14 +7,20 @@ const localconfig = require('../localconfig');
 
 const oldModels = require('./models');
 const oldDb = require(`./connector/${localconfig.databaseOldProd.engine}`);
-var parseArgs = require('minimist');
-var opts;  // strict with named arguments on parseArgs needs this
-const argv = parseArgs(process.argv, opts={boolean: ['force']});
+const argv = require('yargs')
+  .option('force', {
+    describe: "Force database copy on one-time use only content migration. ",
+    demandOption: false,
+    type: "boolean",
+    default: false
+  })
+  .help()
+  .argv;
 
 /** new database */
 const {migrate, connection, Map, History, Category, MapCategory} = require("./modelsB.js");
 
-if (!argv['force']) {
+if (!argv.force) {
     console.log("For one-time use only to migrate contents. WARNING use --force WILL DESTROY current database.");  // uncomment this and below to use
     process.exit(1);
 }

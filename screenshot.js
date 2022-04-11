@@ -10,7 +10,7 @@ const argv = require('yargs')
     type: "number",
     default: 9031
   }).help()
-  .argv
+  .argv;
 const http = require('http');
 const process = require('process');
 const puppeteer = require('puppeteer');

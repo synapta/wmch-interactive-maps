@@ -4,9 +4,6 @@ require('dotenv').config({
 });
 // Global settings
 const config = require('./config');
-// parse command line arguments
-var parseArgs = require('minimist');
-var argv = parseArgs(process.argv, opts={boolean: ['nosentry']});
 // dependencies
 const CronJob = require('cron').CronJob;
 // local imports
@@ -18,14 +15,6 @@ const diff = require('./units/diff');
 // load local config and check if is ok (testing db)
 const localconfig = require('./localconfig');
 const { migrate, connection, Map, History } = require("./db/modelsB.js");
-
-// error reporting
-var Raven = require('raven');
-if (!argv['nosentry'] && typeof localconfig.raven !== 'undefined') Raven.config(localconfig.raven.maps.DSN).install();
-logger.debug(argv);
-if (argv['nosentry']) {
-  logger.info("*** Sentry disabled ***");
-}
 
 logger.debug('Before job instantiation');
 // @see https://github.com/kelektiv/node-cron/blob/master/examples/every_10_minutes.js
