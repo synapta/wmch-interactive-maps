@@ -256,6 +256,7 @@ function getWizard(req, res, action, id) {
                 baseurl: localconfig.url + "/",
                 sparql: config.sparql,
                 languages: config.adminLanguages,
+                devMode: localconfig.devMode,
                 formAction: formActions[action],
                 formActionName: action,
                 i18n: function () {

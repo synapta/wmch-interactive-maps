@@ -56,6 +56,7 @@ module.exports = function(app, apicache) {
                   logo: templateutils.logo(),
                   sparql: config.sparql,
                   languages: config.languages,
+                  devMode: localconfig.devMode,
                   showHistory: dbMap.history,
                   isHistory: isHistory, // serve history or current page?
                   dbMap: dbMap,
@@ -480,17 +481,18 @@ module.exports = function(app, apicache) {
                   categories: categoriesWithPublishedMaps
                     .map(category => dbutils.getCategoryWithMapsAsDict(category))
                     .map(categoryWithMaps => {
-                        categoryWithMaps.more = categoryWithMaps.maps.length > config.seeAll.rowlength
+                        categoryWithMaps.more = categoryWithMaps.maps.length > config.seeAll.rowlength;
                         categoryWithMaps.maps = categoryWithMaps.maps.map((map, mapInd) => {
                             map.seeAllHidden = mapInd >= config.seeAll.rowlength
                             map.uicon = map.icon.split(' ').map(name => `sui-${name}`).join(' ')
                             return map
-                        })
-                        return categoryWithMaps
+                        });
+                        return categoryWithMaps;
                     }),
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/",
                   languages: config.languages,
+                  devMode: localconfig.devMode,
                   // TODO add maps
                   author: config.map.author,
                   i18n: function () {
@@ -539,6 +541,7 @@ module.exports = function(app, apicache) {
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         baseurl: localconfig.url + "/",
                         languages: config.adminLanguages,
+                        devMode: localconfig.devMode,
                         credits: config.map.author,
                         manual: manerror ? i18next.t('page.notFound') : wizard.manRender(fileData),
                         // translations
@@ -717,6 +720,7 @@ module.exports = function(app, apicache) {
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   baseurl: localconfig.url + "/your-map",
                   languages: config.languages,
+                  devMode: localconfig.devMode,
                   author: config.map.author,
                   hasMessageSent: req.query.message === "sent",  // ?message=sent
                   i18n: function () {
@@ -775,6 +779,7 @@ module.exports = function(app, apicache) {
                         adminMenuExtra: localconfig.adminMenuExtra,
                         langname: i18n_utils.getLangName(config.languages, shortlang),
                         languages: config.adminLanguages,
+                        devMode: localconfig.devMode,
                         credits: config.map.author,
                         logo: templateutils.logo(),
                         categories: categoriesWithMaps.map(categoryWithMaps => dbutils.getCategoryWithMapsAsDict(categoryWithMaps)),

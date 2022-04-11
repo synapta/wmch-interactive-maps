@@ -59,6 +59,7 @@
       "title": "Stats"
     }
   ],
+  "devMode": false,
   "screenshotServerPort": 9031,
   "url": "http://example.org",
   "internalUrl": "http://localhost:9030"

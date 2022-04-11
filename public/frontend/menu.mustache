@@ -9,6 +9,7 @@
                                     </div>
                                     <div class="cell small-10 medium-10 large-8">
                                       <ul class="align-right menu inline">
+                                          {{#devMode}}<span style="cursor: crosshair; padding: 0.5ex 2ex; position: fixed; top: 10ex; left: 0; background: firebrick; color: goldenrod; transform: rotate(-45deg);">Development version</span>{{/devMode}}
                                           <li class="your-map-menu-item"><a href="/your-map{{>urlqueryargs}}" id="askyourmap" class="button rounded">{{#i18n}}actions.askyourmap.calltoaction{{/i18n}}</a></li>
                                           <li class="language-dropdown-menu-item">
                                                             <ul class="menu dropdown align-right" data-dropdown-menu>
