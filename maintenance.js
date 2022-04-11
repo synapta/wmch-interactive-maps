@@ -10,8 +10,9 @@ const diff = require('./units/diff');
 const {migrate, connection, Map, History} = require("./db/modelsB.js");
 
 program
-  .version('0.0.1')
+  .version('3.0.0')
   .option('-P, --regeneratepreviews', 'Regenerate preview for all maps (can take a long time)')
+  .option('-R, --regeneratepreview <mapId>', 'Regenerate preview for single map by id')
   .option('-T, --testdiff <mapId>', 'Test diff between histories on specified map.id')
   .option('-D, --processdiff <mapId>', 'Process diff between on specified map.id')
   .option('-E, --checkerrors', 'Check errors in histories table')
@@ -102,8 +103,8 @@ function programProcessdiff(mapId, finalCallback) {
                 //   overwrite old record
                 // set to false to DEBUG cleaning up all postProcess
                 if (true) {
-                    await diff.postProcess(before, after);
-                    afterRecord.json = JSON.stringify(after);
+                  await diff.postProcess(before, after);
+                  afterRecord.json = JSON.stringify(after);
                 }
                 else {
                     afterRecord.json = JSON.stringify(after);
@@ -151,7 +152,6 @@ if (program.regeneratepreviews)  {
         published: true
       }
     }).then(maps => {
-      let jsonRes = [];
       if (maps) {
           // for (record of maps) {
           regenerateMaps(maps);
@@ -161,6 +161,22 @@ if (program.regeneratepreviews)  {
       }
     });
 }
+
+if (program.regeneratepreview)  {
+  Map.findOne({
+    where: {
+      id: program.regeneratepreview
+    }
+  }).then(map => {
+    if (map) {
+        regenerateMaps([map]);
+    }
+    else {
+        logger.info("No maps found on database, cannot update");
+    }
+  });
+}
+
 if (program.testdiff)  {
     // specify map.id by command line
     var historyWhere = {mapId:  parseInt(program.testdiff)};

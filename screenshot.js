@@ -77,19 +77,16 @@ const launchOptions = {
               if (!jQuery) return false;
               return !jQuery(".massive.loader").is(":visible");
             });
-            /** await page.waitForResponse(
-              (response) =>
-                response.url().endsWith('.pbf') && response.status() === 200
-            ); **/
+            // within milliseconds below or drop
+            await page.waitForTimeout(6000);
             const options = {
               type: "png",
               encoding: "binary"
             };
             // use path instead of full url to be protocol agnostic
             let urlob = nodeurl.parse(url);
-            await page.waitForTimeout(20000);
             let scrBuf = await page.screenshot(options);
-            // console.log(scrBuf)
+            logger.debug(scrBuf);
             payloadToReturn.path = util.format(config.screenshot.pathPattern, hasha(urlob.path));
             payloadToReturn.type = options.type;
             await sharp(scrBuf).png({
@@ -97,7 +94,7 @@ const launchOptions = {
               compressionLevel: 9  // max compression
             }).toFile(payloadToReturn.path);
             payloadToReturn.error = false;
-            // console.log(payloadToReturn)
+            logger.debug(payloadToReturn);
             await page.close();
           } catch (error) {
               logger.error(error);
