@@ -4,6 +4,12 @@ A configurable backend to generate and show interactive maps on top of Wikidata.
 
 Read [installation instructions](INSTALL.md).
 
+If you are not using the version specified in installation istructions above, just run on project root:
+
+`nvm use`
+
+to use the right node version.
+
 ## Service 1/3: app
 
 The webservice app exposes the website locally on the specified port using [Express](https://expressjs.com/).
