@@ -54,7 +54,6 @@ module.exports = function(app, apicache) {
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   map: config.map,
                   logo: templateutils.logo(),
-                  sparql: config.sparql,
                   languages: config.languages,
                   devMode: localconfig.devMode,
                   showHistory: dbMap.history,

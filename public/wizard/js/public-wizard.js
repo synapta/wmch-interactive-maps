@@ -585,6 +585,35 @@ $(function() {
         }
     });
 
+    var languageChoicesTemplate = '';
+    // Select Language
+    $.ajax ({
+        type:'GET',
+        dataType: 'json',
+        url: "/admin/api/get/languages",
+        error: function(e) {
+            console.warn('Error retrieving languages');
+        },
+        success: function (json) {
+            $('.ui.search', '.language-choices-wrapper')
+            .search({
+              source: json,
+              fullTextSearch: true,
+              onSelect: function(result, response) {
+                console.log(result.id);
+                var ok = $('.ok-template', '').html();
+                console.log(ok);
+                var languageChoiceClass = '.language-choice-1';
+                $(languageChoiceClass).html(ok);
+                console.log($(languageChoiceClass));
+                $(languageChoiceClass).attr('title', result.title);
+                $(languageChoiceClass).append(result.id);
+              }
+            });
+        }
+    });
+
+
     // Prevent accidental submit
     $('form').on('submit', function (ev) {
         if ($(this).hasClass('not-confirmed')) {

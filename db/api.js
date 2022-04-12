@@ -7,7 +7,7 @@ const {migrate, connection, Map, History, Category, MapCategory} = require("./mo
 const query = require("./query.js");
 const { logger } = require('../units/logger');
 const { stringify } = require('querystring');
-
+const { availableLanguages } = require('../i18n/utils');
 
 // Get /////////////////////////////////////////////////////
 /**
@@ -37,6 +37,9 @@ async function admin_api_get_categories (req, res) {
     res.send(categories.map(category => new Object({"title": category.name, "id": category.id})));
 }
 
+async function admin_api_get_languages (req, res) {
+    res.send(availableLanguages());
+}
 
 exports.adminApiGetName = (req, res) => {
     let fun = eval('admin_api_get_' + req.params.name);
