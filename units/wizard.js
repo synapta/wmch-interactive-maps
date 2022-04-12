@@ -267,7 +267,11 @@ function getWizard(req, res, action, id) {
                 }
               };
               const menuTemplate = await templateutils.readMustachePartials('public/wizard/menu.mustache');
-              const partials = {menu: menuTemplate};
+              const languageChoicesTemplate = await templateutils.readMustachePartials('public/wizard/languagechoices.mustache');
+              const partials = {
+                menu: menuTemplate,
+                languageChoices: languageChoicesTemplate
+              };
               var output = Mustache.render(template, view, partials);
               res.send(output);
              }

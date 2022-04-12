@@ -89,6 +89,6 @@ input.inverted {
 .ui.segments {
     margin-top: 0;
 }
-.ui.label.language-choice {
+.language-choices.ui.menu .item {
     text-transform: uppercase;
 }

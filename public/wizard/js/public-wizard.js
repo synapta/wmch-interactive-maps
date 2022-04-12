@@ -585,8 +585,7 @@ $(function() {
         }
     });
 
-    var languageChoicesTemplate = '';
-    // Select Language
+    // Language choices
     $.ajax ({
         type:'GET',
         dataType: 'json',
@@ -595,6 +594,10 @@ $(function() {
             console.warn('Error retrieving languages');
         },
         success: function (json) {
+
+            $('.language-choices .item').tab();
+            $(".language-choices .item:first").click(); // select first language tab
+
             $('.ui.search', '.language-choices-wrapper')
             .search({
               source: json,
@@ -603,11 +606,12 @@ $(function() {
                 console.log(result.id);
                 var ok = $('.ok-template', '').html();
                 console.log(ok);
-                var languageChoiceClass = '.language-choice-1';
-                $(languageChoiceClass).html(ok);
-                console.log($(languageChoiceClass));
-                $(languageChoiceClass).attr('title', result.title);
-                $(languageChoiceClass).append(result.id);
+                // var languageChoiceSelector = ".language-choices [data-tab='ord-1']"; 
+                var languageChoiceSelector = ".language-choices [data-tab='" + $(this).parents(".tab").data('tab') + "']";
+                $(languageChoiceSelector).html(ok);
+                console.log($(languageChoiceSelector));
+                $(languageChoiceSelector).attr('title', result.title);
+                $(languageChoiceSelector).append(result.id);
               }
             });
         }
@@ -638,5 +642,8 @@ $(function() {
     $(".step-2").css("min-height", $(".steps.vertical").height());
 
     lookupPath("input[name='path']");
+
+    jQuery(".steps .step").eq(2).click(); // development only
+
 
 });

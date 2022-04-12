@@ -129,32 +129,9 @@
         </div>
         <!-- step 3 *********************************************************************************************************************** -->
         <div class="ui segment step-3 step-content hidestep">
-          <div class="fields language-choices-wrapper">
-            <div class="ui search right labeled left icon input">
-              <i class="search icon"></i>
-              <input type="text" class="prompt" placeholder="{{#i18n}}actions.category.text{{/i18n}}" id="category-select" size="16" value="{{#map.languageChoices.0}}{{{name}}}{{/map.languageChoices.0}}">
-              <div class="results"></div>
-            </div>
-            <input type="hidden" value="" name="languagechoices" data-valid="0">{{! comma separated language codes }}
-          </div>
-          <div class="ui label language-choice language-choice-1">
-            <i class="red circle icon"></i> I
-          </div>
-          <div class="ui label language-choice language-choice-2">
-            <i class="red circle icon"></i> II
-          </div>
-          <div class="ui label language-choice language-choice-3">
-            <i class="red circle icon"></i> III
-          </div>
-          <div class="ui label language-choice language-choice-4">
-            <i class="red circle icon"></i> IV
-          </div>
-          <div class="ui label hidden ok-template">
-            <i class="green check circle icon"></i>
-          </div>
-          <div class="ui label hidden no-template">
-            <i class="red circle icon"></i>
-          </div>
+          
+          {{>languageChoices}}
+
           <div class="field">
             <label>{{#i18n}}fields.sparql.label{{/i18n}}</label>
             <a class="ui compact mini icon button teal" href="https://query.wikidata.org/" target="_blank">
