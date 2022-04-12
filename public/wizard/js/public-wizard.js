@@ -594,8 +594,13 @@ $(function() {
             console.warn('Error retrieving languages');
         },
         success: function (json) {
-
-            $('.language-choices .item').tab();
+            $('.language-choices .item').tab({
+                onVisible: function () {
+                    var ord = $(this).data('tab');
+                    var inputId = '#language-choice-' + ord;
+                    $(inputId).focus();
+                }
+            });
             $(".language-choices .item:first").click(); // select first language tab
 
             $('.ui.search', '.language-choices-wrapper')
@@ -603,15 +608,18 @@ $(function() {
               source: json,
               fullTextSearch: true,
               onSelect: function(result, response) {
-                console.log(result.id);
                 var ok = $('.ok-template', '').html();
-                console.log(ok);
                 // var languageChoiceSelector = ".language-choices [data-tab='ord-1']"; 
-                var languageChoiceSelector = ".language-choices [data-tab='" + $(this).parents(".tab").data('tab') + "']";
+                var ord = $(this).parents(".tab").data('tab');
+                var languageChoiceSelector = ".language-choices [data-tab='" + ord + "']";
                 $(languageChoiceSelector).html(ok);
-                console.log($(languageChoiceSelector));
                 $(languageChoiceSelector).attr('title', result.title);
                 $(languageChoiceSelector).append(result.id);
+                // select next green language tab
+                var reds = $("[data-tab='" + ord + "']").siblings(".item").find(".red");
+                if (reds.length) {
+                    reds.first().parents(".item").click();
+                }
               }
             });
         }
