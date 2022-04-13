@@ -4,6 +4,7 @@ var isTimeline = false;
 
 $(function() {
     var confMobileThresold = 641;
+    var hiddenLanguageChoiceInput = "input[name='languagechoices']";
 
     window.isMobile = function () {
         var viewportWidth = $(window).width();
@@ -81,11 +82,18 @@ $(function() {
     };
 
     var formIsValid = function () {
+        console.log([$('.ui.form').form('is valid'),
+        $('#mapstyle').data('touched'),
+        $('input[name="path"]').data('valid'), 
+        $('#map-query').data('valid'), 
+        $('#category-select').data('valid'),
+        $(hiddenLanguageChoiceInput).data('valid')])
         if($('.ui.form').form('is valid') && 
            $('#mapstyle').data('touched') && 
            $('input[name="path"]').data('valid') && 
            $('#map-query').data('valid') && 
-           $('#category-select').data('valid')) {
+           $('#category-select').data('valid') && 
+           $(hiddenLanguageChoiceInput).data('valid')) {
             // form is valid
             return true;
         }
@@ -589,6 +597,24 @@ $(function() {
         return ".language-choices [data-tab='" + ord + "']";
     }
 
+    function saveLanguageChoice(langCode, ord) {
+        var nordZeroIndex = parseInt(ord.split('-').pop()) - 1;
+        // populate hidden field
+        console.log($(hiddenLanguageChoiceInput).val());
+        var values = JSON.parse($(hiddenLanguageChoiceInput).val());
+        // add element to exact position
+        values.splice(nordZeroIndex, 1, langCode);
+        $(hiddenLanguageChoiceInput).val(JSON.stringify(values));
+        console.log(values);
+        console.log($(hiddenLanguageChoiceInput).val());
+        if (values.filter(el => typeof el === "string" && el.length > 0).length === values.length) {
+            $(hiddenLanguageChoiceInput).data('valid', 1);
+        }
+        else {
+            $(hiddenLanguageChoiceInput).data('valid', 0);
+        }
+    }
+
     // Language choices
     $.ajax ({
         type:'GET',
@@ -616,10 +642,12 @@ $(function() {
                 var ok = $('.ok-template', '').html();
                 var ord = $(this).parents(".tab").data('tab');
                 var lc = languageChoiceSelector(ord);
+                // add language to tab
                 $(lc).html(ok);
                 $(lc).attr('title', result.title);
                 $(lc).append(result.id);
-                // select next green language tab
+                saveLanguageChoice(result.id, ord);
+                // select next language tab
                 var reds = $("[data-tab='" + ord + "']").siblings(".item").find(".red");
                 if (reds.length) {
                     reds.first().parents(".item").click();
