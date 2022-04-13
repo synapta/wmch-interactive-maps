@@ -39,6 +39,11 @@
       "placeholder": "Insert a SPARQL query from Wikidata",
       "help": "Create a SPARQL query on Wikidata Query Service"
     },
+    "languagechoices": {
+      "label": "Languages",
+      "placeholder": "Select language",
+      "help": "Select main languages for this maps. Baloon will display links in these languages first, following the order above."
+    },
     "minZoom": {
       "label": "Min Zoom",
       "help": "Lock minimum and maximum values for the zoom. Default values are good for typical configuration."

@@ -39,6 +39,11 @@
       "placeholder": "Inserisci una query SPARQL da Wikidata",
       "help": "Scrivi una query SPARQL tramite il Wikidata Query Service"
     },
+    "languagechoices": {
+      "label": "Lingue",
+      "placeholder": "Scegli una lingua",
+      "help": "Scegli le lingue principali per questa mappa. I fumetti visualizzeranno gli eventuali collegamenti nell'ordine delle lingue indicato."
+    },
     "minZoom": {
       "label": "Zoom minimo",
       "help": "Blocca i valori minimi e massimi dello zoom. In una configurazione tipica puoi lasciare i valori inalterati."
