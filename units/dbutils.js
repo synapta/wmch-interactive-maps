@@ -38,6 +38,7 @@ function mapRecordExtra (record, categories) {
         }),  // for wizard
         screenshotUrl: screenshotOrPlaceholder(record.get('screenshot')),
         absolutePath: `/v/${record.get('path')}/`,
+        languagechoices: getParameterFromQuery(record.get('mapargs'), 'languagechoices'),
         icon: getParameterFromQuery(record.get('mapargs'), 'pinIcon'),
         // legacy
         star: false  // was favourite

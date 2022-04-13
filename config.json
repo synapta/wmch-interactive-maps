@@ -26,6 +26,7 @@
   "map": {
     "published": false,
     "style": "OSM Bright",
+    "languagechoices": "[null, null, null, null]",
     "fallBackStyle": {
       "name": "OSM Bright",
       "tile": "//tile.wikimediacdn.com/styles/osm-bright/style.json",

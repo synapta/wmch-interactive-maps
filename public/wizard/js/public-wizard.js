@@ -220,6 +220,7 @@ $(function() {
         // parsedOptions.maxClusterRadius = parseFloat($('#maxclusterradius').val());
         parsedOptions.noCluster = !$('#clustersToggle')[0].checked;
         parsedOptions.pinIcon = $('#pinicon').val();
+        parsedOptions.languagechoices = JSON.parse($(hiddenLanguageChoiceInput).val());
         parsedOptions.query = $('#map-query').val();
         // derived
         parsedOptions.tile = window.tile;
@@ -247,6 +248,7 @@ $(function() {
         } **/
         var options = {
           noCluster: parsedOptions.noCluster,
+          languages: parsedOptions.languages,
           cluster: {
               // When you mouse over a cluster it shows the bounds of its markers.
               showCoverageOnHover: false,
@@ -624,6 +626,7 @@ $(function() {
             console.warn('Error retrieving languages');
         },
         success: function (json) {
+            // display language interface
             $('.language-choices .item').tab({
                 onVisible: function () {
                     var ord = $(this).data('tab');
@@ -634,6 +637,7 @@ $(function() {
             });
             $(".language-choices .item:first").click(); // select first language tab
 
+            // Search behaviour for languages
             $('.ui.search', '.language-choices-wrapper')
             .search({
               source: json,
