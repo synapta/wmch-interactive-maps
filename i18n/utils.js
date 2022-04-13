@@ -8,8 +8,8 @@ const availableLanguagesJson = require('./availableLanguages.json');
 
 function availableLanguages () {
     return availableLanguagesJson.map(language => {
-        const [name, code] = language;
-        return new Object({"title": name, "id": code});
+        const [name, nameLocal, code] = language;
+        return new Object({"title": `${nameLocal} - ${name} [${code}]`, "id": code});
     });
 }
 
