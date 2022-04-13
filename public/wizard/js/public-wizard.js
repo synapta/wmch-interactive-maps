@@ -585,6 +585,10 @@ $(function() {
         }
     });
 
+    function languageChoiceSelector(ord) {
+        return ".language-choices [data-tab='" + ord + "']";
+    }
+
     // Language choices
     $.ajax ({
         type:'GET',
@@ -597,6 +601,7 @@ $(function() {
             $('.language-choices .item').tab({
                 onVisible: function () {
                     var ord = $(this).data('tab');
+                    // var lc = languageChoiceSelector(ord);
                     var inputId = '#language-choice-' + ord;
                     $(inputId).focus();
                 }
@@ -609,12 +614,11 @@ $(function() {
               fullTextSearch: true,
               onSelect: function(result, response) {
                 var ok = $('.ok-template', '').html();
-                // var languageChoiceSelector = ".language-choices [data-tab='ord-1']"; 
                 var ord = $(this).parents(".tab").data('tab');
-                var languageChoiceSelector = ".language-choices [data-tab='" + ord + "']";
-                $(languageChoiceSelector).html(ok);
-                $(languageChoiceSelector).attr('title', result.title);
-                $(languageChoiceSelector).append(result.id);
+                var lc = languageChoiceSelector(ord);
+                $(lc).html(ok);
+                $(lc).attr('title', result.title);
+                $(lc).append(result.id);
                 // select next green language tab
                 var reds = $("[data-tab='" + ord + "']").siblings(".item").find(".red");
                 if (reds.length) {
