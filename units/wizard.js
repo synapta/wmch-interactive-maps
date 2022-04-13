@@ -254,7 +254,7 @@ function getWizard(req, res, action, id) {
                 title: !values.hasOwnProperty('title') ? null : `${i18next.t('actions.edit.text')} ${values.title}`,
                 logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                 baseurl: localconfig.url + "/",
-                sparql: config.sparql,
+                sparql: "",
                 languages: config.adminLanguages,
                 devMode: localconfig.devMode,
                 formAction: formActions[action],

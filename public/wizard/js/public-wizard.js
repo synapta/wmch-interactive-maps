@@ -598,6 +598,34 @@ $(function() {
     function languageChoiceSelector(ord) {
         return ".language-choices [data-tab='" + ord + "']";
     }
+    
+    function showSparqlExample (languageChoices) {
+        // only if empty, do not overwrite user data
+        if ($("#map-query").val().trim().length === 0) {
+            var params = languageChoices.map(lang => `languagechoice=${lang}`).join('&');
+            $.ajax ({
+                type:'GET',
+                dataType: 'json',
+                url: `/admin/api/get/sparql?${params}`,
+                error: function(e) {
+                    console.warn('Error retrieving sparql example');
+                },
+                success: function (data) {
+                    $("#map-query").val(data.sparql);
+                }
+            });
+        }
+    }
+
+    function validateLanguageChoices (languageChoices) {
+        if (languageChoices.filter(el => typeof el === "string" && el.length > 0).length === languageChoices.length) {
+            $(hiddenLanguageChoiceInput).data('valid', 1);
+            showSparqlExample(languageChoices);
+        }
+        else {
+            $(hiddenLanguageChoiceInput).data('valid', 0);
+        }
+    }
 
     function saveLanguageChoice(langCode, ord) {
         var nordZeroIndex = parseInt(ord.split('-').pop()) - 1;
@@ -609,12 +637,7 @@ $(function() {
         $(hiddenLanguageChoiceInput).val(JSON.stringify(values));
         console.log(values);
         console.log($(hiddenLanguageChoiceInput).val());
-        if (values.filter(el => typeof el === "string" && el.length > 0).length === values.length) {
-            $(hiddenLanguageChoiceInput).data('valid', 1);
-        }
-        else {
-            $(hiddenLanguageChoiceInput).data('valid', 0);
-        }
+        validateLanguageChoices(values);
     }
 
     // Language choices

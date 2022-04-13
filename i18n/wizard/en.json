@@ -36,7 +36,7 @@
     },
     "sparql": {
       "label": "SPARQL query",
-      "placeholder": "Insert a SPARQL query from Wikidata",
+      "placeholder": "After choosing all languages, a sample SPARQL query will appear with the chosen languages.",
       "help": "Create a SPARQL query on Wikidata Query Service"
     },
     "languagechoices": {

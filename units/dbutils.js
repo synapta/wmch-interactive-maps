@@ -1,5 +1,6 @@
 "use strict";
 const querystring = require('querystring');
+const config = require('../config');
 
 /**
  * 
@@ -7,9 +8,11 @@ const querystring = require('querystring');
  * @param parameter {String}
  * @returns 
  */
-function getParameterFromQuery (querystr, parameter) {
+function getParameterFromQuery (querystr, parameter, fallback) {
+    typeof fallback === "undefined" ? undefined : fallback;
     const tmpUrl = new URL(querystr, 'http://localhost');
-    return tmpUrl.searchParams.get(parameter);
+    const found = tmpUrl.searchParams.get(parameter);
+    return found !== null ? found : fallback;
 }
 
 function screenshotOrPlaceholder (localPath) {
@@ -38,7 +41,7 @@ function mapRecordExtra (record, categories) {
         }),  // for wizard
         screenshotUrl: screenshotOrPlaceholder(record.get('screenshot')),
         absolutePath: `/v/${record.get('path')}/`,
-        languagechoices: getParameterFromQuery(record.get('mapargs'), 'languagechoices'),
+        languagechoices: getParameterFromQuery(record.get('mapargs'), 'languagechoices', JSON.stringify(config.defaultLanguageChoices)),
         icon: getParameterFromQuery(record.get('mapargs'), 'pinIcon'),
         // legacy
         star: false  // was favourite
