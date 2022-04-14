@@ -70,6 +70,54 @@ $(function() {
         });
     };
 
+    /**
+     * 
+     * @param {String} langCode 
+     * @param {String} ord e.g. ord-1
+     * @param {String} title title to display on hover langcode
+     * @param {Boolean} setText add text on input?
+     */
+    var setLanguageChoice = function (langCode, ord, title, setText) {
+        var ok = $('.ok-template', '').html();
+        var lc = languageChoiceSelector(ord);
+        // add language to tab
+        $(lc).html(ok);
+        $(lc).attr('title', title);
+        $(lc).append(langCode);
+        // save this choice to hidden field
+        saveLanguageChoice(langCode, ord);
+        if (setText) {
+            $(`#language-choice-${ord}`).val(title);
+        }
+        // select next language tab
+        var reds = $("[data-tab='" + ord + "']").siblings(".item").find(".red");
+        if (reds.length) {
+            reds.first().parents(".item").click();
+        }
+        // close suggestions from search
+        // $(`#language-choice-${ord}`).blur().blur();
+    }
+
+    var findLanguage = function (langCode, availableLanguages) {
+        var found = availableLanguages.filter(lang => lang.id === langCode).shift();
+        if (found) {
+            return found.title;
+        }
+        else {
+            return "";
+        }
+    }
+
+    /**
+     * From hiddenLanguageChoiceInput field to interface.
+     * 
+     */
+    var setLanguageChoices = function (availableLanguages) {
+        JSON.parse($(hiddenLanguageChoiceInput).val()).map((langCode, ind) => setLanguageChoice(langCode, `ord-${ind + 1}`, findLanguage(langCode, availableLanguages), true));
+        // select 1st element when done
+        setTimeout(function () { $(".item[data-tab='ord-1']").click(); }, 100);
+    }
+
     var legendaUpdate = function (data) {
         var counterArrayByCriteria = countByFilter(data);
         var newText = '';
@@ -82,12 +130,12 @@ $(function() {
     };
 
     var formIsValid = function () {
-        console.log([$('.ui.form').form('is valid'),
+        /** console.log([$('.ui.form').form('is valid'),
         $('#mapstyle').data('touched'),
         $('input[name="path"]').data('valid'), 
         $('#map-query').data('valid'), 
         $('#category-select').data('valid'),
-        $(hiddenLanguageChoiceInput).data('valid')])
+        $(hiddenLanguageChoiceInput).data('valid')]) **/  // DEBUG
         if($('.ui.form').form('is valid') && 
            $('#mapstyle').data('touched') && 
            $('input[name="path"]').data('valid') && 
@@ -630,13 +678,10 @@ $(function() {
     function saveLanguageChoice(langCode, ord) {
         var nordZeroIndex = parseInt(ord.split('-').pop()) - 1;
         // populate hidden field
-        console.log($(hiddenLanguageChoiceInput).val());
         var values = JSON.parse($(hiddenLanguageChoiceInput).val());
         // add element to exact position
         values.splice(nordZeroIndex, 1, langCode);
         $(hiddenLanguageChoiceInput).val(JSON.stringify(values));
-        console.log(values);
-        console.log($(hiddenLanguageChoiceInput).val());
         validateLanguageChoices(values);
     }
 
@@ -648,7 +693,7 @@ $(function() {
         error: function(e) {
             console.warn('Error retrieving languages');
         },
-        success: function (json) {
+        success: function (availableLanguages) {
             // display language interface
             $('.language-choices .item').tab({
                 onVisible: function () {
@@ -663,24 +708,17 @@ $(function() {
             // Search behaviour for languages
             $('.ui.search', '.language-choices-wrapper')
             .search({
-              source: json,
+              source: availableLanguages,
               fullTextSearch: true,
               onSelect: function(result, response) {
-                var ok = $('.ok-template', '').html();
                 var ord = $(this).parents(".tab").data('tab');
-                var lc = languageChoiceSelector(ord);
-                // add language to tab
-                $(lc).html(ok);
-                $(lc).attr('title', result.title);
-                $(lc).append(result.id);
-                saveLanguageChoice(result.id, ord);
-                // select next language tab
-                var reds = $("[data-tab='" + ord + "']").siblings(".item").find(".red");
-                if (reds.length) {
-                    reds.first().parents(".item").click();
-                }
+                var langCode = result.id;
+                setLanguageChoice(langCode, ord, result.title, false);
               }
             });
+
+            // load languages from hidden fields on edit
+            setLanguageChoices(availableLanguages);
         }
     });
 
