@@ -110,12 +110,14 @@ $(function() {
 
     /**
      * From hiddenLanguageChoiceInput field to interface.
-     * 
+     * On edit only.
      */
     var setLanguageChoices = function (availableLanguages) {
-        JSON.parse($(hiddenLanguageChoiceInput).val()).map((langCode, ind) => setLanguageChoice(langCode, `ord-${ind + 1}`, findLanguage(langCode, availableLanguages), true));
-        // select 1st element when done
-        setTimeout(function () { $(".item[data-tab='ord-1']").click(); }, 100);
+        if ($('form').data('action-name') === "edit") {
+            JSON.parse($(hiddenLanguageChoiceInput).val()).map((langCode, ind) => setLanguageChoice(langCode, `ord-${ind + 1}`, findLanguage(langCode, availableLanguages), true));
+            // select 1st element when done
+            setTimeout(function () { $(".item[data-tab='ord-1']").click(); }, 100);
+        }
     }
 
     var legendaUpdate = function (data) {
@@ -748,7 +750,7 @@ $(function() {
 
     lookupPath("input[name='path']");
 
-    jQuery(".steps .step").eq(2).click(); // development only
+    // jQuery(".steps .step").eq(2).click(); // development only
 
 
 });
