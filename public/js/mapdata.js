@@ -1,4 +1,3 @@
-var confVisibleWikipediaLanguages = ['de', 'en', 'fr', 'it'];
 var confURLPrefixWikidata = "https://www.wikidata.org/wiki/";
 var confURLPrefixWikimediaCommons = "https://commons.wikimedia.org/wiki/Category:";
 
@@ -14,7 +13,7 @@ const confPopupOpts = {
 
 var countersByTime = {};
 
-var featureLinkCounter = function(feature) {
+var featureLinkCounter = function(feature, mapOptions) {
     // conta il numero di link del museo corrente
     var counters = {
         'wikipediaBaseLang': 0,  // 0-4 [DE|EN|FR|IT]
@@ -43,7 +42,7 @@ var featureLinkCounter = function(feature) {
             if (isWikipediaURL(feature.properties.lang[i])) {
                 // Conto le lingue aggiuntive separandole da quelle principali
                 var langcode = getWikipediaLang(feature.properties.lang[i]);
-                if (!confVisibleWikipediaLanguages.includes(langcode)) {
+                if (!mapOptions.languageChoices.includes(langcode)) {
                     counters['wikipediaMoreLang'] += 1;
                 }
                 else {
@@ -67,13 +66,14 @@ var randInt = function (max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-var enrichFeatures = function (features) {
+var enrichFeatures = function (features, mapOptions) {
     var feature = new Object();
     var currentTimeKey = "";
     for (j=0; j < features.length; j++) {
         feature = features[j];
         // ottengo i contatori separati per ogni tipo di link al museo
-        feature.properties.counters = featureLinkCounter(feature);
+        feature.properties.counters = featureLinkCounter(feature, mapOptions);
+        feature.properties.languageChoices = mapOptions.languageChoices;
         // in base ai contatori, scelgo colore, label e layer filter adeguato
         feature.properties.pin = markerCounter2PinDataObj(
             feature.properties.counters
@@ -171,7 +171,7 @@ var popupGenerator = function(feature, layer) {
                     'url': feature.properties.lang[i]
                 };
                 wikipediaArticlesPerLanguage.push(info);
-                if (confVisibleWikipediaLanguages.includes(info['langcode'])) {
+                if (feature.properties.languageChoices.includes(info['langcode'])) {
                     // L'articolo è in una delle lingue principali, appare con nome e link
                     wikipediaArticlesPerLanguageHtml += '<li><span class="wplang">{{lang}}</span>: <a href="{{url}}" target="_blank">{{wikipage}}</a></li>'
                       .replace(/{{lang}}/g, info['langcode'])

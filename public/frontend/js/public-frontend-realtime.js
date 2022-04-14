@@ -81,7 +81,7 @@ $(function() {
             error   : e => console.warn('Error retrieving data'),
             success : json => {
                 // enrich feature
-                newJson = enrichFeatures(json);
+                newJson = enrichFeatures(json, options);
 
                 // remove post processed attribute (no meaning in realtime map)
                 newJson.forEach(el => delete el.postProcess);
@@ -199,6 +199,7 @@ $(function() {
           map       : parsedOptions.map,
           noCluster : parsedOptions.noCluster,
           autoZoom  : parsedOptions.autoZoom,
+          languageChoices : parsedOptions["languagechoices[]"],
           pins      : {}
         });
     }

@@ -108,6 +108,7 @@ module.exports = function(app, apicache) {
         enrichedQuery.currentStyle = style ? style : config.map.fallBackStyle;
         // TODO - check if this property is not used anymore and remove
         enrichedQuery.tile = enrichedQuery.currentStyle.tile;
+        enrichedQuery["languagechoices[]"] = typeof enrichedQuery["languagechoices[]"] !== "undefined" ? enrichedQuery["languagechoices[]"] : config.defaultLanguageChoices;
         // stringify rend response
         res.send(JSON.stringify(enrichedQuery, null, ''));
     }
