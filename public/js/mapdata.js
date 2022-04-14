@@ -42,7 +42,7 @@ var featureLinkCounter = function(feature, mapOptions) {
             if (isWikipediaURL(feature.properties.lang[i])) {
                 // Conto le lingue aggiuntive separandole da quelle principali
                 var langcode = getWikipediaLang(feature.properties.lang[i]);
-                if (!mapOptions.languageChoices.includes(langcode)) {
+                if (!JSON.parse(mapOptions.languagechoices).includes(langcode)) {
                     counters['wikipediaMoreLang'] += 1;
                 }
                 else {
@@ -73,7 +73,7 @@ var enrichFeatures = function (features, mapOptions) {
         feature = features[j];
         // ottengo i contatori separati per ogni tipo di link al museo
         feature.properties.counters = featureLinkCounter(feature, mapOptions);
-        feature.properties.languageChoices = mapOptions.languageChoices;
+        feature.properties.languagechoices = mapOptions.languagechoices;
         // in base ai contatori, scelgo colore, label e layer filter adeguato
         feature.properties.pin = markerCounter2PinDataObj(
             feature.properties.counters
@@ -171,7 +171,7 @@ var popupGenerator = function(feature, layer) {
                     'url': feature.properties.lang[i]
                 };
                 wikipediaArticlesPerLanguage.push(info);
-                if (feature.properties.languageChoices.includes(info['langcode'])) {
+                if (JSON.parse(feature.properties.languagechoices).includes(info['langcode'])) {
                     // L'articolo è in una delle lingue principali, appare con nome e link
                     wikipediaArticlesPerLanguageHtml += '<li><span class="wplang">{{lang}}</span>: <a href="{{url}}" target="_blank">{{wikipage}}</a></li>'
                       .replace(/{{lang}}/g, info['langcode'])

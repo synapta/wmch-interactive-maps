@@ -199,7 +199,7 @@ $(function() {
           map       : parsedOptions.map,
           noCluster : parsedOptions.noCluster,
           autoZoom  : parsedOptions.autoZoom,
-          languageChoices : parsedOptions["languagechoices[]"],
+          languagechoices : parsedOptions.languagechoices,
           pins      : {}
         });
     }

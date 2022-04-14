@@ -114,6 +114,7 @@ $(function() {
      */
     var setLanguageChoices = function (availableLanguages) {
         if ($('form').data('action-name') === "edit") {
+            console.log(JSON.parse($(hiddenLanguageChoiceInput).val()));
             JSON.parse($(hiddenLanguageChoiceInput).val()).map((langCode, ind) => setLanguageChoice(langCode, `ord-${ind + 1}`, findLanguage(langCode, availableLanguages), true));
             // select 1st element when done
             setTimeout(function () { $(".item[data-tab='ord-1']").click(); }, 100);
@@ -270,7 +271,7 @@ $(function() {
         // parsedOptions.maxClusterRadius = parseFloat($('#maxclusterradius').val());
         parsedOptions.noCluster = !$('#clustersToggle')[0].checked;
         parsedOptions.pinIcon = $('#pinicon').val();
-        parsedOptions.languagechoices = JSON.parse($(hiddenLanguageChoiceInput).val());
+        parsedOptions.languagechoices = $(hiddenLanguageChoiceInput).val();
         parsedOptions.query = $('#map-query').val();
         // derived
         parsedOptions.tile = window.tile;
@@ -296,9 +297,12 @@ $(function() {
           iconCreateFunction: function(cluster) {
           return L.divIcon({ html: '<b style="font-size: 50px;">' + cluster.getChildCount() + '</b>' });
         } **/
+        console.log("parsedoptions are", parsedOptions)
         var options = {
           noCluster: parsedOptions.noCluster,
           languages: parsedOptions.languages,
+          // languagechoices: JSON.parse(parsedOptions.languagechoices),
+          languagechoices: parsedOptions.languagechoices,
           cluster: {
               // When you mouse over a cluster it shows the bounds of its markers.
               showCoverageOnHover: false,
@@ -452,8 +456,8 @@ $(function() {
             },
             success: function(json) {
                 $("#map-query").data('valid', 1);
-
-                const newJson = enrichFeatures(json);
+                console.log(options);
+                const newJson = enrichFeatures(json, options);
 
                 // The maximum radius that a cluster will cover from the central
                 // marker (in pixels). Default 80. Decreasing will make more,
