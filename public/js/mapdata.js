@@ -1,6 +1,20 @@
 var confURLPrefixWikidata = "https://www.wikidata.org/wiki/";
 var confURLPrefixWikimediaCommons = "https://commons.wikimedia.org/wiki/Category:";
 
+var languageChoices = function (languageChoicesAny) {
+    if (typeof languageChoicesAny === "string") {
+        // JSON serialized
+        return JSON.parse(languageChoicesAny);
+    }
+    else if (Array.isArray(languageChoicesAny)) {
+        // ready to use array
+        return languageChoicesAny;
+    }
+    else {
+        console.error("Unhandled type on mapdata -> languageChoices()");
+    }
+}
+
 const confPopupOpts = {
   closeOnClick   : true,
   autoClose      : false,
@@ -42,7 +56,7 @@ var featureLinkCounter = function(feature, mapOptions) {
             if (isWikipediaURL(feature.properties.lang[i])) {
                 // Conto le lingue aggiuntive separandole da quelle principali
                 var langcode = getWikipediaLang(feature.properties.lang[i]);
-                if (!JSON.parse(mapOptions.languagechoices).includes(langcode)) {
+                if (!languageChoices(mapOptions.languagechoices).includes(langcode)) {
                     counters['wikipediaMoreLang'] += 1;
                 }
                 else {
@@ -171,7 +185,7 @@ var popupGenerator = function(feature, layer) {
                     'url': feature.properties.lang[i]
                 };
                 wikipediaArticlesPerLanguage.push(info);
-                if (JSON.parse(feature.properties.languagechoices).includes(info['langcode'])) {
+                if (languageChoices(feature.properties.languagechoices).includes(info['langcode'])) {
                     // L'articolo è in una delle lingue principali, appare con nome e link
                     wikipediaArticlesPerLanguageHtml += '<li><span class="wplang">{{lang}}</span>: <a href="{{url}}" target="_blank">{{wikipage}}</a></li>'
                       .replace(/{{lang}}/g, info['langcode'])
