@@ -141,9 +141,9 @@ async function cuMap (req, res, action) {
                   });
               break;
               case 'edit':
-                console.log("edit!!")
                   // edit map
                   let currentId = parseInt(req.params.id);
+                  // Screenshot & update
                   await Map.findByPk(currentId).then(async (editedMap) => {
                       mapValues.screenshot = getScreenshotWithFallback(jsonBody, editedMap.get('screenshot'));
                       await editedMap.update(mapValues);
