@@ -50,7 +50,13 @@ Le categorie hanno sempre nomi in lingua inglese su modello di Wikimedia Commons
 
 ### 3. Dati
 
-La query SPARQL che popolerà la mappa va inserita qui.
+Ogni mappa è alimentata dai dati provenienti da [Wikidata](https://www.wikidata.org/).
+
+Durante l'aggiunta di una nuova mappa potrai scegliere le 4 lingue da mostrare come collegamenti nel dettaglio e che verranno usate per le statistiche e la rappresentazione in pin verdi, gialli, rossi e neri.
+
+In base alle lingue scelte verrà suggerita una query SPARQL che potrà poi essere modificata a piacere.
+
+In fase di modifica, ricordarsi di mantenere coerenti le lingue indicate nella query SPARQL con le lingue scelte.
 
 ### 4. Aspetto
 
