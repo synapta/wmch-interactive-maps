@@ -15,6 +15,8 @@ function getParameterFromQuery (querystr, parameter, fallback) {
     return found !== null ? found : fallback;
 }
 
+exports.getParameterFromQuery = getParameterFromQuery;
+
 function screenshotOrPlaceholder (localPath) {
     const fileName = localPath.split('/').pop()
     if (localPath.indexOf('./screenshots/') === 0) {
