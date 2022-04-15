@@ -28,6 +28,17 @@
   right: 1ex;
   z-index: 1001;
 }
+#devmode {
+  z-index: 2000; 
+  cursor: crosshair; 
+  padding: 0.5ex 2ex; 
+  position: fixed; 
+  top: 10ex; left: 0; 
+  background: firebrick; 
+  color: goldenrod; 
+  transform: rotate(-45deg);
+  visibility: visible;
+}
 /* Media queries */
 @media (min-width: 768px) {
   #wmap.with-largefooter {
