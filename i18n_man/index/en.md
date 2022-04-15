@@ -117,6 +117,10 @@ Publishing the map will be displayed to the public.
 
 Saving the map as draft, map can be edited later without publishing it.
 
+Saving may take several seconds because as a very last step a screenshot of the map will be created and displayed on the home page.
+
+If you exit the configurator before saving or publishing, your work will be lost.
+
 ## Edit a map
 
 On the edit page of the single map you can change what you’ve already added in.

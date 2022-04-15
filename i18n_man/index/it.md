@@ -121,6 +121,8 @@ Pubblicando la mappa verrà immediatamente resa visibile a tutti.
 
 Salvando come bozza, la mappa potrà essere ancora modificata in seguito senza renderla visibile.
 
+Il salvataggio potrebbe richiedere svariati secondi poiché come ultimissimo passaggio viene creato uno screenshot della mappa, che verrà proposto in home page.
+
 Se si esce dal configuratore prima di aver salvato o pubblicato, il lavoro andrà perso.
 
 ## Modificare una mappa
