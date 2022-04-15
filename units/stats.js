@@ -1,5 +1,6 @@
 "use strict";
-const {History, Stat, Op} = require("../db/modelsB.js");
+const {History, Stat, Map, Op} = require("../db/modelsB.js");
+const { getParameterFromQuery } = require('./dbutils');
 const localconfig = require('../localconfig');
 const config = require('../config');
 // from: require('../public/js/utils');
@@ -65,7 +66,15 @@ const sequelize = require('sequelize');
 const got = require('got');
 const { logger } = require("./logger.js");
 
-var featureLinkCounter = function(feature) {
+/**
+ * 
+ * @param {Object} feature A single point on the map (pin).
+ * @param {Object} hist Sequelize instance of History record.
+ * @returns counters
+ */
+var featureLinkCounter = function(feature, hist) {
+    let languagechoices = getParameterFromQuery(hist.map.get('mapargs'), 'languagechoices', JSON.stringify(config.defaultLanguageChoices))
+    languagechoices = JSON.parse(languagechoices)
     // conta il numero di link del museo corrente
     var counters = {
         'wikipediaBaseLang': 0,  // 0-4 [DE|EN|FR|IT]
@@ -94,7 +103,7 @@ var featureLinkCounter = function(feature) {
             if (isWikipediaURL(feature.properties.lang[i])) {
                 // Conto le lingue aggiuntive separandole da quelle principali
                 var langcode = getWikipediaLang(feature.properties.lang[i]);
-                if (!confVisibleWikipediaLanguages.includes(langcode)) {
+                if (!languagechoices.includes(langcode)) {
                     counters['wikipediaMoreLang'] += 1;
                 }
                 else {
@@ -131,16 +140,17 @@ const mapStat = function (featureStats) {
 /**
  * 
  * @param {Object} feature A single point on the map (pin).
+ * @param {Object} hist Sequelize instance of History record.
  * @returns 
  */
-const featureStat = function (feature) {
+const featureStat = function (feature, hist) {
     let qualityFlags = {
         qualityBlack: false,
         qualityRed: false,
         qualityYellow: false,
         qualityGreen: false,
     }
-    let counter = featureLinkCounter(feature)
+    let counter = featureLinkCounter(feature, hist)
     let rank = quality(counter)
     qualityFlags[rank] = true
     qualityFlags.commons = feature.properties.commons ? true : false
@@ -162,6 +172,7 @@ const saveStat = async function () {
     const intervalHandler = setInterval(async () => {
         logger.info(`saveStat offset ${saveStatOffset}`)
         const hists = await History.findAll({
+            include:[{model: Map }],
             where: { 
                 error: false,
                 createdAt: {
@@ -175,7 +186,7 @@ const saveStat = async function () {
         if (typeof hist !== "undefined") {
             const data = JSON.parse(hist.json)
             const features = data.data
-            const featuresStatArr = features.map(feature => featureStat(feature))
+            const featuresStatArr = features.map(feature => featureStat(feature, hist))
             const stats = mapStat(featuresStatArr)
             stats.mapId = hist.mapId
             stats.createdAt = hist.createdAt
