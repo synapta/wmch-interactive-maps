@@ -27,7 +27,7 @@ const sharp = require('sharp');
 const launchOptions = {
   headless: true, 
   ignoreHTTPSErrors: true,
-  devtools: true,
+  devtools: false,
   args: [
       '--disable-web-security',
       '--disable-features=IsolateOrigins',
@@ -78,7 +78,7 @@ const launchOptions = {
               return !jQuery(".massive.loader").is(":visible");
             });
             // within milliseconds below or drop
-            await page.waitForTimeout(6000);
+            await page.waitForTimeout(15000);
             const options = {
               type: "png",
               encoding: "binary"
