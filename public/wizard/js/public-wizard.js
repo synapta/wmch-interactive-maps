@@ -545,7 +545,9 @@ $(function() {
         setCenter();
     });
 
-
+    $("#querydo").on("click", function (e) {
+        window.open('https://query.wikidata.org/#' + encodeURIComponent($("#map-query").val().trim()));
+    });
 
     $('.wizard-help').on("click", function (e) {
         e.preventDefault();

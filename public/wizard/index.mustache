@@ -138,7 +138,7 @@
           </div>
           <div class="field attached">
             <label>{{#i18n}}fields.sparql.label{{/i18n}}</label>
-            <a class="ui compact mini icon button teal" href="https://query.wikidata.org/" target="_blank">
+            <a class="ui compact mini icon button teal" href="#" id="querydo">
               <i class="barcode icon"></i> {{#i18n}}fields.sparql.help{{/i18n}}
             </a>
             <textarea id="map-query" placeholder="{{#i18n}}fields.sparql.placeholder{{/i18n}}" rows="30" data-valid="{{#map.query}}1{{/map.query}}{{^map.query}}0{{/map.query}}">{{#map.query}}{{{map.query}}}{{/map.query}}{{^map.query}}{{{sparql}}}{{/map.query}}</textarea>
