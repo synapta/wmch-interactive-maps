@@ -42,7 +42,8 @@
     "languagechoices": {
       "label": "Languages",
       "placeholder": "Select language",
-      "help": "Select main languages for this maps. Baloon will display links in these languages first, following the order above."
+      "help": "Select main languages for this maps. Baloon will display links in these languages first, following the order above.",
+      "warn": "Remember to keep the languages indicated in the SPARQL query consistent with the chosen languages."
     },
     "minZoom": {
       "label": "Min Zoom",

@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
 
   <!-- Maplibre GL / Vector tiles -->
-  <link href="//unpkg.com/maplibre-gl@1.14.0/dist/maplibre-gl.css" rel='stylesheet' />
+  <link href="//unpkg.com/maplibre-gl@1.14.0/dist/maplibre-gl.css" rel="stylesheet" />
 
   <link rel="stylesheet" href="/css/fonts.css" />
   <link rel="stylesheet" href="/css/all.css" />
@@ -132,8 +132,11 @@
            <div class="grouped fields">
             {{>languageChoices}}
           </div>
-
-          <div class="field">
+          <div id="languagenotexistsinsparql" class="ui top attached warning message">
+            <i class="icon help"></i>
+            {{#i18n}}fields.languagechoices.warn{{/i18n}}
+          </div>
+          <div class="field attached">
             <label>{{#i18n}}fields.sparql.label{{/i18n}}</label>
             <a class="ui compact mini icon button teal" href="https://query.wikidata.org/" target="_blank">
               <i class="barcode icon"></i> {{#i18n}}fields.sparql.help{{/i18n}}

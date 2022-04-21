@@ -126,6 +126,21 @@ function getRandomInt(min, max) {
 }
 
 /**
+ * Light check to look for a language in a SPARQL query, supposing languages in query appears like:
+ * BIND(IF(?langcode in ('en', 'th', 'zh', 'ja'),?art,?langcode) AS ?lang
+ * 
+ * @param {String} lang 
+ * @param {String} sparql 
+ * @returns {Boolean}
+ */
+function  languageExistsInSparql(lang, sparql) {
+    var ree = new RegExp(`["']${lang}["']`)
+    var reematch = ree.exec(sparql)
+    var languageExists = Array.isArray(reematch) && reematch.length > 0
+    return languageExists
+}
+
+/**
  * @function createNode create DOM Node with attributes
  * @param  {string} node
  * @param  {object} attributes

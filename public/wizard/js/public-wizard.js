@@ -108,14 +108,18 @@ $(function() {
         }
     }
 
+    var getLanguageChoices = function () {
+        return JSON.parse($(hiddenLanguageChoiceInput).val());
+    }
+
     /**
      * From hiddenLanguageChoiceInput field to interface.
      * On edit only.
      */
     var setLanguageChoices = function (availableLanguages) {
         if ($('form').data('action-name') === "edit") {
-            console.log(JSON.parse($(hiddenLanguageChoiceInput).val()));
-            JSON.parse($(hiddenLanguageChoiceInput).val()).map((langCode, ind) => setLanguageChoice(langCode, `ord-${ind + 1}`, findLanguage(langCode, availableLanguages), true));
+            // console.log(getLanguageChoices()));
+            getLanguageChoices().map((langCode, ind) => setLanguageChoice(langCode, `ord-${ind + 1}`, findLanguage(langCode, availableLanguages), true));
             // select 1st element when done
             setTimeout(function () { $(".item[data-tab='ord-1']").click(); }, 100);
         }
@@ -195,8 +199,28 @@ $(function() {
         $("input[name='path']").trigger("keyup");
     });
     $("input[name='path']").on("keyup", function () {
-        lookupPath(this)
+        lookupPath(this);
     });
+    // language check
+    function languageCheck () {
+        var sparql = $(this).val();
+        var languages = getLanguageChoices();
+        var missing = languages.length;
+        $.each(languages, function (index, lang) {
+            if (languageExistsInSparql(lang, sparql)) {
+                missing--;
+            }
+        });
+        // message if any declared language is missing on sparql
+        if (missing > 0) {
+            $("#languagenotexistsinsparql").show(800);
+        }
+        else {
+            $("#languagenotexistsinsparql").hide(500);
+        }
+    }
+    $("textarea[id='map-query']").on("input", languageCheck);
+    
     $('.ui.form')
       .form({
         fields: {
@@ -683,7 +707,7 @@ $(function() {
     function saveLanguageChoice(langCode, ord) {
         var nordZeroIndex = parseInt(ord.split('-').pop()) - 1;
         // populate hidden field
-        var values = JSON.parse($(hiddenLanguageChoiceInput).val());
+        var values = getLanguageChoices();
         // add element to exact position
         values.splice(nordZeroIndex, 1, langCode);
         $(hiddenLanguageChoiceInput).val(JSON.stringify(values));
