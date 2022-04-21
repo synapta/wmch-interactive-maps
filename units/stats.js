@@ -4,7 +4,6 @@ const { getParameterFromQuery } = require('./dbutils');
 const localconfig = require('../localconfig');
 const config = require('../config');
 // from: require('../public/js/utils');
-var confVisibleWikipediaLanguages = ['de', 'en', 'fr', 'it'];
 var httpToken = '://';
 var getWikipediaLang = function (record) {
     if (record.indexOf(httpToken) !== -1) {
@@ -77,7 +76,7 @@ var featureLinkCounter = function(feature, hist) {
     languagechoices = JSON.parse(languagechoices)
     // conta il numero di link del museo corrente
     var counters = {
-        'wikipediaBaseLang': 0,  // 0-4 [DE|EN|FR|IT]
+        'wikipediaBaseLang': 0,  // 0-4
         'wikipediaMoreLang': 0,  // 0-N
         'website': 0,  // 0-1
         'commons': 0  // 0-1

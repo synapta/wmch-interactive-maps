@@ -738,8 +738,6 @@ module.exports = function(app, apicache) {
      * @return Express send of HTML.
      */
     app.get('/admin', async function (req, res) {
-        // [ 'it', 'it-IT', 'en-US', 'en' ]
-        // console.log(req.acceptsLanguages()[0]);
         fs.readFile(util.format('%s/public/wizard/admin.mustache', __dirname), async function (err, fileData) {
             // cannot read template?
             if (err) {
