@@ -172,8 +172,7 @@ $(function() {
         window.map.attributionControl.addAttribution("<a href=\"https://maplibre.org/\">MapLibre</a> | " + window.attribution);
 
         var gl = L.maplibreGL({
-          style: parsedOptions.currentStyle.tile,
-          accessToken: 'no-token'
+          style: parsedOptions.currentStyle.tile
       }).addTo(window.map);
         
         // load controls

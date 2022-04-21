@@ -288,8 +288,7 @@ $(function() {
         window.map.attributionControl.addAttribution("<a href=\"https://maplibre.org/\">MapLibre</a> | " + mapOpts.baseAttribution);
   
         var gl = L.maplibreGL({
-          style: mapOpts.currentStyle.tile,
-          accessToken: 'no-token'
+          style: mapOpts.currentStyle.tile
       }).addTo(window.map);
 
         // add custom timeDimensionControl control

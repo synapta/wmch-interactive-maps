@@ -424,8 +424,7 @@ $(function() {
         });
 
         var gl = L.maplibreGL({
-            style: parsedOptions.tile,
-            accessToken: 'no-token'
+            style: parsedOptions.tile
         }).addTo(window.map);
 
         window.map.attributionControl.addAttribution("<a href=\"https://maplibre.org/\">MapLibre</a> | " + mapOptions.baseAttribution);
