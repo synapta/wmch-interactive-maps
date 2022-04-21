@@ -141,6 +141,9 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
   },
 
   _getDataForTime: function(time) {
+    if (time === null) {
+      window.location.href = '/404'
+    }
     if (!this._baseURL || !this._map || !this._mapId) {
       return;
     }
