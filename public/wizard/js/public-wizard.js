@@ -201,7 +201,7 @@ $(function() {
     $("input[name='path']").on("keyup", function () {
         lookupPath(this);
     });
-    // language check
+    // language choices check
     function languageCheck () {
         var sparql = $(this).val();
         var languages = getLanguageChoices();
@@ -713,6 +713,8 @@ $(function() {
         // add element to exact position
         values.splice(nordZeroIndex, 1, langCode);
         $(hiddenLanguageChoiceInput).val(JSON.stringify(values));
+        // force language check on query
+        $("textarea[id='map-query']").trigger("input");
         validateLanguageChoices(values);
     }
 
