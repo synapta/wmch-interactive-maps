@@ -46,7 +46,6 @@ async function admin_api_get_languages (req, res) {
 async function admin_api_get_sparql (req, res) {
     const languagechoices = req.query.languagechoice;
     const filler = languagechoices.concat(languagechoices);
-    console.log(filler);
     res.send({
         sparql: util.format(config.sparqlPattern, ...filler),
         languagechoices: languagechoices

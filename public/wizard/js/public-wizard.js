@@ -321,7 +321,6 @@ $(function() {
           iconCreateFunction: function(cluster) {
           return L.divIcon({ html: '<b style="font-size: 50px;">' + cluster.getChildCount() + '</b>' });
         } **/
-        console.log("parsedoptions are", parsedOptions)
         var options = {
           noCluster: parsedOptions.noCluster,
           languages: parsedOptions.languages,
@@ -479,7 +478,6 @@ $(function() {
             },
             success: function(json) {
                 $("#map-query").data('valid', 1);
-                console.log(options);
                 const newJson = enrichFeatures(json, options);
 
                 // The maximum radius that a cluster will cover from the central
