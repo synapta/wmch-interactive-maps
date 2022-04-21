@@ -4,6 +4,7 @@
 // Remove footer space calc if screenshot removing dedicated class
 if (window.location.search.indexOf('noControls=1') !== -1) {
     $("#wmap").removeClass("with-largefooter");
+    $("#devmode").css("visibility", "hidden");
 }
 
 

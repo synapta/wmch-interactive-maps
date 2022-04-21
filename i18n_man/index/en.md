@@ -47,7 +47,13 @@ Choosing a category for a map is required.
 
 ### 3. Data
 
-SPARQL Query to populate map is here.
+Each map is fed by [Wikidata](https://www.wikidata.org/) data.
+
+When adding a new map you can choose the 4 languages to show as links in the detail and that will be used for statistics and representation in green, yellow, red and black pins.
+
+Based on the chosen languages, a SPARQL query will be suggested which can then be modified as desired.
+
+When editing, remember to keep the languages indicated in the SPARQL query consistent with the chosen languages.
 
 ### 4. Appearance
 
@@ -110,6 +116,10 @@ The embedded values must be integer and it is better not to overcome the default
 Publishing the map will be displayed to the public.
 
 Saving the map as draft, map can be edited later without publishing it.
+
+Saving may take several seconds because as a very last step a screenshot of the map will be created and displayed on the home page.
+
+If you exit the configurator before saving or publishing, your work will be lost.
 
 ## Edit a map
 

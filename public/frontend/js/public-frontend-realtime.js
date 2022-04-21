@@ -77,11 +77,11 @@ $(function() {
     function loadData(options) {
         $.ajax({
             type    :'GET',
-            url     : options.id ? `/api/data?id=${encodeURIComponent(options.id)}` : `/api/data?q=${encodeURIComponent(options.sparql)}`,
+            url     : options.id ? `/api/dataid/${encodeURIComponent(options.id)}` : `/api/data?q=${encodeURIComponent(options.sparql)}`,
             error   : e => console.warn('Error retrieving data'),
             success : json => {
                 // enrich feature
-                newJson = enrichFeatures(json);
+                newJson = enrichFeatures(json, options);
 
                 // remove post processed attribute (no meaning in realtime map)
                 newJson.forEach(el => delete el.postProcess);
@@ -172,8 +172,7 @@ $(function() {
         window.map.attributionControl.addAttribution("<a href=\"https://maplibre.org/\">MapLibre</a> | " + window.attribution);
 
         var gl = L.maplibreGL({
-          style: parsedOptions.currentStyle.tile,
-          accessToken: 'no-token'
+          style: parsedOptions.currentStyle.tile
       }).addTo(window.map);
         
         // load controls
@@ -199,6 +198,7 @@ $(function() {
           map       : parsedOptions.map,
           noCluster : parsedOptions.noCluster,
           autoZoom  : parsedOptions.autoZoom,
+          languagechoices : parsedOptions.languagechoices,
           pins      : {}
         });
     }

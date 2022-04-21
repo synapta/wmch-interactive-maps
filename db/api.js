@@ -2,12 +2,14 @@
 /**
  * API for Express
  */
+const util = require('util');
 const fs = require('fs');
+const config = require("../config");
 const {migrate, connection, Map, History, Category, MapCategory} = require("./modelsB.js");
 const query = require("./query.js");
 const { logger } = require('../units/logger');
 const { stringify } = require('querystring');
-
+const { availableLanguages } = require('../i18n/utils');
 
 // Get /////////////////////////////////////////////////////
 /**
@@ -37,6 +39,18 @@ async function admin_api_get_categories (req, res) {
     res.send(categories.map(category => new Object({"title": category.name, "id": category.id})));
 }
 
+async function admin_api_get_languages (req, res) {
+    res.send(availableLanguages());
+}
+
+async function admin_api_get_sparql (req, res) {
+    const languagechoices = req.query.languagechoice;
+    const filler = languagechoices.concat(languagechoices);
+    res.send({
+        sparql: util.format(config.sparqlPattern, ...filler),
+        languagechoices: languagechoices
+    });
+}
 
 exports.adminApiGetName = (req, res) => {
     let fun = eval('admin_api_get_' + req.params.name);

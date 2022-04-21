@@ -1,0 +1,68 @@
+<label>{{#i18n}}fields.languagechoices.label{{/i18n}}</label>
+<div class="ui top attached pointing menu language-choices">
+    <div class="active item" data-tab="ord-1">
+      <div class="ui label language-choice language-choice-1">
+        <i class="red circle icon"></i> I
+      </div>
+    </div>
+    <div class="item" data-tab="ord-2">
+      <div class="ui label language-choice language-choice-2">
+        <i class="red circle icon"></i> II
+      </div>
+    </div>
+    <div class="item" data-tab="ord-3">
+      <div class="ui label language-choice language-choice-3">
+        <i class="red circle icon"></i> III
+      </div>
+    </div>
+    <div class="item" data-tab="ord-4">
+      <div class="ui label language-choice language-choice-4">
+        <i class="red circle icon"></i> IV
+      </div>
+    </div>
+</div>
+<div class="ui bottom attached tab segment" data-tab="ord-1">
+  <div class="fields language-choices-wrapper">
+    <div class="ui search right icon input">
+      <i class="search icon"></i>
+      <input type="text" class="prompt" placeholder="{{#i18n}}fields.languagechoices.placeholder{{/i18n}}" id="language-choice-ord-1" size="16" value="{{#map.languageChoices.0}}{{{name}}}{{/map.languageChoices.0}}">
+      <div class="results"></div>
+    </div>
+  </div>
+</div>
+<div class="ui bottom attached tab segment" data-tab="ord-2">
+  <div class="fields language-choices-wrapper">
+    <div class="ui search right icon input">
+      <i class="search icon"></i>
+      <input type="text" class="prompt" placeholder="{{#i18n}}fields.languagechoices.placeholder{{/i18n}}" id="language-choice-ord-2" size="16" value="{{#map.languageChoices.0}}{{{name}}}{{/map.languageChoices.0}}">
+      <div class="results"></div>
+    </div>
+  </div>
+</div>
+<div class="ui bottom attached tab segment" data-tab="ord-3">
+  <div class="fields language-choices-wrapper">
+    <div class="ui search right icon input">
+      <i class="search icon"></i>
+      <input type="text" class="prompt" placeholder="{{#i18n}}fields.languagechoices.placeholder{{/i18n}}" id="language-choice-ord-3" size="16" value="{{#map.languageChoices.0}}{{{name}}}{{/map.languageChoices.0}}">
+      <div class="results"></div>
+    </div>
+  </div>
+</div>
+<div class="ui bottom attached tab segment" data-tab="ord-4">
+  <div class="fields language-choices-wrapper">
+    <div class="ui search right icon input">
+      <i class="search icon"></i>
+      <input type="text" class="prompt" placeholder="{{#i18n}}fields.languagechoices.placeholder{{/i18n}}" id="language-choice-ord-4" size="16" value="{{#map.languageChoices.0}}{{{name}}}{{/map.languageChoices.0}}">
+      <div class="results"></div>
+    </div>
+  </div>
+</div>
+
+<div class="ui label hidden ok-template">
+  <i class="green check circle icon"></i>
+</div>
+<div class="ui label hidden no-template">
+  <i class="red circle icon"></i>
+</div>
+
+<input type="hidden" value="{{map.languagechoices}}" name="languagechoices" data-valid="0">{{! comma separated language codes }}

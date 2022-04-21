@@ -4,6 +4,7 @@ var isTimeline = false;
 
 $(function() {
     var confMobileThresold = 641;
+    var hiddenLanguageChoiceInput = "input[name='languagechoices']";
 
     window.isMobile = function () {
         var viewportWidth = $(window).width();
@@ -69,6 +70,61 @@ $(function() {
         });
     };
 
+    /**
+     * 
+     * @param {String} langCode 
+     * @param {String} ord e.g. ord-1
+     * @param {String} title title to display on hover langcode
+     * @param {Boolean} setText add text on input?
+     */
+    var setLanguageChoice = function (langCode, ord, title, setText) {
+        var ok = $('.ok-template', '').html();
+        var lc = languageChoiceSelector(ord);
+        // add language to tab
+        $(lc).html(ok);
+        $(lc).attr('title', title);
+        $(lc).append(langCode);
+        // save this choice to hidden field
+        saveLanguageChoice(langCode, ord);
+        if (setText) {
+            $(`#language-choice-${ord}`).val(title);
+        }
+        // select next language tab
+        var reds = $("[data-tab='" + ord + "']").siblings(".item").find(".red");
+        if (reds.length) {
+            reds.first().parents(".item").click();
+        }
+        // close suggestions from search
+        // $(`#language-choice-${ord}`).blur().blur();
+    }
+
+    var findLanguage = function (langCode, availableLanguages) {
+        var found = availableLanguages.filter(lang => lang.id === langCode).shift();
+        if (found) {
+            return found.title;
+        }
+        else {
+            return "";
+        }
+    }
+
+    var getLanguageChoices = function () {
+        return JSON.parse($(hiddenLanguageChoiceInput).val());
+    }
+
+    /**
+     * From hiddenLanguageChoiceInput field to interface.
+     * On edit only.
+     */
+    var setLanguageChoices = function (availableLanguages) {
+        if ($('form').data('action-name') === "edit") {
+            // console.log(getLanguageChoices()));
+            getLanguageChoices().map((langCode, ind) => setLanguageChoice(langCode, `ord-${ind + 1}`, findLanguage(langCode, availableLanguages), true));
+            // select 1st element when done
+            setTimeout(function () { $(".item[data-tab='ord-1']").click(); }, 100);
+        }
+    }
+
     var legendaUpdate = function (data) {
         var counterArrayByCriteria = countByFilter(data);
         var newText = '';
@@ -81,11 +137,18 @@ $(function() {
     };
 
     var formIsValid = function () {
+        /** console.log([$('.ui.form').form('is valid'),
+        $('#mapstyle').data('touched'),
+        $('input[name="path"]').data('valid'), 
+        $('#map-query').data('valid'), 
+        $('#category-select').data('valid'),
+        $(hiddenLanguageChoiceInput).data('valid')]) **/  // DEBUG
         if($('.ui.form').form('is valid') && 
            $('#mapstyle').data('touched') && 
            $('input[name="path"]').data('valid') && 
            $('#map-query').data('valid') && 
-           $('#category-select').data('valid')) {
+           $('#category-select').data('valid') && 
+           $(hiddenLanguageChoiceInput).data('valid')) {
             // form is valid
             return true;
         }
@@ -136,8 +199,28 @@ $(function() {
         $("input[name='path']").trigger("keyup");
     });
     $("input[name='path']").on("keyup", function () {
-        lookupPath(this)
+        lookupPath(this);
     });
+    // language choices check
+    function languageCheck () {
+        var sparql = $(this).val();
+        var languages = getLanguageChoices();
+        var missing = languages.length;
+        $.each(languages, function (index, lang) {
+            if (languageExistsInSparql(lang, sparql)) {
+                missing--;
+            }
+        });
+        // message if any declared language is missing on sparql
+        if (missing > 0) {
+            $("#languagenotexistsinsparql").show(800);
+        }
+        else {
+            $("#languagenotexistsinsparql").hide(500);
+        }
+    }
+    $("textarea[id='map-query']").on("input", languageCheck);
+    
     $('.ui.form')
       .form({
         fields: {
@@ -212,6 +295,7 @@ $(function() {
         // parsedOptions.maxClusterRadius = parseFloat($('#maxclusterradius').val());
         parsedOptions.noCluster = !$('#clustersToggle')[0].checked;
         parsedOptions.pinIcon = $('#pinicon').val();
+        parsedOptions.languagechoices = $(hiddenLanguageChoiceInput).val();
         parsedOptions.query = $('#map-query').val();
         // derived
         parsedOptions.tile = window.tile;
@@ -239,6 +323,9 @@ $(function() {
         } **/
         var options = {
           noCluster: parsedOptions.noCluster,
+          languages: parsedOptions.languages,
+          // languagechoices: JSON.parse(parsedOptions.languagechoices),
+          languagechoices: parsedOptions.languagechoices,
           cluster: {
               // When you mouse over a cluster it shows the bounds of its markers.
               showCoverageOnHover: false,
@@ -360,8 +447,7 @@ $(function() {
         });
 
         var gl = L.maplibreGL({
-            style: parsedOptions.tile,
-            accessToken: 'no-token'
+            style: parsedOptions.tile
         }).addTo(window.map);
 
         window.map.attributionControl.addAttribution("<a href=\"https://maplibre.org/\">MapLibre</a> | " + mapOptions.baseAttribution);
@@ -392,8 +478,7 @@ $(function() {
             },
             success: function(json) {
                 $("#map-query").data('valid', 1);
-
-                const newJson = enrichFeatures(json);
+                const newJson = enrichFeatures(json, options);
 
                 // The maximum radius that a cluster will cover from the central
                 // marker (in pixels). Default 80. Decreasing will make more,
@@ -458,7 +543,9 @@ $(function() {
         setCenter();
     });
 
-
+    $("#querydo").on("click", function (e) {
+        window.open('https://query.wikidata.org/#' + encodeURIComponent($("#map-query").val().trim()));
+    });
 
     $('.wizard-help').on("click", function (e) {
         e.preventDefault();
@@ -585,6 +672,88 @@ $(function() {
         }
     });
 
+    function languageChoiceSelector(ord) {
+        return ".language-choices [data-tab='" + ord + "']";
+    }
+    
+    function showSparqlExample (languageChoices) {
+        // only if empty, do not overwrite user data
+        if ($("#map-query").val().trim().length === 0) {
+            var params = languageChoices.map(lang => `languagechoice=${lang}`).join('&');
+            $.ajax ({
+                type:'GET',
+                dataType: 'json',
+                url: `/admin/api/get/sparql?${params}`,
+                error: function(e) {
+                    console.warn('Error retrieving sparql example');
+                },
+                success: function (data) {
+                    $("#map-query").val(data.sparql);
+                }
+            });
+        }
+    }
+
+    function validateLanguageChoices (languageChoices) {
+        if (languageChoices.filter(el => typeof el === "string" && el.length > 0).length === languageChoices.length) {
+            $(hiddenLanguageChoiceInput).data('valid', 1);
+            showSparqlExample(languageChoices);
+        }
+        else {
+            $(hiddenLanguageChoiceInput).data('valid', 0);
+        }
+    }
+
+    function saveLanguageChoice(langCode, ord) {
+        var nordZeroIndex = parseInt(ord.split('-').pop()) - 1;
+        // populate hidden field
+        var values = getLanguageChoices();
+        // add element to exact position
+        values.splice(nordZeroIndex, 1, langCode);
+        $(hiddenLanguageChoiceInput).val(JSON.stringify(values));
+        // force language check on query
+        $("textarea[id='map-query']").trigger("input");
+        validateLanguageChoices(values);
+    }
+
+    // Language choices
+    $.ajax ({
+        type:'GET',
+        dataType: 'json',
+        url: "/admin/api/get/languages",
+        error: function(e) {
+            console.warn('Error retrieving languages');
+        },
+        success: function (availableLanguages) {
+            // display language interface
+            $('.language-choices .item').tab({
+                onVisible: function () {
+                    var ord = $(this).data('tab');
+                    // var lc = languageChoiceSelector(ord);
+                    var inputId = '#language-choice-' + ord;
+                    $(inputId).focus();
+                }
+            });
+            $(".language-choices .item:first").click(); // select first language tab
+
+            // Search behaviour for languages
+            $('.ui.search', '.language-choices-wrapper')
+            .search({
+              source: availableLanguages,
+              fullTextSearch: true,
+              onSelect: function(result, response) {
+                var ord = $(this).parents(".tab").data('tab');
+                var langCode = result.id;
+                setLanguageChoice(langCode, ord, result.title, false);
+              }
+            });
+
+            // load languages from hidden fields on edit
+            setLanguageChoices(availableLanguages);
+        }
+    });
+
+
     // Prevent accidental submit
     $('form').on('submit', function (ev) {
         if ($(this).hasClass('not-confirmed')) {
@@ -609,5 +778,8 @@ $(function() {
     $(".step-2").css("min-height", $(".steps.vertical").height());
 
     lookupPath("input[name='path']");
+
+    // jQuery(".steps .step").eq(2).click(); // development only
+
 
 });

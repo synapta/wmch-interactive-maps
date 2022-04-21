@@ -1,5 +1,6 @@
 const util        = require('util');
 const request     = require('request');
+const got     = require('got');
 const localconfig = require('../localconfig');
 
 /**
@@ -127,26 +128,12 @@ function getJSONfromQuery(encodedQuery, caller) {
     });
 }
 
-/**
- * Return an object containing the converted JSON result on route with req parameters
- * @param  {string} encodedQuery Wikidata query
- * @return {Promise}       Array with results
- */
-function getJSONfromInternalUrl(encodedQuery) {
-    return new Promise((resolve, reject) => {
-        let options = {
-            url: util.format("%s/api/data/?q=", localconfig.internalUrl) + encodedQuery,
-            headers: {
-              'Accept': 'application/json',
-              'User-Agent': 'wmch-interactive-maps'
-            }
-        };
-        request(options, function (error, response, body) {
-            // results are already parsed in previous call (only wikidataResult.data returned)
-            resolve(JSON.parse(body));
-        });
-    });
+exports.getJSONfromQuery = getJSONfromQuery;
+
+async function getJSONfromUnencodedQueryLocally (query) {
+    const dataUrl = localconfig.internalUrl + '/api/data?q=' + encodeURIComponent(query);
+    const result = await got(dataUrl);
+    return JSON.parse(result.body);
 }
 
-exports.getJSONfromQuery = getJSONfromQuery;
-exports.getJSONfromInternalUrl = getJSONfromInternalUrl;
+exports.getJSONfromUnencodedQueryLocally = getJSONfromUnencodedQueryLocally;

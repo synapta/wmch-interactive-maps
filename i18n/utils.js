@@ -4,6 +4,14 @@
  */
 
 const util = require('util');
+const availableLanguagesJson = require('./availableLanguages.json');
+
+function availableLanguages () {
+    return availableLanguagesJson.map(language => {
+        const [name, nameLocal, code] = language;
+        return new Object({"title": `${nameLocal} - ${name} [${code}]`, "id": code});
+    });
+}
 
 /**
  *  Load language into a javascript object.
@@ -106,3 +114,4 @@ exports.getShortlang = getShortlang;
 exports.seekLang = seekLang;
 exports.getLangName = getLangName;
 exports.geti18nOptions = geti18nOptions;
+exports.availableLanguages = availableLanguages;

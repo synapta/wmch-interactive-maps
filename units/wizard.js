@@ -141,9 +141,9 @@ async function cuMap (req, res, action) {
                   });
               break;
               case 'edit':
-                console.log("edit!!")
                   // edit map
                   let currentId = parseInt(req.params.id);
+                  // Screenshot & update
                   await Map.findByPk(currentId).then(async (editedMap) => {
                       mapValues.screenshot = getScreenshotWithFallback(jsonBody, editedMap.get('screenshot'));
                       await editedMap.update(mapValues);
@@ -254,7 +254,7 @@ function getWizard(req, res, action, id) {
                 title: !values.hasOwnProperty('title') ? null : `${i18next.t('actions.edit.text')} ${values.title}`,
                 logo: typeof localconfig.logo !== 'undefined' ? localconfig.logo : config.logo,
                 baseurl: localconfig.url + "/",
-                sparql: config.sparql,
+                sparql: "",
                 languages: config.adminLanguages,
                 devMode: localconfig.devMode,
                 formAction: formActions[action],
@@ -267,7 +267,11 @@ function getWizard(req, res, action, id) {
                 }
               };
               const menuTemplate = await templateutils.readMustachePartials('public/wizard/menu.mustache');
-              const partials = {menu: menuTemplate};
+              const languageChoicesTemplate = await templateutils.readMustachePartials('public/wizard/languagechoices.mustache');
+              const partials = {
+                menu: menuTemplate,
+                languageChoices: languageChoicesTemplate
+              };
               var output = Mustache.render(template, view, partials);
               res.send(output);
              }

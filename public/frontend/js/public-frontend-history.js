@@ -1,5 +1,6 @@
 // Client rendering and functions for Public Map Frontend (History)
 const isTimeline = true;
+var mapOptionsLoaded = {};
 
 // keep track of active popups
 let ACTIVE_POPUP_ID = null;
@@ -140,6 +141,9 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
   },
 
   _getDataForTime: function(time) {
+    if (time === null) {
+      window.location.href = '/404'
+    }
     if (!this._baseURL || !this._map || !this._mapId) {
       return;
     }
@@ -157,7 +161,7 @@ L.TimeDimension.Layer.SuperClusterLayer = L.TimeDimension.Layer.extend({
         this._mapReady = true;
       }
 
-      this._currentTimeData   = enrichFeatures(json);
+      this._currentTimeData   = enrichFeatures(json, mapOptionsLoaded);
       this._currentLoadedTime = time;
 
       if (this._timeDimension && time == this._timeDimension.getCurrentTime() && !this._timeDimension.isLoading()) {
@@ -265,6 +269,7 @@ $(function() {
     success  : mapOpts => {
 
       mapOpts.baseAttribution = mapOpts.currentStyle.attribution + ' | ' + $('#author').html();
+      mapOptionsLoaded = mapOpts;
 
       // retrieve available timestaps for current map
       $.get(`/api/timestamp?id=${mapOpts.id}`, timestamps => {
@@ -288,8 +293,7 @@ $(function() {
         window.map.attributionControl.addAttribution("<a href=\"https://maplibre.org/\">MapLibre</a> | " + mapOpts.baseAttribution);
   
         var gl = L.maplibreGL({
-          style: mapOpts.currentStyle.tile,
-          accessToken: 'no-token'
+          style: mapOpts.currentStyle.tile
       }).addTo(window.map);
 
         // add custom timeDimensionControl control

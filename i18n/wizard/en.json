@@ -36,8 +36,14 @@
     },
     "sparql": {
       "label": "SPARQL query",
-      "placeholder": "Insert a SPARQL query from Wikidata",
+      "placeholder": "After choosing all languages, a sample SPARQL query will appear with the chosen languages.",
       "help": "Create a SPARQL query on Wikidata Query Service"
+    },
+    "languagechoices": {
+      "label": "Languages",
+      "placeholder": "Select language",
+      "help": "Select main languages for this maps. Baloon will display links in these languages first, following the order above.",
+      "warn": "Remember to keep the languages indicated in the SPARQL query consistent with the chosen languages."
     },
     "minZoom": {
       "label": "Min Zoom",

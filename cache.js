@@ -33,7 +33,7 @@ const job = new CronJob('0 12 */6 * * *', async function () {
     });
     for (const history of histories) {
         const timestamp = new Date(history.dataValues.maxCreatedAt).getTime();
-        const dataUrl = localconfig.internalUrl + '/api/data?id=' + history.map.id;
+        const dataUrl = localconfig.internalUrl + '/api/dataid/' + history.map.id;
         await got(dataUrl);
         const timedataUrl = localconfig.internalUrl + '/api/timedata?id=' + history.map.id + '&timestamp=' + timestamp;
         await got(timedataUrl);

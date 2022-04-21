@@ -36,8 +36,14 @@
     },
     "sparql": {
       "label": "Query SPARQL",
-      "placeholder": "Inserisci una query SPARQL da Wikidata",
+      "placeholder": "Dopo aver scelto tutte le lingue, comparirà una query SPARQL di esempio con le lingue scelte.",
       "help": "Scrivi una query SPARQL tramite il Wikidata Query Service"
+    },
+    "languagechoices": {
+      "label": "Lingue",
+      "placeholder": "Scegli una lingua",
+      "help": "Scegli le lingue principali per questa mappa. I fumetti visualizzeranno gli eventuali collegamenti nell'ordine delle lingue indicato.",
+      "warn": "Ricordarsi di mantenere coerenti le lingue indicate nella query SPARQL con le lingue scelte."
     },
     "minZoom": {
       "label": "Zoom minimo",

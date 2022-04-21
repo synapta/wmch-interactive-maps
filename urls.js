@@ -54,7 +54,6 @@ module.exports = function(app, apicache) {
                   langname: i18n_utils.getLangName(config.languages, shortlang),
                   map: config.map,
                   logo: templateutils.logo(),
-                  sparql: config.sparql,
                   languages: config.languages,
                   devMode: localconfig.devMode,
                   showHistory: dbMap.history,
@@ -109,6 +108,7 @@ module.exports = function(app, apicache) {
         enrichedQuery.currentStyle = style ? style : config.map.fallBackStyle;
         // TODO - check if this property is not used anymore and remove
         enrichedQuery.tile = enrichedQuery.currentStyle.tile;
+        enrichedQuery["languagechoices"] = typeof enrichedQuery["languagechoices"] !== "undefined" ? enrichedQuery["languagechoices"] : config.defaultLanguageChoices;
         // stringify rend response
         res.send(JSON.stringify(enrichedQuery, null, ''));
     }
@@ -367,71 +367,14 @@ module.exports = function(app, apicache) {
                     sparqlResultsChangedDuplicatesArray.push(newObj);
                 }
             }
-            // sparqlResultsChangedDuplicatesArray = [];  // XXX DEBUG
-            // console.log(sparqlResultsChangedDuplicatesArray);
-            //
-            //
-            //
-            // Real-time data ////////////////////////////////////////////////
-            // Reuse previous (cached) query from previous screen
-            // let sparqlResultsRealtimeArray = await data.getJSONfromInternalUrl(req.query.q);
-            // apply now for current Query from Wikidata
-            // flag real time results to be populated with the very current time
-            // using client-side javascript (see enrichFeatures on mapdata.js)
-            // for (rtel of sparqlResultsRealtimeArray) {
-            //     // el.properties.time = now;
-            //     rtel.properties.times = getOnlyUnchangedTimes(rtel, changedTimes, allTimes);
-            //     rtel.properties.current = true;
-            // }
-            ////// res.send(sparqlResultsArray.concat(sparqlResultsRealtimeArray));
 
             // output: First results [circle], all results of changed elements first time changed [pin], changed in the past [circle]
             res.send(sparqlResultsFirstShotArray.concat(sparqlResultsArray).concat(sparqlResultsChangedDuplicatesArray));
         });
     });
 
-    /**
-     * Almost real-time results.
-     * @param  {Express request} req
-     * @param  {Express response} res
-     * @return {GeoJSON string}
-     */
-    app.get('/api/data', apicache('12 hours'), async function (req, res) {
-        let sparql;
 
-        if (req.query.id) {
-            const hists = await query.historiesForMap(req.query.id, 5);
-
-            // Try to find a cached map
-            for (let hist of hists) {
-                const payload = JSON.parse(hist.json);
-                // If valid send this cached map
-                if (!payload.error) {
-                    res.send(payload.data);
-                    return;
-                }
-            }
-
-            // Get the SPARQL query
-            const map = await Map.findOne({
-                where: { id: req.query.id },
-                });
-
-            if (map) {
-                let ob = dbutils.mapargsParse(map);
-                sparql = ob.query;
-            } else {
-                // Requested an invalid id
-                res.status(400).send("Invalid id");
-                return;
-            }
-        } else if (req.query.q) {
-            sparql = req.query.q;
-        } else {
-            res.status(400).send("Invalid query");
-            return;
-        }
-
+    const sparqlQuery2response = async (sparql, res) => {
         let sparqlJsonResult = await data.getJSONfromQuery(sparql, "urls.js");
         if (sparqlJsonResult.error) {
             // error
@@ -440,6 +383,52 @@ module.exports = function(app, apicache) {
         }
         else {
             res.send(sparqlJsonResult.data);
+        }
+    };
+
+    /**
+     * 
+     * Do not cache.
+     * 
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return {GeoJSON string}
+     */
+     app.get('/api/dataid/:id', async function (req, res) {
+        if (req.params.id) {
+            const map = await Map.findOne({
+                where: { id: req.params.id },
+            });
+            if (map) {
+                let ob = dbutils.mapargsParse(map);
+                const result = await data.getJSONfromUnencodedQueryLocally(ob.query, res);
+                res.send(result);
+            } else {
+                // Requested an invalid id
+                res.status(400).send("Invalid id");
+                return;
+            }
+        } else {
+            res.status(400).send("Invalid query");
+            return;
+        }
+    });
+
+    /**
+     * Almost real-time results.
+     * 
+     * Always cache (SPARQL query based).
+     * 
+     * @param  {Express request} req
+     * @param  {Express response} res
+     * @return {GeoJSON string}
+     */
+    app.get('/api/data', apicache('12 hours'), async function (req, res) {
+        if (req.query.q) {
+            await sparqlQuery2response(req.query.q, res);
+        } else {
+            res.status(400).send("Invalid query");
+            return;
         }
     });
     // serve JS common to frontend and backend
@@ -749,8 +738,6 @@ module.exports = function(app, apicache) {
      * @return Express send of HTML.
      */
     app.get('/admin', async function (req, res) {
-        // [ 'it', 'it-IT', 'en-US', 'en' ]
-        // console.log(req.acceptsLanguages()[0]);
         fs.readFile(util.format('%s/public/wizard/admin.mustache', __dirname), async function (err, fileData) {
             // cannot read template?
             if (err) {
