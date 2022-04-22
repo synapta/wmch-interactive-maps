@@ -33,14 +33,25 @@
   cursor: crosshair; 
   padding: 0.5ex 2ex; 
   position: fixed; 
-  top: 10ex; left: 0; 
+  overflow: hidden;
+  white-space: nowrap;
+  left: 0;
+  top: 12ex; 
   background: firebrick; 
   color: goldenrod; 
-  transform: rotate(-45deg);
   visibility: visible;
+  text-align: center;
+  box-shadow: 0 0 1ex #636466;
+  text-transform: uppercase;
 }
 /* Media queries */
 @media (min-width: 768px) {
+  #devmode {
+    transform: rotate(-45deg);
+    width: 50%;
+    left: -20%;
+    top: 10%;
+  }
   #wmap.with-largefooter {
     height: calc(100% - 77px);
   }

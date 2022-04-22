@@ -245,7 +245,7 @@ body {
 }
 .leaflet-popup-content .popup-cover-image a {
     /* background-color: #636466; */
-    background-repat: no-repeat;
+    background-repeat: no-repeat;
     background-position: center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -271,7 +271,7 @@ body {
 }
 #pagepop .withimage a {
     height: 15rem;
-    background-repat: no-repeat;
+    background-repeat: no-repeat;
     background-position: center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -363,6 +363,8 @@ body {
 }
 #languagesmobile {
   margin-top: 8px;
+  position: absolute;
+  right: 0;
 }
 @media (max-width: 875px) {
 }
