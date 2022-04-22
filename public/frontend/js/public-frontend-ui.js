@@ -73,6 +73,17 @@ $(function() {
       }
       return false;
   };
+  window.mobileDesktopLegenda = function() {
+    // Legenda sempre visibile
+    $('.leaflet-control-layers').addClass('leaflet-control-layers-expanded');
+  };
+  
+  window.onPopupOpen = e => {
+    // keep track of active popup so we can open in back after a map update (zoom, pan, filter...)
+    ACTIVE_POPUP_ID = e.target.options.uniqueID;
+    // legenda
+    openModal(e);
+  };
 
   // select language
   $('#languages, #languageslegacy').dropdown({
@@ -136,5 +147,9 @@ $(function() {
   // add arrow to #languages dropdown
   $("#languageslegacy .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
   $("#languagesmobilelegacy .text").after('<span class="svg-clip-art-down-arrow">' + svgClipArt.arrow_down + '</span>');
+
+  $(window).resize(function() {
+    mobileDesktopLegenda();
+  });
 
 });

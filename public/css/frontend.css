@@ -78,6 +78,14 @@
     #wmap .leaflet-popup-content dt {
         font-size: 17px;
     }
+    .internal-githublink .icon {
+      font-size: 38px !important;
+    }
+}
+@media (max-width: 640px) {
+  .internal-githublink .icon {
+    font-size: 24px !important;
+  }
 }
 #wmap .popup-cover-image {
   /* background-image: url(https://upload.wikimedia.org/wikipedia/commons/6/64/Image-x-generic-2.svg); */
@@ -191,9 +199,6 @@
   position: absolute;
   right: 0;
   cursor: pointer;
-}
-.internal-githublink .icon {
-  font-size: 38px !important;
 }
 .map-realtime #wmap .leaflet-control-attribution {
   position: absolute;

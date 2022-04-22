@@ -29,13 +29,6 @@ const updateLegenda = data => {
   });
 }
 
-const onPopupOpen = e => {
-  // keep track of active popup so we can open in back after a map update (zoom, pan, filter...)
-  ACTIVE_POPUP_ID = e.target.options.uniqueID;
-  // legenda
-  openModal();
-};
-
 
 L.Control.TimeDimensionCustom = L.Control.TimeDimension.extend({
   _getDisplayDateFormat: function(date) {
@@ -218,20 +211,6 @@ L.timeDimension.layer.clusteredLayer = function(options) {
 $(function() {
 
   const t_entry = performance.now();
-
-  const mobileDesktopLegenda = function() {
-    if (isMobile()) {
-      // mobile
-      $('.leaflet-control-layers').removeClass('leaflet-control-layers-expanded');
-    } else {
-      // legenda sempre visibile su Desktop
-      $('.leaflet-control-layers').addClass('leaflet-control-layers-expanded');
-    }
-  };
-
-  $(window).resize(function() {
-    mobileDesktopLegenda();
-  });
 
   // display throbble while loading
   $('#pagepop').dimmer({ closable: false });

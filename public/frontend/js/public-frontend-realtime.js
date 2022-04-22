@@ -24,17 +24,6 @@ $(function() {
       }
     });
 
-    const mobileDesktopLegenda = function() {
-      if (isMobile()) {
-        // mobile
-        $('.leaflet-control-layers').removeClass('leaflet-control-layers-expanded');
-      } else {
-        // desktop
-        // Legenda sempre visibile su Desktop
-        $('.leaflet-control-layers').addClass('leaflet-control-layers-expanded');
-      }
-    };
-
     const updateLegenda = pinIcon => {
         // get elements count for each color
         const counts = colors.map(color => newJson.filter(feature => feature.properties.pin.color === color).length);
@@ -94,13 +83,6 @@ $(function() {
                 clustersIndex = new Supercluster({ radius });
                 clustersIndex.load(newJson);
 
-                const onPopupOpen = e => {
-                  // keep track of active popup so we can open in back after a map update (zoom, pan, filter...)
-                  ACTIVE_POPUP_ID = e.target.options.uniqueID;
-                  // legenda
-                  openModal();
-                };
-
                 markersLayer = L.geoJSON(null, {
                   onEachFeature : managePopup,
                   pointToLayer  : (feature, latlng) => generateMarkerIcon(options.pinIcon, feature, latlng, onPopupOpen)
@@ -124,11 +106,9 @@ $(function() {
             }
         });
 
-        // Su desktop, visualizzo sempre la legenda aperta
+        // visualizzo sempre la legenda aperta
         $('.leaflet-control-layers').mouseout(function () {
-            if (!isMobile()) {
-                $('.leaflet-control-layers').addClass('leaflet-control-layers-expanded');
-            }
+          $('.leaflet-control-layers').addClass('leaflet-control-layers-expanded');
         });
     }
 
@@ -182,10 +162,6 @@ $(function() {
         window.map.on('popupclose', e => {
           ACTIVE_POPUP_ID = null;
           $('.leaflet-control-layers').show();
-        });
-
-        $(window).resize(function() {
-            mobileDesktopLegenda();
         });
 
         mobileDesktopLegenda();
