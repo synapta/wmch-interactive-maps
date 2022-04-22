@@ -21,39 +21,39 @@
       "text": "Alle sehen"
     },
     "back": {
-      "text": "Back to home"
+      "text": "Zurück zu Startseite"
     },
     "history": {
-      "text": "Browse history"
+      "text": "Geschichte durchsuchen"
     },
     "realtime": {
-      "text": "Back to real time"
+      "text": "Zurück zu Echtzeit"
     },
     "close": {
-      "text": "Close"
+      "text": "Schließen"
     },
     "loadothers": {
-      "text": "Load others"
+      "text": "Andere laden"
     },
     "noresults": {
-      "text": "No more results"
+      "text": "Keine weiteren Ergebnisse"
     },
     "throbbler": {
-      "text": "Loading"
+      "text": "Laden"
     },
     "website": {
       "text": "Offizielle Website"
     },
     "nocommonscat": {
-      "text": "No Commons category so far"
+      "text": "Bislang keine Kategorie Commons"
     },
     "morelanguages": {
-      "text": "&hellip; and in other !counter !languages",
-      "singular": "language",
-      "plural": "languages"
+      "text": "&hellip; und in 20 weiteren !counter !languages",
+      "singular": "Sprache",
+      "plural": "Sprachen"
     },
     "nowikipedia": {
-      "text": "No Wikipedia articles so far"
+      "text": "Bislang keine Wikipedia-Artikel"
     }
   }
 }
