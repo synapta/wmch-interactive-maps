@@ -63,10 +63,6 @@ var openModalOnMobile = function (ev) {
     // Popup per mobile
     $('#pagepop .content').html(html_content);
     $dimmer = $('#pagepop');
-    /** $dimmer.dimmer('setting', {
-        closable: false,
-        debug: false
-    }); **/
     $dimmer.dimmer('show');
     // Show close button
     $('#pagepopclose').show();

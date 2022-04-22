@@ -81,10 +81,27 @@
     .internal-githublink .icon {
       font-size: 38px !important;
     }
+    .leaflet-control-container input[type='checkbox']:checked:before {
+      font-size: 20px;
+      margin-left: 2px;
+    }
+    .leaflet-control-container input[type='checkbox'] {
+      width: 20px !important;
+      height: 20px !important;
+      margin: 5px;
+    }
 }
 @media (max-width: 640px) {
   .internal-githublink .icon {
     font-size: 24px !important;
+  }
+  .leaflet-control-container input[type='checkbox'] {
+    width: 0.9rem !important;
+    height: 0.9rem !important;
+    margin-top: 0.4rem;
+  }
+  .leaflet-control-container input[type='checkbox']:checked:before {
+    font-size: 0.9rem;
   }
 }
 #wmap .popup-cover-image {
@@ -105,14 +122,6 @@
 .top-buttons-wrapper .ui.grid > .column {
   padding-top: 24px !important;
 }
-/* Footer on map, History version */
-/* #wmap .leaflet-bar-timecontrol,
-#wmap .leaflet-left.leaflet-bottom .leaflet-control  {
-  margin: 12px 34px 0 34px !important;
-  border: none;
-  padding-bottom: 20px;
-  background-color: transparent;
-} */
 #wmap .leaflet-bar-timecontrol,
 #wmap .leaflet-left.leaflet-bottom .leaflet-control  {
   border: none;
@@ -145,9 +154,6 @@
 }
 /* Checkbox color */
 .leaflet-control-container input[type='checkbox'] {
-  width: 20px !important;
-  height: 20px !important;
-  margin: 5px;
   -webkit-appearance: none;
   -moz-appearance: none;
   -o-appearance: none;
@@ -167,7 +173,6 @@
  content: "\2713";
  position: absolute;
  color: white;
- font-size: 20px;
  margin-left: 2px;
 }
 /* override for Safari */
@@ -180,11 +185,6 @@
   display: block;
   min-width: 230px;
   padding: 0 20px;
-}
-/* special override */
-#wmap.leaflet-touch .leaflet-control-layers,
-#wmap.leaflet-touch .leaflet-bar {
-  /* border: none; */
 }
 .leaflet-control-layers-toggle .column {
   border: 1px solid transparent;
@@ -227,7 +227,7 @@
 #leaflet-control-layers-overlays-x {
   float: right;
 }
-/* XXX disable non working control on realtime */
+/** XXX disable non working control on realtime **/
 #leaflet-control-layers-overlays-x {
     display: none;
 }
