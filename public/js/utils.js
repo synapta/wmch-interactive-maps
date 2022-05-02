@@ -47,7 +47,7 @@ var getWikipediaPageName = function (record) {
 };
 
 var openModal = function(ev) {
-    if (window.isMobile != 'undefined') {
+    if (typeof window.isMobile != 'undefined') {
         $('.leaflet-control-layers').hide();
         if (window.isMobile()) {
           openModalOnMobile(ev);

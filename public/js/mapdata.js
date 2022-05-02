@@ -16,12 +16,12 @@ var languageChoices = function (languageChoicesAny) {
 }
 
 const confPopupOpts = {
-  closeOnClick   : true,
-  autoClose      : false,
+  autoClose      : true,
+  closePopupOnClick: false,
   autoPanPadding : new L.Point(5, 50),
   minWidth       : 540,
   maxWidth       : 540,
-  autoPan        : true
+  autoPan        : false  // autopan = true causa chiusura popup indirettamente (riposizionamento)
 };
 
 
