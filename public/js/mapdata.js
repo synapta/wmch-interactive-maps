@@ -15,6 +15,18 @@ var languageChoices = function (languageChoicesAny) {
     }
 }
 
+const wikipediaDomains = new Set([]);
+
+function rememberWikipediaDomain(url) {
+    var parser = document.createElement('a');
+    parser.href = url;
+    wikipediaDomains.add(parser.hostname);
+}
+
+function getWikipediaDomainsWithBaseLang() {
+    return "<ul style=\"list-style-type: none; padding: 0; margin: 0; font-size: 0.9rem; text-align: center;\"><li>" + [...wikipediaDomains].join("</li><li>") + "</li></ul>";
+}
+
 const confPopupOpts = {
   autoClose      : true,
   closePopupOnClick: false,
@@ -61,6 +73,7 @@ var featureLinkCounter = function(feature, mapOptions) {
                 }
                 else {
                     counters['wikipediaBaseLang'] += 1;
+                    rememberWikipediaDomain(feature.properties.lang[i]);
                 }
             }
         }
