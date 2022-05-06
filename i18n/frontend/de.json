@@ -48,9 +48,9 @@
       "text": "Bislang keine Kategorie Commons"
     },
     "morelanguages": {
-      "text": "&hellip; und in 20 weiteren !counter !languages",
+      "text": "&hellip; und in !counter weiteren !languages",
       "singular": "Sprache",
-      "plural": "Sprachen"
+      "plural": "Sprache"
     },
     "nowikipedia": {
       "text": "Bislang keine Wikipedia-Artikel"
