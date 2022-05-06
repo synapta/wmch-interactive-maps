@@ -48,9 +48,9 @@
       "text": "Ancora nessuna categoria su Commons"
     },
     "morelanguages": {
-      "text": "&hellip; e in altre !counter !languages",
-      "singular": "lingua",
-      "plural": "lingue"
+      "text": "&hellip; e in !counter !languages",
+      "singular": "altra lingua",
+      "plural": "altre lingue"
     },
     "nowikipedia": {
       "text": "Ancora nessuna voce su Wikipedia"
